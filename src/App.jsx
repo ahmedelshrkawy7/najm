@@ -1,3 +1,4 @@
+import { ReportsPage } from "./import.js";
 import "./App.css";
 import AddAttach from "./component/forms/fileInput/addAttach";
 import Listinput from "./component/forms/listInput/Listinput";
@@ -9,6 +10,7 @@ function App() {
     <>
       {/* <AddAttach /> */}
       <Listinput />
+      <ReportsPage />
     </>
   );
 }
