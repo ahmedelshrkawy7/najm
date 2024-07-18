@@ -2,23 +2,23 @@ import {CardUser} from '../../import'
 
 const CARDS= [
     {
-        icon:<i class="fa fa-bandcamp text-green-500 text-2xl" aria-hidden="true"></i>,
+        icon:<img src='../src/assets/icons/money-3.svg'/>,
         title:'احتيال او فساد او رشوة او اخنلاس او تزوير'
     },
     {
-        icon:<i class="fa fa-bandcamp text-green-500 text-2xl" aria-hidden="true"></i>,
+        icon:<img src='../src/assets/icons/coin.png'/>,
         title:'غسل اموال او تمويل ارهاب '
     },
     {
-        icon:<i class="fa fa-bandcamp text-green-500 text-2xl" aria-hidden="true"></i>,
+        icon:<img src='../src/assets/icons/receipt-item.png'/>,
         title:'مخالفة للانظمة والتعليمات'
     },
     {
-        icon:<i class="fa fa-bandcamp text-green-500 text-2xl" aria-hidden="true"></i>,
+        icon:<img src='../src/assets/icons/receipt.png'/>,
         title:'مخالفة لسياسة واجراءات الشركة'
     },
     {
-        icon:<i class="fa fa-bandcamp text-green-500 text-2xl" aria-hidden="true"></i>,
+        icon:<img src='../src/assets/icons/Vector.svg'/>,
         title:'مخالفة لمدونة قواعد السلوك'
     },
 ]

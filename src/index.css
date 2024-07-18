@@ -24,7 +24,7 @@ body{
   font-size: 18px !important;
 }
 .ant-steps-item-process .ant-steps-item-icon{
-  border-color: green !important;
+  border-color: #33835C !important;
   background-color: transparent !important;
  
 }  
@@ -32,7 +32,7 @@ body{
   color: gray !important;
 }
 .ant-steps-item-finish .ant-steps-item-icon{
-  background-color: green !important;
+  background-color: #33835C !important;
 }
 .ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon{
   color: white !important;
@@ -42,11 +42,11 @@ body{
   margin: 0 auto;
 }
 .ant-steps-item-finish .ant-steps-item-title{
-  color: green !important;
+  color: #33835C !important;
 }
 .ant-steps-item-title{
   font-size: 18px !important;
 }
 .ant-steps-item-title::after{
-  background-color:green !important ;
+  background-color:#33835C !important ;
 }
