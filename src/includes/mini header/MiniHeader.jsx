@@ -1,7 +1,5 @@
-import React from 'react';
+import {Breadcrumb } from "../../import"
 
-
-import { Breadcrumb } from "antd";
 
 const breadCrumbItems= [
     {
@@ -20,19 +18,14 @@ const breadCrumbItems= [
 ]
 const MiniHeader = () => {
   return (
-    <>
-    <img src="../../assets/aa.webp" alt="" />
-    <div  className="bg-[url('../src/assets/aa.webp')] text-black w-screen relative h-72 border border-red-600" >
-       <div style={{backgroundImage:"linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1)"}} className='absolute top-0 left-0 w-full h-full  bg-gradient-to-r from-green-300 to-green-500  '>
-         <div className='flex container mx-auto flex-col justify-center h-full'>
+     
+    <div  className="bg-[linear-gradient(to_right,rgba(0,128,2,0),rgba(0,128,2,1)),url('../src/assets/aa.webp')]  text-black w-screen h-72 border" >
+         <div className='flex main_container mx-auto flex-col justify-center h-full'>
            <h2 className='text-white text-3xl font-bold'>الابلاغ عن المخالفات</h2>
-           <div style={{backgroundImage:"url('../../assets/aa.webp')"}}>
-           </div>
            <Breadcrumb  className='mt-4' separator=">"  items={breadCrumbItems} />
-         </div>
+           </div>                   
        </div> 
-    </div>
-    </>
+    
   )
 }
 

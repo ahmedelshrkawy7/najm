@@ -1,8 +1,6 @@
-import Reports from "../../component/Reports/Reports";
-import MiniHeader from "../../includes/mini header/MiniHeader";
-
+import {MiniHeader,Reports} from "../../import"
 const ReportsPage = ()=>{
-    return <div>
+    return <div className="w-full overflow-x-hidden pb-4">
         <MiniHeader/>
         <Reports/>
     </div>
