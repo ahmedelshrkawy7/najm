@@ -1,21 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import "./AddAttach.css";
-import styled from "styled-components";
-
-const CustomUploadUpload = styled(Upload)`
-  :where(.css-dev-only-do-not-override-p8b6i).ant-btn-default {
-    width: 300px;
-    padding: 2rem;
-    color: green;
-    font-size: 1.5rem;
-  }
-  :where(.css-dev-only-do-not-override-p8b6i).ant-btn-default:hover {
-    border: 2px solid green;
-    color: green !important;
-    background: lightgreen;
-  }
-`;
 
 const props = {
   name: "file",
@@ -38,9 +23,9 @@ const props = {
 };
 const AddAttach = () => {
   return (
-    <CustomUploadUpload {...props}>
+    <Upload {...props}>
       <Button icon={<UploadOutlined />}>إرفق من هنا</Button>
-    </CustomUploadUpload>
+    </Upload>
   );
 };
 
