@@ -1,0 +1,17 @@
+.tag{
+    display: flex;
+    align-items: center;
+    border: 1px solid green;
+    width: 118px;
+height: 32px;
+padding: 16px ;
+gap: 12px;
+border-radius: 10px ;
+border: 1px 0px 0px 0px;
+opacity: 0px;
+
+}
+.tag span{
+    width: 20px;
+    font-size: 25px;
+}

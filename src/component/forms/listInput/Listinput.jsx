@@ -1,18 +1,15 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
+import "./ListInput.css";
 
 const Listinput = () => {
   const [data, setData] = useState([]);
-  console.log("🚀 ~ Listinput ~ data:", data);
 
   const inputRef = useRef("");
 
   function addLabel() {
-    console.log(
-      "🚀 ~ addLabel ~ inputRef.current.value:",
-      inputRef.current.input.value
-    );
+    console.log(inputRef.current.input.value);
 
     if (inputRef.current.input.value) {
       setData([...data, inputRef.current.input.value]);
@@ -46,7 +43,12 @@ const Listinput = () => {
         />
       </Space.Compact>
 
-      <div className="container"></div>
+      <div className="container">
+        <div className="tag">
+          <p>this is indide</p>
+          <span>&times;</span>
+        </div>
+      </div>
     </>
   );
 };
