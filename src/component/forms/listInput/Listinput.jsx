@@ -1,7 +1,17 @@
-import React from "react";
+import { PlusOutlined } from "@ant-design/icons";
+import { Input, Space } from "antd";
 
 const Listinput = () => {
-  return <div>Listinput</div>;
+  return (
+    <>
+      <Space.Compact size="large">
+        <Input
+          addonBefore={<PlusOutlined />}
+          placeholder="this is placeholder"
+        />
+      </Space.Compact>
+    </>
+  );
 };
 
 export default Listinput;
