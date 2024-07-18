@@ -1,0 +1,14 @@
+.upload-list-inline .ant-upload-list-item {
+    float: left;
+    width: 500px !important;
+    margin-inline-end: 8px;
+    background-color: aqua !important;
+  }
+  
+  .ant-upload-rtl.upload-list-inline .ant-upload-list-item {
+    float: right;
+  }
+
+  button{
+    background-color: aqua ;
+  }
