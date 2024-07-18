@@ -11,6 +11,7 @@ function App() {
       {/* <AddAttach /> */}
       <ReportsPage />
       <Listinput />
+      <ReportsPage />
     </>
   );
 }
