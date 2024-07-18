@@ -11,7 +11,3 @@
 html {
   direction: rtl;
 }
-
-.header{
-  background-image: url('../src/assets/react.svg');
-}
