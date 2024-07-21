@@ -1,4 +1,7 @@
+import { useContext } from 'react'
+import ReportsHeader from '../../custom hooks/ReportsHeader'
 import {CardUser} from '../../import'
+import UserContext from '../../store/UserContext'
 
 const CARDS= [
     {
@@ -22,17 +25,21 @@ const CARDS= [
         title:'مخالفة لمدونة قواعد السلوك'
     },
 ]
-const ReportClassification = ({handleSelceted,selectedCard}) => {
+const ReportClassification = () => {
+    const {userData,addUserData} = useContext(UserContext);
+    // onChangeData({...data,title:data.title})
   return (
-    <div className='p-8'>
-        <h2 className='text-black'>يرجى تحديد احدى الخيارات الاتية</h2>
+    <>
+    <ReportsHeader subTitle={"يرجى تحديد احدى الخيارات الاتية"} title="تصنيف البلاغ"/>
+    <div className='px-8 pt-4'>
     <div className='grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {CARDS.map((card)=><CardUser 
-        onClick={()=>handleSelceted(card.title)} 
-        active={selectedCard === card.title}  
+        onClick={()=>addUserData({title:card.title})} 
+        active={userData?.title === card.title}  
         title={card.title} icon={card.icon}  />)}
     </div>
     </div>
+    </>
   )
 }
 

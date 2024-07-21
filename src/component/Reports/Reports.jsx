@@ -1,28 +1,33 @@
+import ReportsHeader from "../../custom hooks/ReportsHeader";
 import {Steps,useState,ReportClassification,theme,ReportsPreview} from "../../import"
+import ContactInformation from "./ContactInformation";
+import ReportDetails from "./ReportDetails";
 
 const Reports = () => {
     const { token } = theme.useToken();
     const [current, setCurrent] = useState(0);
-    const [selectedCard,setSelectedCard]= useState("");
-    const  handleSelceted =(id)=>{
-        setSelectedCard(id)
-    }
+    // const [selectedCard,setSelectedCard]= useState("");
+    // const  handleSelceted =(id)=>{
+    //     setSelectedCard(id)
+    // }
+    // selectedCard={selectedCard} handleSelceted={handleSelceted}
+    
     const steps = [
       {
         title: 'تصنيف البلاغ',
-        content: <ReportClassification  selectedCard={selectedCard} handleSelceted={handleSelceted} />,
+        content: <ReportClassification   />,
       },
       {
         title: 'تفاصيل البلاغ',
-        content: "second content",
+        content:<ReportDetails/>,
       },
       {
         title: 'معلومات الاتصال',
-        content: "last content",
+        content: <ContactInformation/>,
       },
       {
           title:"معاينة البلاغ",
-          content: <ReportsPreview selectedCard={selectedCard}/>,
+          content: <ReportsPreview />,
       }
     ];
     
@@ -44,6 +49,7 @@ const Reports = () => {
       marginTop: 50,
     };
     // bg-[linear-gradient(to_right,rgba(0,128,2,0),rgba(0,128,2,1))]
+    
   return (
     <div className='main_container mx-auto'>
         <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
@@ -51,7 +57,6 @@ const Reports = () => {
         </h2> 
         <Steps  current={current} items={items}  />
       <div style={contentStyle}>
-        <h2 className="bg-[#33835C] text-xl px-8 py-4 text-white">تصنيف البلاغ</h2>
         {steps[current].content}
         </div>
       <div className="flex justify-between mt-6" >

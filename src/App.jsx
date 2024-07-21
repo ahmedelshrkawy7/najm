@@ -1,10 +1,14 @@
+import { ReportsPage } from "./import.js";
+import Listinput from "./component/forms/listInput/Listinput";
 
-import { ReportsPage } from "./import";
+
 
 function App() {
   return (
-   <ReportsPage/>
-  )
+    <>
+      <ReportsPage />
+    </>
+  );
 }
 
 export default App;

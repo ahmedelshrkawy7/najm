@@ -47,6 +47,6 @@ body{
 .ant-steps-item-title{
   font-size: 18px !important;
 }
-.ant-steps-item-title::after{
+.ant-steps-item-finish .ant-steps-item-title::after{
   background-color:#33835C !important ;
 }
