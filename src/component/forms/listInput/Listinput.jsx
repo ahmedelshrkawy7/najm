@@ -1,30 +1,47 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
 import "./ListInput.css";
 
 const Listinput = () => {
   const [data, setData] = useState([]);
+  const [v, setV] = useState("");
 
   const inputRef = useRef("");
 
   function addLabel() {
-    console.log(inputRef.current.input.value);
-
-    if (inputRef.current.input.value) {
-      setData([...data, inputRef.current.input.value]);
+    if (v) {
+      setData([...data, v]);
+      setV("");
     }
   }
+
+  function deleteTag(index) {
+    const data1 = [...data];
+    data1.splice(index, 1);
+
+    setData(data1);
+  }
   return (
-    <>
+    <div className="listinput">
+      <div>
+        <h5> أسماء الأشخاص المشتبه بهم</h5>
+      </div>
+
       <Space.Compact
         style={{
-          width: "100%",
+          width: "300px",
           border: "1px solid green ",
           borderRadius: "10px",
         }}
         size="large"
       >
+        <Input
+          placeholder="add text"
+          style={{ border: "none" }}
+          value={v}
+          onChange={(e) => setV(e.target.value)}
+        />
         <Button
           style={{
             background: "#33835C0F",
@@ -36,20 +53,27 @@ const Listinput = () => {
           ghost={true}
           onClick={addLabel}
         ></Button>
-        <Input
-          placeholder="add text"
-          style={{ border: "none" }}
-          ref={inputRef}
-        />
       </Space.Compact>
 
-      <div className="container">
-        <div className="tag">
-          <p>this is indide</p>
-          <span>&times;</span>
-        </div>
+      <div className="container flex gap-5 flex-wrap">
+        {data.map((el, index) => {
+          return (
+            <>
+              <div className="tag flex items-center ">
+                <h3 className="flex items-center">{el}</h3>
+                <button
+                  onClick={() => {
+                    deleteTag(index);
+                  }}
+                >
+                  <CloseOutlined />
+                </button>
+              </div>
+            </>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 };
 
