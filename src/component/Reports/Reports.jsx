@@ -5,6 +5,7 @@ import {
   theme,
   ReportsPreview,
 } from "../../import";
+import Listinput from "../forms/listInput/Listinput";
 
 const Reports = () => {
   const { token } = theme.useToken();
@@ -25,7 +26,7 @@ const Reports = () => {
     },
     {
       title: "تفاصيل البلاغ",
-      content: "second content",
+      content: <Listinput />,
     },
     {
       title: "معلومات الاتصال",

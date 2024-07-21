@@ -2,51 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
 }
-body{
+body {
   /* overflow-x: hidden; */
   direction: rtl;
 }
-.ant-breadcrumb-link{
-  color: white !important;
-   font-size: 18px !important;
-}
-.ant-breadcrumb-link:hover{
-  background-color: transparent !important;
-}
-.ant-breadcrumb-separator{
+.ant-breadcrumb-link {
   color: white !important;
   font-size: 18px !important;
 }
-.ant-steps-item-process .ant-steps-item-icon{
-  border-color: #33835C !important;
+.ant-breadcrumb-link:hover {
   background-color: transparent !important;
- 
-}  
-.ant-steps-item-process .ant-steps-item-icon .ant-steps-icon{
+}
+.ant-breadcrumb-separator {
+  color: white !important;
+  font-size: 18px !important;
+}
+.ant-steps-item-process .ant-steps-item-icon {
+  border-color: #33835c !important;
+  background-color: transparent !important;
+}
+.ant-steps-item-process .ant-steps-item-icon .ant-steps-icon {
   color: gray !important;
 }
-.ant-steps-item-finish .ant-steps-item-icon{
-  background-color: #33835C !important;
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #33835c !important;
 }
-.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon{
+.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon {
   color: white !important;
 }
-.main_container{
+.main_container {
   width: 90% !important;
   margin: 0 auto;
 }
-.ant-steps-item-finish .ant-steps-item-title{
-  color: #33835C !important;
+.ant-steps-item-finish .ant-steps-item-title {
+  color: #33835c !important;
 }
-.ant-steps-item-title{
+.ant-steps-item-title {
   font-size: 18px !important;
 }
-.ant-steps-item-title::after{
-  background-color:#33835C !important ;
+.ant-steps-item-title::after {
+  background-color: #33835c !important ;
 }
