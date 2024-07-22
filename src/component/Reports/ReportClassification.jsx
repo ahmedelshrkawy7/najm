@@ -25,8 +25,8 @@ const CARDS= [
         title:'مخالفة لمدونة قواعد السلوك'
     },
 ]
-const ReportClassification = () => {
-    const {userData,addUserData} = useContext(UserContext);
+const ReportClassification = ({title,handleSelected}) => {
+    // const {userData,addUserData} = useContext(UserContext);
     // onChangeData({...data,title:data.title})
   return (
     <>
@@ -34,8 +34,8 @@ const ReportClassification = () => {
     <div className='px-8 pt-4'>
     <div className='grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {CARDS.map((card)=><CardUser 
-        onClick={()=>addUserData({title:card.title})} 
-        active={userData?.title === card.title}  
+        onClick={()=>handleSelected(card.title)} 
+        active={title === card.title}  
         title={card.title} icon={card.icon}  />)}
     </div>
     </div>
