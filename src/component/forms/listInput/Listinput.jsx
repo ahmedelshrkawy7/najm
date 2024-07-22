@@ -2,8 +2,9 @@ import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
 import "./ListInput.css";
+import { Controller } from "react-hook-form";
 
-const Listinput = ({icon}) => {
+const Listinput = ({ icon, control, errors }) => {
   const [data, setData] = useState([]);
   const [v, setV] = useState("");
 
@@ -22,6 +23,7 @@ const Listinput = ({icon}) => {
 
     setData(data1);
   }
+  // console.log(errors.listInputControl)
   return (
     <div className="listinput">
       <div>
@@ -29,7 +31,7 @@ const Listinput = ({icon}) => {
       </div>
 
       <Space.Compact
-      className=""
+        className=""
         style={{
           width: "300px",
           // border: "1px solid transparent",
@@ -37,23 +39,46 @@ const Listinput = ({icon}) => {
         }}
         size="large"
       >
-        <Input
-          placeholder="اسم الشخص"
-          className="border hover:border-none  outline-none focus:border-green-500"
-          value={v}
-          onChange={(e) => setV(e.target.value)}
+        <Controller
+          control={control}
+          name="listInputControl"
+          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+          render={({ field, fieldState }) => (
+            <div className="flex flex-col w-full">
+              <div className="relative">
+                <Input
+                  {...field}
+                  placeholder="اسم الشخص"
+                  className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
+                  value={v}
+                  onChange={(e) => setV(e.target.value)}
+                />
+
+                <Button
+                  style={{
+                    background: "#33835C0F",
+                    color: "#33835C",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    zIndex: 100,
+                    borderWidth: 1,
+                    borderRadius: "4px",
+                    borderColor: "#d9d9d9",
+                  }}
+                  icon={icon}
+                  ghost={true}
+                  onClick={addLabel}
+                ></Button>
+              </div>
+              {errors.listInputControl && !v && (
+                <p className="text-red-500">
+                  {errors.listInputControl?.message}
+                </p>
+              )}
+            </div>
+          )}
         />
-        <Button
-          style={{
-            background: "#33835C0F",
-            color: "#33835C",
-            border: "none",
-            outline: "none",
-          }}
-          icon={icon}
-          ghost={true}
-          onClick={addLabel}
-        ></Button>
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">

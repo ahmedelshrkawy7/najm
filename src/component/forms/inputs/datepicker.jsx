@@ -1,7 +1,8 @@
 import { DatePicker } from "antd";
 import calendarIcon from "../../../assets/icons/calendar.svg";
+import { Controller } from "react-hook-form";
 
-const Datepicker = () => {
+const Datepicker = ({ control, errors }) => {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -10,13 +11,27 @@ const Datepicker = () => {
       <div>
         <h2>تاريخ ارتكاب المخالفة</h2>
       </div>
-      <DatePicker
-        onChange={onChange}
-        suffixIcon={<img src={calendarIcon} />}
-        style={{ width: "300px",padding:"10px" }}
-        className=" hover:border-green-600 focus:border-green-600 "
+      <Controller
+        control={control}
+        name="datePickerControl"
+        rules={{ required: "هذا الحق مطلوب" }}
+        render={({ field, fieldState }) => (
+          <div>
+            <DatePicker
+              {...field}
+              //  onChange={onChange}
+              suffixIcon={<img src={calendarIcon} />}
+              style={{ width: "300px", padding: "10px" }}
+              className=" hover:border-green-600 focus:border-green-600 "
+            />
+            {errors.datePickerControl && (
+              <p className="text-red-500 ">
+                {errors.datePickerControl.message}
+              </p>
+            )}
+          </div>
+        )}
       />
-      
     </div>
   );
 };
