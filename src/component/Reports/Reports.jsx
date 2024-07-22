@@ -31,6 +31,9 @@ const Reports = () => {
       InputControl: "",
       datePickerControl: "",
       listInputControl: "",
+      nameControl: "",
+      emailControl: "",
+      phoneControl: "",
     },
   });
 
@@ -61,7 +64,6 @@ const Reports = () => {
       if (allValues.at(i) === "") {
         console.log("fst");
         value = true;
-        titleIsValid;
       } else {
         console.log("snd");
         value = false;
@@ -108,7 +110,7 @@ const Reports = () => {
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation />,
+      content: <ContactInformation errors={errors} control={control} />,
     },
     {
       title: "معاينة البلاغ",
@@ -156,7 +158,6 @@ const Reports = () => {
         )}
         {current < items.length - 1 && (
           <button
-            disabled={disabled}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }
