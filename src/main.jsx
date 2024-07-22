@@ -1,11 +1,8 @@
-import {ReactDOM,App,React} from "./import"
-import './index.css'
-import { UserContextProvider } from "./store/UserContext"
+import { ReactDOM, App, React } from "./import";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserContextProvider>
     <App />
-    </UserContextProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
