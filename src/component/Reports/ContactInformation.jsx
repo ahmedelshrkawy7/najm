@@ -1,8 +1,9 @@
 import React from "react";
-import ReportsHeader from "../../pages/user/ReportsHeader";
+import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { InputText } from "../forms/inputs/InputText";
 
-const ContactInformation = () => {
+const ContactInformation = ({ errors, control }) => {
+  console.log(control);
   return (
     <>
       <ReportsHeader
@@ -11,12 +12,24 @@ const ContactInformation = () => {
       />
       <div className="px-8 pt-4 pb-8  space-y-6">
         <div className="flex flex-wrap gap-4 items-center">
-          <InputText inputTitle={"الاسم"} inputPlaceHolder={"الاسم..."} />
           <InputText
+            errors={errors}
+            control={control}
+            name="nameControl"
+            inputTitle={"الاسم"}
+            inputPlaceHolder={"الاسم..."}
+          />
+          <InputText
+            errors={errors}
+            control={control}
+            name="emailControl"
             inputTitle={"البريد الالكترونى"}
             inputPlaceHolder={"البريد الالكترونى..."}
           />
           <InputText
+            errors={errors}
+            control={control}
+            name="phoneControl"
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
           />

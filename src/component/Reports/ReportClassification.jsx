@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ReportsHeader from "../../pages/user/ReportsHeader";
+import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { CardUser } from "../../import";
 import UserContext from "../../store/UserContext";
 
@@ -39,6 +39,7 @@ const ReportClassification = ({ title, handleSelected }) => {
           {CARDS.map((card) => (
             <CardUser
               onClick={() => handleSelected(card.title)}
+              key={card.title}
               active={title === card.title}
               title={card.title}
               icon={card.icon}

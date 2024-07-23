@@ -1,4 +1,5 @@
-import ReportsHeader from "../../pages/user/ReportsHeader";
+import { useContext, useEffect } from "react";
+import ReportsHeader from "../../custom hooks/ReportsHeader";
 import {
   Steps,
   useState,
@@ -9,35 +10,18 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getData, postData } from "../../utils/apiHandler";
 
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
-
-  const queryClient = useQueryClient();
-
-  const { isLoading, error, data } = useQuery("classifications", () =>
-    getData("/report-classification")
-  );
-
-  const post = useMutation(postData, {
-    onSuccess: () => {
-      // setKey(e?.data?.data.key);
-      // navigate("/otp", {
-      //   state: e?.data?.data.key,
-      //   email: formik.values.email,
-    },
-    onError: ({ message }) => {},
-  });
-  // const queryClient = useQuery("report-classification", getData);
+  const [v, setV] = useState([]);
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
+    getValues,
     control,
   } = useForm({
     mode: "onBlur",
@@ -45,15 +29,66 @@ const Reports = () => {
       textareaControl: "",
       locationInputControl: "",
       InputControl: "",
+      datePickerControl: "",
+      listInputControl: "",
+      nameControl: "",
+      emailControl: "",
+      phoneControl: "",
     },
   });
 
-  const disabled = Object.keys(errors).length > 0 || !title;
-  console.log(disabled, errors.textareaControl);
+  const values = watch([
+    "textareaControl",
+    "locationInputControl",
+    "InputControl",
+    "datePickerControl",
+    "listInputControl",
+  ]);
+
+  let value = true;
+
+  let va = getValues();
+  console.log(va);
+  // let checkTitle = () => {
+  //   if (!title) {
+  //     value = true;
+  //   } else {
+  //     value = false;
+  //   }
+  //   return value;
+  // };
+  const allValues = [...values, title];
+  console.log(allValues, value);
+  const returnVal = () => {
+    for (let i = 0; i < allValues.length; i++) {
+      if (allValues.at(i) === "") {
+        console.log("fst");
+        value = true;
+      } else {
+        console.log("snd");
+        value = false;
+      }
+      return value;
+    }
+  };
+
+  // useEffect(() => {
+  //   checkTitle();
+  // }, [title]);
+
+  useEffect(() => {
+    returnVal();
+  }, [values]);
+
+  // console.log(checkTitle());
+  // // console.log(returnVal());
+
+  const disabled = returnVal();
 
   const handleSelected = (title) => {
     setTitle(title);
   };
+
   const steps = [
     {
       title: "تصنيف البلاغ",
@@ -75,7 +110,7 @@ const Reports = () => {
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation />,
+      content: <ContactInformation errors={errors} control={control} />,
     },
     {
       title: "معاينة البلاغ",
@@ -100,7 +135,6 @@ const Reports = () => {
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
   };
-  // bg-[linear-gradient(to_right,rgba(0,128,2,0),rgba(0,128,2,1))]
 
   return (
     <div className="main_container mx-auto">
@@ -124,8 +158,9 @@ const Reports = () => {
         )}
         {current < items.length - 1 && (
           <button
-            disabled={disabled}
-            className=" bg-[#33835C] text-white  rounded-md disabled:bg-green-100 p-3"
+            className={
+              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
+            }
             onClick={next}
           >
             <span>التالى </span>
