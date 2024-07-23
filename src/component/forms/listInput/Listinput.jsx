@@ -35,6 +35,7 @@ const Listinput = ({
     <div className="listinput">
       <div>
         <h5>{listInputTitle}</h5>
+        <h5>{listInputTitle}</h5>
       </div>
 
       <Space.Compact
