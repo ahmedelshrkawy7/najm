@@ -30,7 +30,9 @@ const Reports = () => {
     formState: { errors },
     handleSubmit,
     getValues,
+    setValue,
     control,
+    trigger,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -75,6 +77,7 @@ const Reports = () => {
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
+          setValue={setValue}
           control={control}
         />
       ),
@@ -89,7 +92,13 @@ const Reports = () => {
     },
   ];
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   const next = () => {
+    // const nextSubmit = handleSubmit(onSubmit)();
+    // console.log(nextSubmit);
     setCurrent(current + 1);
   };
 

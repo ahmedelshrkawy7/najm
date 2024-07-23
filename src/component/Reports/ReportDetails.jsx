@@ -16,7 +16,7 @@ import Datepicker from "../forms/inputs/datepicker";
 import AddAttach from "../forms/fileInput/addAttach";
 import FileInput from "../forms/fileInput/FileInput";
 
-const ReportDetails = ({ control, errors, labelProps }) => {
+const ReportDetails = ({ control, errors, labelProps, setValue, watch }) => {
   return (
     <>
       <ReportsHeader
@@ -29,11 +29,17 @@ const ReportDetails = ({ control, errors, labelProps }) => {
           errors={errors}
           control={control}
         />
+        <Textarea
+          textAreaTitle={labelProps.textarea}
+          errors={errors}
+          control={control}
+        />
         <Location
           title={"InputControl"}
           errors={errors}
           control={control}
           src={arrowDown}
+          inpTitle={labelProps.selectTitle}
           inpTitle={labelProps.selectTitle}
           inputPlaceholder={"نعم/لا"}
         />
@@ -42,8 +48,15 @@ const ReportDetails = ({ control, errors, labelProps }) => {
           icon={<PlusOutlined />}
           control={control}
           errors={errors}
+          setValue={setValue}
+          watch={watch}
         />
         <div className="flex items-center gap-6 flex-wrap pb-4">
+          <Datepicker
+            datePickerTitle={labelProps.datePickerTitle}
+            control={control}
+            errors={errors}
+          />
           <Datepicker
             datePickerTitle={labelProps.datePickerTitle}
             control={control}
@@ -56,10 +69,12 @@ const ReportDetails = ({ control, errors, labelProps }) => {
             width={24}
             src={location}
             inpTitle={labelProps.locationTitle}
+            inpTitle={labelProps.locationTitle}
             inputPlaceholder={"شارع"}
           />
         </div>
         <AddAttach errors={errors} control={control} />
+        {/* <FileInput /> */}
         {/* <FileInput /> */}
       </div>
     </>
