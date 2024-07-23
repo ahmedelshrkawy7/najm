@@ -5,13 +5,14 @@ import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
 const props = {
   name: "file",
-  action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+   action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
   UploadOutlined: true,
   headers: {
     authorization: "authorization-text",
   },
   listType: "picture",
   onChange(info) {
+    console.log(info);
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
     }
@@ -30,7 +31,7 @@ const AddAttach = ({ control, errors }) => {
       rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
       render={({ field }) => (
         <div>
-          <Upload {...field} {...props}>
+          <Upload {...props} {...field}>
             <Button
               className="bg-[#33835C1A] hover:!bg-[#33835C1A] hover:!text-[#33835C] hover:!border-[#33835C] text-[#33835C] w-[300px] !py-5 mt-4"
               icon={<img src={exportSvg} />}

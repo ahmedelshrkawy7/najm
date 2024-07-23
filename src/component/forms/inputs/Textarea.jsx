@@ -2,11 +2,11 @@ import { Input } from "antd";
 import { Controller } from "react-hook-form";
 const { TextArea } = Input;
 
-const Textarea = ({ register, control, errors }) => {
+const Textarea = ({ register, control, errors, textAreaTitle }) => {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h2 className="font-medium text-lg">وصف البلاغ</h2>
+        <h2 className="font-medium text-lg">{textAreaTitle}</h2>
       </div>
       <Controller
         name="textareaControl"

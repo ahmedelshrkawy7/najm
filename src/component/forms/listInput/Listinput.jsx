@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import "./ListInput.css";
 import { Controller } from "react-hook-form";
 
-const Listinput = ({ icon, control, errors }) => {
+const Listinput = ({ icon, control, errors, listInputTitle }) => {
   const [data, setData] = useState([]);
   const [v, setV] = useState("");
 
@@ -27,7 +27,7 @@ const Listinput = ({ icon, control, errors }) => {
   return (
     <div className="listinput">
       <div>
-        <h5> أسماء الأشخاص المشتبه بهم</h5>
+        <h5>{listInputTitle}</h5>
       </div>
 
       <Space.Compact
@@ -42,16 +42,16 @@ const Listinput = ({ icon, control, errors }) => {
         <Controller
           control={control}
           name="listInputControl"
-          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+          rules={{ required: "هذا الحق مطلوب" }}
           render={({ field, fieldState }) => (
             <div className="flex flex-col w-full">
               <div className="relative">
                 <Input
-                  {...field}
+                  onChange={(e) => setV(e.target.value)}
                   placeholder="اسم الشخص"
                   className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
                   value={v}
-                  onChange={(e) => setV(e.target.value)}
+                  {...field}
                 />
 
                 <Button

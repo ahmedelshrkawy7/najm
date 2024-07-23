@@ -2,14 +2,14 @@ import { DatePicker } from "antd";
 import calendarIcon from "../../../assets/icons/calendar.svg";
 import { Controller } from "react-hook-form";
 
-const Datepicker = ({ control, errors }) => {
+const Datepicker = ({ control, errors, datePickerTitle }) => {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
   return (
     <div className="flex flex-col self-start gap-4">
       <div>
-        <h2>تاريخ ارتكاب المخالفة</h2>
+        <h2>{datePickerTitle}</h2>
       </div>
       <Controller
         control={control}
