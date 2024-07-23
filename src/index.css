@@ -46,7 +46,12 @@ body {
   font-size: 18px !important;
 }
 .ant-steps-item-title::after {
-  background-color: #33835c !important ;}
-.ant-steps-item-finish .ant-steps-item-title::after{
-  background-color:#33835C !important ;
+  background-color: #33835c !important ;
+}
+.ant-steps-item-finish .ant-steps-item-title::after {
+  background-color: #33835c !important ;
+}
+
+.ant-pagination {
+  justify-content: center !important;
 }

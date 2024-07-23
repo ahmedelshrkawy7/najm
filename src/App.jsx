@@ -1,7 +1,5 @@
 import { ReportsPage } from "./import.js";
-import Listinput from "./component/forms/listInput/Listinput";
-
-
+// import Listinput from "./component/forms/listInput/Listinput";
 
 function App() {
   return (
