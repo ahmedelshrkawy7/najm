@@ -11,6 +11,14 @@ import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
 
+const labelProps = {
+  textarea: "وصف البلاغ",
+  selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
+  listInputTitle: "أسماء الاشخاص المشتبه بهم",
+  datePickerTitle: "تاريخ ارتكاب المخالفة",
+  locationTitle: "مكان حدوث المخالفة",
+};
+
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
@@ -34,6 +42,7 @@ const Reports = () => {
       nameControl: "",
       emailControl: "",
       phoneControl: "",
+      fileInputControl: "",
     },
   });
 
@@ -43,48 +52,9 @@ const Reports = () => {
     "InputControl",
     "datePickerControl",
     "listInputControl",
+    "fileInputControl",
   ]);
-
-  let value = true;
-
-  let va = getValues();
-  console.log(va);
-  // let checkTitle = () => {
-  //   if (!title) {
-  //     value = true;
-  //   } else {
-  //     value = false;
-  //   }
-  //   return value;
-  // };
-  const allValues = [...values, title];
-  console.log(allValues, value);
-  const returnVal = () => {
-    for (let i = 0; i < allValues.length; i++) {
-      if (allValues.at(i) === "") {
-        console.log("fst");
-        value = true;
-      } else {
-        console.log("snd");
-        value = false;
-      }
-      return value;
-    }
-  };
-
-  // useEffect(() => {
-  //   checkTitle();
-  // }, [title]);
-
-  useEffect(() => {
-    returnVal();
-  }, [values]);
-
-  // console.log(checkTitle());
-  // // console.log(returnVal());
-
-  const disabled = returnVal();
-
+  console.log(values);
   const handleSelected = (title) => {
     setTitle(title);
   };
@@ -100,6 +70,7 @@ const Reports = () => {
       title: "تفاصيل البلاغ",
       content: (
         <ReportDetails
+          labelProps={labelProps}
           errors={errors}
           handleSubmit={handleSubmit}
           register={register}
@@ -114,7 +85,7 @@ const Reports = () => {
     },
     {
       title: "معاينة البلاغ",
-      content: <ReportsPreview />,
+      content: <ReportsPreview values={values} labelProps={labelProps} />,
     },
   ];
 

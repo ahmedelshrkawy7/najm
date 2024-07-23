@@ -6,7 +6,7 @@ const ReportsTextIcon = ({ icon, title, subTitle }) => {
       <div className="w-12 rounded-full h-12 bg-[#33835C1A] flex items-center justify-center">
         <img src={icon} />
       </div>
-      <span>{title}</span>
+      <span className="font-medium">{title}</span>
       <span>{subTitle}</span>
     </div>
   );
