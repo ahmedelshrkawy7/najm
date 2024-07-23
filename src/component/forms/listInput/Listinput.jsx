@@ -4,16 +4,23 @@ import { useRef, useState } from "react";
 import "./ListInput.css";
 import { Controller } from "react-hook-form";
 
-const Listinput = ({ icon, control, errors }) => {
+const Listinput = ({
+  icon,
+  control,
+  errors,
+  listInputTitle,
+  setValue,
+  watch,
+}) => {
   const [data, setData] = useState([]);
-  const [v, setV] = useState("");
+  // const [v, setV] = useState("");
 
   const inputRef = useRef("");
 
   function addLabel() {
-    if (v) {
-      setData([...data, v]);
-      setV("");
+    if (watch("listInputControl")) {
+      setData([...data, watch("listInputControl")]);
+      setValue("listInputControl", "");
     }
   }
 
@@ -27,7 +34,7 @@ const Listinput = ({ icon, control, errors }) => {
   return (
     <div className="listinput">
       <div>
-        <h5> أسماء الأشخاص المشتبه بهم</h5>
+        <h5>{listInputTitle}</h5>
       </div>
 
       <Space.Compact
@@ -42,16 +49,20 @@ const Listinput = ({ icon, control, errors }) => {
         <Controller
           control={control}
           name="listInputControl"
-          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
-          render={({ field, fieldState }) => (
+          rules={{ required: "هذا الحق مطلوب" }}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState,
+          }) => (
             <div className="flex flex-col w-full">
               <div className="relative">
                 <Input
-                  {...field}
+                  onBlur={onBlur}
+                  ref={ref}
+                  value={value}
+                  onChange={onChange}
                   placeholder="اسم الشخص"
                   className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
-                  value={v}
-                  onChange={(e) => setV(e.target.value)}
                 />
 
                 <Button
@@ -71,7 +82,7 @@ const Listinput = ({ icon, control, errors }) => {
                   onClick={addLabel}
                 ></Button>
               </div>
-              {errors.listInputControl && !v && (
+              {errors.listInputControl && !watch("listInputControl") && (
                 <p className="text-red-500">
                   {errors.listInputControl?.message}
                 </p>

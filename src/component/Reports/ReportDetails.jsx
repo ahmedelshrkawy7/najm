@@ -14,8 +14,9 @@ import location from "../../../src/assets/icons/location@2x.png";
 import arrowDown from "../../../src/assets/icons/arrow down.svg";
 import Datepicker from "../forms/inputs/datepicker";
 import AddAttach from "../forms/fileInput/addAttach";
+import FileInput from "../forms/fileInput/FileInput";
 
-const ReportDetails = ({ control, errors }) => {
+const ReportDetails = ({ control, errors, labelProps, setValue,watch }) => {
   return (
     <>
       <ReportsHeader
@@ -23,29 +24,45 @@ const ReportDetails = ({ control, errors }) => {
         subTitle={"يُرجي ملئ الحقول التالية"}
       />
       <div className="px-8 pt-4 pb-8  space-y-6">
-        <Textarea errors={errors} control={control} />
+        <Textarea
+          textAreaTitle={labelProps.textarea}
+          errors={errors}
+          control={control}
+        />
         <Location
           title={"InputControl"}
           errors={errors}
           control={control}
           src={arrowDown}
-          inpTitle={"هل انت على علم باسماء المشتبه بهم؟"}
+          inpTitle={labelProps.selectTitle}
           inputPlaceholder={"نعم/لا"}
         />
-        <Listinput icon={<PlusOutlined />} control={control} errors={errors} />
+        <Listinput
+          listInputTitle={labelProps.listInputTitle}
+          icon={<PlusOutlined />}
+          control={control}
+          errors={errors}
+          setValue={setValue}
+          watch={watch}
+        />
         <div className="flex items-center gap-6 flex-wrap pb-4">
-          <Datepicker control={control} errors={errors} />
+          <Datepicker
+            datePickerTitle={labelProps.datePickerTitle}
+            control={control}
+            errors={errors}
+          />
           <Location
             title={"locationInputControl"}
             errors={errors}
             control={control}
             width={24}
             src={location}
-            inpTitle={"مكان حدوث المخالفة"}
+            inpTitle={labelProps.locationTitle}
             inputPlaceholder={"شارع"}
           />
         </div>
         <AddAttach errors={errors} control={control} />
+        {/* <FileInput /> */}
       </div>
     </>
   );
