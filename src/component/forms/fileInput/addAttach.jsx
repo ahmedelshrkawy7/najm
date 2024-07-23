@@ -1,31 +1,18 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import "./AddAttach.css";
-import styled from "styled-components";
-
-const CustomUploadUpload = styled(Upload)`
-  :where(.css-dev-only-do-not-override-p8b6i).ant-btn-default {
-    width: 300px;
-    padding: 2rem;
-    color: green;
-    font-size: 1.5rem;
-  }
-  :where(.css-dev-only-do-not-override-p8b6i).ant-btn-default:hover {
-    border: 2px solid green;
-    color: green !important;
-    background: lightgreen;
-  }
-`;
-
+import exportSvg from "../../../assets/icons/export.svg";
+import { Controller } from "react-hook-form";
 const props = {
   name: "file",
-  action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+   action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
   UploadOutlined: true,
   headers: {
     authorization: "authorization-text",
   },
   listType: "picture",
   onChange(info) {
+    console.log(info);
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
     }
@@ -36,11 +23,26 @@ const props = {
     }
   },
 };
-const AddAttach = () => {
+const AddAttach = ({ control, errors }) => {
   return (
-    <CustomUploadUpload {...props}>
-      <Button icon={<UploadOutlined />}>إرفق من هنا</Button>
-    </CustomUploadUpload>
+    <Controller
+      name="fileInputControl"
+      control={control}
+      rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
+      render={({ field }) => (
+        <div>
+          <Upload {...props} {...field}>
+            <Button
+              className="bg-[#33835C1A] hover:!bg-[#33835C1A] hover:!text-[#33835C] hover:!border-[#33835C] text-[#33835C] w-[300px] !py-5 mt-4"
+              icon={<img src={exportSvg} />}
+            >
+              إرفق من هنا
+            </Button>
+          </Upload>
+          {errors.fileInputControl && <p>{errors.fileInputControl.message}</p>}
+        </div>
+      )}
+    />
   );
 };
 
