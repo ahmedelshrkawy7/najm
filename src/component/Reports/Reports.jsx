@@ -23,7 +23,8 @@ const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
-  const [v, setV] = useState([]);
+  const [v, setV] = useState(true);
+
   const {
     register,
     watch,
@@ -33,6 +34,7 @@ const Reports = () => {
     setValue,
     control,
     trigger,
+    setFocus,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -44,19 +46,44 @@ const Reports = () => {
       nameControl: "",
       emailControl: "",
       phoneControl: "",
-      fileInputControl: "",
     },
   });
 
-  const values = watch([
-    "textareaControl",
-    "locationInputControl",
-    "InputControl",
-    "datePickerControl",
-    "listInputControl",
-    "fileInputControl",
-  ]);
-  console.log(values);
+  const values = watch(
+    [
+      "textareaControl",
+      "locationInputControl",
+      "InputControl",
+      "datePickerControl",
+      "listInputControl",
+      "nameControl",
+      "emailControl",
+      "phoneControl",
+    ],
+    false
+  );
+
+  const [
+    textareaControl,
+    locationInputControl,
+    InputControl,
+    datePickerControl,
+    listInputControl,
+    nameControl,
+    emailControl,
+    phoneControl,
+  ] = values;
+  console.log(nameControl, emailControl, phoneControl);
+
+  const reportDetailsValues = [
+    textareaControl,
+    locationInputControl,
+    InputControl,
+    datePickerControl,
+  ];
+
+  const contactInforamtionValues = [nameControl, emailControl, phoneControl];
+
   const handleSelected = (title) => {
     setTitle(title);
   };
@@ -77,6 +104,8 @@ const Reports = () => {
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
+          reportDetailsValues={reportDetailsValues}
+          setV={setV}
           setValue={setValue}
           control={control}
         />
@@ -84,7 +113,14 @@ const Reports = () => {
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation errors={errors} control={control} />,
+      content: (
+        <ContactInformation
+          contactInforamtionValues={contactInforamtionValues}
+          errors={errors}
+          control={control}
+          setV={setV}
+        />
+      ),
     },
     {
       title: "معاينة البلاغ",
@@ -138,6 +174,7 @@ const Reports = () => {
         )}
         {current < items.length - 1 && (
           <button
+            disabled={!title || v === false}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }

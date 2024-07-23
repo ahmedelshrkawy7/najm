@@ -28,8 +28,6 @@ const CARDS = [
 ];
 
 const ReportClassification = ({ title, handleSelected }) => {
-  // const {userData,addUserData} = useContext(UserContext);
-  // onChangeData({...data,title:data.title})
   const [cards, setCards] = useState([]);
   const fetchCardsData = async () => {
     const cardsData = await fetchData(

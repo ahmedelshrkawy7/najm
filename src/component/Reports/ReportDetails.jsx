@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
@@ -15,9 +16,24 @@ import arrowDown from "../../../src/assets/icons/arrow down.svg";
 import Datepicker from "../forms/inputs/datepicker";
 import AddAttach from "../forms/fileInput/addAttach";
 import FileInput from "../forms/fileInput/FileInput";
-import FileInput from "../forms/fileInput/FileInput";
 
-const ReportDetails = ({ control, errors, labelProps, setValue,watch }) => {
+const ReportDetails = ({
+  control,
+  errors,
+  labelProps,
+  setValue,
+  watch,
+  setV,
+  reportDetailsValues,
+}) => {
+  const ref = useRef();
+  useEffect(() => {
+    if (reportDetailsValues.indexOf("") === -1) {
+      setV(true);
+    } else {
+      setV(false);
+    }
+  }, [reportDetailsValues]);
   return (
     <>
       <ReportsHeader
@@ -30,17 +46,11 @@ const ReportDetails = ({ control, errors, labelProps, setValue,watch }) => {
           errors={errors}
           control={control}
         />
-        <Textarea
-          textAreaTitle={labelProps.textarea}
-          errors={errors}
-          control={control}
-        />
         <Location
           title={"InputControl"}
           errors={errors}
           control={control}
           src={arrowDown}
-          inpTitle={labelProps.selectTitle}
           inpTitle={labelProps.selectTitle}
           inputPlaceholder={"نعم/لا"}
         />
@@ -58,18 +68,13 @@ const ReportDetails = ({ control, errors, labelProps, setValue,watch }) => {
             control={control}
             errors={errors}
           />
-          <Datepicker
-            datePickerTitle={labelProps.datePickerTitle}
-            control={control}
-            errors={errors}
-          />
+
           <Location
             title={"locationInputControl"}
             errors={errors}
             control={control}
             width={24}
             src={location}
-            inpTitle={labelProps.locationTitle}
             inpTitle={labelProps.locationTitle}
             inputPlaceholder={"شارع"}
           />
