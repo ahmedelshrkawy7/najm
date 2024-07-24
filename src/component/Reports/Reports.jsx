@@ -10,6 +10,8 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
+import { sendData } from "../../utils/http";
+import { useNavigate } from "react-router-dom";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,17 +26,14 @@ const Reports = () => {
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
   const [v, setV] = useState(true);
-
+  const navigate = useNavigate();
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
-    getValues,
     setValue,
     control,
-    trigger,
-    setFocus,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -83,6 +82,7 @@ const Reports = () => {
   ];
 
   const contactInforamtionValues = [nameControl, emailControl, phoneControl];
+  console.log(emailControl);
 
   const handleSelected = (title) => {
     setTitle(title);
@@ -119,6 +119,8 @@ const Reports = () => {
           errors={errors}
           control={control}
           setV={setV}
+          v={v}
+          emailControl={emailControl}
         />
       ),
     },
@@ -162,7 +164,12 @@ const Reports = () => {
       <div className="flex justify-between mt-6">
         <button
           className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
-          onClick={prev}
+          onClick={() => {
+            if (current === 0) {
+              return navigate("/");
+            }
+            return prev();
+          }}
         >
           <span>&rarr;</span>
           <span>رجوع</span>

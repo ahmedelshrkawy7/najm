@@ -7,9 +7,13 @@ const ContactInformation = ({
   control,
   contactInforamtionValues,
   setV,
+  emailControl,
 }) => {
   useEffect(() => {
-    if (contactInforamtionValues.indexOf("") === -1) {
+    if (
+      contactInforamtionValues.indexOf("") === -1 &&
+      emailControl.match(/^[^@]+@[^@]+\.[^@]+$/)
+    ) {
       setV(true);
     } else {
       setV(false);
@@ -36,7 +40,7 @@ const ContactInformation = ({
             name="emailControl"
             inputTitle={"البريد الالكترونى"}
             pattern={{
-              value: /^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+              value: /^[^@]+@[^@]+\.[^@]+$/,
               message: "يجب ادخال البريد الالكترونى",
             }}
             inputPlaceHolder={"البريد الالكترونى..."}

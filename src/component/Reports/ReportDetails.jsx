@@ -27,6 +27,7 @@ const ReportDetails = ({
   reportDetailsValues,
 }) => {
   const ref = useRef();
+
   useEffect(() => {
     if (reportDetailsValues.indexOf("") === -1) {
       setV(true);
