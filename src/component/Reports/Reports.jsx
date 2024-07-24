@@ -10,6 +10,8 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
+import { sendData } from "../../utils/http";
+import { useNavigate } from "react-router-dom";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -23,16 +25,15 @@ const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
-  const [v, setV] = useState([]);
+  const [v, setV] = useState(true);
+  const navigate = useNavigate();
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
-    getValues,
     setValue,
     control,
-    trigger,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -44,19 +45,45 @@ const Reports = () => {
       nameControl: "",
       emailControl: "",
       phoneControl: "",
-      fileInputControl: "",
     },
   });
 
-  const values = watch([
-    "textareaControl",
-    "locationInputControl",
-    "InputControl",
-    "datePickerControl",
-    "listInputControl",
-    "fileInputControl",
-  ]);
-  console.log(values);
+  const values = watch(
+    [
+      "textareaControl",
+      "locationInputControl",
+      "InputControl",
+      "datePickerControl",
+      "listInputControl",
+      "nameControl",
+      "emailControl",
+      "phoneControl",
+    ],
+    false
+  );
+
+  const [
+    textareaControl,
+    locationInputControl,
+    InputControl,
+    datePickerControl,
+    listInputControl,
+    nameControl,
+    emailControl,
+    phoneControl,
+  ] = values;
+  console.log(nameControl, emailControl, phoneControl);
+
+  const reportDetailsValues = [
+    textareaControl,
+    locationInputControl,
+    InputControl,
+    datePickerControl,
+  ];
+
+  const contactInforamtionValues = [nameControl, emailControl, phoneControl];
+  console.log(emailControl);
+
   const handleSelected = (title) => {
     setTitle(title);
   };
@@ -77,6 +104,8 @@ const Reports = () => {
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
+          reportDetailsValues={reportDetailsValues}
+          setV={setV}
           setValue={setValue}
           control={control}
         />
@@ -84,7 +113,16 @@ const Reports = () => {
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation errors={errors} control={control} />,
+      content: (
+        <ContactInformation
+          contactInforamtionValues={contactInforamtionValues}
+          errors={errors}
+          control={control}
+          setV={setV}
+          v={v}
+          emailControl={emailControl}
+        />
+      ),
     },
     {
       title: "معاينة البلاغ",
@@ -126,7 +164,12 @@ const Reports = () => {
       <div className="flex justify-between mt-6">
         <button
           className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
-          onClick={prev}
+          onClick={() => {
+            if (current === 0) {
+              return navigate("/");
+            }
+            return prev();
+          }}
         >
           <span>&rarr;</span>
           <span>رجوع</span>
@@ -138,6 +181,7 @@ const Reports = () => {
         )}
         {current < items.length - 1 && (
           <button
+            disabled={!title || v === false}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }

@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { CardUser } from "../../import";
-import UserContext from "../../store/UserContext";
 import { fetchData } from "../../utils/http";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 
 const CARDS = [
   {
@@ -27,19 +28,8 @@ const CARDS = [
   },
 ];
 
+
 const ReportClassification = ({ title, handleSelected }) => {
-  // const {userData,addUserData} = useContext(UserContext);
-  // onChangeData({...data,title:data.title})
-  const [cards, setCards] = useState([]);
-  const fetchCardsData = async () => {
-    const cardsData = await fetchData(
-      "https://najm.alexondev.net/api/report-classification"
-    );
-    setCards(cardsData.data["report_classification"]);
-  };
-  useEffect(() => {
-    fetchCardsData();
-  }, []);
   return (
     <>
       <ReportsHeader
@@ -48,13 +38,13 @@ const ReportClassification = ({ title, handleSelected }) => {
       />
       <div className="px-8 pt-4">
         <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {cards.map((card) => (
+          {CARDS.map((card) => (
             <CardUser
-              onClick={() => handleSelected(card.name)}
-              key={card.name}
-              active={title === card.name}
-              title={card.name}
-              url={card["image_url"]}
+              onClick={() => handleSelected(card.title)}
+              key={card.title}
+              active={title === card.title}
+              title={card.title}
+              icon={card.icon}
             />
           ))}
         </div>
