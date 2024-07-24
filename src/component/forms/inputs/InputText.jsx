@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import { PlusOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
-export const InputText = () => {
-  return (
-    <>
-      <Space.Compact size="large">
-        <Input
-          addonBefore={<PlusOutlined />}
-          placeholder="this is placeholder"
-        />
-      </Space.Compact>
-    </>
-=======
 import { Input, Space } from "antd";
 import { Controller } from "react-hook-form";
 
@@ -42,7 +28,9 @@ export const InputText = ({
   name,
   errors,
   control,
+  pattern,
 }) => {
+  console.log(pattern);
   return (
     <div className="flex w-full md:w-auto flex-col self-start gap-4">
       <div>
@@ -52,7 +40,10 @@ export const InputText = ({
         <Controller
           control={control}
           name={name}
-          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+          rules={{
+            required: "هذا الحقل مطلوب",
+            pattern: pattern,
+          }}
           render={({ field, fieldState }) => (
             <div>
               <Input
@@ -68,6 +59,5 @@ export const InputText = ({
         />
       </Space.Compact>
     </div>
->>>>>>> master
   );
 };

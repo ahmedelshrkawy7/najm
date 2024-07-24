@@ -1,15 +1,11 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import "./AddAttach.css";
-<<<<<<< HEAD
-
-=======
 import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
->>>>>>> master
 const props = {
   name: "file",
-   action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+  action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
   UploadOutlined: true,
   headers: {
     authorization: "authorization-text",
@@ -29,11 +25,6 @@ const props = {
 };
 const AddAttach = ({ control, errors }) => {
   return (
-<<<<<<< HEAD
-    <Upload {...props}>
-      <Button icon={<UploadOutlined />}>إرفق من هنا</Button>
-    </Upload>
-=======
     <Controller
       name="fileInputControl"
       control={control}
@@ -52,7 +43,6 @@ const AddAttach = ({ control, errors }) => {
         </div>
       )}
     />
->>>>>>> master
   );
 };
 

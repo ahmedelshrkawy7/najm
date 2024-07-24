@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { InputText } from "../forms/inputs/InputText";
 
-const ContactInformation = ({ errors, control }) => {
-  console.log(control);
+const ContactInformation = ({
+  errors,
+  control,
+  contactInforamtionValues,
+  setV,
+  user_email,
+}) => {
+  useEffect(() => {
+    if (
+      contactInforamtionValues.indexOf("") === -1 &&
+      user_email.match(/^[^@]+@[^@]+\.[^@]+$/)
+    ) {
+      setV(true);
+    } else {
+      setV(false);
+    }
+  }, [contactInforamtionValues]);
   return (
     <>
       <ReportsHeader
@@ -15,21 +30,25 @@ const ContactInformation = ({ errors, control }) => {
           <InputText
             errors={errors}
             control={control}
-            name="nameControl"
+            name="user_name"
             inputTitle={"الاسم"}
             inputPlaceHolder={"الاسم..."}
           />
           <InputText
             errors={errors}
             control={control}
-            name="emailControl"
+            name="user_email"
             inputTitle={"البريد الالكترونى"}
+            pattern={{
+              value: /^[^@]+@[^@]+\.[^@]+$/,
+              message: "يجب ادخال البريد الالكترونى",
+            }}
             inputPlaceHolder={"البريد الالكترونى..."}
           />
           <InputText
             errors={errors}
             control={control}
-            name="phoneControl"
+            name="user_phone"
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
           />

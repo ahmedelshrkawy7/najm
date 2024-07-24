@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 import { useContext, useEffect } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
->>>>>>> master
 import {
   Steps,
   useState,
@@ -10,12 +7,12 @@ import {
   theme,
   ReportsPreview,
 } from "../../import";
-<<<<<<< HEAD
-import Listinput from "../forms/listInput/Listinput";
-=======
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import useApi from "../../utils/useApi";
+import { useMutation } from "react-query";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,82 +21,105 @@ const labelProps = {
   datePickerTitle: "تاريخ ارتكاب المخالفة",
   locationTitle: "مكان حدوث المخالفة",
 };
->>>>>>> master
 
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-<<<<<<< HEAD
-  const [selectedCard, setSelectedCard] = useState("");
-  const handleSelceted = (id) => {
-    setSelectedCard(id);
-  };
-=======
   const [title, setTitle] = useState("");
-  const [v, setV] = useState([]);
+  const [v, setV] = useState(true);
+  const navigate = useNavigate();
+
+  const { postData } = useApi();
+
+  const Post = useMutation(postData, {
+    onSuccess: (e) => {
+      // notifySuccess("Login in successfully ! ");
+      // navigate("/plant/certificate");
+    },
+    onError: ({ message }) => {
+      // notifyError(message);
+    },
+  });
+
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
+    setValue,
     getValues,
     control,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      textareaControl: "",
-      locationInputControl: "",
+      description: "",
+      address: "",
       InputControl: "",
       datePickerControl: "",
       listInputControl: "",
-      nameControl: "",
-      emailControl: "",
-      phoneControl: "",
-      fileInputControl: "",
+      user_name: "",
+      user_email: "",
+      user_phone: "",
+      report_classification_id: "123456",
     },
   });
 
-  const values = watch([
-    "textareaControl",
-    "locationInputControl",
-    "InputControl",
-    "datePickerControl",
-    "listInputControl",
-    "fileInputControl",
-  ]);
-  console.log(values);
+  const values = watch(
+    [
+      "description",
+      "address",
+      "InputControl",
+      "datePickerControl",
+      "listInputControl",
+      "user_name",
+      "user_email",
+      "user_phone",
+    ],
+    false
+  );
+
+  // const {
+  //   fileInputControl: { fileList },
+  // } = getValues();
+
+  setValue("suspectKnown", 1);
+  setValue("report_classification_id", 1223);
+
+  const [
+    description,
+    address,
+    InputControl,
+    datePickerControl,
+    listInputControl,
+    user_name,
+    user_email,
+    user_phone,
+  ] = values;
+  console.log(user_name, user_email, user_phone);
+
+  const reportDetailsValues = [
+    description,
+    address,
+    InputControl,
+    datePickerControl,
+  ];
+
+  const contactInforamtionValues = [user_name, user_email, user_phone];
+  console.log(user_email);
+
   const handleSelected = (title) => {
     setTitle(title);
   };
 
->>>>>>> master
   const steps = [
     {
       title: "تصنيف البلاغ",
       content: (
-<<<<<<< HEAD
-        <ReportClassification
-          selectedCard={selectedCard}
-          handleSelceted={handleSelceted}
-        />
-=======
         <ReportClassification title={title} handleSelected={handleSelected} />
->>>>>>> master
       ),
     },
     {
       title: "تفاصيل البلاغ",
-<<<<<<< HEAD
-      content: <Listinput />,
-    },
-    {
-      title: "معلومات الاتصال",
-      content: "last content",
-    },
-    {
-      title: "معاينة البلاغ",
-      content: <ReportsPreview selectedCard={selectedCard} />,
-=======
       content: (
         <ReportDetails
           labelProps={labelProps}
@@ -107,26 +127,46 @@ const Reports = () => {
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
+          reportDetailsValues={reportDetailsValues}
+          setV={setV}
+          setValue={setValue}
           control={control}
         />
       ),
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation errors={errors} control={control} />,
+      content: (
+        <ContactInformation
+          contactInforamtionValues={contactInforamtionValues}
+          errors={errors}
+          control={control}
+          setV={setV}
+          v={v}
+          user_email={user_email}
+        />
+      ),
     },
     {
       title: "معاينة البلاغ",
       content: <ReportsPreview values={values} labelProps={labelProps} />,
->>>>>>> master
     },
   ];
 
+  const onSubmit = (data) => {
+    Post.mutate(["/reports", getValues()]);
+  };
+
   const next = () => {
+    // const nextSubmit = handleSubmit(onSubmit)();
+    // console.log(nextSubmit);
     setCurrent(current + 1);
   };
 
   const prev = () => {
+    if (title) {
+      setV(true);
+    }
     setCurrent(current - 1);
   };
 
@@ -139,49 +179,43 @@ const Reports = () => {
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
   };
-<<<<<<< HEAD
-  // bg-[linear-gradient(to_right,rgba(0,128,2,0),rgba(0,128,2,1))]
-=======
 
->>>>>>> master
   return (
     <div className="main_container mx-auto">
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-<<<<<<< HEAD
-      <div style={contentStyle}>
-        <h2 className="bg-[#33835C] text-xl px-8 py-4 text-white">
-          تصنيف البلاغ
-        </h2>
-        {steps[current].content}
-      </div>
-=======
       <div style={contentStyle}>{steps[current].content}</div>
->>>>>>> master
       <div className="flex justify-between mt-6">
         <button
           className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
-          onClick={prev}
+          onClick={() => {
+            if (current === 0) {
+              return navigate("/");
+            }
+            return prev();
+          }}
         >
           <span>&rarr;</span>
           <span>رجوع</span>
         </button>
         {current === items.length - 1 && (
-          <button className="bg-[#33835C] rounded-md text-white p-3">
+          <button
+            className="bg-[#33835C] rounded-md text-white p-3"
+            onClick={() => {
+              Post.mutate(["/reports", getValues()]);
+            }}
+          >
             تاكيد البلاغ
           </button>
         )}
         {current < items.length - 1 && (
           <button
-<<<<<<< HEAD
-            className=" bg-[#33835C] text-white  rounded-md disabled:bg-green-100 p-3"
-=======
+            disabled={!title || v === false}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }
->>>>>>> master
             onClick={next}
           >
             <span>التالى </span>
