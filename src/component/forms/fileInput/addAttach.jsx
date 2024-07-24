@@ -5,7 +5,7 @@ import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
 const props = {
   name: "file",
-   action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+  action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
   UploadOutlined: true,
   headers: {
     authorization: "authorization-text",

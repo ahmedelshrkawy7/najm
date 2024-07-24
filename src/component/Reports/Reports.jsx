@@ -11,6 +11,8 @@ import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import useApi from "../../utils/useApi";
+import { useMutation } from "react-query";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,39 +26,87 @@ const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
-  const [v, setV] = useState([]);
-  let navigate = useNavigate();
+  const [v, setV] = useState(true);
+  const navigate = useNavigate();
+
+  const { postData } = useApi();
+
+  const Post = useMutation(postData, {
+    onSuccess: (e) => {
+      // notifySuccess("Login in successfully ! ");
+      // navigate("/plant/certificate");
+    },
+    onError: ({ message }) => {
+      // notifyError(message);
+    },
+  });
+
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
+    setValue,
     getValues,
     control,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      textareaControl: "",
-      locationInputControl: "",
+      description: "",
+      address: "",
       InputControl: "",
       datePickerControl: "",
       listInputControl: "",
-      nameControl: "",
-      emailControl: "",
-      phoneControl: "",
-      fileInputControl: "",
+      user_name: "",
+      user_email: "",
+      user_phone: "",
+      report_classification_id: "123456",
     },
   });
 
-  const values = watch([
-    "textareaControl",
-    "locationInputControl",
-    "InputControl",
-    "datePickerControl",
-    "listInputControl",
-    "fileInputControl",
-  ]);
-  console.log(values);
+  const values = watch(
+    [
+      "description",
+      "address",
+      "InputControl",
+      "datePickerControl",
+      "listInputControl",
+      "user_name",
+      "user_email",
+      "user_phone",
+    ],
+    false
+  );
+
+  // const {
+  //   fileInputControl: { fileList },
+  // } = getValues();
+
+  setValue("suspectKnown", 1);
+  setValue("report_classification_id", 1223);
+
+  const [
+    description,
+    address,
+    InputControl,
+    datePickerControl,
+    listInputControl,
+    user_name,
+    user_email,
+    user_phone,
+  ] = values;
+  console.log(user_name, user_email, user_phone);
+
+  const reportDetailsValues = [
+    description,
+    address,
+    InputControl,
+    datePickerControl,
+  ];
+
+  const contactInforamtionValues = [user_name, user_email, user_phone];
+  console.log(user_email);
+
   const handleSelected = (title) => {
     setTitle(title);
   };
@@ -77,13 +127,25 @@ const Reports = () => {
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
+          reportDetailsValues={reportDetailsValues}
+          setV={setV}
+          setValue={setValue}
           control={control}
         />
       ),
     },
     {
       title: "معلومات الاتصال",
-      content: <ContactInformation errors={errors} control={control} />,
+      content: (
+        <ContactInformation
+          contactInforamtionValues={contactInforamtionValues}
+          errors={errors}
+          control={control}
+          setV={setV}
+          v={v}
+          user_email={user_email}
+        />
+      ),
     },
     {
       title: "معاينة البلاغ",
@@ -91,13 +153,20 @@ const Reports = () => {
     },
   ];
 
-  console.log(steps);
+  const onSubmit = (data) => {
+    Post.mutate(["/reports", getValues()]);
+  };
 
   const next = () => {
+    // const nextSubmit = handleSubmit(onSubmit)();
+    // console.log(nextSubmit);
     setCurrent(current + 1);
   };
 
   const prev = () => {
+    if (title) {
+      setV(true);
+    }
     setCurrent(current - 1);
   };
 
@@ -132,12 +201,18 @@ const Reports = () => {
           <span>رجوع</span>
         </button>
         {current === items.length - 1 && (
-          <button className="bg-[#33835C] rounded-md text-white p-3">
+          <button
+            className="bg-[#33835C] rounded-md text-white p-3"
+            onClick={() => {
+              Post.mutate(["/reports", getValues()]);
+            }}
+          >
             تاكيد البلاغ
           </button>
         )}
         {current < items.length - 1 && (
           <button
+            disabled={!title || v === false}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }

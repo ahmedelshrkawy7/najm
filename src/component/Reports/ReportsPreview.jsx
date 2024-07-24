@@ -1,8 +1,10 @@
-import { useContext } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
-import UserContext from "../../store/UserContext";
+
 import ReportsTextIcon from "./ReportsTextIcon";
 import img1 from "../../assets/icons/calendar.svg";
+import { useMutation } from "react-query";
+import useApi from "../../utils/useApi";
+
 const ReportsPreview = ({ labelProps, values }) => {
   const date = new Date(values[3].$d);
   const fullDate =

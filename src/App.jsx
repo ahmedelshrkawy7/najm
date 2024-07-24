@@ -1,14 +1,15 @@
 import Dashboard from "./Dashboard.jsx";
 import { ReportsPage } from "./import.js";
-import Layout from "./routes/Layout.jsx";
-// import Listinput from "./component/forms/listInput/Listinput";
+import Listinput from "./component/forms/listInput/Listinput";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/user/HomePage.jsx";
 
 function App() {
   return (
-    <>
-      {/* <ReportsPage /> */}
-      <Layout />
-    </>
+    <Routes>
+      <Route index element={<HomePage />} />
+      <Route path="/ReportsPage" element={<ReportsPage />} />
+    </Routes>
   );
 }
 

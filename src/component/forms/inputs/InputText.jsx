@@ -28,7 +28,9 @@ export const InputText = ({
   name,
   errors,
   control,
+  pattern,
 }) => {
+  console.log(pattern);
   return (
     <div className="flex w-full md:w-auto flex-col self-start gap-4">
       <div>
@@ -38,7 +40,10 @@ export const InputText = ({
         <Controller
           control={control}
           name={name}
-          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+          rules={{
+            required: "هذا الحقل مطلوب",
+            pattern: pattern,
+          }}
           render={({ field, fieldState }) => (
             <div>
               <Input

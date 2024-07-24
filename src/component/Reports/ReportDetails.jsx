@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
@@ -16,7 +17,24 @@ import Datepicker from "../forms/inputs/datepicker";
 import AddAttach from "../forms/fileInput/addAttach";
 import FileInput from "../forms/fileInput/FileInput";
 
-const ReportDetails = ({ control, errors, labelProps }) => {
+const ReportDetails = ({
+  control,
+  errors,
+  labelProps,
+  setValue,
+  watch,
+  setV,
+  reportDetailsValues,
+}) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (reportDetailsValues.indexOf("") === -1) {
+      setV(true);
+    } else {
+      setV(false);
+    }
+  }, [reportDetailsValues]);
   return (
     <>
       <ReportsHeader
@@ -42,6 +60,8 @@ const ReportDetails = ({ control, errors, labelProps }) => {
           icon={<PlusOutlined />}
           control={control}
           errors={errors}
+          setValue={setValue}
+          watch={watch}
         />
         <div className="flex items-center gap-6 flex-wrap pb-4">
           <Datepicker
@@ -49,8 +69,9 @@ const ReportDetails = ({ control, errors, labelProps }) => {
             control={control}
             errors={errors}
           />
+
           <Location
-            title={"locationInputControl"}
+            title={"address"}
             errors={errors}
             control={control}
             width={24}
@@ -60,6 +81,7 @@ const ReportDetails = ({ control, errors, labelProps }) => {
           />
         </div>
         <AddAttach errors={errors} control={control} />
+        {/* <FileInput /> */}
         {/* <FileInput /> */}
       </div>
     </>

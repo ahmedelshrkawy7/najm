@@ -1,21 +1,34 @@
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ListInput.css";
 import { Controller } from "react-hook-form";
 
-const Listinput = ({ icon, control, errors, listInputTitle }) => {
+const Listinput = ({
+  icon,
+  control,
+  errors,
+  listInputTitle,
+  setValue,
+  watch,
+}) => {
   const [data, setData] = useState([]);
-  const [v, setV] = useState("");
+  // const [v, setV] = useState("");
 
   const inputRef = useRef("");
 
+  //
+
   function addLabel() {
-    if (v) {
-      setData([...data, v]);
-      setV("");
+    if (watch("list")) {
+      setData([...data, { name: watch("list") }]);
+      setValue("list", "");
     }
   }
+
+  useEffect(() => {
+    setValue("listInputControl", data);
+  }, [data, setValue]);
 
   function deleteTag(index) {
     const data1 = [...data];
@@ -41,17 +54,21 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
       >
         <Controller
           control={control}
-          name="listInputControl"
+          name="list"
           rules={{ required: "هذا الحق مطلوب" }}
-          render={({ field, fieldState }) => (
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState,
+          }) => (
             <div className="flex flex-col w-full">
               <div className="relative">
                 <Input
-                  onChange={(e) => setV(e.target.value)}
+                  onBlur={onBlur}
+                  ref={ref}
+                  value={value}
+                  onChange={onChange}
                   placeholder="اسم الشخص"
                   className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
-                  value={v}
-                  {...field}
                 />
 
                 <Button
@@ -71,7 +88,7 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
                   onClick={addLabel}
                 ></Button>
               </div>
-              {errors.listInputControl && !v && (
+              {errors.listInputControl && !watch("listInputControl") && (
                 <p className="text-red-500">
                   {errors.listInputControl?.message}
                 </p>
@@ -86,7 +103,7 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
           return (
             <>
               <div className="tag flex items-center ">
-                <h3 className="flex items-center">{el}</h3>
+                <h3 className="flex items-center">{el.name}</h3>
                 <button
                   onClick={() => {
                     deleteTag(index);
