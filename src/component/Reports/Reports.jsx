@@ -10,6 +10,7 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,6 +25,7 @@ const Reports = () => {
   const [current, setCurrent] = useState(0);
   const [title, setTitle] = useState("");
   const [v, setV] = useState([]);
+  let navigate = useNavigate();
   const {
     register,
     watch,
@@ -89,6 +91,8 @@ const Reports = () => {
     },
   ];
 
+  console.log(steps);
+
   const next = () => {
     setCurrent(current + 1);
   };
@@ -117,7 +121,12 @@ const Reports = () => {
       <div className="flex justify-between mt-6">
         <button
           className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
-          onClick={prev}
+          onClick={() => {
+            if (current === 0) {
+              return navigate("/");
+            }
+            return prev();
+          }}
         >
           <span>&rarr;</span>
           <span>رجوع</span>
