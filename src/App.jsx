@@ -6,8 +6,8 @@ import Layout from "./routes/Layout.jsx";
 function App() {
   return (
     <>
-      <ReportsPage />
-      {/* <Layout /> */}
+      {/* <ReportsPage /> */}
+      <Layout />
     </>
   );
 }
