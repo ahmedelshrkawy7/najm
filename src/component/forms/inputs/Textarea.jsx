@@ -9,7 +9,7 @@ const Textarea = ({ register, control, errors, textAreaTitle }) => {
         <h2 className="font-medium text-lg">{textAreaTitle}</h2>
       </div>
       <Controller
-        name="textareaControl"
+        name="description"
         rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
         control={control}
         render={({ field, fieldState }) => (
@@ -21,8 +21,8 @@ const Textarea = ({ register, control, errors, textAreaTitle }) => {
               {...field}
               className=" hover:border-green-500 focus:border-green-500"
             />
-            {errors.textareaControl && (
-              <p className="text-red-500">{errors.textareaControl.message}</p>
+            {errors.description && (
+              <p className="text-red-500">{errors.description.message}</p>
             )}
           </>
         )}

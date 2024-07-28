@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import exportSvg from "../../../assets/icons/export.svg";
-const FileInput = () => {
-  const [file, selectedFile] = useState({});
-  console.log(file?.status);
-  console.log(file);
+import { Controller } from "react-hook-form";
+import ReportsTextIcon from "../../Reports/ReportsTextIcon";
+import img1 from "../../../assets/icons/calendar.svg";
+import ReportImages from "../../Reports/ReportImages";
+import ReportFiles from "../../Reports/ReportFiles";
+const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
+  const handleChangeFile = (e) => {
+    let allImages = [...e.target.files].filter((file) =>
+      file.type.startsWith("image")
+    );
+    console.log(allImages);
+    setImgs([...imgs, ...allImages]);
+    let allFiles = [...e.target.files].filter((file) =>
+      file.type.endsWith("pdf")
+    );
+    setFils([...fils, ...allFiles]);
+  };
 
   return (
     <div>
@@ -15,12 +28,14 @@ const FileInput = () => {
         <span className="text-sm">ارفق الملف هنا </span>
       </label>
       <input
-        onChange={(e) => selectedFile(URL.createObjectURL(e.target.files[0]))}
+        onChange={handleChangeFile}
+        multiple
         id="fileInput"
         type="file"
         className="hidden"
       />
-      {file && <img src={file} />}
+      {imgs && <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />}
+      {fils && <ReportFiles setFils={setFils} fils={fils} preview={true} />}
     </div>
   );
 };

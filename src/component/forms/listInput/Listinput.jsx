@@ -11,16 +11,18 @@ const Listinput = ({
   listInputTitle,
   setValue,
   watch,
+  resetField,
 }) => {
   const [data, setData] = useState([]);
   // const [v, setV] = useState("");
 
   const inputRef = useRef("");
-
   function addLabel() {
-    if (watch("listInputControl")) {
-      setData([...data, watch("listInputControl")]);
-      setValue("listInputControl", "");
+    console.log(data);
+    if (watch("list")) {
+      setData([...data, { name: watch("list") }]);
+      setValue("suspects", [...data, { name: watch("list") }]);
+      setValue("list", "");
     }
   }
 
@@ -48,7 +50,7 @@ const Listinput = ({
       >
         <Controller
           control={control}
-          name="listInputControl"
+          name="list"
           rules={{ required: "هذا الحق مطلوب" }}
           render={({
             field: { onChange, onBlur, value, name, ref },
@@ -82,10 +84,8 @@ const Listinput = ({
                   onClick={addLabel}
                 ></Button>
               </div>
-              {errors.listInputControl && !watch("listInputControl") && (
-                <p className="text-red-500">
-                  {errors.listInputControl?.message}
-                </p>
+              {errors.list && !watch("list") && (
+                <p className="text-red-500">{errors.list?.message}</p>
               )}
             </div>
           )}
@@ -97,7 +97,7 @@ const Listinput = ({
           return (
             <>
               <div className="tag flex items-center ">
-                <h3 className="flex items-center">{el}</h3>
+                <h3 className="flex items-center">{el.name}</h3>
                 <button
                   onClick={() => {
                     deleteTag(index);

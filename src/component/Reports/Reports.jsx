@@ -12,6 +12,9 @@ import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
 import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
+import useApi from "../../utils/useApi";
+import { useMutation } from "react-query";
+import { data } from "autoprefixer";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,9 +27,11 @@ const labelProps = {
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [title, setTitle] = useState("");
+  const [card, setCards] = useState({ name: "", report_classification_id: "" });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
+  const [imgs, setImgs] = useState([]);
+  const [fils, setFils] = useState([]);
   const {
     register,
     watch,
@@ -34,65 +39,109 @@ const Reports = () => {
     handleSubmit,
     setValue,
     control,
+    resetField,
+    getValues,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      textareaControl: "",
-      locationInputControl: "",
-      InputControl: "",
+      description: "",
+      address: "",
+      suspectKnown: "",
       datePickerControl: "",
-      listInputControl: "",
-      nameControl: "",
-      emailControl: "",
-      phoneControl: "",
+      suspects: "",
+      user_name: "",
+      user_email: "",
+      user_phone: "",
+      fileInput: "",
     },
   });
-
+  console.log(v);
   const values = watch(
     [
-      "textareaControl",
-      "locationInputControl",
-      "InputControl",
+      "description",
+      "address",
+      "suspectKnown",
       "datePickerControl",
-      "listInputControl",
-      "nameControl",
-      "emailControl",
-      "phoneControl",
+      "suspects",
+      "user_name",
+      "user_email",
+      "user_phone",
+      "fileInput",
     ],
     false
   );
+  console.log(values);
+  // 2023-07-20
+  const date = new Date(values?.[3]?.$d);
+
+  const month =
+    date?.getMonth() < 10 ? "0" + date?.getMonth() : date?.getMonth();
+
+  const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
+
+  const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+
+  const newValues = getValues();
+  const {
+    list,
+    datePickerControl: datePicker,
+    fileInput,
+    ...restValues
+  } = newValues;
+
+  const allFiles = [...imgs, ...fils];
+
+  const dataObject = {
+    ...restValues,
+    files: allFiles,
+    date: fullDate,
+    report_classification_id: card.report_classification_id,
+  };
+
+  console.log(dataObject);
+
+  const { postData } = useApi();
+
+  const Post = useMutation(postData, {
+    onSuccess: (e) => {
+      // notifySuccess("Login in successfully ! ");
+      // navigate("/plant/certificate");
+    },
+    onError: ({ message }) => {
+      // notifyError(message);
+    },
+  });
 
   const [
-    textareaControl,
-    locationInputControl,
+    description,
+    address,
     InputControl,
     datePickerControl,
     listInputControl,
-    nameControl,
-    emailControl,
-    phoneControl,
+    user_name,
+    user_email,
+    user_phone,
   ] = values;
-  console.log(nameControl, emailControl, phoneControl);
 
   const reportDetailsValues = [
-    textareaControl,
-    locationInputControl,
+    description,
+    address,
     InputControl,
     datePickerControl,
+    listInputControl,
   ];
 
-  const contactInforamtionValues = [nameControl, emailControl, phoneControl];
-  console.log(emailControl);
+  const contactInforamtionValues = [user_name, user_email, user_phone];
 
-  const handleSelected = (title) => {
-    setTitle(title);
+  const handleSelected = (card) => {
+    setCards(card);
   };
 
   const steps = [
     {
       title: "تصنيف البلاغ",
       content: (
-        <ReportClassification title={title} handleSelected={handleSelected} />
+        <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
     },
     {
@@ -100,14 +149,21 @@ const Reports = () => {
       content: (
         <ReportDetails
           labelProps={labelProps}
+          listInputControl={listInputControl}
           errors={errors}
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
           reportDetailsValues={reportDetailsValues}
           setV={setV}
+          title={card.name}
+          imgs={imgs}
+          setImgs={setImgs}
+          fils={fils}
+          setFils={setFils}
           setValue={setValue}
           control={control}
+          resetField={resetField}
         />
       ),
     },
@@ -120,27 +176,33 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
-          emailControl={emailControl}
+          emailControl={user_email}
         />
       ),
     },
     {
       title: "معاينة البلاغ",
-      content: <ReportsPreview values={values} labelProps={labelProps} />,
+      content: (
+        <ReportsPreview
+          fils={fils}
+          setFils={setFils}
+          imgs={imgs}
+          setImgs={setImgs}
+          values={values}
+          labelProps={labelProps}
+        />
+      ),
     },
   ];
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const next = () => {
-    // const nextSubmit = handleSubmit(onSubmit)();
-    // console.log(nextSubmit);
     setCurrent(current + 1);
   };
 
   const prev = () => {
+    if (card.title) {
+      setV(true);
+    }
     setCurrent(current - 1);
   };
 
@@ -175,13 +237,22 @@ const Reports = () => {
           <span>رجوع</span>
         </button>
         {current === items.length - 1 && (
-          <button className="bg-[#33835C] rounded-md text-white p-3">
+          <button
+            onClick={() => {
+              let formdata = new FormData();
+              formdata.append("test", "fuck it");
+              console.log(Object.entries(formdata));
+              Post.mutate(["/reports", dataObject]);
+            }}
+            className="bg-[#33835C] rounded-md text-white p-3"
+          >
             تاكيد البلاغ
           </button>
         )}
+
         {current < items.length - 1 && (
           <button
-            disabled={!title || v === false}
+            disabled={v === false || !card.name}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }

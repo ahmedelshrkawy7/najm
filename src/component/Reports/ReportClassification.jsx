@@ -4,32 +4,37 @@ import { CardUser } from "../../import";
 import { fetchData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+import useApi from "../../utils/useApi";
 
-const CARDS = [
-  {
-    icon: <img src="../src/assets/icons/money-3.svg" />,
-    title: "احتيال او فساد او رشوة او اخنلاس او تزوير",
-  },
-  {
-    icon: <img src="../src/assets/icons/coin.png" />,
-    title: "غسل اموال او تمويل ارهاب ",
-  },
-  {
-    icon: <img src="../src/assets/icons/receipt-item.png" />,
-    title: "مخالفة للانظمة والتعليمات",
-  },
-  {
-    icon: <img src="../src/assets/icons/receipt.png" />,
-    title: "مخالفة لسياسة واجراءات الشركة",
-  },
-  {
-    icon: <img src="../src/assets/icons/Vector.svg" />,
-    title: "مخالفة لمدونة قواعد السلوك",
-  },
-];
+// const CARDS = [
+//   {
+//     icon: <img src="../src/assets/icons/money-3.svg" />,
+//     title: "احتيال او فساد او رشوة او اخنلاس او تزوير",
+//   },
+//   {
+//     icon: <img src="../src/assets/icons/coin.png" />,
+//     title: "غسل اموال او تمويل ارهاب ",
+//   },
+//   {
+//     icon: <img src="../src/assets/icons/receipt-item.png" />,
+//     title: "مخالفة للانظمة والتعليمات",
+//   },
+//   {
+//     icon: <img src="../src/assets/icons/receipt.png" />,
+//     title: "مخالفة لسياسة واجراءات الشركة",
+//   },
+//   {
+//     icon: <img src="../src/assets/icons/Vector.svg" />,
+//     title: "مخالفة لمدونة قواعد السلوك",
+//   },
+// ];
 
+const ReportClassification = ({ _card, handleSelected }) => {
+  const { getData } = useApi();
 
-const ReportClassification = ({ title, handleSelected }) => {
+  const { isLoading, error, data } = useQuery("users", () =>
+    getData("/report-classification")
+  );
   return (
     <>
       <ReportsHeader
@@ -38,13 +43,18 @@ const ReportClassification = ({ title, handleSelected }) => {
       />
       <div className="px-8 pt-4">
         <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {CARDS.map((card) => (
+          {data?.report_classification?.map((card) => (
             <CardUser
-              onClick={() => handleSelected(card.title)}
+              onClick={() =>
+                handleSelected({
+                  name: card.name,
+                  report_classification_id: card.id,
+                })
+              }
               key={card.title}
-              active={title === card.title}
-              title={card.title}
-              icon={card.icon}
+              active={_card.name === card.name}
+              title={card.name}
+              src={card.image_url}
             />
           ))}
         </div>

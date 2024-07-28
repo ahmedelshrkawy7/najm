@@ -30,14 +30,14 @@ const ContactInformation = ({
           <InputText
             errors={errors}
             control={control}
-            name="nameControl"
+            name="user_name"
             inputTitle={"الاسم"}
             inputPlaceHolder={"الاسم..."}
           />
           <InputText
             errors={errors}
             control={control}
-            name="emailControl"
+            name="user_email"
             inputTitle={"البريد الالكترونى"}
             pattern={{
               value: /^[^@]+@[^@]+\.[^@]+$/,
@@ -48,7 +48,7 @@ const ContactInformation = ({
           <InputText
             errors={errors}
             control={control}
-            name="phoneControl"
+            name="user_phone"
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
           />
