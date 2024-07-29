@@ -6,6 +6,7 @@ import img1 from "../../../assets/icons/calendar.svg";
 import ReportImages from "../../Reports/ReportImages";
 import ReportFiles from "../../Reports/ReportFiles";
 const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
+  
   const handleChangeFile = (e) => {
     let allImages = [...e.target.files].filter((file) =>
       file.type.startsWith("image")

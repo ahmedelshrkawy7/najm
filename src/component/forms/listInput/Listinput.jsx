@@ -1,6 +1,6 @@
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ListInput.css";
 import { Controller } from "react-hook-form";
 
@@ -12,13 +12,17 @@ const Listinput = ({
   setValue,
   watch,
   resetField,
+  values,
+
 }) => {
   const [data, setData] = useState([]);
-  // const [v, setV] = useState("");
-
-  const inputRef = useRef("");
+  
+  // useEffect(() => {
+  //   if (watch("list")) {
+  //     setData([...values[4], { name: watch("list") }]);
+  //   }
+  // }, []);
   function addLabel() {
-    console.log(data);
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
       setValue("suspects", [...data, { name: watch("list") }]);
@@ -29,7 +33,6 @@ const Listinput = ({
   function deleteTag(index) {
     const data1 = [...data];
     data1.splice(index, 1);
-
     setData(data1);
   }
   // console.log(errors.listInputControl)
@@ -59,9 +62,9 @@ const Listinput = ({
             <div className="flex flex-col w-full">
               <div className="relative">
                 <Input
-                  onBlur={onBlur}
                   ref={ref}
                   value={value}
+                  onBlur={onBlur}
                   onChange={onChange}
                   placeholder="اسم الشخص"
                   className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
@@ -84,31 +87,32 @@ const Listinput = ({
                   onClick={addLabel}
                 ></Button>
               </div>
-              {errors.list && !watch("list") && (
+              {/* {errors.list && !watch("list") && (
                 <p className="text-red-500">{errors.list?.message}</p>
-              )}
+              )} */}
             </div>
           )}
         />
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">
-        {data.map((el, index) => {
-          return (
-            <>
-              <div className="tag flex items-center ">
-                <h3 className="flex items-center">{el.name}</h3>
-                <button
-                  onClick={() => {
-                    deleteTag(index);
-                  }}
-                >
-                  <CloseOutlined />
-                </button>
-              </div>
-            </>
-          );
-        })}
+        {data &&
+          data.map((el, index) => {
+            return (
+              <>
+                <div className="tag flex items-center ">
+                  <h3 className="flex items-center">{el.name}</h3>
+                  <button
+                    onClick={() => {
+                      deleteTag(index);
+                    }}
+                  >
+                    <CloseOutlined />
+                  </button>
+                </div>
+              </>
+            );
+          })}
       </div>
     </div>
   );

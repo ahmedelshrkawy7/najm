@@ -16,9 +16,9 @@ const SelectInput = ({ inpTitle, errors, control }) => {
         render={({ field, fieldState }) => (
           <div>
             <Select
-              {...field}
-              // placeholder="dasdfawd"
+              placeholder="dasdfawd"
               defaultValue="نعم/لا"
+              {...field}
               style={{ width: "300px" }}
               options={[
                 { value: "0", label: <span>لا</span> },

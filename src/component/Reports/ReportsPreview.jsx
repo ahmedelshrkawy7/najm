@@ -21,12 +21,9 @@ const ReportsPreview = ({
   imgs,
   setImgs,
 }) => {
-  console.log(values);
   const date = new Date(values[3].$d);
   const fullDate =
     date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-
-  console.log(values[4]);
 
   return (
     <>
@@ -55,25 +52,27 @@ const ReportsPreview = ({
           </div>
           <div className="flex px-4 gap-6">
             <ReportsTextIcon
-              subTitle={values[2] ? values[2] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[2] === "1" ? "نعم" : "لا"}
               icon={prev2}
               title={labelProps.selectTitle}
             />
-            <ReportsTextIcon
-              subTitle={
-                values[4] ? (
-                  <div className="flex gap-2">
-                    {values[4]?.map((val) => (
-                      <span>{val.name}</span>
-                    ))}
-                  </div>
-                ) : (
-                  "من فضلك اعد ادخال البيانات"
-                )
-              }
-              icon={prev3}
-              title={labelProps.listInputTitle}
-            />
+            {values[2] === "1" && (
+              <ReportsTextIcon
+                subTitle={
+                  values[4] ? (
+                    <div className="flex gap-2">
+                      {values[4]?.map((val) => (
+                        <span>{val.name}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    "من فضلك اعد ادخال البيانات"
+                  )
+                }
+                icon={prev3}
+                title={labelProps.listInputTitle}
+              />
+            )}
           </div>
           <div className="flex px-4 gap-6 border-b">
             <ReportsTextIcon
@@ -117,17 +116,17 @@ const ReportsPreview = ({
           </div>{" "}
           <div className="flex gap-24 items-center">
             <ReportsTextIcon
-              subTitle={values[6] ? values[6] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
               icon={note}
               title={"الاسم"}
             />
             <ReportsTextIcon
-              subTitle={values[7] ? values[7] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[6] ? values[6] : "من فضلك اعد ادخال البيانات"}
               icon={prev1}
               title={"البريد الالكترونى"}
             />
             <ReportsTextIcon
-              subTitle={values[8] ? values[8] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[7] ? values[7] : "من فضلك اعد ادخال البيانات"}
               icon={prev8}
               title={"رقم الجوال"}
             />

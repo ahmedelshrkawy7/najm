@@ -48,7 +48,7 @@ const Reports = () => {
       address: "",
       suspectKnown: "",
       datePickerControl: "",
-      suspects: "",
+      suspects: [],
       user_name: "",
       user_email: "",
       user_phone: "",
@@ -86,19 +86,28 @@ const Reports = () => {
     list,
     datePickerControl: datePicker,
     fileInput,
+    suspects,
     ...restValues
   } = newValues;
 
   const allFiles = [...imgs, ...fils];
-
-  const dataObject = {
+  const hidden = watch("suspectKnown") === "0";
+  let dataObject = {
     ...restValues,
     files: allFiles,
     date: fullDate,
     report_classification_id: card.report_classification_id,
+    suspects: suspects,
   };
 
-  console.log(dataObject);
+  if (hidden) {
+    dataObject = {
+      ...restValues,
+      files: allFiles,
+      date: fullDate,
+      report_classification_id: card.report_classification_id,
+    };
+  }
 
   const { postData } = useApi();
 
@@ -164,6 +173,7 @@ const Reports = () => {
           setValue={setValue}
           control={control}
           resetField={resetField}
+          values={values}
         />
       ),
     },
@@ -239,9 +249,6 @@ const Reports = () => {
         {current === items.length - 1 && (
           <button
             onClick={() => {
-              let formdata = new FormData();
-              formdata.append("test", "fuck it");
-              console.log(Object.entries(formdata));
               Post.mutate(["/reports", dataObject]);
             }}
             className="bg-[#33835C] rounded-md text-white p-3"

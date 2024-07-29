@@ -33,16 +33,21 @@ const ReportDetails = ({
   imgs,
   setImgs,
   listInputControl,
+  values,
 }) => {
   const ref = useRef();
-
+  const isHidden = watch("suspectKnown") === "0";
   useEffect(() => {
-    if (reportDetailsValues.indexOf("") === -1 && listInputControl.length > 0) {
+    if (
+      (reportDetailsValues.indexOf("") === -1 && listInputControl.length > 0) ||
+      isHidden
+    ) {
       setV(true);
     } else {
       setV(false);
     }
   }, [reportDetailsValues]);
+
   return (
     <>
       <ReportsHeader
@@ -60,15 +65,19 @@ const ReportDetails = ({
           control={control}
           inpTitle={labelProps.selectTitle}
         />
-        <Listinput
-          listInputTitle={labelProps.listInputTitle}
-          icon={<PlusOutlined />}
-          control={control}
-          errors={errors}
-          setValue={setValue}
-          watch={watch}
-          resetField={resetField}
-        />
+
+        {!isHidden && (
+          <Listinput
+            listInputTitle={labelProps.listInputTitle}
+            icon={<PlusOutlined />}
+            control={control}
+            errors={errors}
+            setValue={setValue}
+            watch={watch}
+            resetField={resetField}
+            values={values}
+          />
+        )}
         <div className="flex items-center gap-6 flex-wrap pb-4">
           <Datepicker
             datePickerTitle={labelProps.datePickerTitle}
