@@ -14,7 +14,7 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
     console.log(allImages);
     setImgs([...imgs, ...allImages]);
     let allFiles = [...e.target.files].filter((file) =>
-      file.type.endsWith("pdf")
+      file.type.startsWith("application")
     );
     setFils([...fils, ...allFiles]);
   };

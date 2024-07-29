@@ -10,15 +10,12 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
-<<<<<<< HEAD
 import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
 import { useMutation } from "react-query";
 import { data } from "autoprefixer";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 7a5a6db80b1183dae7cd2eb3f0b8471a2f7d03c8
+import Success from "../../models/Success";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -31,17 +28,12 @@ const labelProps = {
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-<<<<<<< HEAD
   const [card, setCards] = useState({ name: "", report_classification_id: "" });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
   const [fils, setFils] = useState([]);
-=======
-  const [title, setTitle] = useState("");
-  const [v, setV] = useState([]);
-  let navigate = useNavigate();
->>>>>>> 7a5a6db80b1183dae7cd2eb3f0b8471a2f7d03c8
+  const [showmodal, setShowmodal] = useState(false);
   const {
     register,
     watch,
@@ -123,8 +115,8 @@ const Reports = () => {
 
   const Post = useMutation(postData, {
     onSuccess: (e) => {
-      // notifySuccess("Login in successfully ! ");
-      // navigate("/plant/certificate");
+      setShowmodal(true);
+      navigate("/dash");
     },
     onError: ({ message }) => {
       // notifyError(message);
@@ -197,6 +189,7 @@ const Reports = () => {
           setV={setV}
           v={v}
           emailControl={user_email}
+          phoneControl={user_phone}
         />
       ),
     },
@@ -214,8 +207,6 @@ const Reports = () => {
       ),
     },
   ];
-
-  console.log(steps);
 
   const next = () => {
     setCurrent(current + 1);
@@ -282,6 +273,12 @@ const Reports = () => {
           </button>
         )}
       </div>
+
+      {showmodal && (
+        <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
+          <Success />
+        </div>
+      )}
     </div>
   );
 };

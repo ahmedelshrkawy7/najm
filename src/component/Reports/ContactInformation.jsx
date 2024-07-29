@@ -8,11 +8,13 @@ const ContactInformation = ({
   contactInforamtionValues,
   setV,
   emailControl,
+  phoneControl,
 }) => {
   useEffect(() => {
     if (
       contactInforamtionValues.indexOf("") === -1 &&
-      emailControl.match(/^[^@]+@[^@]+\.[^@]+$/)
+      emailControl.match(/^[^@]+@[^@]+\.[^@]+$/) &&
+      phoneControl.match(/^(?:\+966|00966|966|0)?5\d{8}$/g)
     ) {
       setV(true);
     } else {
@@ -51,6 +53,10 @@ const ContactInformation = ({
             name="user_phone"
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
+            pattern={{
+              value: /^(?:\+966|00966|966|0)?5\d{8}$/g,
+              message: "يجب ادخال رقم جوال صحيح",
+            }}
           />
         </div>
       </div>

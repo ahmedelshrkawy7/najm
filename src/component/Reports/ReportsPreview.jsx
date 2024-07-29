@@ -87,13 +87,13 @@ const ReportsPreview = ({
             />
           </div>
           <div className="p-4 py-1">
-            <div className="border-b border-gray-300">
+            <div className="">
               <ReportsTextIcon
                 icon={prev9}
                 title={"المستندات الداعمة للاشتباه"}
               />
             </div>
-            <div className="border-b border-gray-300 ">
+            <div className=" ">
               <ReportsTextIcon
                 icon={prev6}
                 title={`الصور والفيديوهات(${imgs.length}) `}

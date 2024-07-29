@@ -1,7 +1,18 @@
 import { Space, Table, Tag } from "antd";
 import { Navbar } from "../../../import";
+import useApi from "../../../utils/useApi";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
+  const { getData } = useApi();
+
+  const {
+    isLoading,
+    error,
+    data: reports,
+  } = useQuery("users", () => getData("/reports"));
+  console.log("🚀 ~ CardAdmin ~ data:", reports);
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -14,48 +25,54 @@ const CardAdmin = () => {
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "رقم البلاغ",
+      dataIndex: "id",
+      key: "id",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "اسم البلاغ",
+      dataIndex: ["report_classification", "name"],
+      key: "report_classification['name']",
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Address",
+      title: "العنوان",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: "تفاصيل البلاغ",
+      dataIndex: "description",
+      key: "description",
     },
+    // {
+    //   title: "Tags",
+    //   key: "tags",
+    //   dataIndex: "tags",
+    //   render: (_, { tags }) => (
+    //     <>
+    //       {tags.map((tag) => {
+    //         let color = tag.length > 5 ? "geekblue" : "green";
+    //         if (tag === "loser") {
+    //           color = "volcano";
+    //         }
+    //         return (
+    //           <Tag color={color} key={tag}>
+    //             {tag.toUpperCase()}
+    //           </Tag>
+    //         );
+    //       })}
+    //     </>
+    //   ),
+    // },
     {
-      title: "Action",
+      title: "عرض",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          {/* <a>update {record.name}</a> */}
+          <Link to={`/dash/${record.id}`}>عرض</Link>
         </Space>
       ),
     },
@@ -86,7 +103,6 @@ const CardAdmin = () => {
 
   return (
     <>
-      <Navbar />
       <div className="w-[90%] mx-auto ">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
           {cards?.map((card) => (
@@ -96,7 +112,9 @@ const CardAdmin = () => {
             >
               <div className="space-y-2">
                 <h2 className="text-lg">{card.title}</h2>
-                <h2 className="text-xl font-bold">3</h2>
+                <h2 className="text-xl font-bold">
+                  {reports?.reports?.length}
+                </h2>
               </div>
               <div className="self-center w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center mr-auto">
                 {card.icon}
@@ -105,9 +123,11 @@ const CardAdmin = () => {
           ))}
         </div>
         <div className="mt-6">
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={reports?.reports} />
         </div>
       </div>
+
+      <></>
     </>
   );
 };
