@@ -53,3 +53,7 @@ body {
 .ant-steps-item-finish .ant-steps-item-title::after {
   background-color: #33835c !important ;
 }
+
+.ant-pagination {
+  justify-content: center !important;
+}

@@ -14,7 +14,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index)}
-                className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-white text-red-500 rounded-full flex items-center justify-center"
+                className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-white text-green-500 rounded-full flex items-center justify-center"
               >
                 X
               </span>
@@ -23,7 +23,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
               <div className="text-left">
                 <h2 className="font-bold text-[#D74D52]">{file.name}</h2>
                 <span className="text-sm text-gray-400">
-                  {Math.floor(file.size * Math.pow(10, -6))}
+                  {Math.ceil(file.size * Math.pow(10, -6))}
                   <span className="ml-1">mb</span>
                 </span>
               </div>
