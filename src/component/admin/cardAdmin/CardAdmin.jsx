@@ -86,7 +86,6 @@ const CardAdmin = () => {
 
   return (
     <>
-      <Navbar />
       <div className="w-[90%] mx-auto ">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
           {cards?.map((card) => (

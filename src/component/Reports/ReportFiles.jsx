@@ -14,9 +14,9 @@ const ReportFiles = ({ fils, setFils, preview }) => {
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index)}
-                className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-white text-green-500 rounded-full flex items-center justify-center"
+                className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center"
               >
-                X
+                &times;
               </span>
             )}
             <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
@@ -27,7 +27,13 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                   <span className="ml-1">mb</span>
                 </span>
               </div>
-              <img className="rounded-md" src="../src/assets/pdf.png" />
+
+              <img
+                className="rounded-md w-[20px]"
+                src={`../src/assets/${
+                  file.type.endsWith("pdf") ? "pdf.png" : "doc.svg"
+                }`}
+              />
             </div>
           </div>
         ))}
