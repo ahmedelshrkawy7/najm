@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/user/HomePage.jsx";
 import Dashboard from "./Dashboard.jsx";
 import Success from "./models/Success.jsx";
+import Test from "./component/Reports/test.jsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/ReportsPage" element={<ReportsPage />} />
         <Route path="/dash" element={<Dashboard />} />
+        <Route path="/dash/:id" element={<Test />} />
       </Routes>
     </>
   );

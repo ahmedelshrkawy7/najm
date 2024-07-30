@@ -3,7 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 const { TextArea } = Input;
 
-const Textarea = ({ register, control, errors, textAreaTitle, watch }) => {
+const Textarea = ({
+  register,
+  control,
+  errors,
+  textAreaTitle,
+  watch,
+  iconLabel,
+}) => {
   const refVal = useRef(null);
   const wrapperRef = useRef(null);
   const textAreaRef = refVal.current;
@@ -19,8 +26,9 @@ const Textarea = ({ register, control, errors, textAreaTitle, watch }) => {
   console.log(value);
   return (
     <div ref={wrapperRef} className="flex flex-col gap-4">
-      <div>
+      <div className="flex">
         <h2 className="font-medium text-lg">{textAreaTitle}</h2>
+        <span className="text-red-500">{iconLabel}</span>
       </div>
       {/* <textarea
         ref={ref}

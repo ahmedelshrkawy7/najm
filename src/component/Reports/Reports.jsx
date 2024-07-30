@@ -46,7 +46,7 @@ const Reports = () => {
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "",
+      suspectKnown: "1",
       datePickerControl: "",
       suspects: [],
       user_name: "",
@@ -131,6 +131,7 @@ const Reports = () => {
   const Post = useMutation(postData, {
     onSuccess: (e) => {
       setShowmodal(true);
+      navigate("/dash");
     },
     onError: ({ message }) => {},
   });
@@ -146,13 +147,7 @@ const Reports = () => {
     user_phone,
   ] = values;
 
-  const reportDetailsValues = [
-    description,
-    address,
-    InputControl,
-    datePickerControl,
-    listInputControl,
-  ];
+  const reportDetailsValues = [description, address, InputControl];
 
   const contactInforamtionValues = [user_name, user_email, user_phone];
 
@@ -187,6 +182,7 @@ const Reports = () => {
           setValue={setValue}
           control={control}
           resetField={resetField}
+          getValues={getValues}
           values={values}
         />
       ),
@@ -202,6 +198,7 @@ const Reports = () => {
           v={v}
           emailControl={user_email}
           phoneControl={user_phone}
+          nameControl={user_name}
         />
       ),
     },

@@ -57,3 +57,12 @@ body {
 .ant-pagination {
   justify-content: center !important;
 }
+
+.active {
+  display: none;
+  transition: display 4s ease-in-out !important;
+}
+
+.wrapper:hover .active {
+  @apply absolute w-8 rounded-full h-8 flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-white;
+}

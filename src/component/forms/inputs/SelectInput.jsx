@@ -2,11 +2,12 @@ import { Select } from "antd";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-const SelectInput = ({ inpTitle, errors, control }) => {
+const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
   return (
     <div className="flex flex-col self-start gap-4">
-      <div>
+      <div className="flex gap-2">
         <h2>{inpTitle}</h2>
+        <span className="text-red-500">{iconLabel}</span>
       </div>
 
       <Controller
@@ -16,9 +17,8 @@ const SelectInput = ({ inpTitle, errors, control }) => {
         render={({ field, fieldState }) => (
           <div>
             <Select
-              placeholder="dasdfawd"
-              defaultValue="نعم/لا"
               {...field}
+              defaultValue={field.value}
               style={{ width: "300px" }}
               options={[
                 { value: "0", label: <span>لا</span> },
