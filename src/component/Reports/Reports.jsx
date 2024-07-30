@@ -236,9 +236,9 @@ const Reports = () => {
       </h2>
       <Steps current={current} items={items} />
       <div style={contentStyle}>{steps[current].content}</div>
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-end gap-6 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
+          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md  text-center"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -246,8 +246,8 @@ const Reports = () => {
             return prev();
           }}
         >
-          <span>&rarr;</span>
-          <span>رجوع</span>
+          {/* <span>&rarr;</span> */}
+          رجوع
         </button>
         {current === items.length - 1 && (
           <button
@@ -268,8 +268,8 @@ const Reports = () => {
             }
             onClick={next}
           >
-            <span>التالى </span>
-            <span>&larr;</span>
+            التالى
+            {/* <span>&larr;</span> */}
           </button>
         )}
       </div>

@@ -57,3 +57,12 @@ body {
 .ant-pagination {
   justify-content: center !important;
 }
+body::-webkit-scrollbar {
+  width: 6px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #33835c; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  /*border: 3px solid orange; creates padding around scroll thumb*/
+}

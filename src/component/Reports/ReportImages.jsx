@@ -9,6 +9,18 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   };
 
   const [showVideo, setShowVideo] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [src, setSrc] = useState("false");
+
+  function showFunc(e, type) {
+    setSrc(e.target.src);
+    if (type == "image") {
+      setShowImg(true);
+    }
+    if (type == "video") {
+      setShowVideo(true);
+    }
+  }
   return (
     <>
       <div className="flex mt-4   gap-6">
@@ -23,21 +35,24 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                   &times;
                 </span>
               )}
-              {img?.type?.startsWith("image") ||
-                (img?.file_type?.startsWith("image") && (
-                  <img
-                    className="rounded-md w-full h-full"
-                    src={URL?.createObjectURL(img) || img?.file_url}
-                  />
-                ))}
+              {img?.type?.startsWith("image") && (
+                <img
+                  className="rounded-md w-full h-full"
+                  src={URL?.createObjectURL(img) || img?.file_url}
+                  onClick={(e) => {
+                    showFunc(e, "image");
+                  }}
+                />
+              )}
               {img.type.startsWith("video") && (
                 <>
                   <video
                     className="w-full h-full "
                     src={URL.createObjectURL(img) || img?.file_url}
                     muted
-                    onClick={() => {
-                      setShowVideo(true);
+                    onClick={(e) => {
+                      // setShowVideo(true);
+                      showFunc(e, "video");
                     }}
                   />
 
@@ -45,6 +60,19 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </>
               )}
             </div>
+
+            {showImg && (
+              <div
+                className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
+                onClick={() => {
+                  setShowImg(false);
+                }}
+              >
+                <div className=" w-1/2 ">
+                  <img className="w-full h-full  " src={src} />
+                </div>
+              </div>
+            )}
             {showVideo && (
               <div
                 className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
@@ -53,12 +81,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <video
-                    className="w-full h-full  "
-                    src={URL.createObjectURL(img)}
-                    muted
-                    controls
-                  />
+                  <video className="w-full h-full  " src={src} muted controls />
                 </div>
               </div>
             )}

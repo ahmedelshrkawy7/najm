@@ -13,10 +13,9 @@ const Listinput = ({
   watch,
   resetField,
   values,
-
 }) => {
   const [data, setData] = useState([]);
-  
+
   // useEffect(() => {
   //   if (watch("list")) {
   //     setData([...values[4], { name: watch("list") }]);
@@ -79,7 +78,6 @@ const Listinput = ({
                     left: 0,
                     zIndex: 100,
                     borderWidth: 1,
-                    borderRadius: "4px",
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}
@@ -107,7 +105,9 @@ const Listinput = ({
                       deleteTag(index);
                     }}
                   >
-                    <CloseOutlined />
+                    <CloseOutlined
+                      style={{ fontSize: "12px", fontWeight: "bold" }}
+                    />
                   </button>
                 </div>
               </>
