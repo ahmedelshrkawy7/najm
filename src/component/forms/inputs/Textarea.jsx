@@ -1,25 +1,50 @@
 import { Input } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 const { TextArea } = Input;
 
-const Textarea = ({ register, control, errors, textAreaTitle }) => {
+const Textarea = ({ register, control, errors, textAreaTitle, watch }) => {
+  const refVal = useRef(null);
+  const wrapperRef = useRef(null);
+  const textAreaRef = refVal.current;
+  const value = watch("description");
+
+  const handleInput = (e) => {
+    if (textAreaRef.current) {
+      textAreaRef.style.height = "auto";
+      textAreaRef.style.height = e.target.scrollHeight + "px";
+    }
+  };
+
+  console.log(value);
   return (
-    <div className="flex flex-col gap-4">
+    <div ref={wrapperRef} className="flex flex-col gap-4">
       <div>
         <h2 className="font-medium text-lg">{textAreaTitle}</h2>
       </div>
+      {/* <textarea
+        ref={ref}
+        rows={1}
+        onChange={(e) => setValue(e.target.value)}
+        className="!max-h-[250px]"
+        value={value}
+      /> */}
       <Controller
         name="description"
         rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
         control={control}
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <>
             <TextArea
-              name="textarea"
               placeholder="اكتب نص البلاغ هنا..."
-              rows={4}
               {...field}
-              className=" hover:border-green-500 focus:border-green-500"
+              ref={refVal}
+              onChange={(e) => {
+                handleInput(e);
+                field.onChange(e);
+              }}
+              autoSize={{ minRows: 4 }}
+              className=" hover:border-green-500 focus:border-green-500 max-h-72"
             />
             {errors.description && (
               <p className="text-red-500">{errors.description.message}</p>

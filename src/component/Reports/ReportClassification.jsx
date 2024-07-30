@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { CardUser } from "../../import";
 import { fetchData } from "../../utils/http";
@@ -31,10 +31,14 @@ import useApi from "../../utils/useApi";
 
 const ReportClassification = ({ _card, handleSelected }) => {
   const { getData } = useApi();
-
   const { isLoading, error, data } = useQuery("users", () =>
     getData("/report-classification")
   );
+
+  console.log(data, _card);
+
+ 
+
   return (
     <>
       <ReportsHeader
@@ -42,7 +46,9 @@ const ReportClassification = ({ _card, handleSelected }) => {
         title="تصنيف البلاغ"
       />
       <div className="px-8 pt-4">
-        <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div
+          className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        >
           {data?.report_classification?.map((card) => (
             <CardUser
               onClick={() =>
@@ -52,7 +58,7 @@ const ReportClassification = ({ _card, handleSelected }) => {
                 })
               }
               key={card.title}
-              active={_card.name === card.name}
+              active={_card.report_classification_id === card.id}
               title={card.name}
               src={card.image_url}
             />

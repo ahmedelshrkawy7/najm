@@ -59,6 +59,7 @@ const ReportDetails = ({
           textAreaTitle={labelProps.textarea}
           errors={errors}
           control={control}
+          watch={watch}
         />
         <SelectInput
           errors={errors}

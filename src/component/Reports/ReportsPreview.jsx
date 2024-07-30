@@ -20,6 +20,7 @@ const ReportsPreview = ({
   setFils,
   imgs,
   setImgs,
+  title,
 }) => {
   const date = new Date(values[3].$d);
   const fullDate =
@@ -35,7 +36,7 @@ const ReportsPreview = ({
             <img src="../../../src/assets/icons/export.svg" />
           </div>
           <button className="self-start bg-[#33835C] p-4 px-5 mb-4 rounded-lg text-white">
-            مخالفة لمدونة قواعد السلوك
+            {title}
           </button>
         </div>
         <div className="border mt-5 border-gray-300 mb-6 py-4 rounded-xl">
