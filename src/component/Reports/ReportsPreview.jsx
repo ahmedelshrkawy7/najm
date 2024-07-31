@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
-import UserContext from "../../store/UserContext";
 import ReportsTextIcon from "./ReportsTextIcon";
 import img1 from "../../assets/icons/calendar.svg";
 const ReportsPreview = ({ labelProps, values }) => {

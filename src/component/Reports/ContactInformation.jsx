@@ -1,4 +1,3 @@
-import React from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { InputText } from "../forms/inputs/InputText";
 

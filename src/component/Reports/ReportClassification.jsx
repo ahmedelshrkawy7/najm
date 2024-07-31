@@ -1,7 +1,5 @@
-import { useContext } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { CardUser } from "../../import";
-import UserContext from "../../store/UserContext";
 
 const CARDS = [
   {
