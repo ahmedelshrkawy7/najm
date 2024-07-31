@@ -11,12 +11,24 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   console.log(imgs);
 
   const [showVideo, setShowVideo] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [src, setSrc] = useState("false");
+
+  function showFunc(e, type) {
+    setSrc(e.target.src);
+    if (type == "image") {
+      setShowImg(true);
+    }
+    if (type == "video") {
+      setShowVideo(true);
+    }
+  }
   return (
     <>
       <div className="flex mt-4   gap-6">
         {imgs.map((img, index) => (
           <div key={Math.random()}>
-            <div className=" relative   h-[120px] w-[150]">
+            <div className=" relative h-full w-[150px]">
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
@@ -26,10 +38,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </span>
               )}
               {img?.type.startsWith("image") && (
-                <div className="relative wrapper transition-all duration-1000 ">
+                <div className="relative wrapper transition-all duration-1000 h-full ">
                   <img
                     className="rounded-md w-full h-full"
                     src={URL?.createObjectURL(img)}
+                    onClick={(e) => {
+                      showFunc(e, "image");
+                    }}
                   />
 
                   <span className="active cursor-pointer">
@@ -43,13 +58,27 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     className="w-full h-full "
                     src={URL.createObjectURL(img)}
                     muted
-                    onClick={() => {
-                      setShowVideo(true);
+                    onClick={(e) => {
+                      // setShowVideo(true);
+                      showFunc(e, "video");
                     }}
                   />
                 </>
               )}
             </div>
+
+            {showImg && (
+              <div
+                className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
+                onClick={() => {
+                  setShowImg(false);
+                }}
+              >
+                <div className=" w-1/2 ">
+                  <img className="w-full h-full  " src={src} />
+                </div>
+              </div>
+            )}
             {showVideo && (
               <div
                 className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"

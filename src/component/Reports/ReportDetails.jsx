@@ -73,7 +73,9 @@ const ReportDetails = ({
         {!isHidden && (
           <Listinput
             listInputTitle={labelProps.listInputTitle}
-            icon={<PlusOutlined />}
+            icon={
+              <PlusOutlined style={{ fontSize: "22px", fontWeight: "800" }} />
+            }
             control={control}
             errors={errors}
             setValue={setValue}

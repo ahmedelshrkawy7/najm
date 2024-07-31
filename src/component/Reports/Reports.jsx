@@ -268,6 +268,8 @@ const Reports = () => {
           }}
         >
           {/* <span>&rarr;</span> */}
+          رجوع
+          {/* <span>&rarr;</span> */}
           <span>رجوع</span>
         </button>
         {current === items.length - 1 && (
@@ -289,6 +291,8 @@ const Reports = () => {
             }
             onClick={next}
           >
+            التالى
+            {/* <span>&larr;</span> */}
             <span>التالى </span>
             {/* <span>&larr;</span> */}
           </button>

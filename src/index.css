@@ -66,23 +66,12 @@ body {
 .wrapper:hover .active {
   @apply absolute w-8 rounded-full h-8 flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-white;
 }
-
-/* HTML: <div class="loader"></div> */
-.loader {
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 30px;
-  display: inline-flex;
-}
-.loader::before {
-  content:"Loadi";
-  animation: l27 2s infinite;
-}
-.loader::after {
-  content:"ng...";
-  animation: l27 2s infinite 1s;
+body::-webkit-scrollbar {
+  width: 6px; /* width of the entire scrollbar */
 }
 
-@keyframes l27{
-   50%,100%{transform:rotate(1turn)}
+body::-webkit-scrollbar-thumb {
+  background-color: #33835c; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  /*border: 3px solid orange; creates padding around scroll thumb*/
 }

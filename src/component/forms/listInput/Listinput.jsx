@@ -17,6 +17,12 @@ const Listinput = ({
   getValues,
 }) => {
   const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   if (watch("list")) {
+  //     setData([...values[4], { name: watch("list") }]);
+  //   }
+  // }, []);
   const arrayOfValues = watch("suspects");
   const [isBlur, setIsBlur] = useState(false);
 
