@@ -13,6 +13,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");
+  const [image, setImage] = useState("");
 
   function showFunc(e, type) {
     setSrc(e.target.src);
@@ -40,15 +41,21 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               {img?.type.startsWith("image") && (
                 <div className="relative wrapper transition-all duration-1000 h-full ">
                   <img
-                    className="rounded-md w-full h-full"
+                    className="rounded-md object-cover  w-full h-full"
                     src={URL?.createObjectURL(img)}
                     onClick={(e) => {
-                      showFunc(e, "image");
+                      e.defaultPrevented();
+                      setImage(e);
                     }}
+                    draggable="false"
                   />
 
                   <span className="active cursor-pointer">
-                    <EyeOutlined />
+                    <EyeOutlined
+                      onClick={() => {
+                        showFunc(image, "image");
+                      }}
+                    />
                   </span>
                 </div>
               )}
@@ -75,7 +82,11 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <img className="w-full h-full  " src={src} />
+                  <img
+                    draggable={false}
+                    className="w-full h-full  "
+                    src={src}
+                  />
                 </div>
               </div>
             )}

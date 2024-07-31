@@ -42,8 +42,8 @@ const Test = () => {
   return (
     <div className="mt-14 p-4">
       <div className="px-8 border border-gray-300 rounded-md  pt-4">
-        <div className="flex  p-4 rounded-xl flex-col gap-6 mb-2">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+        <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
+          <div className="flex gap-2 items-center bg-[#33835C1A] rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>
@@ -169,7 +169,7 @@ const Test = () => {
             <div className="pb-4 md:mr-12">
               <ReportsTextIcon
                 icon={prev7}
-                title={`الملفات(${values[9]?.files.length}) `}
+                title={`الملفات(${values[9]?.files?.length}) `}
               />
               <div className="flex gap-10 mt-8">
                 {values[9]?.files?.map((file, index) => (
@@ -177,12 +177,12 @@ const Test = () => {
                     <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
                       <div className="text-left">
                         <h2 className="font-bold text-[#D74D52]">
-                          {file.name.length > 50
-                            ? "..." + file.name.slice(0, 20)
-                            : file.name}
+                          {file?.file_name?.length > 50
+                            ? "..." + file.file_name.slice(0, 20)
+                            : file.file_name}
                         </h2>
                         <span className="text-sm text-gray-400">
-                          {Math.ceil(file.size * Math.pow(10, -6))}
+                          {Math.ceil(file.file_size * Math.pow(10, -6))}
                           <span className="ml-1">mb</span>
                         </span>
                       </div>

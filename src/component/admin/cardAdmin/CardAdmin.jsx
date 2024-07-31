@@ -90,15 +90,15 @@ const CardAdmin = () => {
           {cards?.map((card) => (
             <div
               key={Math.random() * 10}
-              className={`text-white rounded-lg p-3 flex items-center gap-6 bg-[#4CAF50]`}
+              className={`text-white rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C]`}
             >
               <div className="space-y-2">
                 <h2 className="text-lg">{card.title}</h2>
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-bold text-center">
                   {reports?.reports?.length}
                 </h2>
               </div>
-              <div className="self-center w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center mr-auto">
+              <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
                 {card.icon}
               </div>
             </div>
