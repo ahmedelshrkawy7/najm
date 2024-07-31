@@ -13,6 +13,8 @@ const Listinput = ({
   watch,
   resetField,
   values,
+  iconLabel,
+  getValues,
 }) => {
   const [data, setData] = useState([]);
 
@@ -21,6 +23,9 @@ const Listinput = ({
   //     setData([...values[4], { name: watch("list") }]);
   //   }
   // }, []);
+  const arrayOfValues = watch("suspects");
+  const [isBlur, setIsBlur] = useState(false);
+
   function addLabel() {
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
@@ -28,23 +33,22 @@ const Listinput = ({
       setValue("list", "");
     }
   }
-
+  console.log(arrayOfValues.length);
   function deleteTag(index) {
-    const data1 = [...data];
+    const data1 = watch("suspects");
     data1.splice(index, 1);
+    setValue("suspects", data1);
     setData(data1);
   }
-  // console.log(errors.listInputControl)
   return (
     <div className="listinput">
-      <div>
+      <div className="flex gap-2">
         <h5>{listInputTitle}</h5>
+        <span className="text-red-500">{iconLabel}</span>
       </div>
 
       <Space.Compact
-        className=""
         style={{
-          width: "300px",
           // border: "1px solid transparent",
           borderRadius: "10px",
         }}
@@ -53,31 +57,36 @@ const Listinput = ({
         <Controller
           control={control}
           name="list"
-          rules={{ required: "هذا الحق مطلوب" }}
+          rules={{
+            required: "هذا الحق مطلوب",
+            validate: (value) => value !== "",
+          }}
           render={({
             field: { onChange, onBlur, value, name, ref },
             fieldState,
           }) => (
-            <div className="flex flex-col w-full">
-              <div className="relative">
+            <div className="flex w-[300px] flex-col">
+              <div className="flex">
                 <Input
                   ref={ref}
                   value={value}
-                  onBlur={onBlur}
+                  onBlur={() => {
+                    setIsBlur(true);
+                    onBlur();
+                  }}
                   onChange={onChange}
                   placeholder="اسم الشخص"
-                  className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
+                  className="border  pl-[48px]  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
                 />
 
                 <Button
                   style={{
                     background: "#33835C0F",
                     color: "#33835C",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
                     zIndex: 100,
                     borderWidth: 1,
+                    marginRight: "-40px",
+                    borderRadius: "1px",
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}
@@ -85,34 +94,33 @@ const Listinput = ({
                   onClick={addLabel}
                 ></Button>
               </div>
-              {/* {errors.list && !watch("list") && (
-                <p className="text-red-500">{errors.list?.message}</p>
-              )} */}
+              {arrayOfValues?.length === 0 && isBlur && (
+                <p className="text-red-500">
+                  يجب تاكيد وجود شخص واحد على الاقل
+                </p>
+              )}
             </div>
           )}
         />
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">
-        {data &&
-          data.map((el, index) => {
-            return (
-              <>
-                <div className="tag flex items-center ">
-                  <h3 className="flex items-center">{el.name}</h3>
-                  <button
-                    onClick={() => {
-                      deleteTag(index);
-                    }}
-                  >
-                    <CloseOutlined
-                      style={{ fontSize: "12px", fontWeight: "bold" }}
-                    />
-                  </button>
-                </div>
-              </>
-            );
-          })}
+        {watch("suspects").map((el, index) => {
+          return (
+            <>
+              <div className="tag flex items-center ">
+                <h3 className="flex items-center">{el.name}</h3>
+                <button
+                  onClick={() => {
+                    deleteTag(index);
+                  }}
+                >
+                  <CloseOutlined />
+                </button>
+              </div>
+            </>
+          );
+        })}
       </div>
     </div>
   );

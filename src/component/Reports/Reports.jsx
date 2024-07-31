@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import ReportsHeader from "../../custom hooks/ReportsHeader";
+import { useContext, useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -14,7 +13,6 @@ import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
 import { useMutation } from "react-query";
-import { data } from "autoprefixer";
 import Success from "../../models/Success";
 
 const labelProps = {
@@ -28,7 +26,7 @@ const labelProps = {
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [card, setCards] = useState({ name: "", report_classification_id: "" });
+  const [card, setCards] = useState({ name: "", report_classification_id: 0 });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
@@ -48,7 +46,7 @@ const Reports = () => {
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "",
+      suspectKnown: "1",
       datePickerControl: "",
       suspects: [],
       user_name: "",
@@ -57,7 +55,6 @@ const Reports = () => {
       fileInput: "",
     },
   });
-  console.log(v);
   const values = watch(
     [
       "description",
@@ -72,7 +69,7 @@ const Reports = () => {
     ],
     false
   );
-  console.log(values);
+  console.log(card);
   // 2023-07-20
   const date = new Date(values?.[3]?.$d);
 
@@ -111,6 +108,24 @@ const Reports = () => {
     };
   }
 
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const smoothBehvior = () => {
+      if (wrapperRef.current !== null) {
+        wrapperRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    };
+    smoothBehvior();
+
+    window.addEventListener("load", smoothBehvior);
+    return () => {
+      window.removeEventListener("load", smoothBehvior);
+    };
+  }, []);
+
   const { postData } = useApi();
 
   const Post = useMutation(postData, {
@@ -118,9 +133,7 @@ const Reports = () => {
       setShowmodal(true);
       navigate("/dash");
     },
-    onError: ({ message }) => {
-      // notifyError(message);
-    },
+    onError: ({ message }) => {},
   });
 
   const [
@@ -134,13 +147,7 @@ const Reports = () => {
     user_phone,
   ] = values;
 
-  const reportDetailsValues = [
-    description,
-    address,
-    InputControl,
-    datePickerControl,
-    listInputControl,
-  ];
+  const reportDetailsValues = [description, address, InputControl];
 
   const contactInforamtionValues = [user_name, user_email, user_phone];
 
@@ -175,6 +182,7 @@ const Reports = () => {
           setValue={setValue}
           control={control}
           resetField={resetField}
+          getValues={getValues}
           values={values}
         />
       ),
@@ -190,6 +198,7 @@ const Reports = () => {
           v={v}
           emailControl={user_email}
           phoneControl={user_phone}
+          nameControl={user_name}
         />
       ),
     },
@@ -203,6 +212,7 @@ const Reports = () => {
           setImgs={setImgs}
           values={values}
           labelProps={labelProps}
+          title={card.name}
         />
       ),
     },
@@ -213,7 +223,7 @@ const Reports = () => {
   };
 
   const prev = () => {
-    if (card.title) {
+    if (card.name) {
       setV(true);
     }
     setCurrent(current - 1);
@@ -235,8 +245,10 @@ const Reports = () => {
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-      <div style={contentStyle}>{steps[current].content}</div>
-      <div className="flex justify-end gap-6 mt-6">
+      <div style={contentStyle} ref={wrapperRef}>
+        {steps[current].content}
+      </div>
+      <div className="flex justify-end gap-8 mt-6">
         <button
           className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md  text-center"
           onClick={() => {

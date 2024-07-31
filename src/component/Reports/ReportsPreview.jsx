@@ -20,8 +20,9 @@ const ReportsPreview = ({
   setFils,
   imgs,
   setImgs,
+  title,
 }) => {
-  const date = new Date(values[3].$d);
+  const date = new Date(values[3]?.$d);
   const fullDate =
     date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
 
@@ -35,7 +36,7 @@ const ReportsPreview = ({
             <img src="../../../src/assets/icons/export.svg" />
           </div>
           <button className="self-start bg-[#33835C] p-4 px-5 mb-4 rounded-lg text-white">
-            مخالفة لمدونة قواعد السلوك
+            {title}
           </button>
         </div>
         <div className="border mt-5 border-gray-300 mb-6 py-4 rounded-xl">
@@ -43,14 +44,14 @@ const ReportsPreview = ({
             <h2 className="text-xl font-semibold">تفاصيل البلاغ</h2>
             <img src="../../../src/assets/icons/export.svg" />
           </div>
-          <div className="px-4">
+          <div className="px-2 md:px-4">
             <ReportsTextIcon
               icon={note}
               title={labelProps.textarea}
               subTitle={values[0] ? values[0] : "من فضلك اعد ادخال البيانات"}
             />
           </div>
-          <div className="flex px-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2  px-2 md:px-4 gap-6">
             <ReportsTextIcon
               subTitle={values[2] === "1" ? "نعم" : "لا"}
               icon={prev2}
@@ -74,7 +75,7 @@ const ReportsPreview = ({
               />
             )}
           </div>
-          <div className="flex px-4 gap-6 border-b">
+          <div className=" grid grid-cols-1 md:grid-cols-2  px-2 md:px-4 gap-6 border-b">
             <ReportsTextIcon
               subTitle={fullDate ? fullDate : "من فضلك اعد ادخال البيانات"}
               icon={prev4}
@@ -86,8 +87,8 @@ const ReportsPreview = ({
               title={labelProps.locationTitle}
             />
           </div>
-          <div className="p-4 py-1">
-            <div className="">
+          <div className="p-4 px-2 md:px-4 py-1">
+            <div className="bg-[#33835C1A] rounded-full">
               <ReportsTextIcon
                 icon={prev9}
                 title={"المستندات الداعمة للاشتباه"}
@@ -98,7 +99,9 @@ const ReportsPreview = ({
                 icon={prev6}
                 title={`الصور والفيديوهات(${imgs.length}) `}
               />
-              <ReportImages imgs={imgs} setImgs={setImgs} />
+              <div className="!pr-[53px]">
+                <ReportImages imgs={imgs} setImgs={setImgs} />
+              </div>
             </div>
             <div className="pb-4">
               <ReportsTextIcon

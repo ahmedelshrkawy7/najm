@@ -26,9 +26,8 @@ const labelProps = {
 };
 const Test = () => {
   const { getData } = useApi();
-  // const [imgs, setImgs] = useState([]);
-  // const [fils, setFils] = useState([]);
   const { id } = useParams();
+  const [showVideo, setShowVideo] = useState(false);
   const {
     isLoading,
     error,
@@ -37,8 +36,8 @@ const Test = () => {
   console.log("🚀 ~ Test ~ data:", report);
 
   const values = Object.values(report);
-  console.log(report);
-  console.log(values);
+
+  console.log(values[9]);
 
   return (
     <div className="mt-14">
@@ -49,7 +48,7 @@ const Test = () => {
             <img src="../../../src/assets/icons/export.svg" />
           </div>
           <button className="self-start bg-[#33835C] p-4 px-5 mb-4 rounded-lg text-white">
-            مخالفة لمدونة قواعد السلوك
+            {values[7]?.name}
           </button>
         </div>
         <div className="border mt-5 border-gray-300 mb-6 py-4 rounded-xl">
@@ -123,22 +122,20 @@ const Test = () => {
                           src={img?.file_url}
                         />
                       )}
-                      {/* {img.type.startsWith("video") && (
+                      {img.file_type.startsWith("video") && (
                         <>
                           <video
                             className="w-full h-full "
-                            src={URL.createObjectURL(img) || img?.file_url}
+                            src={img?.file_url}
                             muted
                             onClick={() => {
                               setShowVideo(true);
                             }}
                           />
-
-                          
                         </>
-                      )} */}
+                      )}
                     </div>
-                    {/* {showVideo && (
+                    {showVideo && (
                       <div
                         className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
                         onClick={() => {
@@ -148,24 +145,23 @@ const Test = () => {
                         <div className=" w-1/2 ">
                           <video
                             className="w-full h-full  "
-                            src={URL.createObjectURL(img)}
+                            src={img?.file_url}
                             muted
                             controls
                           />
                         </div>
                       </div>
-                    )} */}
+                    )}
                   </div>
                 ))}
               </div>
             </div>
-            {/* <div className="pb-4">
-              <ReportsTextIcon
+            <div className="pb-4">
+              {/* <ReportsTextIcon
                 icon={prev7}
                 title={`الملفات(${fils.length}) `}
-              />
-              <ReportFiles fils={fils} setFils={setFils} />
-            </div> */}
+              /> */}
+            </div>
           </div>
         </div>
         <div className="border border-gray-300 p-4 rounded-lg mb-6">

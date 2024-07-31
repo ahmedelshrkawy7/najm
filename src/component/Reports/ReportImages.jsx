@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import VideoDisplay from "../../models/VideoDisplay";
-
+import { EyeOutlined } from "@ant-design/icons";
 const ReportImages = ({ imgs, setImgs, preview }) => {
   const handleDeleteImages = (id) => {
     const images = [...imgs];
     images.splice(id, 1);
     setImgs(images);
   };
+
+  console.log(imgs);
 
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
@@ -24,39 +26,43 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   return (
     <>
       <div className="flex mt-4   gap-6">
-        {imgs?.map((img, index) => (
+        {imgs.map((img, index) => (
           <div key={Math.random()}>
-            <div className=" relative h-[120px] w-[150]">
+            <div className=" relative h-full w-[150px]">
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
-                  className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center"
+                  className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center z-50"
                 >
                   &times;
                 </span>
               )}
-              {img?.type?.startsWith("image") && (
-                <img
-                  className="rounded-md w-full h-full"
-                  src={URL?.createObjectURL(img) || img?.file_url}
-                  onClick={(e) => {
-                    showFunc(e, "image");
-                  }}
-                />
+              {img?.type.startsWith("image") && (
+                <div className="relative wrapper transition-all duration-1000 h-full ">
+                  <img
+                    className="rounded-md w-full h-full"
+                    src={URL?.createObjectURL(img)}
+                    onClick={(e) => {
+                      showFunc(e, "image");
+                    }}
+                  />
+
+                  <span className="active cursor-pointer">
+                    <EyeOutlined />
+                  </span>
+                </div>
               )}
-              {img.type.startsWith("video") && (
+              {img?.type.startsWith("video") && (
                 <>
                   <video
                     className="w-full h-full "
-                    src={URL.createObjectURL(img) || img?.file_url}
+                    src={URL.createObjectURL(img)}
                     muted
                     onClick={(e) => {
                       // setShowVideo(true);
                       showFunc(e, "video");
                     }}
                   />
-
-                  {/* <VideoDisplay src={URL.createObjectURL(img)} /> */}
                 </>
               )}
             </div>
@@ -81,7 +87,12 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <video className="w-full h-full  " src={src} muted controls />
+                  <video
+                    className="w-full h-full"
+                    src={URL.createObjectURL(img)}
+                    muted
+                    controls
+                  />
                 </div>
               </div>
             )}

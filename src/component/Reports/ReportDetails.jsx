@@ -34,12 +34,14 @@ const ReportDetails = ({
   setImgs,
   listInputControl,
   values,
+  getValues,
 }) => {
   const ref = useRef();
   const isHidden = watch("suspectKnown") === "0";
   useEffect(() => {
     if (
-      (reportDetailsValues.indexOf("") === -1 && listInputControl.length > 0) ||
+      reportDetailsValues.indexOf("") === -1 ||
+      listInputControl.length > 0 ||
       isHidden
     ) {
       setV(true);
@@ -59,11 +61,14 @@ const ReportDetails = ({
           textAreaTitle={labelProps.textarea}
           errors={errors}
           control={control}
+          watch={watch}
+          iconLabel={"*"}
         />
         <SelectInput
           errors={errors}
           control={control}
           inpTitle={labelProps.selectTitle}
+          iconLabel={"*"}
         />
 
         {!isHidden && (
@@ -78,6 +83,8 @@ const ReportDetails = ({
             watch={watch}
             resetField={resetField}
             values={values}
+            iconLabel={"*"}
+            getValues={getValues}
           />
         )}
         <div className="flex items-center gap-6 flex-wrap pb-4">
