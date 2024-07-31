@@ -1,39 +1,54 @@
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Space } from "antd";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./ListInput.css";
 import { Controller } from "react-hook-form";
 
-const Listinput = ({ icon, control, errors, listInputTitle }) => {
+const Listinput = ({
+  icon,
+  control,
+  errors,
+  listInputTitle,
+  setValue,
+  watch,
+  resetField,
+  values,
+  iconLabel,
+  getValues,
+}) => {
   const [data, setData] = useState([]);
-  const [v, setV] = useState("");
 
-  const inputRef = useRef("");
+  // useEffect(() => {
+  //   if (watch("list")) {
+  //     setData([...values[4], { name: watch("list") }]);
+  //   }
+  // }, []);
+  const arrayOfValues = watch("suspects");
+  const [isBlur, setIsBlur] = useState(false);
 
   function addLabel() {
-    if (v) {
-      setData([...data, v]);
-      setV("");
+    if (watch("list")) {
+      setData([...data, { name: watch("list") }]);
+      setValue("suspects", [...data, { name: watch("list") }]);
+      setValue("list", "");
     }
   }
-
+  console.log(arrayOfValues.length);
   function deleteTag(index) {
-    const data1 = [...data];
+    const data1 = watch("suspects");
     data1.splice(index, 1);
-
+    setValue("suspects", data1);
     setData(data1);
   }
-  // console.log(errors.listInputControl)
   return (
     <div className="listinput">
-      <div>
+      <div className="flex gap-2">
         <h5>{listInputTitle}</h5>
+        <span className="text-red-500">{iconLabel}</span>
       </div>
 
       <Space.Compact
-        className=""
         style={{
-          width: "300px",
           // border: "1px solid transparent",
           borderRadius: "10px",
         }}
@@ -41,29 +56,37 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
       >
         <Controller
           control={control}
-          name="listInputControl"
-          rules={{ required: "هذا الحق مطلوب" }}
-          render={({ field, fieldState }) => (
-            <div className="flex flex-col w-full">
-              <div className="relative">
+          name="list"
+          rules={{
+            required: "هذا الحق مطلوب",
+            validate: (value) => value !== "",
+          }}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState,
+          }) => (
+            <div className="flex w-[300px] flex-col">
+              <div className="flex">
                 <Input
-                  onChange={(e) => setV(e.target.value)}
+                  ref={ref}
+                  value={value}
+                  onBlur={() => {
+                    setIsBlur(true);
+                    onBlur();
+                  }}
+                  onChange={onChange}
                   placeholder="اسم الشخص"
-                  className="border hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9]"
-                  value={v}
-                  {...field}
+                  className="border  pl-[48px]  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
                 />
 
                 <Button
                   style={{
                     background: "#33835C0F",
                     color: "#33835C",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
                     zIndex: 100,
                     borderWidth: 1,
-                    borderRadius: "4px",
+                    marginRight: "-40px",
+                    borderRadius: "1px",
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}
@@ -71,9 +94,9 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
                   onClick={addLabel}
                 ></Button>
               </div>
-              {errors.listInputControl && !v && (
+              {arrayOfValues?.length === 0 && isBlur && (
                 <p className="text-red-500">
-                  {errors.listInputControl?.message}
+                  يجب تاكيد وجود شخص واحد على الاقل
                 </p>
               )}
             </div>
@@ -82,11 +105,11 @@ const Listinput = ({ icon, control, errors, listInputTitle }) => {
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">
-        {data.map((el, index) => {
+        {watch("suspects").map((el, index) => {
           return (
             <>
               <div className="tag flex items-center ">
-                <h3 className="flex items-center">{el}</h3>
+                <h3 className="flex items-center">{el.name}</h3>
                 <button
                   onClick={() => {
                     deleteTag(index);

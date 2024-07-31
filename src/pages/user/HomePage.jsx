@@ -1,13 +1,12 @@
-import { About, Navbar,Header } from "../../import"
+import { About, Header } from "../../import";
 
 const HomePage = () => {
   return (
     <div>
-        <Navbar />
-        <Header />
-        <About />
+      <Header />
+      <About />
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

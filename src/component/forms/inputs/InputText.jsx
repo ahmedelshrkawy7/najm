@@ -28,22 +28,28 @@ export const InputText = ({
   name,
   errors,
   control,
+  pattern,
 }) => {
+  console.log(pattern);
   return (
-    <div className="flex w-full md:w-auto flex-col self-start gap-4">
-      <div>
+    <div className="flex  w-full md:w-auto flex-col self-start gap-4">
+      <div className="flex gap-2">
         <h2> {inputTitle} </h2>
+        <span className="text-red-500">*</span>
       </div>
       <Space.Compact size="large">
         <Controller
           control={control}
           name={name}
-          rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+          rules={{
+            required: "هذا الحقل مطلوب",
+            pattern: pattern,
+          }}
           render={({ field, fieldState }) => (
             <div>
               <Input
                 {...field}
-                className="hover:border-emerald-500  focus:border-emerald-500 w-full md:w-[300px]"
+                className="hover:border-emerald-500  focus:border-emerald-500 w-[90%] md:w-[300px]"
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

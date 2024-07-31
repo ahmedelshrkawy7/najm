@@ -24,11 +24,6 @@ const Datepicker = ({ control, errors, datePickerTitle }) => {
               style={{ width: "300px", padding: "10px" }}
               className=" hover:border-green-600 focus:border-green-600 "
             />
-            {errors.datePickerControl && (
-              <p className="text-red-500 ">
-                {errors.datePickerControl.message}
-              </p>
-            )}
           </div>
         )}
       />
