@@ -1,6 +1,7 @@
 import React from "react";
 
 const ReportFiles = ({ fils, setFils, preview }) => {
+  console.log(new Set(fils));
   const handleDeleteFiles = (id) => {
     const files = [...fils];
     files.splice(id, 1);
@@ -21,7 +22,11 @@ const ReportFiles = ({ fils, setFils, preview }) => {
             )}
             <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
               <div className="text-left">
-                <h2 className="font-bold text-[#D74D52]">{file.name}</h2>
+                <h2 className="font-bold text-[#D74D52]">
+                  {file.name.length > 50
+                    ? "..." + file.name.slice(0, 20)
+                    : file.name}
+                </h2>
                 <span className="text-sm text-gray-400">
                   {Math.ceil(file.size * Math.pow(10, -6))}
                   <span className="ml-1">mb</span>

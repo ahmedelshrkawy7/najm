@@ -37,35 +37,15 @@ const CardAdmin = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "العنوان",
-      dataIndex: "address",
-      key: "address",
+      title: "اسم المبلغ",
+      dataIndex: ["user", "name"],
+      key: "user['name']",
     },
     {
-      title: "تفاصيل البلاغ",
-      dataIndex: "description",
-      key: "description",
+      title: "البريد الالكترونى",
+      dataIndex: ["user", "email"],
+      key: "user['email']",
     },
-    // {
-    //   title: "Tags",
-    //   key: "tags",
-    //   dataIndex: "tags",
-    //   render: (_, { tags }) => (
-    //     <>
-    //       {tags.map((tag) => {
-    //         let color = tag.length > 5 ? "geekblue" : "green";
-    //         if (tag === "loser") {
-    //           color = "volcano";
-    //         }
-    //         return (
-    //           <Tag color={color} key={tag}>
-    //             {tag.toUpperCase()}
-    //           </Tag>
-    //         );
-    //       })}
-    //     </>
-    //   ),
-    // },
     {
       title: "عرض",
       key: "action",
@@ -100,6 +80,8 @@ const CardAdmin = () => {
       tags: ["cool", "teacher"],
     },
   ];
+
+  console.log(reports?.reports);
 
   return (
     <>

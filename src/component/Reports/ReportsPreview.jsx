@@ -13,6 +13,7 @@ import prev9 from "../../assets/icons/prev9.svg";
 import prev1 from "../../assets/icons/prev1.svg";
 import ReportImages from "./ReportImages";
 import ReportFiles from "./ReportFiles";
+import { useState } from "react";
 const ReportsPreview = ({
   labelProps,
   values,
@@ -21,37 +22,45 @@ const ReportsPreview = ({
   imgs,
   setImgs,
   title,
+  src,
 }) => {
   const date = new Date(values[3]?.$d);
   const fullDate =
     date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
 
   return (
-    <>
+    <div>
       <ReportsHeader title={"بيانات البلاغ"} />
       <div className="px-8 pt-4">
-        <div className="flex border border-gray-300 p-4 rounded-xl flex-col gap-6 mb-2">
-          <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">تصنيف البلاغ</h2>
-            <img src="../../../src/assets/icons/export.svg" />
+        <div className="flex   rounded-xl flex-col gap-6 mb-2">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
           </div>
-          <button className="self-start bg-[#33835C] p-4 px-5 mb-4 rounded-lg text-white">
-            {title}
-          </button>
+          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-2 gap-2   rounded-lg text-white">
+            <img className="w-8 h-8" src={src} />
+            <span>{title}</span>
+          </div>
         </div>
-        <div className="border mt-5 border-gray-300 mb-6 py-4 rounded-xl">
-          <div className="flex justify-between items-center mx-4  border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">تفاصيل البلاغ</h2>
-            <img src="../../../src/assets/icons/export.svg" />
+        <div className=" mt-5   rounded-xl">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">
+              تفاصيل البلاغ
+            </h2>
           </div>
-          <div className="px-2 md:px-4">
+          <div className="px-2 border rounded-xl pb-3 mt-4  md:mr-8 md:px-4">
             <ReportsTextIcon
               icon={note}
-              title={labelProps.textarea}
+              description={true}
               subTitle={values[0] ? values[0] : "من فضلك اعد ادخال البيانات"}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2  px-2 md:px-4 gap-6">
+          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
               subTitle={values[2] === "1" ? "نعم" : "لا"}
               icon={prev2}
@@ -61,7 +70,7 @@ const ReportsPreview = ({
               <ReportsTextIcon
                 subTitle={
                   values[4] ? (
-                    <div className="flex gap-2">
+                    <div className="flex md:gap-2">
                       {values[4]?.map((val) => (
                         <span>{val.name}</span>
                       ))}
@@ -75,7 +84,7 @@ const ReportsPreview = ({
               />
             )}
           </div>
-          <div className=" grid grid-cols-1 md:grid-cols-2  px-2 md:px-4 gap-6 border-b">
+          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
               subTitle={fullDate ? fullDate : "من فضلك اعد ادخال البيانات"}
               icon={prev4}
@@ -87,37 +96,48 @@ const ReportsPreview = ({
               title={labelProps.locationTitle}
             />
           </div>
-          <div className="p-4 px-2 md:px-4 py-1">
-            <div className="bg-[#33835C1A] rounded-full">
-              <ReportsTextIcon
-                icon={prev9}
-                title={"المستندات الداعمة للاشتباه"}
-              />
+          <div className="py-1">
+            <div className="flex mt-4  gap-2 items-center bg-[#33835C1A] rounded-full">
+              <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+                <img src={prev9} />
+              </div>
+              <h2 className="text-lg self-center  font-semibold">
+                المستندات الداعمه للاشتباه
+              </h2>
             </div>
-            <div className=" ">
+
+            <div className="md:mr-12">
               <ReportsTextIcon
                 icon={prev6}
                 title={`الصور والفيديوهات(${imgs.length}) `}
               />
+
               <div className="!pr-[53px]">
                 <ReportImages imgs={imgs} setImgs={setImgs} />
               </div>
             </div>
-            <div className="pb-4">
+            <div className="md:mr-12">
               <ReportsTextIcon
                 icon={prev7}
                 title={`الملفات(${fils.length}) `}
               />
-              <ReportFiles fils={fils} setFils={setFils} />
+              <div>
+                <ReportFiles fils={fils} setFils={setFils} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="border border-gray-300 p-4 rounded-lg mb-6">
-          <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">معلومات الاتصال</h2>
-            <img src="../../../src/assets/icons/export.svg" />
-          </div>{" "}
-          <div className="flex gap-24 items-center">
+        <div className="rounded-lg mb-6 mt-4">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">
+              {" "}
+              معلومات الاتصال
+            </h2>
+          </div>
+          <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
             <ReportsTextIcon
               subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
               icon={note}
@@ -136,7 +156,7 @@ const ReportsPreview = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

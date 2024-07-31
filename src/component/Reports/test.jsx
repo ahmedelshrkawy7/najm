@@ -40,30 +40,37 @@ const Test = () => {
   console.log(values[9]);
 
   return (
-    <div className="mt-14">
-      <div className="px-8 pt-4">
-        <div className="flex border border-gray-300 p-4 rounded-xl flex-col gap-6 mb-2">
-          <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">تصنيف البلاغ</h2>
-            <img src="../../../src/assets/icons/export.svg" />
+    <div className="mt-14 p-4">
+      <div className="px-8 border border-gray-300 rounded-md  pt-4">
+        <div className="flex  p-4 rounded-xl flex-col gap-6 mb-2">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
           </div>
-          <button className="self-start bg-[#33835C] p-4 px-5 mb-4 rounded-lg text-white">
-            {values[7]?.name}
-          </button>
+          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-2 gap-2   rounded-lg text-white">
+            <span>{values[7]?.name}</span>
+          </div>
         </div>
-        <div className="border mt-5 border-gray-300 mb-6 py-4 rounded-xl">
-          <div className="flex justify-between items-center mx-4  border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">تفاصيل البلاغ</h2>
-            <img src="../../../src/assets/icons/export.svg" />
+        <div className=" mt-5  mb-6 py-4 rounded-xl">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">
+              تفاصيل البلاغ
+            </h2>
           </div>
-          <div className="px-4">
+
+          <div className="px-2 border rounded-xl pb-3 mt-4  md:mr-8 md:px-4">
             <ReportsTextIcon
               icon={note}
-              title={labelProps.textarea}
+              description={true}
               subTitle={values[2] ? values[2] : "من فضلك اعد ادخال البيانات"}
             />
           </div>
-          <div className="flex px-4 gap-6">
+          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
               subTitle={values[3] === true ? "نعم" : "لا"}
               icon={prev2}
@@ -87,7 +94,7 @@ const Test = () => {
               />
             )}
           </div>
-          <div className="flex px-4 gap-6 border-b">
+          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
               subTitle={values[4] ? values[4] : "من فضلك اعد ادخال البيانات"}
               icon={prev4}
@@ -99,77 +106,111 @@ const Test = () => {
               title={labelProps.locationTitle}
             />
           </div>
-          <div className="p-4 py-1">
-            <div className="">
-              <ReportsTextIcon
-                icon={prev9}
-                title={"المستندات الداعمة للاشتباه"}
-              />
+          <div className="py-1">
+            <div className="flex mt-4  gap-2 items-center bg-[#33835C1A] rounded-full">
+              <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+                <img src={prev9} />
+              </div>
+              <h2 className="text-lg self-center  font-semibold">
+                المستندات الداعمه للاشتباه
+              </h2>
             </div>
-            <div className=" ">
+            <div className="md:mr-12">
               <ReportsTextIcon
                 icon={prev6}
-                title={`الصور والفيديوهات(${values[9]?.length}) `}
+                title={`الصور والفيديوهات(${values[9]?.images?.length}) `}
               />
-
-              <div className="flex mt-4   gap-6">
-                {values[9]?.map((img, index) => (
-                  <div key={Math.random()}>
-                    <div className=" relative h-[120px] w-[150]">
-                      {img?.file_type?.startsWith("image") && (
-                        <img
-                          className="rounded-md w-full h-full"
-                          src={img?.file_url}
-                        />
-                      )}
-                      {img.file_type.startsWith("video") && (
-                        <>
-                          <video
-                            className="w-full h-full "
+              <div className="!pr-[53px]">
+                <div className="flex mt-4    gap-6">
+                  {values[9]?.images?.map((img, index) => (
+                    <div key={Math.random()}>
+                      <div className=" relative h-[120px] w-[150]">
+                        {img?.file_type?.startsWith("image") && (
+                          <img
+                            className="rounded-md w-full h-full"
                             src={img?.file_url}
-                            muted
-                            onClick={() => {
-                              setShowVideo(true);
-                            }}
                           />
-                        </>
+                        )}
+                        {img.file_type.startsWith("video") && (
+                          <>
+                            <video
+                              className="w-full h-full "
+                              src={img?.file_url}
+                              muted
+                              onClick={() => {
+                                setShowVideo(true);
+                              }}
+                            />
+                          </>
+                        )}
+                      </div>
+                      {showVideo && (
+                        <div
+                          className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
+                          onClick={() => {
+                            setShowVideo(false);
+                          }}
+                        >
+                          <div className=" w-1/2 ">
+                            <video
+                              className="w-full h-full  "
+                              src={img?.file_url}
+                              muted
+                              controls
+                            />
+                          </div>
+                        </div>
                       )}
                     </div>
-                    {showVideo && (
-                      <div
-                        className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
-                        onClick={() => {
-                          setShowVideo(false);
-                        }}
-                      >
-                        <div className=" w-1/2 ">
-                          <video
-                            className="w-full h-full  "
-                            src={img?.file_url}
-                            muted
-                            controls
-                          />
-                        </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="pb-4 md:mr-12">
+              <ReportsTextIcon
+                icon={prev7}
+                title={`الملفات(${values[9]?.files.length}) `}
+              />
+              <div className="flex gap-10 mt-8">
+                {values[9]?.files?.map((file, index) => (
+                  <div className="relative">
+                    <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
+                      <div className="text-left">
+                        <h2 className="font-bold text-[#D74D52]">
+                          {file.name.length > 50
+                            ? "..." + file.name.slice(0, 20)
+                            : file.name}
+                        </h2>
+                        <span className="text-sm text-gray-400">
+                          {Math.ceil(file.size * Math.pow(10, -6))}
+                          <span className="ml-1">mb</span>
+                        </span>
                       </div>
-                    )}
+
+                      <img
+                        className="rounded-md w-[20px]"
+                        src={`../src/assets/${
+                          file.file_type.endsWith("pdf") ? "pdf.png" : "doc.svg"
+                        }`}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="pb-4">
-              {/* <ReportsTextIcon
-                icon={prev7}
-                title={`الملفات(${fils.length}) `}
-              /> */}
-            </div>
           </div>
         </div>
-        <div className="border border-gray-300 p-4 rounded-lg mb-6">
-          <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-            <h2 className="text-xl font-semibold">معلومات الاتصال</h2>
-            <img src="../../../src/assets/icons/export.svg" />
-          </div>{" "}
-          <div className="flex gap-24 items-center">
+        <div className="p-4  mb-6">
+          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+              <img src="../../../src/assets/icons/export.svg" />
+            </div>
+            <h2 className="text-lg self-center  font-semibold">
+              {" "}
+              معلومات الاتصال
+            </h2>
+          </div>
+          <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
             <ReportsTextIcon
               subTitle={
                 values[6] ? values[6].name : "من فضلك اعد ادخال البيانات"

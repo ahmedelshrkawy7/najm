@@ -36,7 +36,6 @@ const ReportDetails = ({
   values,
   getValues,
 }) => {
-  const ref = useRef();
   const isHidden = watch("suspectKnown") === "0";
   useEffect(() => {
     if (
@@ -99,10 +98,9 @@ const ReportDetails = ({
             width={24}
             src={location}
             inpTitle={labelProps.locationTitle}
-            inputPlaceholder={"شارع"}
+            inputPlaceholder={"اسم المكان المطلوب"}
           />
         </div>
-        {/* <AddAttach errors={errors} control={control} /> */}
         <FileInput
           fils={fils}
           setFils={setFils}
@@ -112,6 +110,13 @@ const ReportDetails = ({
           errors={errors}
           control={control}
         />
+        <div className="rounded-md -mt-20 bg-[#D74D521A]">
+          <p className="p-4 text-sm text-[#D74D52] leading-7  font-medium">
+            في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
+            المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،
+            علماً سيتم التزويد برقم البلاغ بشكل تلقائي عند إرسال البلاغ.
+          </p>
+        </div>
         {/* <FileInput /> */}
       </div>
     </>

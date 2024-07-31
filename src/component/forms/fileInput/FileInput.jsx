@@ -17,10 +17,12 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
       file.type.startsWith("application")
     );
     setFils([...fils, ...allFiles]);
+
+    e.target.value = "";
   };
 
   return (
-    <div>
+    <>
       <label
         className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-[#33835C]  w-[300px]"
         htmlFor="fileInput"
@@ -35,9 +37,13 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
         type="file"
         className="hidden"
       />
-      {imgs && <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />}
-      {fils && <ReportFiles setFils={setFils} fils={fils} preview={true} />}
-    </div>
+      {imgs.length > 0 && (
+        <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />
+      )}
+      {fils.length > 0 && (
+        <ReportFiles setFils={setFils} fils={fils} preview={true} />
+      )}
+    </>
   );
 };
 

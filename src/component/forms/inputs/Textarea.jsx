@@ -23,7 +23,6 @@ const Textarea = ({
     }
   };
 
-  console.log(value);
   return (
     <div ref={wrapperRef} className="flex flex-col gap-4">
       <div className="flex">
@@ -48,8 +47,8 @@ const Textarea = ({
               {...field}
               ref={refVal}
               onChange={(e) => {
-                handleInput(e);
                 field.onChange(e);
+                handleInput(e);
               }}
               autoSize={{ minRows: 4 }}
               className=" hover:border-green-500 focus:border-green-500 max-h-72"

@@ -12,8 +12,6 @@ const ReportClassification = ({ _card, handleSelected }) => {
     getData("/report-classification")
   );
 
-  console.log(data, _card);
-
   return (
     <>
       <ReportsHeader
@@ -28,6 +26,7 @@ const ReportClassification = ({ _card, handleSelected }) => {
                 handleSelected({
                   name: card.name,
                   report_classification_id: card.id,
+                  src: card.image_url,
                 })
               }
               key={card.title}

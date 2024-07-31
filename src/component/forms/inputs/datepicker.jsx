@@ -19,6 +19,7 @@ const Datepicker = ({ control, errors, datePickerTitle }) => {
           <div>
             <DatePicker
               {...field}
+              placeholder="اختر التاريخ"
               //  onChange={onChange}
               suffixIcon={<img src={calendarIcon} />}
               style={{ width: "300px", padding: "10px" }}

@@ -26,7 +26,11 @@ const labelProps = {
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [card, setCards] = useState({ name: "", report_classification_id: 0 });
+  const [card, setCards] = useState({
+    name: "",
+    report_classification_id: 0,
+    src: "",
+  });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
@@ -70,6 +74,8 @@ const Reports = () => {
     false
   );
   console.log(card);
+
+  console.log(watch("user_name"));
   // 2023-07-20
   const date = new Date(values?.[3]?.$d);
 
@@ -196,6 +202,7 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
+          setValue={setValue}
           emailControl={user_email}
           phoneControl={user_phone}
           nameControl={user_name}
@@ -213,6 +220,7 @@ const Reports = () => {
           values={values}
           labelProps={labelProps}
           title={card.name}
+          src={card.src}
         />
       ),
     },
@@ -237,6 +245,7 @@ const Reports = () => {
     overflow: "hidden",
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
+    width: "100%",
   };
 
   return (
@@ -248,9 +257,9 @@ const Reports = () => {
       <div style={contentStyle} ref={wrapperRef}>
         {steps[current].content}
       </div>
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-end gap-4 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
+          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-2  rounded-md"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -258,7 +267,7 @@ const Reports = () => {
             return prev();
           }}
         >
-          <span>&rarr;</span>
+          {/* <span>&rarr;</span> */}
           <span>رجوع</span>
         </button>
         {current === items.length - 1 && (
@@ -266,7 +275,7 @@ const Reports = () => {
             onClick={() => {
               Post.mutate(["/reports", dataObject]);
             }}
-            className="bg-[#33835C] rounded-md text-white p-3"
+            className="bg-[#33835C] rounded-md text-white p-2"
           >
             تاكيد البلاغ
           </button>
@@ -276,12 +285,12 @@ const Reports = () => {
           <button
             disabled={v === false || !card.name}
             className={
-              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
+              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
             onClick={next}
           >
             <span>التالى </span>
-            <span>&larr;</span>
+            {/* <span>&larr;</span> */}
           </button>
         )}
       </div>
