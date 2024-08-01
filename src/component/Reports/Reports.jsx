@@ -77,14 +77,21 @@ const Reports = () => {
 
   console.log(watch("user_name"));
   // 2023-07-20
+  console.log(values?.[3]?.$d);
   const date = new Date(values?.[3]?.$d);
 
+  console.log(date);
+
   const month =
-    date?.getMonth() < 10 ? "0" + date?.getMonth() : date?.getMonth();
+    date?.getUTCMonth() + 1 < 10
+      ? "0" + (date?.getUTCMonth() + 1)
+      : date?.getUTCMonth() + 1;
 
   const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
   const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+
+  console.log(fullDate);
 
   const newValues = getValues();
   const {
@@ -113,6 +120,7 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
+  console.log(dataObject);
 
   const wrapperRef = useRef(null);
 
@@ -153,7 +161,7 @@ const Reports = () => {
     user_phone,
   ] = values;
 
-  const reportDetailsValues = [description, address, InputControl];
+  const reportDetailsValues = [description];
 
   const contactInforamtionValues = [user_name, user_email, user_phone];
 

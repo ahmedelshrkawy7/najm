@@ -11,7 +11,10 @@ const CardAdmin = () => {
     isLoading,
     error,
     data: reports,
-  } = useQuery("users", () => getData("/reports"));
+  } = useQuery("users", () => getData("/reports"), {
+    staleTime: 0,
+    refetchInterval: 0,
+  });
   console.log("🚀 ~ CardAdmin ~ data:", reports);
   let cards = [
     {
@@ -92,8 +95,6 @@ const CardAdmin = () => {
     },
   ];
 
-  console.log();
-
   return (
     <>
       <div className="w-[90%] mx-auto ">
@@ -119,9 +120,7 @@ const CardAdmin = () => {
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}
-            dataSource={reports?.reports?.sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-            )}
+            dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
           />
         </div>
       </div>
