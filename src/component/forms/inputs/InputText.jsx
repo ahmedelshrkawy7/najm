@@ -10,7 +10,7 @@ export const InputText = ({
   control,
   pattern,
   setValue,
-  type,
+  max,
 }) => {
   return (
     <div className="flex  w-full md:w-auto flex-col self-start gap-4">
@@ -30,6 +30,7 @@ export const InputText = ({
             <div>
               <Input
                 {...field}
+                maxLength={max}
                 onChange={(e) => {
                   {
                     field.onChange(e);

@@ -18,25 +18,28 @@ const ReportClassification = ({ _card, handleSelected }) => {
         subTitle={"يرجى تحديد احدى الخيارات الاتية"}
         title="تصنيف البلاغ"
       />
-      <div className="px-8 pt-4 py-8">
-        <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {data?.report_classification?.map((card) => (
-            <CardUser
-              onClick={() =>
-                handleSelected({
-                  name: card.name,
-                  report_classification_id: card.id,
-                  src: card.image_url,
-                })
-              }
-              key={card.title}
-              active={_card.report_classification_id === card.id}
-              title={card.name}
-              src={card.image_url}
-            />
-          ))}
+      {isLoading && <div> ...loading </div>}
+      {data && (
+        <div className="px-8 pt-4 py-8">
+          <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {data?.report_classification?.map((card) => (
+              <CardUser
+                onClick={() =>
+                  handleSelected({
+                    name: card.name,
+                    report_classification_id: card.id,
+                    src: card.image_url,
+                  })
+                }
+                key={card.title}
+                active={_card.report_classification_id === card.id}
+                title={card.name}
+                src={card.image_url}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

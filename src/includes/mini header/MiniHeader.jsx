@@ -1,12 +1,15 @@
+import { Link } from "react-router-dom";
 import { Breadcrumb } from "../../import";
 
 const breadCrumbItems = [
   {
     title: (
-      <div className="flex gap-2">
-        <img src="../src/assets/icons/home-2.svg" />
-        <span>الرئيسية</span>
-      </div>
+      <Link className="hover:!bg-transparent " to="/">
+        <div className="flex gap-2">
+          <img src="../src/assets/icons/home-2.svg" />
+          <span className="text-white">الرئيسية</span>
+        </div>
+      </Link>
     ),
     path: "/",
   },
