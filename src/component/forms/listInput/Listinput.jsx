@@ -33,7 +33,8 @@ const Listinput = ({
       setValue("list", "");
     }
   }
-  console.log(arrayOfValues.length);
+  const disabled = watch("list") !== "";
+  console.log(disabled);
   function deleteTag(index) {
     const data1 = watch("suspects");
     data1.splice(index, 1);
@@ -90,6 +91,7 @@ const Listinput = ({
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}
+                  disabled={!disabled}
                   ghost={true}
                   onClick={addLabel}
                 ></Button>

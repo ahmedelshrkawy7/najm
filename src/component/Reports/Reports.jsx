@@ -46,7 +46,7 @@ const Reports = () => {
     resetField,
     getValues,
   } = useForm({
-    mode: "onBlur",
+    mode: "all",
     defaultValues: {
       description: "",
       address: "",

@@ -40,7 +40,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               {img?.type.startsWith("image") && (
                 <div className="relative wrapper transition-all duration-1000 h-full ">
                   <img
-                    className="rounded-md object-cover  w-full h-full"
+                    className="rounded-md object-cover cursor-pointer  w-full h-full"
                     src={URL?.createObjectURL(img)}
                     onClick={(e) => {
                       showFunc(e, "image");

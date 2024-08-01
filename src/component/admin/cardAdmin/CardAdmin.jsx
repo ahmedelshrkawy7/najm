@@ -46,10 +46,16 @@ const CardAdmin = () => {
       dataIndex: ["user", "email"],
       key: "user['email']",
     },
+
     {
       title: "رقم الهاتف",
       dataIndex: ["user", "phone"],
       key: "user['phone']",
+    },
+    {
+      title: "التاريخ",
+      dataIndex: "date",
+      key: "date",
     },
     {
       title: "عرض",
@@ -86,7 +92,7 @@ const CardAdmin = () => {
     },
   ];
 
-  console.log(reports?.reports);
+  console.log();
 
   return (
     <>
@@ -113,7 +119,9 @@ const CardAdmin = () => {
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}
-            dataSource={reports?.reports}
+            dataSource={reports?.reports?.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )}
           />
         </div>
       </div>

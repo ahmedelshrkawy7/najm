@@ -15,7 +15,7 @@ const ContactInformation = ({
   useEffect(() => {
     if (
       contactInforamtionValues.indexOf("") === -1 &&
-      emailControl.match(/^[^@]+@[^@]+\.[^@]+$/) &&
+      emailControl.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) &&
       phoneControl.match(
         /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g
       )
@@ -49,14 +49,16 @@ const ContactInformation = ({
             inputTitle={"الاسم"}
             inputPlaceHolder={"الاسم..."}
             setValue={setValue}
+            max={50}
           />
           <InputText
             errors={errors}
             control={control}
+            max={35}
             name="user_email"
             inputTitle={"البريد الالكترونى"}
             pattern={{
-              value: /^[^@]+@[^@]+\.[^@]+$/,
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
               message: "يجب ادخال البريد الالكترونى",
             }}
             inputPlaceHolder={"البريد الالكترونى..."}
@@ -65,6 +67,7 @@ const ContactInformation = ({
             errors={errors}
             control={control}
             name="user_phone"
+            max={20}
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
             setValue={setValue}
