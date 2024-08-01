@@ -18,7 +18,12 @@ const ReportClassification = ({ _card, handleSelected }) => {
         subTitle={"يرجى تحديد احدى الخيارات الاتية"}
         title="تصنيف البلاغ"
       />
-      {isLoading && <div> ...loading </div>}
+      {isLoading && (
+        <div className="flex justify-center items-center h-96 w-full">
+          {" "}
+          <div className="loader"></div>{" "}
+        </div>
+      )}
       {data && (
         <div className="px-8 pt-4 py-8">
           <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
