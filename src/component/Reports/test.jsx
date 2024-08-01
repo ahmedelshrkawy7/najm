@@ -39,11 +39,12 @@ const Test = () => {
 
   console.log(values[9]);
 
+  // bg-[#33835C1A]
   return (
     <div className="mt-14 p-4">
       <div className="px-8 border border-gray-300 rounded-md  pt-4">
         <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
-          <div className="flex gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>
@@ -54,7 +55,7 @@ const Test = () => {
           </div>
         </div>
         <div className=" mt-5  mb-6 py-4 rounded-xl">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>
@@ -107,7 +108,7 @@ const Test = () => {
             />
           </div>
           <div className="py-1">
-            <div className="flex mt-4  gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="flex mt-4  gap-2 items-center  rounded-full">
               <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
                 <img src={prev9} />
               </div>
@@ -201,7 +202,7 @@ const Test = () => {
           </div>
         </div>
         <div className="p-4  mb-6">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>

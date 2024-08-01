@@ -66,12 +66,27 @@ body {
 .wrapper:hover .active {
   @apply absolute w-8 rounded-full h-8 flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-white;
 }
-body::-webkit-scrollbar {
+
+body::-webkit-scrollbar,
+._textarea::-webkit-scrollbar-thumb {
   width: 6px; /* width of the entire scrollbar */
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #33835c; /* color of the scroll thumb */
-  border-radius: 20px; /* roundness of the scroll thumb */
+  /* roundness of the scroll thumb */
   /*border: 3px solid orange; creates padding around scroll thumb*/
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px;
+}
+._textarea::-webkit-scrollbar-thumb {
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px;
+}
+
+.ant-table-thead .ant-table-cell {
+  background-color: #33835c !important;
+  color: white !important;
+}
+.ant-table-cell::before {
+  display: none !important;
 }

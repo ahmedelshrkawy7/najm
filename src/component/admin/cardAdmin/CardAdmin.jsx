@@ -47,6 +47,11 @@ const CardAdmin = () => {
       key: "user['email']",
     },
     {
+      title: "رقم الهاتف",
+      dataIndex: ["user", "phone"],
+      key: "user['phone']",
+    },
+    {
       title: "عرض",
       key: "action",
       render: (_, record) => (
@@ -90,11 +95,11 @@ const CardAdmin = () => {
           {cards?.map((card) => (
             <div
               key={Math.random() * 10}
-              className={`text-white rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C]`}
+              className={`text-white border-2 mb-4 border-[#33835C] rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C1A]`}
             >
               <div className="space-y-2">
-                <h2 className="text-lg">{card.title}</h2>
-                <h2 className="text-xl font-bold text-center">
+                <h2 className="text-lg text-[#33835C]">{card.title}</h2>
+                <h2 className="text-4xl text-[#33835C] font-bold text-center">
                   {reports?.reports?.length}
                 </h2>
               </div>
@@ -105,7 +110,11 @@ const CardAdmin = () => {
           ))}
         </div>
         <div className="mt-6">
-          <Table columns={columns} dataSource={reports?.reports} />
+          <Table
+            style={{ backgroundColor: "red !important" }}
+            columns={columns}
+            dataSource={reports?.reports}
+          />
         </div>
       </div>
 

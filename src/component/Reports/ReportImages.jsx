@@ -13,10 +13,9 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");
-  const [image, setImage] = useState("");
 
   function showFunc(e, type) {
-    setSrc(e.target.src);
+    setSrc(e?.target?.src);
     if (type == "image") {
       setShowImg(true);
     }
@@ -44,18 +43,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     className="rounded-md object-cover  w-full h-full"
                     src={URL?.createObjectURL(img)}
                     onClick={(e) => {
-                      e.defaultPrevented();
-                      setImage(e);
+                      showFunc(e, "image");
                     }}
                     draggable="false"
                   />
 
                   <span className="active cursor-pointer">
-                    <EyeOutlined
-                      onClick={() => {
-                        showFunc(image, "image");
-                      }}
-                    />
+                    <EyeOutlined />
                   </span>
                 </div>
               )}
@@ -66,7 +60,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     src={URL.createObjectURL(img)}
                     muted
                     onClick={(e) => {
-                      // setShowVideo(true);
                       showFunc(e, "video");
                     }}
                   />
@@ -82,11 +75,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <img
-                    draggable={false}
-                    className="w-full h-full  "
-                    src={src}
-                  />
+                  <img draggable={false} className="w-full h-full" src={src} />
                 </div>
               </div>
             )}

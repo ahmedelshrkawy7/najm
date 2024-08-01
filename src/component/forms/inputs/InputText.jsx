@@ -10,6 +10,7 @@ export const InputText = ({
   control,
   pattern,
   setValue,
+  type,
 }) => {
   return (
     <div className="flex  w-full md:w-auto flex-col self-start gap-4">
@@ -32,6 +33,11 @@ export const InputText = ({
                 onChange={(e) => {
                   {
                     field.onChange(e);
+                    name === "user_phone" &&
+                      setValue(
+                        "user_phone",
+                        e.target.value.replace(/[a-zA-Z]+/g, "")
+                      );
                     name === "user_name" &&
                       setValue(
                         "user_name",

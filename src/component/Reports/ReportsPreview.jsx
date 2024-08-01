@@ -14,6 +14,7 @@ import prev1 from "../../assets/icons/prev1.svg";
 import ReportImages from "./ReportImages";
 import ReportFiles from "./ReportFiles";
 import { useState } from "react";
+
 const ReportsPreview = ({
   labelProps,
   values,
@@ -33,19 +34,19 @@ const ReportsPreview = ({
       <ReportsHeader title={"بيانات البلاغ"} />
       <div className="px-8 pt-4">
         <div className="flex   rounded-xl flex-col gap-6 mb-2">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>
             <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
           </div>
-          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-2 gap-2   rounded-lg text-white">
+          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-4 px-6 gap-2   rounded-lg text-white">
             <img className="w-8 h-8" src={src} />
             <span>{title}</span>
           </div>
         </div>
         <div className=" mt-5   rounded-xl">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>
@@ -97,7 +98,7 @@ const ReportsPreview = ({
             />
           </div>
           <div className="py-1">
-            <div className="flex mt-4  gap-2 items-center bg-[#33835C1A] rounded-full">
+            <div className="flex mt-4  gap-2 items-center  rounded-full">
               <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
                 <img src={prev9} />
               </div>
@@ -128,7 +129,7 @@ const ReportsPreview = ({
           </div>
         </div>
         <div className="rounded-lg mb-6 mt-4">
-          <div className="flex   gap-2 items-center bg-[#33835C1A] rounded-full">
+          <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src="../../../src/assets/icons/export.svg" />
             </div>

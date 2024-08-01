@@ -16,13 +16,16 @@ const ContactInformation = ({
     if (
       contactInforamtionValues.indexOf("") === -1 &&
       emailControl.match(/^[^@]+@[^@]+\.[^@]+$/) &&
-      phoneControl.match(/^(?:\+966|00966|966|0)?5\d{8}$/g)
+      phoneControl.match(
+        /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g
+      )
     ) {
       setV(true);
     } else {
       setV(false);
     }
-  }, [contactInforamtionValues]);  
+  }, [contactInforamtionValues]);
+  console.log(phoneControl);
   return (
     <>
       <ReportsHeader
@@ -64,8 +67,10 @@ const ContactInformation = ({
             name="user_phone"
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
+            setValue={setValue}
             pattern={{
-              value: /^(?:\+966|00966|966|0)?5\d{8}$/g,
+              value:
+                /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,}/g,
               message: "يجب ادخال رقم جوال صحيح",
             }}
           />
