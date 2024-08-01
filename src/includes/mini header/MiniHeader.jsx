@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Breadcrumb } from "../../import";
 
 const breadCrumbItems = [
@@ -5,14 +6,16 @@ const breadCrumbItems = [
     title: (
       <div className="flex gap-2">
         <img src="../src/assets/icons/home-2.svg" />
-        <span>الرئيسية</span>
+        <Link to="/">
+          <span className="text-white">الرئيسية</span>
+        </Link>
       </div>
     ),
-    path: "/",
+    // path: "/",
   },
   {
     title: "تقديم بلاغ",
-    path: "/reportsPage",
+    // path: "",
   },
 ];
 const MiniHeader = () => {

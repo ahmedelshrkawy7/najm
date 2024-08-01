@@ -32,9 +32,10 @@ export const InputText = ({
 }) => {
   console.log(pattern);
   return (
-    <div className="flex w-full md:w-auto flex-col self-start gap-4">
-      <div>
+    <div className="flex  w-full md:w-auto flex-col self-start gap-4">
+      <div className="flex gap-2">
         <h2> {inputTitle} </h2>
+        <span className="text-red-500">*</span>
       </div>
       <Space.Compact size="large">
         <Controller
@@ -48,7 +49,7 @@ export const InputText = ({
             <div>
               <Input
                 {...field}
-                className="hover:border-emerald-500  focus:border-emerald-500 w-full md:w-[300px]"
+                className="hover:border-emerald-500  focus:border-emerald-500 w-[90%] md:w-[300px]"
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

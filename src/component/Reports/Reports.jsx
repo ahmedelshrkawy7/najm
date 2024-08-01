@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import ReportsHeader from "../../custom hooks/ReportsHeader";
+import { useContext, useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -10,9 +9,11 @@ import {
 import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
+import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
 import { useMutation } from "react-query";
+import Success from "../../models/Success";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -25,65 +26,115 @@ const labelProps = {
 const Reports = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [title, setTitle] = useState("");
+  const [card, setCards] = useState({ name: "", report_classification_id: 0 });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
-
-  const { postData } = useApi();
-
-  const Post = useMutation(postData, {
-    onSuccess: (e) => {
-      // notifySuccess("Login in successfully ! ");
-      // navigate("/plant/certificate");
-    },
-    onError: ({ message }) => {
-      // notifyError(message);
-    },
-  });
-
+  const [imgs, setImgs] = useState([]);
+  const [fils, setFils] = useState([]);
+  const [showmodal, setShowmodal] = useState(false);
   const {
     register,
     watch,
     formState: { errors },
     handleSubmit,
     setValue,
-    getValues,
     control,
+    resetField,
+    getValues,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
       description: "",
       address: "",
-      InputControl: "",
+      suspectKnown: "1",
       datePickerControl: "",
-      listInputControl: "",
+      suspects: [],
       user_name: "",
       user_email: "",
       user_phone: "",
-      report_classification_id: "123456",
+      fileInput: "",
     },
   });
-
   const values = watch(
     [
       "description",
       "address",
-      "InputControl",
+      "suspectKnown",
       "datePickerControl",
-      "listInputControl",
+      "suspects",
       "user_name",
       "user_email",
       "user_phone",
+      "fileInput",
     ],
     false
   );
+  console.log(card);
+  // 2023-07-20
+  const date = new Date(values?.[3]?.$d);
 
-  // const {
-  //   fileInputControl: { fileList },
-  // } = getValues();
+  const month =
+    date?.getMonth() < 10 ? "0" + date?.getMonth() : date?.getMonth();
 
-  setValue("suspectKnown", 1);
-  setValue("report_classification_id", 1223);
+  const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
+
+  const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+
+  const newValues = getValues();
+  const {
+    list,
+    datePickerControl: datePicker,
+    fileInput,
+    suspects,
+    ...restValues
+  } = newValues;
+
+  const allFiles = [...imgs, ...fils];
+  const hidden = watch("suspectKnown") === "0";
+  let dataObject = {
+    ...restValues,
+    files: allFiles,
+    date: fullDate,
+    report_classification_id: card.report_classification_id,
+    suspects: suspects,
+  };
+
+  if (hidden) {
+    dataObject = {
+      ...restValues,
+      files: allFiles,
+      date: fullDate,
+      report_classification_id: card.report_classification_id,
+    };
+  }
+
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const smoothBehvior = () => {
+      if (wrapperRef.current !== null) {
+        wrapperRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    };
+    smoothBehvior();
+
+    window.addEventListener("load", smoothBehvior);
+    return () => {
+      window.removeEventListener("load", smoothBehvior);
+    };
+  }, []);
+
+  const { postData } = useApi();
+
+  const Post = useMutation(postData, {
+    onSuccess: (e) => {
+      setShowmodal(true);
+      navigate("/dash");
+    },
+    onError: ({ message }) => {},
+  });
 
   const [
     description,
@@ -95,27 +146,20 @@ const Reports = () => {
     user_email,
     user_phone,
   ] = values;
-  console.log(user_name, user_email, user_phone);
 
-  const reportDetailsValues = [
-    description,
-    address,
-    InputControl,
-    datePickerControl,
-  ];
+  const reportDetailsValues = [description, address, InputControl];
 
   const contactInforamtionValues = [user_name, user_email, user_phone];
-  console.log(user_email);
 
-  const handleSelected = (title) => {
-    setTitle(title);
+  const handleSelected = (card) => {
+    setCards(card);
   };
 
   const steps = [
     {
       title: "تصنيف البلاغ",
       content: (
-        <ReportClassification title={title} handleSelected={handleSelected} />
+        <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
     },
     {
@@ -123,14 +167,23 @@ const Reports = () => {
       content: (
         <ReportDetails
           labelProps={labelProps}
+          listInputControl={listInputControl}
           errors={errors}
           handleSubmit={handleSubmit}
           register={register}
           watch={watch}
           reportDetailsValues={reportDetailsValues}
           setV={setV}
+          title={card.name}
+          imgs={imgs}
+          setImgs={setImgs}
+          fils={fils}
+          setFils={setFils}
           setValue={setValue}
           control={control}
+          resetField={resetField}
+          getValues={getValues}
+          values={values}
         />
       ),
     },
@@ -143,28 +196,34 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
-          user_email={user_email}
+          emailControl={user_email}
+          phoneControl={user_phone}
+          nameControl={user_name}
         />
       ),
     },
     {
       title: "معاينة البلاغ",
-      content: <ReportsPreview values={values} labelProps={labelProps} />,
+      content: (
+        <ReportsPreview
+          fils={fils}
+          setFils={setFils}
+          imgs={imgs}
+          setImgs={setImgs}
+          values={values}
+          labelProps={labelProps}
+          title={card.name}
+        />
+      ),
     },
   ];
 
-  const onSubmit = (data) => {
-    Post.mutate(["/reports", getValues()]);
-  };
-
   const next = () => {
-    // const nextSubmit = handleSubmit(onSubmit)();
-    // console.log(nextSubmit);
     setCurrent(current + 1);
   };
 
   const prev = () => {
-    if (title) {
+    if (card.name) {
       setV(true);
     }
     setCurrent(current - 1);
@@ -186,10 +245,12 @@ const Reports = () => {
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-      <div style={contentStyle}>{steps[current].content}</div>
-      <div className="flex justify-between mt-6">
+      <div style={contentStyle} ref={wrapperRef}>
+        {steps[current].content}
+      </div>
+      <div className="flex justify-end gap-8 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md"
+          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md  text-center"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -197,32 +258,39 @@ const Reports = () => {
             return prev();
           }}
         >
-          <span>&rarr;</span>
-          <span>رجوع</span>
+          {/* <span>&rarr;</span> */}
+          رجوع
         </button>
         {current === items.length - 1 && (
           <button
-            className="bg-[#33835C] rounded-md text-white p-3"
             onClick={() => {
-              Post.mutate(["/reports", getValues()]);
+              Post.mutate(["/reports", dataObject]);
             }}
+            className="bg-[#33835C] rounded-md text-white p-3"
           >
             تاكيد البلاغ
           </button>
         )}
+
         {current < items.length - 1 && (
           <button
-            disabled={!title || v === false}
+            disabled={v === false || !card.name}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
             }
             onClick={next}
           >
-            <span>التالى </span>
-            <span>&larr;</span>
+            التالى
+            {/* <span>&larr;</span> */}
           </button>
         )}
       </div>
+
+      {showmodal && (
+        <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
+          <Success />
+        </div>
+      )}
     </div>
   );
 };

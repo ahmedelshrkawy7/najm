@@ -31,9 +31,6 @@ const Location = ({
               </div>
             )}
           />
-          {errors[title] && (
-            <p className="text-red-500">{errors[title].message}</p>
-          )}
         </div>
       </Space.Compact>
     </div>

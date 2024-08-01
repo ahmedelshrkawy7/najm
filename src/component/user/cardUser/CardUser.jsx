@@ -1,4 +1,4 @@
-const CardUser = ({ name, onClick, active, src }) => {
+const CardUser = ({ title, onClick, active, src }) => {
   return (
     <div
       onClick={onClick}
@@ -11,7 +11,7 @@ const CardUser = ({ name, onClick, active, src }) => {
           active && "bg-white"
         } `}
       >
-        {<img src={src} />}
+        <img src={src} />
       </div>
       <h3 className={`text-black mt-3 ${active && "text-white"}`}>{name}</h3>
     </div>
