@@ -24,10 +24,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  function submitLogin() {
-    postData([]);
-  }
-
   return (
     <>
       {/* <form
