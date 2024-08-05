@@ -39,8 +39,8 @@ const ReportDetails = ({
   const isHidden = watch("suspectKnown") === "0";
   useEffect(() => {
     if (
-      reportDetailsValues.indexOf("") === -1 ||
-      listInputControl.length > 0 ||
+      reportDetailsValues.indexOf("") === -1 &&
+      (isHidden || listInputControl.length > 0) &&
       isHidden
     ) {
       setV(true);
