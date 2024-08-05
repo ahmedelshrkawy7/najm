@@ -9,6 +9,7 @@ import Login from "../Login.jsx";
 import TokenContext, { TokenContextProvider } from "./store/TokenContext.jsx";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import ProtectedRoutes from "./ProtectedRoutes.jsx";
 
 function App() {
   const { token } = useContext(TokenContext);
@@ -20,7 +21,14 @@ function App() {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/ReportsPage" element={<ReportsPage />} />
-        <Route path="/dash" element={<Dashboard />} />
+        <Route
+          path="/dash"
+          element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          }
+        />
         <Route path="/dash/:id" element={<Test />} />
         <Route path="/login" element={<Login />} />
       </Routes>
