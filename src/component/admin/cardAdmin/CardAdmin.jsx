@@ -11,10 +11,7 @@ const CardAdmin = () => {
     isLoading,
     error,
     data: reports,
-  } = useQuery("users", () => getData("/reports"), {
-    staleTime: 0,
-    refetchInterval: 0,
-  });
+  } = useQuery("users", () => getData("/reports"));
   console.log("🚀 ~ CardAdmin ~ data:", reports);
   let cards = [
     {
@@ -34,7 +31,7 @@ const CardAdmin = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "اسم البلاغ",
+      title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
       render: (text) => <a>{text}</a>,
@@ -61,7 +58,7 @@ const CardAdmin = () => {
       key: "date",
     },
     {
-      title: "عرض",
+      title: "",
       key: "action",
       render: (_, record) => (
         <Space size="middle">

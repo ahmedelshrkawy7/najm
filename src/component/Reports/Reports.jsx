@@ -12,8 +12,9 @@ import { useForm } from "react-hook-form";
 import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
+import { data } from "autoprefixer";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,6 +25,7 @@ const labelProps = {
 };
 
 const Reports = () => {
+  const queryClient = new QueryClient();
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [card, setCards] = useState({
@@ -73,15 +75,8 @@ const Reports = () => {
     ],
     false
   );
-  console.log(card);
 
-  console.log(watch("user_name"));
-  // 2023-07-20
-  console.log(values?.[3]?.$d);
   const date = new Date(values?.[3]?.$d);
-
-  console.log(date);
-
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
@@ -103,6 +98,7 @@ const Reports = () => {
   } = newValues;
 
   const allFiles = [...imgs, ...fils];
+  console.log(allFiles);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -143,10 +139,7 @@ const Reports = () => {
   const { postData } = useApi();
 
   const Post = useMutation(postData, {
-    onSuccess: (e) => {
-      setShowmodal(true);
-      navigate("/dash");
-    },
+    onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
 
@@ -198,6 +191,7 @@ const Reports = () => {
           resetField={resetField}
           getValues={getValues}
           values={values}
+          date={date}
         />
       ),
     },
@@ -282,6 +276,7 @@ const Reports = () => {
           <button
             onClick={() => {
               Post.mutate(["/reports", dataObject]);
+              setShowmodal(true);
             }}
             className="bg-[#33835C] rounded-md text-white p-2"
           >

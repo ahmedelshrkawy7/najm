@@ -2,6 +2,7 @@ import axios from "axios";
 import { useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
+import TokenContext from "../store/TokenContext";
 // export const Axios = axios.create({
 //   baseURL: "https://pm.alexondev.net/api",
 //   headers: {
@@ -14,25 +15,26 @@ import { useNavigate } from "react-router-dom";
 //   },
 // });
 
-export const Axios = axios.create({
-  baseURL: "https://najm.alexondev.net/api",
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Accept: "application/json",
-  },
-});
-
 const useApi = () => {
+  const { token } = useContext(TokenContext);
+  console.log(token);
+  const Axios = axios.create({
+    baseURL: "https://najm.alexondev.net/api",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   //   const { setAuth, Auth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  //   const { setLoader } = useContext(LoadContext);
-
   const error = useCallback(async (err) => {
     if (err.response.status === 401) {
       //   errorNotf("Unauthorized");
-      navigate("/login");
+      // navigate("/login");
       return;
     }
     // errorNotf(err.response.data.message);
