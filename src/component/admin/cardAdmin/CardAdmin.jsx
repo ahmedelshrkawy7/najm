@@ -114,11 +114,17 @@ const CardAdmin = () => {
           ))}
         </div>
         <div className="mt-6">
-          <Table
-            style={{ backgroundColor: "red !important" }}
-            columns={columns}
-            dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
-          />
+          {isLoading ? (
+            <diV className=" w-full h-[300px] flex justify-center items-center">
+              <div className="loader"></div>
+            </diV>
+          ) : (
+            <Table
+              style={{ backgroundColor: "red !important" }}
+              columns={columns}
+              dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
+            />
+          )}
         </div>
       </div>
 
