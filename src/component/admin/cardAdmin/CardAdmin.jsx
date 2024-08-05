@@ -31,7 +31,7 @@ const CardAdmin = () => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "اسم البلاغ",
+      title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
       render: (text) => <a>{text}</a>,
@@ -58,7 +58,7 @@ const CardAdmin = () => {
       key: "date",
     },
     {
-      title: "عرض",
+      title: "",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -92,8 +92,6 @@ const CardAdmin = () => {
     },
   ];
 
-  console.log();
-
   return (
     <>
       <div className="w-[90%] mx-auto ">
@@ -119,9 +117,7 @@ const CardAdmin = () => {
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}
-            dataSource={reports?.reports?.sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-            )}
+            dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
           />
         </div>
       </div>

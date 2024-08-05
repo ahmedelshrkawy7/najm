@@ -35,15 +35,34 @@ const ReportDetails = ({
   listInputControl,
   values,
   getValues,
+  date,
 }) => {
   const isHidden = watch("suspectKnown") === "0";
+  const [validDate, setValidDate] = useState("");
   useEffect(() => {
     if (
       reportDetailsValues.indexOf("") === -1 &&
-      (isHidden || listInputControl.length > 0) &&
-      isHidden
+      watch("suspectKnown") === "1" &&
+      listInputControl.length > 0
     ) {
-      setV(true);
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
+    } else if (
+      reportDetailsValues.indexOf("") === -1 &&
+      watch("suspectKnown") === "0"
+    ) {
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
     } else {
       setV(false);
     }
@@ -91,6 +110,7 @@ const ReportDetails = ({
             datePickerTitle={labelProps.datePickerTitle}
             control={control}
             errors={errors}
+            date={date}
           />
 
           <Location

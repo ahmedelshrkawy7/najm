@@ -27,7 +27,7 @@ const ReportsPreview = ({
 }) => {
   const date = new Date(values[3]?.$d);
   const fullDate =
-    date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   return (
     <div>
@@ -87,12 +87,12 @@ const ReportsPreview = ({
           </div>
           <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
-              subTitle={fullDate ? fullDate : "من فضلك اعد ادخال البيانات"}
+              subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
               icon={prev4}
               title={labelProps.datePickerTitle}
             />
             <ReportsTextIcon
-              subTitle={values[1] ? values[1] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[1] ? values[1] : "لا يوجد"}
               icon={prev5}
               title={labelProps.locationTitle}
             />

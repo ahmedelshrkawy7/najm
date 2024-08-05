@@ -1,12 +1,12 @@
 import React from "react";
 
 const ReportFiles = ({ fils, setFils, preview }) => {
-  console.log(new Set(fils));
   const handleDeleteFiles = (id) => {
     const files = [...fils];
     files.splice(id, 1);
     setFils(files);
   };
+
   return (
     <>
       <div className="flex gap-10 mt-8">
@@ -28,7 +28,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                     : file.name}
                 </h2>
                 <span className="text-sm text-gray-400">
-                  {Math.ceil(file.size * Math.pow(10, -6))}
+                  {(file.size * Math.pow(10, -6)).toFixed(2)}
                   <span className="ml-1">mb</span>
                 </span>
               </div>

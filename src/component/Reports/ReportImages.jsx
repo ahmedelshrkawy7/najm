@@ -74,8 +74,8 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                   setShowImg(false);
                 }}
               >
-                <div className=" w-1/2 ">
-                  <img draggable={false} className="w-full h-full" src={src} />
+                <div className=" w-full h-full ">
+                  <img draggable={false} className="w-full h-full" src={src} style={{objectFit:"contain"}} />
                 </div>
               </div>
             )}

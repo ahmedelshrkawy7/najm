@@ -12,8 +12,9 @@ import { useForm } from "react-hook-form";
 import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
+import { data } from "autoprefixer";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,6 +25,7 @@ const labelProps = {
 };
 
 const Reports = () => {
+  const queryClient = new QueryClient();
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   const [card, setCards] = useState({
@@ -73,18 +75,18 @@ const Reports = () => {
     ],
     false
   );
-  console.log(card);
 
-  console.log(watch("user_name"));
-  // 2023-07-20
   const date = new Date(values?.[3]?.$d);
-
   const month =
-    date?.getMonth() < 10 ? "0" + date?.getMonth() : date?.getMonth();
+    date?.getUTCMonth() + 1 < 10
+      ? "0" + (date?.getUTCMonth() + 1)
+      : date?.getUTCMonth() + 1;
 
   const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
   const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+
+  console.log(fullDate);
 
   const newValues = getValues();
   const {
@@ -96,6 +98,7 @@ const Reports = () => {
   } = newValues;
 
   const allFiles = [...imgs, ...fils];
+  console.log(allFiles);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -113,6 +116,7 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
+  console.log(dataObject);
 
   const wrapperRef = useRef(null);
 
@@ -135,10 +139,7 @@ const Reports = () => {
   const { postData } = useApi();
 
   const Post = useMutation(postData, {
-    onSuccess: (e) => {
-      setShowmodal(true);
-      navigate("/dash");
-    },
+    onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
 
@@ -153,7 +154,7 @@ const Reports = () => {
     user_phone,
   ] = values;
 
-  const reportDetailsValues = [description, address, InputControl];
+  const reportDetailsValues = [description];
 
   const contactInforamtionValues = [user_name, user_email, user_phone];
 
@@ -190,6 +191,7 @@ const Reports = () => {
           resetField={resetField}
           getValues={getValues}
           values={values}
+          date={date}
         />
       ),
     },
@@ -274,6 +276,7 @@ const Reports = () => {
           <button
             onClick={() => {
               Post.mutate(["/reports", dataObject]);
+              setShowmodal(true);
             }}
             className="bg-[#33835C] rounded-md text-white p-2"
           >
