@@ -32,8 +32,7 @@ const AllAdmins = () => {
               <h2 className="text-xl text-white font-bold">الرئيسية</h2>
             </Link>
             <div className="w-[4.5rem] h-32 bg-[#33835C] flex absolute top-0 left-0 flex-col justify-end text-center py-2 rounded-br-lg rounded-bl-lg">
-              <h2 className="text-4xl text-white">نجم</h2>
-              <h2 className="text-2xl text-white ">najm</h2>
+              <img src="../src/assets/najm.png" draggable="false" alt="" />
             </div>
           </div>
           <div className="all self-center grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center md:gap-16 gap-10  mb-10">
