@@ -116,6 +116,13 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
+  if (watch("datePickerControl") === "NaN/NaN/NaN") {
+    dataObject = {
+      ...restValues,
+      files: allFiles,
+      report_classification_id: card.report_classification_id,
+    };
+  }
   console.log(dataObject);
 
   const wrapperRef = useRef(null);
