@@ -16,6 +16,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
 
   function showFunc(e, type) {
     setSrc(e?.target?.src);
+    console.log(e?.target?.src);
     if (type == "image") {
       setShowImg(true);
     }
@@ -25,10 +26,10 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   }
   return (
     <>
-      <div className="flex mt-4   gap-6">
+      <div className="flex flex-wrap mt-4 h-[120px] gap-6">
         {imgs.map((img, index) => (
           <div key={Math.random()}>
-            <div className=" relative h-full w-[150px]">
+            <div className=" relative h-full w-[220px] ">
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
@@ -38,7 +39,10 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </span>
               )}
               {img?.type.startsWith("image") && (
-                <div className="relative wrapper transition-all duration-1000 h-full ">
+                <div
+                  className="relative wrapper transition-all duration-1000 h-full "
+                  style={{ aspectRatio: 16 / 9 }}
+                >
                   <img
                     className="rounded-md object-cover cursor-pointer  w-full h-full"
                     src={URL?.createObjectURL(img)}
@@ -54,16 +58,19 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </div>
               )}
               {img?.type.startsWith("video") && (
-                <>
+                <div className="relative wrapper transition-all duration-1000 h-full ">
                   <video
-                    className="w-full h-full "
+                    className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
                     src={URL.createObjectURL(img)}
                     muted
                     onClick={(e) => {
                       showFunc(e, "video");
                     }}
                   />
-                </>
+                  <span className="active cursor-pointer">
+                    <EyeOutlined />
+                  </span>
+                </div>
               )}
             </div>
 
@@ -74,8 +81,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                   setShowImg(false);
                 }}
               >
-                <div className=" w-full h-full ">
-                  <img draggable={false} className="w-full h-full" src={src} style={{objectFit:"contain"}} />
+                <div className=" w-[500px] h-full ">
+                  <img
+                    draggable={false}
+                    className="w-full h-full"
+                    src={src}
+                    style={{ objectFit: "contain" }}
+                  />
                 </div>
               </div>
             )}
@@ -87,12 +99,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <video
-                    className="w-full h-full"
-                    src={URL.createObjectURL(img)}
-                    muted
-                    controls
-                  />
+                  <video className="w-full h-full" src={src} muted controls />
                 </div>
               </div>
             )}

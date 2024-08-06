@@ -8,8 +8,9 @@ import useApi from "../../utils/useApi";
 
 const ReportClassification = ({ _card, handleSelected }) => {
   const { getData } = useApi();
-  const { isLoading, error, data } = useQuery("users", () =>
-    getData("/report-classification")
+  const { isLoading, error, data } = useQuery(
+    ["users", "/report-classification"],
+    getData
   );
 
   return (
@@ -27,7 +28,7 @@ const ReportClassification = ({ _card, handleSelected }) => {
       {data && (
         <div className="px-8 pt-4 py-8">
           <div className="grid mt-4 gap-4 sm:gap-8 md:gap-12 grid-col-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {data?.report_classification?.map((card) => (
+            {data?.data.report_classification?.map((card) => (
               <CardUser
                 onClick={() =>
                   handleSelected({

@@ -1,17 +1,17 @@
-import { Space, Table, Tag } from "antd";
-import { Navbar } from "../../../import";
+import { Pagination, Space, Table, Tag } from "antd";
+import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
+  const [current, setCurrent] = useState(0);
 
-  const {
-    isLoading,
-    error,
-    data: reports,
-  } = useQuery("users", () => getData("/reports"));
+  const { isLoading, data: reports } = useQuery(
+    ["users", "/reports", current],
+    getData
+  );
   console.log("🚀 ~ CardAdmin ~ data:", reports);
   let cards = [
     {
@@ -92,45 +92,71 @@ const CardAdmin = () => {
     },
   ];
 
+  let _reports = reports?.data.reports
+    ?.map((report) => {
+      if (report.date === "") {
+        report.date = "لا يوجد تاريخ";
+        return report;
+      }
+      return report;
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   return (
     <>
-      <div className="w-[90%] mx-auto ">
-        <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
-          {cards?.map((card) => (
-            <div
-              key={Math.random() * 10}
-              className={`text-white border-2 mb-4 border-[#33835C] rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C1A]`}
-            >
-              <div className="space-y-2">
-                <h2 className="text-lg text-[#33835C]">{card.title}</h2>
-                <h2 className="text-4xl text-[#33835C] font-bold text-center">
-                  {reports?.reports?.length}
-                </h2>
+      {!isLoading ? (
+        <div className="w-[90%] mx-auto ">
+          <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
+            {cards?.map((card) => (
+              <div
+                key={Math.random() * 10}
+                className={`text-white border-2 mb-4 border-[#33835C] rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C1A]`}
+              >
+                <div className="space-y-2">
+                  <h2 className="text-lg text-[#33835C]">{card.title}</h2>
+                  <h2 className="text-4xl text-[#33835C] font-bold text-center">
+                    {reports.meta.reports.totalItems}
+                  </h2>
+                </div>
+                <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
+                  {card.icon}
+                </div>
               </div>
-              <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
-                {card.icon}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6">
-          {isLoading ? (
-            <diV className=" w-full h-[300px] flex justify-center items-center">
-              <div className="loader"></div>
-            </diV>
-          ) : (
+            ))}
+          </div>
+          <div className="mt-6">
             <Table
               style={{ backgroundColor: "red !important" }}
               columns={columns}
-              dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
+              dataSource={_reports}
+              pagination={{
+                current: current,
+                total: reports?.meta?.reports.totalItems,
+                onChange: (currentPage) => {
+                  setCurrent(currentPage);
+                },
+                pageSize: 25,
+                showSizeChanger: false,
+              }}
             />
-          )}
+            {/* <Pagination
+              current={current}
+              pageSize={25}
+              total={reports?.meta?.reports.totalItems}
+              onChange={(currentPage) => {
+                setCurrent(currentPage);
+              }}
+            />{" "} */}
+          </div>
         </div>
-      </div>
-
-      <></>
+      ) : (
+        <diV className=" w-full h-[650px] flex justify-center items-center">
+          <div className="loader"></div>
+        </diV>
+      )}
     </>
   );
 };
 
 export default CardAdmin;
+// reports?.reports?.sort((a, b) => b.id - a.id);

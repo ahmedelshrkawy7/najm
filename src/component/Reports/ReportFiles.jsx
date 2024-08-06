@@ -22,10 +22,11 @@ const ReportFiles = ({ fils, setFils, preview }) => {
             )}
             <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
               <div className="text-left">
-                <h2 className="font-bold text-[#D74D52]">
-                  {file.name.length > 50
-                    ? "..." + file.name.slice(0, 20)
-                    : file.name}
+                <h2
+                  className="font-bold text-[#D74D52] w-[120px] text-nowrap overflow-hidden text-ellipsis "
+                  style={{ direction: "ltr" }}
+                >
+                  {file.name}
                 </h2>
                 <span className="text-sm text-gray-400">
                   {(file.size * Math.pow(10, -6)).toFixed(2)}
