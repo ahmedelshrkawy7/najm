@@ -15,6 +15,7 @@ import prev7 from "../../assets/icons/prev7.svg";
 import prev8 from "../../assets/icons/prev8.svg";
 import prev9 from "../../assets/icons/prev9.svg";
 import prev1 from "../../assets/icons/prev1.svg";
+import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
 const labelProps = {
@@ -27,7 +28,6 @@ const labelProps = {
 const Test = () => {
   const { getData } = useApi();
   const { id } = useParams();
-  const [showVideo, setShowVideo] = useState(false);
   const {
     isLoading,
     error,
@@ -38,6 +38,19 @@ const Test = () => {
   const values = Object.values(report);
 
   console.log(values[9]);
+  const [showVideo, setShowVideo] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [src, setSrc] = useState("false");
+
+  function showFunc(e, type) {
+    setSrc(e?.target?.src);
+    if (type == "image") {
+      setShowImg(true);
+    }
+    if (type == "video") {
+      setShowVideo(true);
+    }
+  }
 
   // bg-[#33835C1A]
   return (
@@ -97,12 +110,12 @@ const Test = () => {
           </div>
           <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
-              subTitle={values[4] ? values[4] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[4] === "NaN/NaN/NaN" ? "لا يوجد" : values[4]}
               icon={prev4}
               title={labelProps.datePickerTitle}
             />
             <ReportsTextIcon
-              subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
+              subTitle={values[5] ? values[5] : "لا يوجد"}
               icon={prev5}
               title={labelProps.locationTitle}
             />
@@ -125,26 +138,56 @@ const Test = () => {
                 <div className="flex mt-4    gap-6">
                   {values[9]?.images?.map((img, index) => (
                     <div key={Math.random()}>
-                      <div className=" relative h-[120px] w-[150]">
+                      <div className="relative h-[120px] w-[160px]">
                         {img?.file_type?.startsWith("image") && (
-                          <img
-                            className="rounded-md w-full h-full"
-                            src={img?.file_url}
-                          />
+                          <div className="relative wrapper transition-all duration-10000 ">
+                            <img
+                              className="rounded-md object-cover inline-block cursor-pointer  w-full h-full"
+                              src={img?.file_url}
+                              onClick={(e) => {
+                                showFunc(e, "image");
+                              }}
+                              draggable="false"
+                            />
+                            <span className="active cursor-pointer">
+                              <EyeOutlined />
+                            </span>
+                          </div>
                         )}
                         {img.file_type.startsWith("video") && (
-                          <>
+                          <div className="relative wrapper transition-all duration-10000 ">
                             <video
-                              className="w-full h-full "
+                              className="rounded-md object-cover cursor-pointer inline-block w-full h-[140px]"
                               src={img?.file_url}
                               muted
-                              onClick={() => {
-                                setShowVideo(true);
+                              onClick={(e) => {
+                                showFunc(e, "video");
                               }}
                             />
-                          </>
+                            <span className="active cursor-pointer">
+                              <EyeOutlined />
+                            </span>
+                          </div>
                         )}
                       </div>
+
+                      {showImg && (
+                        <div
+                          className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
+                          onClick={() => {
+                            setShowImg(false);
+                          }}
+                        >
+                          <div className=" w-[500px] h-full ">
+                            <img
+                              draggable={false}
+                              className="w-full h-full"
+                              src={src}
+                              style={{ objectFit: "contain" }}
+                            />
+                          </div>
+                        </div>
+                      )}
                       {showVideo && (
                         <div
                           className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
@@ -152,9 +195,9 @@ const Test = () => {
                             setShowVideo(false);
                           }}
                         >
-                          <div className=" w-1/2 ">
+                          <div className="w-1/2">
                             <video
-                              className="w-full h-full  "
+                              className="w-full h-full"
                               src={img?.file_url}
                               muted
                               controls
@@ -174,7 +217,12 @@ const Test = () => {
               />
               <div className="flex gap-10 mt-8">
                 {values[9]?.files?.map((file, index) => (
-                  <div className="relative">
+                  <div
+                    onClick={() => {
+                      window.open(file.file_url, "_blank");
+                    }}
+                    className="relative cursor-pointer"
+                  >
                     <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
                       <div className="text-left">
                         <h2 className="font-bold text-[#D74D52]">
@@ -191,7 +239,9 @@ const Test = () => {
                       <img
                         className="rounded-md w-[20px]"
                         src={`../src/assets/${
-                          file.file_type.endsWith("pdf") ? "pdf.png" : "doc.svg"
+                          file.file_mimes_type.includes("pdf")
+                            ? "pdf.png"
+                            : "doc.svg"
                         }`}
                       />
                     </div>

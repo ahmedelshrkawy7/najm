@@ -16,6 +16,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
 
   function showFunc(e, type) {
     setSrc(e?.target?.src);
+    console.log(e?.target?.src);
     if (type == "image") {
       setShowImg(true);
     }
@@ -54,16 +55,20 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </div>
               )}
               {img?.type.startsWith("video") && (
-                <>
+                <div className="relative wrapper transition-all duration-1000 h-full ">
                   <video
-                    className="w-full h-full "
+                    className="rounded-md object-cover cursor-pointer inline-block w-full h-[140px]"
                     src={URL.createObjectURL(img)}
                     muted
+                    controls
                     onClick={(e) => {
                       showFunc(e, "video");
                     }}
                   />
-                </>
+                  <span className="active cursor-pointer">
+                    <EyeOutlined />
+                  </span>
+                </div>
               )}
             </div>
 
@@ -74,8 +79,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                   setShowImg(false);
                 }}
               >
-                <div className=" w-full h-full ">
-                  <img draggable={false} className="w-full h-full" src={src} style={{objectFit:"contain"}} />
+                <div className=" w-[500px] h-full ">
+                  <img
+                    draggable={false}
+                    className="w-full h-full"
+                    src={src}
+                    style={{ objectFit: "contain" }}
+                  />
                 </div>
               </div>
             )}
@@ -87,12 +97,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 }}
               >
                 <div className=" w-1/2 ">
-                  <video
-                    className="w-full h-full"
-                    src={URL.createObjectURL(img)}
-                    muted
-                    controls
-                  />
+                  <video className="w-full h-full" src={src} muted controls />
                 </div>
               </div>
             )}

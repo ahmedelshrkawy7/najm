@@ -1,6 +1,12 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import TokenContext from "../../store/TokenContext";
 
 const Navbar = () => {
+  let { pathname } = useLocation();
+  let { logout } = useContext(TokenContext);
+  let navigate = useNavigate();
+  console.log(pathname);
   return (
     <div className="bg-[#2E2E2E]">
       <div className=" w-[90%] mx-auto">
@@ -25,8 +31,15 @@ const Navbar = () => {
             <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-10 leading-[40px]">
               EN
             </p>
-            <Link
-              to="/allAdmins"
+            <button
+              onClick={() => {
+                if (pathname === "/dash") {
+                  logout();
+                  return navigate("/login");
+                }
+                navigate("/allAdmins");
+              }}
+              // to="/allAdmins"
               className="rounded-md w-12 bg-[#9494940D] text-white flex justify-center items-center h-10 leading-[48px] "
             >
               <img
@@ -34,7 +47,7 @@ const Navbar = () => {
                 src="../../../src/assets/icons/logout.svg"
                 alt=""
               />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

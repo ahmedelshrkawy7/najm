@@ -116,6 +116,18 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
+
+  console.log(fullDate);
+
+  if (fullDate === "NaN-NaN-NaN") {
+    console.log("hello world");
+    dataObject = {
+      ...restValues,
+      files: allFiles,
+      report_classification_id: card.report_classification_id,
+    };
+  }
+
   console.log(dataObject);
 
   const wrapperRef = useRef(null);
@@ -142,6 +154,8 @@ const Reports = () => {
     onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
+
+  console.log(Post.data?.data?.data?.report?.id);
 
   const [
     description,
@@ -300,7 +314,7 @@ const Reports = () => {
 
       {showmodal && (
         <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
-          <Success />
+          <Success id={Post.data?.data?.data?.report?.id} />
         </div>
       )}
     </div>
