@@ -120,7 +120,6 @@ const Reports = () => {
   console.log(fullDate);
 
   if (fullDate === "NaN-NaN-NaN") {
-    console.log("hello world");
     dataObject = {
       ...restValues,
       files: allFiles,

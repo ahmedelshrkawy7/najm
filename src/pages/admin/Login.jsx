@@ -12,6 +12,12 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const Post = useMutation(postData, {
+    onError: (error) => {
+      if (error.response.status === 401) {
+        // Handle 401 error here
+        console.log("hello world");
+      }
+    },
     onSuccess: (e) => {
       if (e.status === 200) {
         login(e.data.data.token);
@@ -179,7 +185,6 @@ const Login = () => {
                     }
                     onClick={(e) => {
                       e.preventDefault();
-
                       Post.mutate([
                         "/authentication/login",
                         {

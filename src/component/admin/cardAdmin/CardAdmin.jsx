@@ -9,7 +9,7 @@ const CardAdmin = () => {
   const [current, setCurrent] = useState(0);
 
   const { isLoading, data: reports } = useQuery(
-    ["users", "/reports", current],
+    ["users", ["/reports", {page :current}]],
     getData
   );
   console.log("🚀 ~ CardAdmin ~ data:", reports);
@@ -139,14 +139,7 @@ const CardAdmin = () => {
                 showSizeChanger: false,
               }}
             />
-            {/* <Pagination
-              current={current}
-              pageSize={25}
-              total={reports?.meta?.reports.totalItems}
-              onChange={(currentPage) => {
-                setCurrent(currentPage);
-              }}
-            />{" "} */}
+         
           </div>
         </div>
       ) : (
@@ -159,4 +152,5 @@ const CardAdmin = () => {
 };
 
 export default CardAdmin;
+// reports?.reports?.sort((a, b) => b.id - a.id);
 // reports?.reports?.sort((a, b) => b.id - a.id);

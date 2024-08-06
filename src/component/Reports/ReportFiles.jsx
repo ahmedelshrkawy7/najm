@@ -36,7 +36,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
               <img
                 className="rounded-md w-[20px]"
-                src={`../src/assets/${
+                src={`../../../src/assets/${
                   file.type.endsWith("pdf") ? "pdf.png" : "doc.svg"
                 }`}
               />

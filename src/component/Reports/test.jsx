@@ -32,10 +32,10 @@ const Test = () => {
     isLoading,
     error,
     data: { report = {} } = {},
-  } = useQuery("users", () => getData(`/reports/${id}`));
-  console.log("🚀 ~ Test ~ data:", report);
+  } = useQuery(["users", `/reports`, {}, id], getData);
 
-  const values = Object.values(report);
+  const values = Object.values(report ?? {});
+  console.log(report, values);
 
   console.log(values[9]);
   const [showVideo, setShowVideo] = useState(false);
