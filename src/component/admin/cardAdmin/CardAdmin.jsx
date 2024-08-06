@@ -92,6 +92,16 @@ const CardAdmin = () => {
     },
   ];
 
+  let _reports = reports?.reports
+    ?.map((report) => {
+      if (report.date === "") {
+        report.date = "لا يوجد تاريخ";
+        return report;
+      }
+      return report;
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   return (
     <>
       {!isLoading ? (
@@ -118,7 +128,7 @@ const CardAdmin = () => {
             <Table
               style={{ backgroundColor: "red !important" }}
               columns={columns}
-              dataSource={reports?.reports?.sort((a, b) => b.id - a.id)}
+              dataSource={_reports}
             />
           </div>
         </div>
@@ -132,3 +142,4 @@ const CardAdmin = () => {
 };
 
 export default CardAdmin;
+// reports?.reports?.sort((a, b) => b.id - a.id);

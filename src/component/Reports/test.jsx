@@ -110,7 +110,7 @@ const Test = () => {
           </div>
           <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
-              subTitle={values[4] === "NaN/NaN/NaN" ? "لا يوجد" : values[4]}
+              subTitle={values[4] === "" ? "لا يوجد" : values[4]}
               icon={prev4}
               title={labelProps.datePickerTitle}
             />
@@ -198,7 +198,7 @@ const Test = () => {
                           <div className="w-1/2">
                             <video
                               className="w-full h-full"
-                              src={img?.file_url}
+                              src={src}
                               muted
                               controls
                             />
