@@ -25,19 +25,21 @@ const labelProps = {
   datePickerTitle: "تاريخ ارتكاب المخالفة",
   locationTitle: "مكان حدوث المخالفة",
 };
+
 const Test = () => {
   const { getData } = useApi();
   const { id } = useParams();
   const {
     isLoading,
     error,
-    data: { report = {} } = {},
-  } = useQuery(["users", `/reports`, {}, id], getData);
+    data: { data: { report } = {} } = {},
+  } = useQuery(["users", ["/reports"], id], getData);
+
+  // console.log(id);
 
   const values = Object.values(report ?? {});
-  console.log(report, values);
-
   console.log(values[9]);
+
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");

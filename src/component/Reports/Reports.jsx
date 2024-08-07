@@ -122,6 +122,7 @@ const Reports = () => {
   if (fullDate === "NaN-NaN-NaN") {
     dataObject = {
       ...restValues,
+      suspects: suspects,
       files: allFiles,
       report_classification_id: card.report_classification_id,
     };

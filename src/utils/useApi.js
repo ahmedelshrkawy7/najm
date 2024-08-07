@@ -55,9 +55,15 @@ const useApi = () => {
     }
   };
   const getData = async ({ queryKey }) => {
-    const [, url, param] = queryKey;
+    console.log(queryKey);
+    // setLoader(true);
+    let [, [url, param], id = ""] = queryKey;
+    console.log("🚀 ~ getData ~ param:", param);
     try {
-      const response = await Axios.get(url, { params: { page: param } });
+      const response = await Axios.get(id ? url + "/" + id : url, {
+        params: param,
+      });
+
       const data = response.data;
       return data;
     } catch (err) {

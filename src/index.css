@@ -146,7 +146,5 @@ body::-webkit-scrollbar-thumb {
 
 :where(.css-dev-only-do-not-override-p8b6i).ant-table-wrapper
   .ant-table-pagination.ant-pagination {
-  display: flex;
-  margin: 16px 0;
-  flex-direction: row-reverse;
+  direction: ltr;
 }
