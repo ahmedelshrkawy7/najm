@@ -17,6 +17,7 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
+import NotFound from "./NotFound.jsx";
 
 function App() {
   const { token } = useContext(TokenContext);
@@ -43,6 +44,7 @@ function App() {
         <Route path="/dash/:id" element={<Test />} />
         <Route path="/login" element={<Login />} />
         <Route path="/allAdmins" element={<AllAdmins />} />
+        <Route path="*" element={<NotFound msg={"route"} />} />
       </Routes>
     </TokenContextProvider>
   );

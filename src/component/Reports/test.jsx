@@ -17,6 +17,7 @@ import prev9 from "../../assets/icons/prev9.svg";
 import prev1 from "../../assets/icons/prev1.svg";
 import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import NotFound from "../../NotFound";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -36,6 +37,7 @@ const Test = () => {
   } = useQuery(["users", ["/reports"], id], getData);
 
   // console.log(id);
+  console.log(report);
 
   const values = Object.values(report ?? {});
   console.log(values[9]);
@@ -52,6 +54,22 @@ const Test = () => {
     if (type == "video") {
       setShowVideo(true);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+        <div className="loader"></div>;
+      </div>
+    );
+  }
+
+  if (!report) {
+    return (
+      <>
+        <NotFound msg={"report"} />
+      </>
+    );
   }
 
   // bg-[#33835C1A]
