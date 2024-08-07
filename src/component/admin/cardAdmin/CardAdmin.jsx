@@ -34,7 +34,10 @@ const CardAdmin = () => {
       title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => {
+        console.log(record);
+        return <Link to={`/dash/${record.id}`}>{text}</Link>;
+      },
     },
     {
       title: "اسم المبلغ",
@@ -94,7 +97,7 @@ const CardAdmin = () => {
                 <div className="space-y-2">
                   <h2 className="text-lg text-[#33835C]">{card.title}</h2>
                   <h2 className="text-4xl text-[#33835C] font-bold text-center">
-                    {/* {_reports.length} */}
+                    {data?.meta?.reports?.totalItems}
                   </h2>
                 </div>
                 <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">

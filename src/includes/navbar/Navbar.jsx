@@ -31,9 +31,7 @@ const Navbar = () => {
                 />
               </a>
             )}
-            <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-10 leading-[40px]">
-              EN
-            </p>
+
             {pathname === "/dash" && (
               <button
                 onClick={() => {
@@ -53,6 +51,9 @@ const Navbar = () => {
                 />
               </button>
             )}
+            <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-10 leading-[40px]">
+              EN
+            </p>
           </div>
         </div>
       </div>
