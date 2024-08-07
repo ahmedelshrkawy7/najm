@@ -26,20 +26,23 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   }
   return (
     <>
-      <div className="flex mt-4   gap-6">
+      <div className="flex flex-wrap mt-4  gap-6">
         {imgs.map((img, index) => (
           <div key={Math.random()}>
-            <div className=" relative h-full w-[150px]">
+            <div className=" relative h-full w-[220px] ">
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
-                  className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center z-50"
+                  className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-l flex items-center justify-center z-50"
                 >
-                  &times;
+                  <span className="-mt-[2px]">&times;</span>
                 </span>
               )}
               {img?.type.startsWith("image") && (
-                <div className="relative wrapper transition-all duration-1000 h-full ">
+                <div
+                  className="relative wrapper transition-all duration-1000 h-full "
+                  style={{ aspectRatio: 16 / 9 }}
+                >
                   <img
                     className="rounded-md object-cover cursor-pointer  w-full h-full"
                     src={URL?.createObjectURL(img)}
@@ -57,10 +60,9 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               {img?.type.startsWith("video") && (
                 <div className="relative wrapper transition-all duration-1000 h-full ">
                   <video
-                    className="rounded-md object-cover cursor-pointer inline-block w-full h-[140px]"
+                    className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
                     src={URL.createObjectURL(img)}
                     muted
-                    controls
                     onClick={(e) => {
                       showFunc(e, "video");
                     }}

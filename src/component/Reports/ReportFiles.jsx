@@ -14,18 +14,19 @@ const ReportFiles = ({ fils, setFils, preview }) => {
           <div className="relative">
             {preview && (
               <span
-                onClick={() => handleDeleteFiles(index)}
-                className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center"
+                onClick={() => handleDeleteImages(index)}
+                className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-l flex items-center justify-center z-50"
               >
-                &times;
+                <span className="-mt-[2px]">&times;</span>
               </span>
             )}
             <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
               <div className="text-left">
-                <h2 className="font-bold text-[#D74D52]">
-                  {file.name.length > 50
-                    ? "..." + file.name.slice(0, 20)
-                    : file.name}
+                <h2
+                  className="font-bold text-[#D74D52] w-[120px] text-nowrap overflow-hidden text-ellipsis "
+                  style={{ direction: "ltr" }}
+                >
+                  {file.name}
                 </h2>
                 <span className="text-sm text-gray-400">
                   {(file.size * Math.pow(10, -6)).toFixed(2)}

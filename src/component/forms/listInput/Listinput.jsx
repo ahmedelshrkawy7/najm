@@ -71,6 +71,7 @@ const Listinput = ({
                 <Input
                   ref={ref}
                   value={value}
+                  maxLength={50}
                   onBlur={() => {
                     setIsBlur(true);
                     onBlur();

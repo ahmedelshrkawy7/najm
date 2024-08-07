@@ -6,6 +6,7 @@ import TokenContext from "../../store/TokenContext";
 import { EyeFilled, EyeInvisibleFilled, LockFilled } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
 import { message } from "antd";
+import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);
@@ -20,12 +21,21 @@ const Login = () => {
     onSuccess: (e) => {
       if (e.status === 200) {
         login(e.data.data.token);
+        successNotf("تم تسجيل الدخول بنجاح");
       }
+    },
+    onError: ({
+      response: {
+        data: { message },
+      },
+    }) => {
+      console.log("🚀 ~ Login ~ message:", message);
+      errorNotf(" خطأ في البريد الإالكتروني او كلمة السر   ");
     },
   });
 
-  const { data: { data = {} } = {}, isLoading: isFetching, error } = Post;
-  // console.log(error);
+  const { data: { data = {} } = {}, isLoading: isFetching } = Post;
+
   const { login, token } = useContext(TokenContext);
   const {
     register,

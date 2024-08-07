@@ -6,11 +6,14 @@ import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
+ 
+  console.log("🚀 ~ CardAdmin ~ pagination:", pagination);
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
   const { isLoading, error, data } = useQuery(
     ["users", ["/reports", { page: pagination }]],
+    getData[("users", ["/reports", { page: pagination }])],
     getData,
     { keepPreviousData: true }
   );
@@ -97,6 +100,7 @@ const CardAdmin = () => {
                   <h2 className="text-lg text-[#33835C]">{card.title}</h2>
                   <h2 className="text-4xl text-[#33835C] font-bold text-center">
                     {data?.meta?.reports?.totalItems}
+              
                   </h2>
                 </div>
                 <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">

@@ -94,11 +94,14 @@ const Test = () => {
             />
             {values[3] === true && (
               <ReportsTextIcon
+                bottom={true}
                 subTitle={
                   values[8] ? (
-                    <div className="flex gap-2">
+                    <div className="flex max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll md:gap-2 flex-wrap">
                       {values[8]?.map((val) => (
-                        <span>{val.name}</span>
+                        <div className="border rounded-full p-2 border-[#33835C]">
+                          <span>{val.name}</span>
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -137,14 +140,17 @@ const Test = () => {
                 title={`الصور والفيديوهات(${values[9]?.images?.length}) `}
               />
               <div className="!pr-[53px]">
-                <div className="flex mt-4    gap-6">
+                <div className="flex mt-4 flex-wrap   gap-6">
                   {values[9]?.images?.map((img, index) => (
                     <div key={Math.random()}>
-                      <div className="relative h-[120px] w-[160px]">
+                      <div className="relative  w-[160px]">
                         {img?.file_type?.startsWith("image") && (
-                          <div className="relative wrapper transition-all duration-10000 ">
+                          <div
+                            className="relative wrapper transition-all duration-10000 w-full h-full "
+                            style={{ aspectRatio: 16 / 9 }}
+                          >
                             <img
-                              className="rounded-md object-cover inline-block cursor-pointer  w-full h-full"
+                              className="rounded-md object-cover inline-block cursor-pointer w-full h-full "
                               src={img?.file_url}
                               onClick={(e) => {
                                 showFunc(e, "image");
@@ -157,9 +163,12 @@ const Test = () => {
                           </div>
                         )}
                         {img.file_type.startsWith("video") && (
-                          <div className="relative wrapper transition-all duration-10000 ">
+                          <div
+                            className="relative wrapper transition-all duration-10000 "
+                            style={{ aspectRatio: 16 / 9 }}
+                          >
                             <video
-                              className="rounded-md object-cover cursor-pointer inline-block w-full h-[140px]"
+                              className="rounded-md object-cover cursor-pointer inline-block h-full w-full"
                               src={img?.file_url}
                               muted
                               onClick={(e) => {
@@ -217,7 +226,7 @@ const Test = () => {
                 icon={prev7}
                 title={`الملفات(${values[9]?.files?.length}) `}
               />
-              <div className="flex gap-10 mt-8">
+              <div className="flex flex-wrap gap-10 mt-8 !pr-[53px]">
                 {values[9]?.files?.map((file, index) => (
                   <div
                     onClick={() => {
@@ -227,7 +236,10 @@ const Test = () => {
                   >
                     <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
                       <div className="text-left">
-                        <h2 className="font-bold text-[#D74D52]">
+                        <h2
+                          className="font-bold text-[#D74D52] w-[120px] text-nowrap overflow-hidden text-ellipsis "
+                          style={{ direction: "ltr" }}
+                        >
                           {file?.file_name?.length > 50
                             ? "..." + file.file_name.slice(0, 20)
                             : file.file_name}

@@ -133,16 +133,6 @@ body::-webkit-scrollbar-thumb {
   .ant-pagination-item-link {
   color: #33835c !important;
 }
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-next
-  .ant-pagination-item-link {
-  transform: rotate(180deg) !important;
-}
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-prev
-  .ant-pagination-item-link {
-  transform: rotate(180deg) !important;
-}
 
 .position {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
@@ -152,4 +142,9 @@ body::-webkit-scrollbar-thumb {
 
 .custom {
   @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
+}
+
+:where(.css-dev-only-do-not-override-p8b6i).ant-table-wrapper
+  .ant-table-pagination.ant-pagination {
+  direction: ltr;
 }
