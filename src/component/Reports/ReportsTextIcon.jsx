@@ -1,4 +1,3 @@
-import React from "react";
 
 const ReportsTextIcon = ({ icon, title, subTitle, description }) => {
   return (

@@ -11,11 +11,11 @@ const breadCrumbItems = [
         </div>
       </Link>
     ),
-    path: "/",
+    // path: "/",
   },
   {
     title: "تقديم بلاغ",
-    path: "/reportsPage",
+    // path: "",
   },
 ];
 const MiniHeader = () => {

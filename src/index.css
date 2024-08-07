@@ -153,3 +153,35 @@ body::-webkit-scrollbar-thumb {
 .custom {
   @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
 }
+
+/* loader */
+.loader {
+  --d: 22px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: #25b09b;
+  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
+    calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px,
+    calc(0 * var(--d)) calc(1 * var(--d)) 0 2px,
+    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+    calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px,
+    calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px,
+    calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+  animation: l27 1s infinite steps(8);
+}
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.position {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
+    url("../src/assets/admins_image.png");
+  background-position: -360px 0%;
+}
+
+.custom {
+  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
+}

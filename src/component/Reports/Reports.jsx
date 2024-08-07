@@ -52,7 +52,7 @@ const Reports = () => {
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "1",
+      suspectKnown: "0",
       datePickerControl: "",
       suspects: [],
       user_name: "",
