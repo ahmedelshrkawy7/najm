@@ -1,18 +1,18 @@
 import { Space, Table, Tag } from "antd";
-import { Navbar } from "../../../import";
+import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
+  let [pagination, setPagination] = useState(1);
+  const { isLoading, error, data } = useQuery(
+    ["users", ["/reports", pagination]],
+    getData,
+    { keepPreviousData: true }
+  );
 
-  const {
-    isLoading,
-    error,
-    data: reports,
-  } = useQuery("users", () => getData("/reports"));
-  console.log("🚀 ~ CardAdmin ~ data:", reports);
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -68,31 +68,8 @@ const CardAdmin = () => {
       ),
     },
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
 
-  let _reports = reports?.reports
+  let _reports = data?.data?.reports
     ?.map((report) => {
       if (report.date === "") {
         report.date = "لا يوجد تاريخ";
@@ -102,6 +79,8 @@ const CardAdmin = () => {
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  // const pageNumber = Math.ceil(reports?.meta?.reports.totalItems/);
+  console.log(data);
   return (
     <>
       {!isLoading ? (
@@ -115,7 +94,7 @@ const CardAdmin = () => {
                 <div className="space-y-2">
                   <h2 className="text-lg text-[#33835C]">{card.title}</h2>
                   <h2 className="text-4xl text-[#33835C] font-bold text-center">
-                    {reports?.reports?.length}
+                    {/* {_reports.length} */}
                   </h2>
                 </div>
                 <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
@@ -128,6 +107,17 @@ const CardAdmin = () => {
             <Table
               style={{ backgroundColor: "red !important" }}
               columns={columns}
+              pagination={{
+                current: pagination,
+                pageSize: 25,
+                total: data?.meta?.reports?.totalItems,
+                showSizeChanger: false,
+                onChange: (pageNumber) => {
+                  setPagination(pageNumber);
+                },
+
+                // defaultPageSize: _reports.length
+              }}
               dataSource={_reports}
             />
           </div>
@@ -142,4 +132,3 @@ const CardAdmin = () => {
 };
 
 export default CardAdmin;
-// reports?.reports?.sort((a, b) => b.id - a.id);
