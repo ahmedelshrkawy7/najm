@@ -57,7 +57,7 @@ const useApi = () => {
   const getData = async ({ queryKey }) => {
     console.log(queryKey);
     // setLoader(true);
-    let [, [url, pageNumber], id = ""] = queryKey;
+    let [, [url, { page: pageNumber } = {}], id = ""] = queryKey;
     console.log(pageNumber);
     try {
       const response = await Axios.get(

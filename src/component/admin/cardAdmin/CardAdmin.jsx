@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
-  let [pagination, setPagination] = useState(1);
+  let [pagination, setPagination] = useState(
+    localStorage.getItem("pageNumber") || 1
+  );
   const { isLoading, error, data } = useQuery(
-    ["users", ["/reports", pagination]],
+    ["users", ["/reports", { page: pagination }]],
     getData,
     { keepPreviousData: true }
   );
-
+  console.log(data);
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -80,7 +82,7 @@ const CardAdmin = () => {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // const pageNumber = Math.ceil(reports?.meta?.reports.totalItems/);
-  console.log(data);
+  console.log(data?.meta?.reports?.totalItems);
   return (
     <>
       {!isLoading ? (
@@ -94,7 +96,7 @@ const CardAdmin = () => {
                 <div className="space-y-2">
                   <h2 className="text-lg text-[#33835C]">{card.title}</h2>
                   <h2 className="text-4xl text-[#33835C] font-bold text-center">
-                    {/* {_reports.length} */}
+                    {data?.meta?.reports?.totalItems}
                   </h2>
                 </div>
                 <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
@@ -104,9 +106,11 @@ const CardAdmin = () => {
             ))}
           </div>
           <div className="mt-6">
+            {isLoading && <p>loading</p>}
             <Table
               style={{ backgroundColor: "red !important" }}
               columns={columns}
+              loading={isLoading}
               pagination={{
                 current: pagination,
                 pageSize: 25,
@@ -114,6 +118,7 @@ const CardAdmin = () => {
                 showSizeChanger: false,
                 onChange: (pageNumber) => {
                   setPagination(pageNumber);
+                  localStorage.setItem("pageNumber", pageNumber);
                 },
 
                 // defaultPageSize: _reports.length

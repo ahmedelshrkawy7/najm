@@ -8,10 +8,11 @@ import useApi from "../../utils/useApi";
 
 const ReportClassification = ({ _card, handleSelected }) => {
   const { getData } = useApi();
-  const { isLoading, error, data } = useQuery("users", () =>
-    getData("/report-classification")
+  const { isLoading, error, data } = useQuery(
+    ["users", ["/report-classification", ""]],
+    getData
   );
-
+  console.log(data);
   return (
     <>
       <ReportsHeader
