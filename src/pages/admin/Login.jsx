@@ -100,7 +100,7 @@ const Login = () => {
               </div>
 
               {/* </form> */}
-              <div className=" flex flex-col gap-2 md:w-[100%] lg:w-5/6 w-full">
+              <div className=" flex flex-col gap-2 md:w-[100%] lg:w-5/6 w-full mb-4">
                 <label className="md:text-lg text-sm mb-1">الرقم السري</label>
                 <div className="relative flex flex-col items-center justify-center">
                   <input
