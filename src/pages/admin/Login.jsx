@@ -7,6 +7,7 @@ import { EyeFilled, EyeInvisibleFilled, LockFilled } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
 import { message } from "antd";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
+import loginLogo from "../../assets/icons/loginLogo.png";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);
@@ -105,6 +106,10 @@ const Login = () => {
             </div>
           </div>
           <div className="custom">
+            <div>
+              {" "}
+              <img src={loginLogo} />
+            </div>
             <h2 className="text-black text-4xl font-bold border-b border-[#EEEEEE] pb-4 mb-6">
               تسجيل الدخول
             </h2>
@@ -172,12 +177,12 @@ const Login = () => {
                 <div className="loader"></div>
               ) : (
                 <>
-                  <button
+                  {/* <button
                     className="bg-[#33835C] p-10 py-2 text-xl text-white rounded-md"
                     onClick={() => navigate("/allAdmins")}
                   >
                     رجوع
-                  </button>
+                  </button> */}
                   <button
                     className="border disabled:cursor-not-allowed border-[#33835C] p-10 py-2 text-xl text-green-700 rounded-md"
                     disabled={

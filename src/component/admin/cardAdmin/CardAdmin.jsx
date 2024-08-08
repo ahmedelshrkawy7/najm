@@ -34,7 +34,7 @@ const CardAdmin = () => {
       title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
     },
     {
       title: "اسم المبلغ",

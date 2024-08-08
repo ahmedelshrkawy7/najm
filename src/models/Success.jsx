@@ -1,5 +1,6 @@
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
+import icon from "../assets/icons/success.png";
 
 const Success = ({ id }) => {
   console.log(id);
@@ -8,9 +9,25 @@ const Success = ({ id }) => {
   ) : (
     <div className="bg-[#fff] w-1/2 rounded-md">
       <Result
+        icon={
+          <div>
+            <img src={icon} alt="" />{" "}
+          </div>
+        }
         status="success"
-        title={id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${id}`}
-        subTitle="في حال توفر مستجدات او معلومات إضافية تختص بالبلاغ المرفوع من قبلكم، يرجى تزويدنا بالمعلومات عبر البريد الإلكتروني للإبلاغ عن الممارسات المخالفة: wb@najm.sa"
+        title={
+          <h1 className="font-bold">
+            {id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${id}`}
+          </h1>
+        }
+        subTitle={
+          <span className="text-black flex w-96 text-base">
+            {" "}
+            في حال توفر مستجدات او معلومات إضافية تختص بالبلاغ المرفوع من قبلكم،
+            يرجى تزويدنا بالمعلومات عبر البريد الإلكتروني للإبلاغ عن الممارسات
+            المخالفة: wb@najm.sa"
+          </span>
+        }
         extra={[
           <Link to="/">
             <Button

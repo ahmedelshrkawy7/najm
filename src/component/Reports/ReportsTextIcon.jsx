@@ -13,7 +13,7 @@ const ReportsTextIcon = ({ icon, title, subTitle, description }) => {
         </div>
       )}
       <span className="font-medium">{title}</span>
-      {subTitle && <span>{subTitle}</span>}
+      {subTitle && <span className="max-h-96 overflow-auto">{subTitle}</span>}
     </div>
   );
 };

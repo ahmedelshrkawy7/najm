@@ -17,6 +17,7 @@ import prev9 from "../../assets/icons/prev9.svg";
 import prev1 from "../../assets/icons/prev1.svg";
 import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import NotFound from "../../NotFound";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -54,6 +55,21 @@ const Test = () => {
     }
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+        <div className="loader"></div>;
+      </div>
+    );
+  }
+
+  if (!report) {
+    return (
+      <>
+        <NotFound msg={"report"} />
+      </>
+    );
+  }
   // bg-[#33835C1A]
   return (
     <div className="mt-14 p-4">
@@ -96,9 +112,9 @@ const Test = () => {
               <ReportsTextIcon
                 subTitle={
                   values[8] ? (
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {values[8]?.map((val) => (
-                        <span>{val.name}</span>
+                        <span className=" ">{val.name}</span>
                       ))}
                     </div>
                   ) : (
