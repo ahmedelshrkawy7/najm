@@ -29,7 +29,7 @@ const Listinput = ({
   function addLabel() {
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
-      setValue("suspects", [...data, { name: watch("list") }]);
+      setValue("suspects", [...arrayOfValues, { name: watch("list") }]);
       setValue("list", "");
     }
   }

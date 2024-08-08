@@ -1,5 +1,5 @@
 import { Navbar, ReportsPage } from "./import.js";
-import Listinput from "./component/forms/listInput/Listinput";
+
 import {
   Routes,
   Route,
@@ -17,6 +17,7 @@ import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
+import NotFound from "./NotFound.jsx";
 
 function App() {
   const { token } = useContext(TokenContext);
@@ -40,9 +41,17 @@ function App() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/dash/:id" element={<Test />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dash/:id"
+          element={
+            <ProtectedRoutes>
+              <Test />
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="/admin/login" element={<Login />} />
         <Route path="/allAdmins" element={<AllAdmins />} />
+        <Route path="*" element={<NotFound msg={"الصفحة غير موجودة"} />} />
       </Routes>
     </TokenContextProvider>
   );

@@ -1,10 +1,10 @@
 const About = () => {
   return (
     <div className="w-[90%] mx-auto">
-      <div className="md:py-28 py-16 flex md:flex-row flex-col-reverse items-center justify-between">
-        <div className="md:w-[53%] w-full pl-16">
-          <h2 className="w-fit text-[#33835C] text-2xl font-bold mb-2  justify-between relative after:absolute after:content-[''] after:w-full after:h-1 after:left-0 after:from-green-700 after:to-green-100 after:bg-gradient-to-l after:top-full after:rounded-md after:mt-2">
-            نبذة عن نجم البلاغات
+      <div className="max-w-full lg:py-20 py-8 flex flex-wrap lg:flex-row flex-col-reverse items-center justify-between">
+        <div className="lg:w-[53%] lg:self-start w-full lg:pl-12">
+          <h2 className="w-fit text-[#33835C] text-2xl font-bold mb-2 justify-between relative after:absolute after:content-[''] after:w-full after:h-1 after:left-0 after:from-green-700 after:to-green-100 after:bg-gradient-to-l after:top-full after:rounded-md after:mt-2">
+            نظام الابلاغ عن البلاغات
           </h2>
           <div className="mt-8 md:mb-0 mb-8">
             <p className="mb-4 text-gray-800 text-justify">
@@ -38,9 +38,9 @@ const About = () => {
             </p>
           </div>
         </div>
-        <div className="self-center md:w-[45%] w-full border-2  h-fit md:mb-0 mb-12">
+        <div className="lg:self-center lg:w-[45%] md:self-start w-full h-fit sm:h-[40vh] md:h-[70vh] lg:h-[95vh] xl:h-fit lg:mb-0 mb-12">
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-full lg:object-cover rounded-lg"
             src="../../../src/assets/image 4.png"
             alt=""
           />

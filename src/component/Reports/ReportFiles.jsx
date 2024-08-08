@@ -9,12 +9,12 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
   return (
     <>
-      <div className="flex gap-10 mt-8">
+      <div className="flex flex-wrap gap-10 mt-8">
         {fils?.map((file, index) => (
           <div className="relative">
             {preview && (
               <span
-                onClick={() => handleDeleteImages(index)}
+                onClick={() => handleDeleteFiles(index)}
                 className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-l flex items-center justify-center z-50"
               >
                 <span className="-mt-[2px]">&times;</span>

@@ -29,6 +29,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
       <div className="flex flex-wrap mt-4  gap-6">
         {imgs.map((img, index) => (
           <div key={Math.random()}>
+            {!img && <p>Loading</p>}
             <div className=" relative h-full w-[220px] ">
               {preview && (
                 <span
@@ -73,7 +74,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </div>
               )}
             </div>
-
             {showImg && (
               <div
                 className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"

@@ -6,17 +6,22 @@ import img1 from "../../../assets/icons/calendar.svg";
 import ReportImages from "../../Reports/ReportImages";
 import ReportFiles from "../../Reports/ReportFiles";
 const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
     let allImages = [...e.target.files].filter(
       (file) => file.type.startsWith("image") || file.type.startsWith("video")
     );
-    console.log(allImages);
-    setImgs([...imgs, ...allImages]);
+
     let allFiles = [...e.target.files].filter((file) =>
       file.type.startsWith("application")
     );
-    setFils([...fils, ...allFiles]);
+    setIsLoading(true);
+    setTimeout(() => {
+      setImgs([...imgs, ...allImages]);
+      setFils([...fils, ...allFiles]);
+      setIsLoading(false);
+    }, 1000);
 
     e.target.value = "";
   };
@@ -38,7 +43,14 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
         className="hidden"
       />
       {imgs.length > 0 && (
-        <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />
+        <>
+          <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />
+        </>
+      )}
+      {isLoading === true && fils.length === 0 && imgs.length === 0 && (
+        <div className="flex items-center justify-center w-52 mt-8">
+          <div className="loader my-4"></div>
+        </div>
       )}
       {fils.length > 0 && (
         <ReportFiles setFils={setFils} fils={fils} preview={true} />
