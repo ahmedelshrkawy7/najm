@@ -51,15 +51,20 @@ const Login = () => {
       <div className="position bg-cover bg-no-repeat min-h-screen !max-h-screen overflow-hidden">
         <div className="w-[90%] mx-auto">
           <div className="relative flex">
-            <div className=" w-[4rem] z-[999] bg-[#33835C] flex absolute top-0 left-0 flex-col md:py-2 rounded-br-lg rounded-bl-lg">
-              <img src="../src/assets/najm.png" draggable="false" alt="" />
+            <div className="w-[4rem] h-[6.5rem] z-[999] bg-[#33835C] flex absolute top-0 left-0 flex-col md:py-2 rounded-br-lg rounded-bl-lg">
+              <img
+                src="../src/assets/najm.png"
+                className="w-full h-full"
+                draggable="false"
+                alt=""
+              />
             </div>
           </div>
           <div className="custom overflow-hidden">
-            <div>
+            <div className="">
               <img
                 src="../src/assets/najm.png"
-                className="md:h-[6.3rem] md:w-[6.3rem] w-[3.5rem] h-[3.5rem]"
+                className="md:h-[5rem] md:w-[5rem] w-[4rem] h-[3.8rem]"
                 draggable="false"
                 alt=""
               />

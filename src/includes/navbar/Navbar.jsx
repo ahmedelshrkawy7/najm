@@ -10,11 +10,11 @@ const Navbar = () => {
   return (
     <div className="bg-[#2E2E2E]">
       <div className=" w-[90%] mx-auto">
-        <div className="z-40 relative h-[5rem] flex justify-between items-center">
-          <div className=" w-[4rem] z-[999] bg-[#33835C] flex absolute top-0 right-0 flex-col md:py-2 rounded-br-lg rounded-bl-lg">
+        <div className="z-40 relative h-[4.5rem] flex justify-between items-center">
+          <div className=" w-[4rem] h-[6.2rem] z-[999] bg-[#33835C] flex absolute top-0 right-0 flex-col md:py-2 rounded-br-lg rounded-bl-lg">
             {/* <h2 className="text-4xl text-white">نجم</h2>
             <h2 className="text-2xl text-white ">najm</h2> */}
-            <img src="../src/assets/najm.png" alt="" draggable="false" />
+            <img src="../src/assets/najm.png" className="w-full h-full" alt="" draggable="false" />
           </div>
           <div className="flex absolute left-0 top-1/2 -translate-y-1/2 md:pr-6 px-0 gap-4">
             {pathname === "/dash" && (
