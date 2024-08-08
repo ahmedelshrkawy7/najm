@@ -67,7 +67,7 @@ const Test = () => {
   if (!report) {
     return (
       <>
-        <NotFound msg={"report"} />
+        <NotFound msg={"البلاغ غير موجود"} />
       </>
     );
   }

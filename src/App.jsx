@@ -41,10 +41,17 @@ function App() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/dash/:id" element={<Test />} />
+        <Route
+          path="/dash/:id"
+          element={
+            <ProtectedRoutes>
+              <Test />
+            </ProtectedRoutes>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/allAdmins" element={<AllAdmins />} />
-        <Route path="*" element={<NotFound msg={"route"} />} />
+        <Route path="*" element={<NotFound msg={"الصفحة غير موجودة"} />} />
       </Routes>
     </TokenContextProvider>
   );
