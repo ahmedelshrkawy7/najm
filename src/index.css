@@ -151,7 +151,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .custom {
-  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
+  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit max-w-full bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
 }
 
 /* loader */
@@ -178,10 +178,10 @@ body::-webkit-scrollbar-thumb {
 
 .position {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
-    url("../src/assets/admins_image.png");
-  background-position: -360px 0%;
+    url("../src/assets/admins_image.png") !important;
+  background-position: -360px 0% !important;
 }
 
 .custom {
-  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
+  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 max-w-full w-[75%] sm:h-1/2 sm:w-1/2 md:h-screen bg-white flex flex-col gap-6 items-center px-10 md:rounded-none rounded-lg;
 }

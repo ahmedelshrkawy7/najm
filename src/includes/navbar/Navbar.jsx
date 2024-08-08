@@ -11,7 +11,7 @@ const Navbar = () => {
     <div className="bg-[#2E2E2E]">
       <div className=" w-[90%] mx-auto">
         <div className="z-40 relative h-[5rem] flex justify-between items-center">
-          <div className="w-[4.5rem] h-32 bg-[#33835C] flex absolute top-0 right-0 flex-col justify-end text-center py-2 rounded-br-lg rounded-bl-lg">
+          <div className=" w-[4rem] z-[999] bg-[#33835C] flex absolute top-0 right-0 flex-col md:py-2 rounded-br-lg rounded-bl-lg">
             {/* <h2 className="text-4xl text-white">نجم</h2>
             <h2 className="text-2xl text-white ">najm</h2> */}
             <img src="../src/assets/najm.png" alt="" draggable="false" />
