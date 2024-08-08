@@ -150,7 +150,6 @@ const Login = () => {
                   </button> */}
                     <button
                       className="bg-[#33835C] disabled:cursor-not-allowed md:p-10 p-5 md:py-2 py-1 md:text-xl text-md text-white rounded-md mb-4 md:mb-0"
-                      onClick={() => navigate("/allAdmins")}
                       // className="border disabled:cursor-not-allowed border-[#33835C] md:p-10 p-5 md:py-2 py-1 md:text-xl text-md text-green-700 rounded-md"
                       disabled={
                         !watch("enteredEmail") && !watch("enteredPassword")
