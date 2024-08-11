@@ -19,7 +19,7 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
             <Select
               {...field}
               defaultValue={field.value}
-              style={{ width: "300px" }}
+              className="w-[70vw] sm:w-[300px]"
               options={[
                 { value: "0", label: <span>لا</span> },
                 { value: "1", label: <span>نعم</span> },

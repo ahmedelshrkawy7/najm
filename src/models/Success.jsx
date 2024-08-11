@@ -6,7 +6,7 @@ const Success = ({ id }) => {
   return !id ? (
     <div className="loader"></div>
   ) : (
-    <div className="bg-[#fff] w-1/2 rounded-md">
+    <div className="bg-[#fff] fixed top-0 left-0 w-1/2 rounded-md">
       <Result
         status="success"
         title={id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${id}`}
