@@ -12,8 +12,7 @@ const CardAdmin = () => {
   );
   const { isLoading, error, data } = useQuery(
     ["users", ["/reports", { page: pagination }]],
-    getData,
-    { keepPreviousData: true }
+    getData
   );
   console.log(data);
   let cards = [
@@ -31,13 +30,13 @@ const CardAdmin = () => {
       title: "رقم البلاغ",
       dataIndex: "id",
       key: "id",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <p>{text}</p>,
     },
     {
       title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
     },
     {
       title: "اسم المبلغ",

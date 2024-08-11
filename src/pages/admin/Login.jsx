@@ -7,6 +7,7 @@ import { EyeFilled, EyeInvisibleFilled, LockFilled } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
 import { message } from "antd";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
+import loginLogo from "../../assets/icons/loginLogo.png";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);

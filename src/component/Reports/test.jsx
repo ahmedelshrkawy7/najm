@@ -15,8 +15,9 @@ import prev7 from "../../assets/icons/prev7.svg";
 import prev8 from "../../assets/icons/prev8.svg";
 import prev9 from "../../assets/icons/prev9.svg";
 import prev1 from "../../assets/icons/prev1.svg";
-import { EyeOutlined, NumberOutlined } from "@ant-design/icons";
+import { EyeOutlined, NumberOutlined, PhoneOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { UserOutlined, ContainerOutlined } from "@ant-design/icons";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -51,7 +52,7 @@ const Test = () => {
       </div>
     );
   }
-  
+
   if (!report) {
     return (
       <>
@@ -89,14 +90,14 @@ const Test = () => {
             </div>
             <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
           </div>
-          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-2 gap-2   rounded-lg text-white">
+          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-5 text-xl gap-2   rounded-lg text-white">
             <span>{values[7]?.name}</span>
           </div>
         </div>
         <div className=" mt-5  mb-6 py-4 rounded-xl">
           <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src="../../../src/assets/icons/export.svg" />
+              <ContainerOutlined className="text-[#33835C]" />
             </div>
             <h2 className="text-lg self-center  font-semibold">
               تفاصيل البلاغ
@@ -135,8 +136,11 @@ const Test = () => {
                   values[8] ? (
                     <div className="flex max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
                       {values[8]?.map((val) => (
-                        <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
-                          <span>{val.name}</span>
+                        <div className="tag flex items-center">
+                          <h3 className="flex items-center">{val.name}</h3>
+                          <button className="cursor-default">
+                            <UserOutlined />
+                          </button>
                         </div>
                       ))}
                     </div>
@@ -292,7 +296,7 @@ const Test = () => {
         <div className="p-4  mb-6">
           <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src="../../../src/assets/icons/export.svg" />
+              <PhoneOutlined className="text-[#33835C]" />
             </div>
             <h2 className="text-lg self-center  font-semibold">
               {" "}

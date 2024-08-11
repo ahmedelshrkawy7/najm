@@ -14,10 +14,10 @@ const ReportFiles = ({ fils, setFils, preview }) => {
           <div className="relative">
             {preview && (
               <span
-                onClick={() => handleDeleteFiles(index)}
-                className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-l flex items-center justify-center z-50"
+                onClick={() => handleDeleteImages(index)}
+                className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
               >
-                <span className="-mt-[2px]">&times;</span>
+                <span className="-mt-[2px] text-[15px]">&times;</span>
               </span>
             )}
             <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">

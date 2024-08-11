@@ -26,6 +26,8 @@ const Listinput = ({
   const arrayOfValues = watch("suspects");
   const [isBlur, setIsBlur] = useState(false);
 
+  console.log(watch("list"));
+
   function addLabel() {
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
@@ -59,6 +61,7 @@ const Listinput = ({
           control={control}
           name="list"
           rules={{
+            pattern: [],
             required: "هذا الحق مطلوب",
             validate: (value) => value !== "",
           }}
@@ -88,7 +91,7 @@ const Listinput = ({
                     zIndex: 100,
                     borderWidth: 1,
                     marginRight: "-40px",
-                    borderRadius: "1px",
+                    borderRadius: "10px",
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}

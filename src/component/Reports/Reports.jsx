@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useRef } from "react";
 import {
   Steps,
   useState,
@@ -54,7 +54,7 @@ const Reports = () => {
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "1",
+      suspectKnown: "0",
       datePickerControl: "",
       suspects: [],
       user_name: "",
@@ -129,26 +129,6 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
-
-  console.log(dataObject);
-
-  // const wrapperRef = useRef(null);
-
-  // useEffect(() => {
-  //   const smoothBehvior = () => {
-  //     if (wrapperRef.current !== null) {
-  //       wrapperRef.current.scrollIntoView({
-  //         behavior: "smooth",
-  //       });
-  //     }
-  //   };
-  //   smoothBehvior();
-
-  //   window.addEventListener("load", smoothBehvior);
-  //   return () => {
-  //     window.removeEventListener("load", smoothBehvior);
-  //   };
-  // }, []);
 
   const { postData } = useApi();
 
@@ -270,13 +250,36 @@ const Reports = () => {
     marginTop: 50,
     maxWidth: "100%",
   };
-
+  const dialogRef = useRef();
   return (
     <div className="main_container mx-auto w-screen">
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
+      <dialog
+        ref={dialogRef}
+        className="backdrop:bg-black/50"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) {
+            dialogRef?.current?.close();
+            document.documentElement.style.overflow = "";
+          }
+        }}
+      >
+        <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
+          <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
+          <span
+            className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
+            onClick={() => {
+              dialogRef?.current.close();
+              document.documentElement.style.overflow = "";
+            }}
+          >
+            x
+          </span>
+        </div>
+      </dialog>
       <div style={contentStyle}>{steps[current].content}</div>
       <div className="flex justify-end gap-4 mt-6">
         <button
@@ -297,7 +300,9 @@ const Reports = () => {
               Post.mutate(["/reports", dataObject]);
               setShowmodal(true);
             }}
-            className="bg-[#33835C] w-[100px] rounded-md text-white p-2"
+            className={
+              " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+            }
           >
             تاكيد البلاغ
           </button>
@@ -309,7 +314,13 @@ const Reports = () => {
             className={
               " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
-            onClick={next}
+            onClick={() => {
+              // if (dialogRef?.current && !card.name) {
+              //   document.documentElement.style.overflow = "hidden";
+              //   return dialogRef.current.showModal();
+              // }
+              next();
+            }}
           >
             <span>التالى </span>
             {/* <span>&larr;</span> */}

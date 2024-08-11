@@ -14,6 +14,7 @@ import prev1 from "../../assets/icons/prev1.svg";
 import ReportImages from "./ReportImages";
 import ReportFiles from "./ReportFiles";
 import { useState } from "react";
+import { UserOutlined, ContainerOutlined } from "@ant-design/icons";
 
 const ReportsPreview = ({
   labelProps,
@@ -40,7 +41,7 @@ const ReportsPreview = ({
             </div>
             <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
           </div>
-          <div className="self-start -ml-1 mr-14 flex items-center bg-[#33835C] p-4 px-6 gap-2   rounded-lg text-white">
+          <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-5 px-6 gap-2   rounded-lg text-white">
             <img className="w-8 h-8" src={src} />
             <span>{title}</span>
           </div>
@@ -48,7 +49,7 @@ const ReportsPreview = ({
         <div className=" mt-5   rounded-xl">
           <div className="flex   gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src="../../../src/assets/icons/export.svg" />
+              <ContainerOutlined className="text-[#33835C]" />
             </div>
             <h2 className="text-lg self-center  font-semibold">
               تفاصيل البلاغ
@@ -87,9 +88,15 @@ const ReportsPreview = ({
                   values[4] ? (
                     <div className="flex  max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
                       {values[4]?.map((val) => (
-                        <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
-                          <span>{val.name}</span>
+                        <div className="tag flex items-center ">
+                          <h3 className="flex items-center">{val.name}</h3>
+                          <button className="cursor-default">
+                            <UserOutlined />
+                          </button>
                         </div>
+                        // <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
+                        //   <span>{val.name}</span>
+                        // </div>
                       ))}
                     </div>
                   ) : (
