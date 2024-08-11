@@ -54,7 +54,7 @@ const ReportsPreview = ({
               تفاصيل البلاغ
             </h2>
           </div>
-          <div className="px-2 border rounded-xl pb-3 mt-4  md:mr-8 md:px-4">
+          <div className="px-1 border text-wrap rounded-xl pb-3 mt-4  md:mr-8 md:px-4">
             <ReportsTextIcon
               icon={note}
               description={true}

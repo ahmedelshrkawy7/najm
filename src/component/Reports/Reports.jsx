@@ -268,11 +268,11 @@ const Reports = () => {
     overflow: "hidden",
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
-    width: "100%",
+    maxWidth: "100%",
   };
 
   return (
-    <div className="main_container mx-auto">
+    <div className="main_container mx-auto w-screen">
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>

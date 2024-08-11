@@ -16,7 +16,11 @@ const ReportsTextIcon = ({ icon, title, subTitle, description, bottom }) => {
         <span className="font-medium !min-w-[100px]">{title}</span>
       </div>
 
-      {subTitle && <span className="mr-14">{subTitle}</span>}
+      {subTitle && (
+        <span className={`mr-14 ${description && "!mr-2 sm:!mr-12"} break-all`}>
+          {subTitle}
+        </span>
+      )}
     </div>
   );
 };

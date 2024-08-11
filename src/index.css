@@ -9,9 +9,11 @@
   box-sizing: border-box;
   font-family: Tajawal;
 }
-body {
-  /* overflow-x: hidden; */
+body,
+html {
+  overflow-x: hidden;
   direction: rtl;
+
 }
 .ant-breadcrumb-link {
   color: white !important;
