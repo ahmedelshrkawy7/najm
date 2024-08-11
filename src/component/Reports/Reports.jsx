@@ -262,6 +262,7 @@ const Reports = () => {
     marginTop: 50,
     width: "100%",
   };
+  const dialogRef = useRef();
 
   return (
     <div className="main_container mx-auto">
@@ -269,6 +270,30 @@ const Reports = () => {
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
+
+      <dialog
+        ref={dialogRef}
+        className="backdrop:bg-black/50"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) {
+            dialogRef?.current.close();
+            document.body.style.overflow = "";
+          }
+        }}
+      >
+        <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
+          <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
+          <span
+            className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
+            onClick={() => {
+              dialogRef?.current.close();
+              document.body.style.overflow = "";
+            }}
+          >
+            x
+          </span>
+        </div>
+      </dialog>
       <div style={contentStyle} ref={wrapperRef}>
         {steps[current].content}
       </div>
@@ -299,11 +324,17 @@ const Reports = () => {
 
         {current < items.length - 1 && (
           <button
-            disabled={v === false || !card.name}
+            disabled={v === false}
             className={
               " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
-            onClick={next}
+            onClick={() => {
+              if (dialogRef?.current && !card.name) {
+                document.body.style.overflow = "hidden";
+                return dialogRef.current.showModal();
+              }
+              next();
+            }}
           >
             <span>التالى </span>
             {/* <span>&larr;</span> */}
