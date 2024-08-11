@@ -10,7 +10,7 @@ const Success = ({ id }) => {
     <div className="bg-[#fff] w-1/2 rounded-md">
       <Result
         icon={
-          <div>
+          <div className="flex justify-center">
             <img src={icon} alt="" />{" "}
           </div>
         }
@@ -21,12 +21,14 @@ const Success = ({ id }) => {
           </h1>
         }
         subTitle={
-          <span className="text-black flex w-96 text-base">
-            {" "}
-            في حال توفر مستجدات او معلومات إضافية تختص بالبلاغ المرفوع من قبلكم،
-            يرجى تزويدنا بالمعلومات عبر البريد الإلكتروني للإبلاغ عن الممارسات
-            المخالفة: wb@najm.sa"
-          </span>
+          <div className="flex   text-base justify-center ">
+            <span className="text-black max-w-96 ">
+              {" "}
+              في حال توفر مستجدات او معلومات إضافية تختص بالبلاغ المرفوع من
+              قبلكم، يرجى تزويدنا بالمعلومات عبر البريد الإلكتروني للإبلاغ عن
+              الممارسات المخالفة: wb@najm.sa"
+            </span>
+          </div>
         }
         extra={[
           <Link to="/">

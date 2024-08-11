@@ -26,16 +26,17 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   }
   return (
     <>
-      <div className="flex flex-wrap mt-4 h-[120px] gap-6">
+      <div className="flex flex-wrap mt-4  gap-6">
         {imgs.map((img, index) => (
           <div key={Math.random()}>
+            {!img && <p>Loading</p>}
             <div className=" relative h-full w-[220px] ">
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
-                  className="absolute cursor-pointer -left-2 -top-1 w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center z-50"
+                  className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-l flex items-center justify-center z-50"
                 >
-                  &times;
+                  <span className="-mt-[2px]">&times;</span>
                 </span>
               )}
               {img?.type.startsWith("image") && (
@@ -73,7 +74,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </div>
               )}
             </div>
-
             {showImg && (
               <div
                 className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"

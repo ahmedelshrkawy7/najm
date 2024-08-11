@@ -15,6 +15,8 @@ import useApi from "../../utils/useApi";
 import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
 import { data } from "autoprefixer";
+import Error from "../../models/Error";
+import { toast } from "react-toastify";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -52,7 +54,7 @@ const Reports = () => {
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "1",
+      suspectKnown: "0",
       datePickerControl: "",
       suspects: [],
       user_name: "",
@@ -130,23 +132,23 @@ const Reports = () => {
 
   console.log(dataObject);
 
-  const wrapperRef = useRef(null);
+  // const wrapperRef = useRef(null);
 
-  useEffect(() => {
-    const smoothBehvior = () => {
-      if (wrapperRef.current !== null) {
-        wrapperRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    };
-    smoothBehvior();
+  // useEffect(() => {
+  //   const smoothBehvior = () => {
+  //     if (wrapperRef.current !== null) {
+  //       wrapperRef.current.scrollIntoView({
+  //         behavior: "smooth",
+  //       });
+  //     }
+  //   };
+  //   smoothBehvior();
 
-    window.addEventListener("load", smoothBehvior);
-    return () => {
-      window.removeEventListener("load", smoothBehvior);
-    };
-  }, []);
+  //   window.addEventListener("load", smoothBehvior);
+  //   return () => {
+  //     window.removeEventListener("load", smoothBehvior);
+  //   };
+  // }, []);
 
   const { postData } = useApi();
 
@@ -243,6 +245,11 @@ const Reports = () => {
   ];
 
   const next = () => {
+    if (!card.name) {
+      return toast.error("برجاء اختيار تصنيف البلاغ", {
+        className: "font-bold",
+      });
+    }
     setCurrent(current + 1);
   };
 
@@ -270,12 +277,10 @@ const Reports = () => {
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-      <div style={contentStyle} ref={wrapperRef}>
-        {steps[current].content}
-      </div>
+      <div style={contentStyle}>{steps[current].content}</div>
       <div className="flex justify-end gap-4 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-2  rounded-md"
+          className=" bg-white hover:bg-[#33835C] hover:text-white  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -284,7 +289,7 @@ const Reports = () => {
           }}
         >
           {/* <span>&rarr;</span> */}
-          <span>رجوع</span>
+          <span className="text-center">رجوع</span>
         </button>
         {current === items.length - 1 && (
           <button
@@ -292,7 +297,9 @@ const Reports = () => {
               Post.mutate(["/reports", dataObject]);
               setShowmodal(true);
             }}
-            className="bg-[#33835C] rounded-md text-white p-2"
+            className={
+              " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+            }
           >
             تاكيد البلاغ
           </button>
@@ -300,9 +307,9 @@ const Reports = () => {
 
         {current < items.length - 1 && (
           <button
-            disabled={v === false || !card.name}
+            disabled={v === false}
             className={
-              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
             onClick={next}
           >

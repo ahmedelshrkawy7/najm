@@ -113,24 +113,17 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-item-active {
+.ant-pagination .ant-pagination-item-active {
   border-color: #33835c !important;
 }
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-item-active
-  a {
+.ant-pagination .ant-pagination-item-active a {
   color: #33835c !important ;
 }
 
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-next
-  .ant-pagination-item-link {
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
   color: #33835c !important;
 }
-:where(.css-dev-only-do-not-override-p8b6i).ant-pagination
-  .ant-pagination-prev
-  .ant-pagination-item-link {
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link {
   color: #33835c !important;
 }
 
@@ -141,10 +134,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 .custom {
-  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 md:w-1/2 md:h-screen h-1/2 min-w-fit bg-white flex flex-col gap-6 justify-center items-center px-10 py-60 md:py-0 md:rounded-none rounded-lg;
+  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 max-w-full w-[75%] sm:h-1/2 sm:w-1/2 md:h-screen bg-white flex flex-col gap-6 items-center px-10 md:rounded-none rounded-lg;
 }
 
-:where(.css-dev-only-do-not-override-p8b6i).ant-table-wrapper
-  .ant-table-pagination.ant-pagination {
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
   direction: ltr;
+}
+.ant-table {
+  overflow-x: scroll !important;
+}
+
+.ant-table::-webkit-scrollbar-thumb {
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px !important;
+  width: 6px !important;
 }

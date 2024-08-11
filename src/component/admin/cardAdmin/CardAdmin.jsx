@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
-  let [pagination, setPagination] = useState(1);
-  console.log("🚀 ~ CardAdmin ~ pagination:", pagination);
+
+  let [pagination, setPagination] = useState(
+    localStorage.getItem("pageNumber") || 1
+  );
   const { isLoading, error, data } = useQuery(
     ["users", ["/reports", { page: pagination }]],
     getData
   );
-
+  console.log(data);
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -28,7 +30,7 @@ const CardAdmin = () => {
       title: "رقم البلاغ",
       dataIndex: "id",
       key: "id",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <p>{text}</p>,
     },
     {
       title: "تصنيف البلاغ",
@@ -80,7 +82,7 @@ const CardAdmin = () => {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // const pageNumber = Math.ceil(reports?.meta?.reports.totalItems/);
-  console.log(data);
+  console.log(data?.meta?.reports?.totalItems);
   return (
     <>
       {!isLoading ? (
@@ -104,9 +106,11 @@ const CardAdmin = () => {
             ))}
           </div>
           <div className="mt-6">
+            {isLoading && <p>loading</p>}
             <Table
               style={{ backgroundColor: "red !important" }}
               columns={columns}
+              loading={isLoading}
               pagination={{
                 current: pagination,
                 pageSize: 25,
@@ -114,6 +118,7 @@ const CardAdmin = () => {
                 showSizeChanger: false,
                 onChange: (pageNumber) => {
                   setPagination(pageNumber);
+                  localStorage.setItem("pageNumber", pageNumber);
                 },
 
                 // defaultPageSize: _reports.length

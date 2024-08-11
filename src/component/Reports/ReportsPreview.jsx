@@ -63,17 +63,33 @@ const ReportsPreview = ({
           </div>
           <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
             <ReportsTextIcon
+              subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
+              icon={prev4}
+              title={labelProps.datePickerTitle}
+            />
+            <ReportsTextIcon
               subTitle={values[2] === "1" ? "نعم" : "لا"}
               icon={prev2}
               title={labelProps.selectTitle}
             />
+          </div>
+          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
+            <ReportsTextIcon
+              subTitle={values[1] ? values[1] : "لا يوجد"}
+              icon={prev5}
+              title={labelProps.locationTitle}
+            />
+
             {values[2] === "1" && (
               <ReportsTextIcon
+                bottom={true}
                 subTitle={
                   values[4] ? (
-                    <div className="flex md:gap-2">
+                    <div className="flex  max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
                       {values[4]?.map((val) => (
-                        <span>{val.name}</span>
+                        <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
+                          <span>{val.name}</span>
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -85,18 +101,7 @@ const ReportsPreview = ({
               />
             )}
           </div>
-          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
-            <ReportsTextIcon
-              subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
-              icon={prev4}
-              title={labelProps.datePickerTitle}
-            />
-            <ReportsTextIcon
-              subTitle={values[1] ? values[1] : "لا يوجد"}
-              icon={prev5}
-              title={labelProps.locationTitle}
-            />
-          </div>
+
           <div className="py-1">
             <div className="flex mt-4  gap-2 items-center  rounded-full">
               <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
