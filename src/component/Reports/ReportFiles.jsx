@@ -60,7 +60,12 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     <>
       <div className="flex flex-wrap gap-10 mt-8">
         {fils?.map((file, index) => (
-          <div className="relative">
+          <div
+            onClick={() => {
+              window.open(URL.createObjectURL(file), "_blank");
+            }}
+            className="relative cursor-pointer"
+          >
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index)}
@@ -100,10 +105,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
               <img
                 className="rounded-md w-[20px]"
-                src={`../../../src/assets/${
-                  // file.type.endsWith("pdf") ? "pdf.png" : "doc.svg"
-                  makeSrc(file)
-                }`}
+                src={`../../../src/assets/${makeSrc(file)}`}
               />
             </div>
           </div>
