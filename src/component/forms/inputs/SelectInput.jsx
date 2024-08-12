@@ -19,7 +19,7 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
             <Select
               {...field}
               defaultValue={field.value}
-              className="w-[70vw] sm:w-[300px]"
+              className="w-[70vw] flex items-center h-[43.6px] sm:w-[300px]"
               options={[
                 { value: "0", label: <span>لا</span> },
                 { value: "1", label: <span>نعم</span> },
@@ -36,3 +36,4 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
 };
 
 export default SelectInput;
+

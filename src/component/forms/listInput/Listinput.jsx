@@ -43,6 +43,7 @@ const Listinput = ({
     setValue("suspects", data1);
     setData(data1);
   }
+  const inputRef = useRef();
   return (
     <div className="listinput">
       <div className="flex gap-2">
@@ -69,19 +70,27 @@ const Listinput = ({
             field: { onChange, onBlur, value, name, ref },
             fieldState,
           }) => (
-            <div className="flex w-[300px] flex-col">
+            <div className="flex  max-w-full flex-col">
               <div className="flex">
                 <Input
-                  ref={ref}
                   value={value}
-                  maxLength={50}
+                  maxLength={100}
                   onBlur={() => {
                     setIsBlur(true);
                     onBlur();
                   }}
+                  ref={(e) => {
+                    inputRef.current = e;
+                  }}
+                  onKeyUp={() => {
+                    if (inputRef.current) {
+                      inputRef.current.input.style.width =
+                        (value.length + 30) * 4 + "px";
+                    }
+                  }}
                   onChange={onChange}
                   placeholder="اسم الشخص"
-                  className="border  pl-[48px]  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
+                  className="border  pl-[48px] min-w-[200px] md:min-w-[300px]  max-w-full  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
                 />
 
                 <Button

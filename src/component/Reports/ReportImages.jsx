@@ -59,7 +59,10 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 </div>
               )}
               {img?.type.startsWith("video") && (
-                <div className="relative wrapper transition-all duration-1000 h-full ">
+                <div
+                  className="relative wrapper transition-all duration-1000 h-full"
+                  style={{ aspectRatio: 16 / 9 }}
+                >
                   <video
                     className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
                     src={URL.createObjectURL(img)}
@@ -75,13 +78,18 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               )}
             </div>
             {showImg && (
-              <div
-                className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
-                onClick={() => {
-                  setShowImg(false);
-                }}
-              >
-                <div className=" w-[500px] h-full ">
+              <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]">
+                <div className=" w-[500px] h-full relative ">
+                  <div className="cursor-pointer">
+                    <div
+                      className="absolute cursor-pointer  top-[135px] -right-2 w-5 h-5 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
+                      onClick={() => {
+                        setShowImg(false);
+                      }}
+                    >
+                      <span className="-mt-[2px]">x</span>
+                    </div>
+                  </div>
                   <img
                     draggable={false}
                     className="w-full h-full"
@@ -92,13 +100,18 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               </div>
             )}
             {showVideo && (
-              <div
-                className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
-                onClick={() => {
-                  setShowVideo(false);
-                }}
-              >
-                <div className=" w-1/2 ">
+              <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]">
+                <div className="w-1/2 relative">
+                  <div className="cursor-pointer">
+                    <div
+                      className="absolute cursor-pointer  -top-2 -right-2 w-5 h-5 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
+                      onClick={() => {
+                        setShowVideo(false);
+                      }}
+                    >
+                      <span className="-mt-[2px]">x</span>
+                    </div>
+                  </div>
                   <video className="w-full h-full" src={src} muted controls />
                 </div>
               </div>

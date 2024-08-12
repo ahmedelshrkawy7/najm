@@ -34,139 +34,142 @@ const ReportsPreview = ({
     <div>
       <ReportsHeader title={"بيانات البلاغ"} />
       <div className="px-8 pt-4">
-        <div className="flex   rounded-xl flex-col gap-6 mb-2">
-          <div className="flex   gap-2 items-center  rounded-full">
-            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src="../../../src/assets/icons/export.svg" />
-            </div>
-            <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
-          </div>
-          <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-5 px-6 gap-2   rounded-lg text-white">
-            <img className="w-8 h-8" src={src} />
-            <span>{title}</span>
-          </div>
-        </div>
-        <div className=" mt-5   rounded-xl">
-          <div className="flex   gap-2 items-center  rounded-full">
-            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <ContainerOutlined className="text-[#33835C]" />
-            </div>
-            <h2 className="text-lg self-center  font-semibold">
-              تفاصيل البلاغ
-            </h2>
-          </div>
-          <div className="px-1 border text-wrap rounded-xl pb-3 mt-4  md:mr-8 md:px-4">
-            <ReportsTextIcon
-              icon={note}
-              description={true}
-              subTitle={values[0] ? values[0] : "من فضلك اعد ادخال البيانات"}
-            />
-          </div>
-          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
-            <ReportsTextIcon
-              subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
-              icon={prev4}
-              title={labelProps.datePickerTitle}
-            />
-            <ReportsTextIcon
-              subTitle={values[2] === "1" ? "نعم" : "لا"}
-              icon={prev2}
-              title={labelProps.selectTitle}
-            />
-          </div>
-          <div className="grid md:mr-8 grid-cols-1 lg:grid-cols-2  px-2 md:px-4 lg:gap-6">
-            <ReportsTextIcon
-              subTitle={values[1] ? values[1] : "لا يوجد"}
-              icon={prev5}
-              title={labelProps.locationTitle}
-            />
-
-            {values[2] === "1" && (
-              <ReportsTextIcon
-                bottom={true}
-                subTitle={
-                  values[4] ? (
-                    <div className="flex  max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
-                      {values[4]?.map((val) => (
-                        <div className="tag flex items-center ">
-                          <h3 className="flex items-center">{val.name}</h3>
-                          <button className="cursor-default">
-                            <UserOutlined />
-                          </button>
-                        </div>
-                        // <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
-                        //   <span>{val.name}</span>
-                        // </div>
-                      ))}
-                    </div>
-                  ) : (
-                    "من فضلك اعد ادخال البيانات"
-                  )
-                }
-                icon={prev3}
-                title={labelProps.listInputTitle}
-              />
-            )}
-          </div>
-
-          <div className="py-1">
-            <div className="flex mt-4  gap-2 items-center  rounded-full">
+        <div className="border rounded-md border-gray-300">
+          <div className="flex  p-4  rounded-xl flex-col gap-6 mb-2">
+            <div className="flex   gap-2 items-center  rounded-full">
               <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-                <img src={prev9} />
+                <img src="../../../src/assets/icons/export.svg" />
               </div>
               <h2 className="text-lg self-center  font-semibold">
-                المستندات الداعمه للاشتباه
+                تصنيف البلاغ
               </h2>
             </div>
-
-            <div className="md:mr-12">
-              <ReportsTextIcon
-                icon={prev6}
-                title={`الصور والفيديوهات(${imgs.length}) `}
-              />
-
-              <div className="!pr-[53px]">
-                <ReportImages imgs={imgs} setImgs={setImgs} />
+            <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-10 px-8 gap-2   rounded-lg text-white">
+              <div className="bg-white rounded-full flex justify-center items-center w-8 h-8">
+                <img className="w-full h-full" src={src} />
               </div>
+              <span>{title}</span>
             </div>
-            <div className="md:mr-12">
-              <ReportsTextIcon
-                icon={prev7}
-                title={`الملفات(${fils.length}) `}
-              />
-              <div>
-                <ReportFiles fils={fils} setFils={setFils} />
+          </div>
+          <div className=" mt-5 p-4   rounded-xl">
+            <div className="flex   gap-2 items-center  rounded-full">
+              <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+                <ContainerOutlined className="text-[#33835C]" />
               </div>
+              <h2 className="text-lg self-center  font-semibold">
+                تفاصيل البلاغ
+              </h2>
+            </div>
+            <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px]">
+              <ReportsTextIcon
+                icon={note}
+                description={true}
+                subTitle={values[0] ? values[0] : "من فضلك اعد ادخال البيانات"}
+              />
+            </div>
+            <div className="md:mr-8  px-2 md:px-4 lg:gap-6">
+              <ReportsTextIcon
+                subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
+                icon={prev4}
+                title={labelProps.datePickerTitle}
+              />
+              <ReportsTextIcon
+                subTitle={values[2] === "1" ? "نعم" : "لا"}
+                icon={prev2}
+                title={labelProps.selectTitle}
+              />
+            </div>
+            <div className=" md:mr-8   px-2 md:px-4 lg:gap-6">
+              <ReportsTextIcon
+                subTitle={values[1] ? values[1] : "لا يوجد"}
+                icon={prev5}
+                title={labelProps.locationTitle}
+              />
+
+              {values[2] === "1" && (
+                <ReportsTextIcon
+                  bottom={true}
+                  subTitle={
+                    values[4] ? (
+                      <div className="flex  max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
+                        {values[4]?.map((val) => (
+                          <div className="tag flex items-center ">
+                            <h3 className="flex items-center">{val.name}</h3>
+                            <button className="cursor-default">
+                              <UserOutlined />
+                            </button>
+                          </div>
+                          // <div className="border rounded-sm  py-1 px-4 border-[#33835C]">
+                          //   <span>{val.name}</span>
+                          // </div>
+                        ))}
+                      </div>
+                    ) : (
+                      "من فضلك اعد ادخال البيانات"
+                    )
+                  }
+                  icon={prev3}
+                  title={labelProps.listInputTitle}
+                />
+              )}
             </div>
           </div>
         </div>
-        <div className="rounded-lg mb-6 mt-4">
-          <div className="flex   gap-2 items-center  rounded-full">
+
+        <div className="border border-gray-300 py-1 my-8 rounded-lg px-4">
+          <div className="flex mt-4  gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src="../../../src/assets/icons/export.svg" />
+              <img src={prev9} />
             </div>
             <h2 className="text-lg self-center  font-semibold">
-              {" "}
-              معلومات الاتصال
+              المستندات الداعمه للاشتباه
             </h2>
           </div>
-          <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
+
+          <div className=" md:mr-12">
             <ReportsTextIcon
-              subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
-              icon={note}
-              title={"الاسم"}
+              icon={prev6}
+              title={`الصور والفيديوهات(${imgs.length}) `}
             />
-            <ReportsTextIcon
-              subTitle={values[6] ? values[6] : "من فضلك اعد ادخال البيانات"}
-              icon={prev1}
-              title={"البريد الالكترونى"}
-            />
-            <ReportsTextIcon
-              subTitle={values[7] ? values[7] : "من فضلك اعد ادخال البيانات"}
-              icon={prev8}
-              title={"رقم الجوال"}
-            />
+
+            <div className="!pr-[53px]">
+              <ReportImages imgs={imgs} setImgs={setImgs} />
+            </div>
           </div>
+          <div className="md:mr-12">
+            <ReportsTextIcon icon={prev7} title={`الملفات(${fils.length}) `} />
+            <div>
+              <ReportFiles fils={fils} setFils={setFils} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border border-gray-300 rounded-lg mb-6 mt-4 m-8">
+        <div className="flex   gap-2 items-center p-4 rounded-full">
+          <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+            <img src="../../../src/assets/icons/export.svg" />
+          </div>
+          <h2 className="text-lg self-center  font-semibold">
+            {" "}
+            معلومات الاتصال
+          </h2>
+        </div>
+        <div className="grid grid-cols-1  xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
+          <ReportsTextIcon
+            subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
+            icon={note}
+            title={"الاسم"}
+          />
+          <ReportsTextIcon
+            subTitle={values[6] ? values[6] : "من فضلك اعد ادخال البيانات"}
+            icon={prev1}
+            title={"البريد الالكترونى"}
+          />
+          <ReportsTextIcon
+            subTitle={values[7] ? values[7] : "من فضلك اعد ادخال البيانات"}
+            icon={prev8}
+            title={"رقم الجوال"}
+          />
         </div>
       </div>
     </div>

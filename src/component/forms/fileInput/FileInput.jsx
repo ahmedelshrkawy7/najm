@@ -32,7 +32,7 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
         className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-[#33835C]  w-[300px]"
         htmlFor="fileInput"
       >
-        <img src={exportSvg} />
+        <img className="w-[20px]" src={exportSvg} />
         <span className="text-sm">ارفق الملف هنا </span>
       </label>
       <input
