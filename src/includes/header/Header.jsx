@@ -12,7 +12,7 @@ const Header = () => {
         </h2>
         <button
           onClick={() => navigate("/ReportsPage")}
-          className="border-0 bg-[#33835C] px-6 rounded-lg text-lg py-3 text-white"
+          className="border-0 bg-[#33835C] px-6 rounded-lg text-lg py-3 text-white font-semibold"
         >
           تقديم بلاغ جديد
         </button>
