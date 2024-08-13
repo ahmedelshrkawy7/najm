@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const CardAdmin = () => {
   const { getData } = useApi();
-
+ 
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
@@ -36,7 +36,9 @@ const CardAdmin = () => {
       title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
-      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
+      render: (text, record) => {
+        <Link to={`/dash/${record.id}`}>{text}</Link>;
+      },
     },
     {
       title: "اسم المبلغ",
