@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const ReportFiles = ({ fils, setFils, preview }) => {
   const handleDeleteFiles = (id) => {
@@ -47,4 +47,4 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   );
 };
 
-export default ReportFiles;
+export default memo(ReportFiles);

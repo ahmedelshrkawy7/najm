@@ -1,4 +1,5 @@
 import React, {
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -145,4 +146,4 @@ const ReportDetails = ({
   );
 };
 
-export default ReportDetails;
+export default memo(ReportDetails);

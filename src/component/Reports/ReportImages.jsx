@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import VideoDisplay from "../../models/VideoDisplay";
 import { EyeOutlined } from "@ant-design/icons";
 const ReportImages = ({ imgs, setImgs, preview }) => {
@@ -108,4 +108,4 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   );
 };
 
-export default ReportImages;
+export default memo(ReportImages);

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import { CardUser } from "../../import";
 import { fetchData } from "../../utils/http";

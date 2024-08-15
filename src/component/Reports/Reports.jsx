@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { memo, useContext, useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -15,7 +15,7 @@ import useApi from "../../utils/useApi";
 import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
 import { data } from "autoprefixer";
-
+import { CheckOutlined } from "@ant-design/icons";
 const labelProps = {
   textarea: "وصف البلاغ",
   selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
@@ -181,6 +181,7 @@ const Reports = () => {
       content: (
         <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "تفاصيل البلاغ",
@@ -207,6 +208,7 @@ const Reports = () => {
           date={date}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "معلومات الاتصال",
@@ -223,6 +225,7 @@ const Reports = () => {
           nameControl={user_name}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "معاينة البلاغ",
@@ -238,6 +241,7 @@ const Reports = () => {
           src={card.src}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
   ];
 
@@ -252,7 +256,11 @@ const Reports = () => {
     setCurrent(current - 1);
   };
 
-  const items = steps.map((item) => ({ key: item.title, title: item.title }));
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+    icon: item.icon,
+  }));
 
   const contentStyle = {
     backgroundColor: "white",
