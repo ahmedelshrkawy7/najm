@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -17,6 +17,7 @@ import Success from "../../models/Success";
 import { data } from "autoprefixer";
 import Error from "../../models/Error";
 import { toast } from "react-toastify";
+import { CheckOutlined, UserAddOutlined } from "@ant-design/icons";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -40,6 +41,7 @@ const Reports = () => {
   const [imgs, setImgs] = useState([]);
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
+  const mainContainer = useRef();
   const {
     register,
     watch,
@@ -224,12 +226,23 @@ const Reports = () => {
     },
   ];
 
+  useEffect(() => {
+    mainContainer.current.scrollIntoView();
+  }, [current]);
+
   const next = () => {
-    if (!card.name) {
-      return toast.error("برجاء اختيار تصنيف البلاغ", {
-        className: "font-bold",
-      });
+    // if (dialogRef?.current && !card.name) {
+    //   document.documentElement.style.overflow = "hidden";
+    //   return dialogRef.current.showModal();
+    // }
+    if (dialogRef?.current && (!card.name || v == false)) {
+      // return toast.error("برجاء اختيار تصنيف البلاغ", {
+      //   className: "font-bold",
+      // });
+      document.documentElement.style.overflow = "hidden";
+      return dialogRef.current.showModal();
     }
+
     setCurrent(current + 1);
   };
 
@@ -240,7 +253,11 @@ const Reports = () => {
     setCurrent(current - 1);
   };
 
-  const items = steps.map((item) => ({ key: item.title, title: item.title }));
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+    icon: item.icon, // Assign the custom icon here
+  }));
 
   const contentStyle = {
     backgroundColor: "white",
@@ -252,7 +269,10 @@ const Reports = () => {
   };
   const dialogRef = useRef();
   return (
-    <div className="main_container mx-auto w-screen">
+    <div
+      className="main_container mx-auto w-screen scroll-m-8"
+      ref={mainContainer}
+    >
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>
@@ -268,7 +288,7 @@ const Reports = () => {
         }}
       >
         <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
-          <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
+          <h2 className="md:text-xl">من فضلك ادخل البيانات</h2>
           <span
             className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
             onClick={() => {
@@ -283,7 +303,7 @@ const Reports = () => {
       <div style={contentStyle}>{steps[current].content}</div>
       <div className="flex justify-end gap-4 mt-6">
         <button
-          className=" bg-white hover:bg-[#33835C] hover:text-white  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
+          className=" bg-white font-semibold  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -301,7 +321,7 @@ const Reports = () => {
               setShowmodal(true);
             }}
             className={
-              " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] font-semibold  border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
           >
             تاكيد البلاغ
@@ -310,9 +330,8 @@ const Reports = () => {
 
         {current < items.length - 1 && (
           <button
-            disabled={v === false}
             className={
-              " bg-[#33835C] hover:bg-white hover:text-[#33835C] border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] font-semibold border border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
             }
             onClick={() => {
               // if (dialogRef?.current && !card.name) {

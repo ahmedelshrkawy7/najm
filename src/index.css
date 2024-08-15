@@ -27,10 +27,11 @@ html {
 }
 .ant-steps-item-process .ant-steps-item-icon {
   border-color: #33835c !important;
-  background-color: transparent !important;
+  background-color: #33835c !important;
 }
 .ant-steps-item-process .ant-steps-item-icon .ant-steps-icon {
-  color: gray !important;
+  /* color: gray !important; */
+  font-weight: 600 !important;
 }
 .ant-steps-item-finish .ant-steps-item-icon {
   background-color: #33835c !important;
@@ -65,7 +66,7 @@ html {
 }
 
 .wrapper:hover .active {
-  @apply absolute w-8 rounded-full h-8 flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-white;
+  @apply absolute w-full h-full flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-[rgba(29,28,28,0.5)];
 }
 
 body::-webkit-scrollbar,
@@ -149,4 +150,19 @@ body::-webkit-scrollbar-thumb {
   background-color: #33835c !important; /* color of the scroll thumb */
   border-radius: 20px !important;
   width: 6px !important;
+}
+.ant-steps
+  .ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title {
+  font-weight: 600 !important;
+}
+.anticon-close {
+  background-color: green;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-weight: 700 !important;
+  strokewidth: 2;
 }

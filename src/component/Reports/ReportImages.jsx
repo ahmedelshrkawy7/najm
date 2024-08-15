@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import VideoDisplay from "../../models/VideoDisplay";
-import { EyeOutlined } from "@ant-design/icons";
+import {
+  EyeOutlined,
+  CloseCircleOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 const ReportImages = ({ imgs, setImgs, preview }) => {
+  console.log("🚀 ~ ReportImages ~ imgs:", imgs);
   const handleDeleteImages = (id) => {
     const images = [...imgs];
     images.splice(id, 1);
@@ -9,14 +14,14 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   };
 
   console.log(imgs);
+  const myImage = useRef();
 
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");
 
-  function showFunc(e, type) {
-    setSrc(e?.target?.src);
-    console.log(e?.target?.src);
+  function showFunc(index, type) {
+    setSrc(imgs[index]);
     if (type == "image") {
       setShowImg(true);
     }
@@ -34,9 +39,14 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               {preview && (
                 <span
                   onClick={() => handleDeleteImages(index)}
-                  className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
+                  className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  text-white rounded-full flex items-center justify-center z-50"
                 >
-                  <span className="-mt-[2px] text-[15px]">&times;</span>
+                  <span className="-mt-[2px] text-[12px] font-bold ">
+                    <CloseOutlined
+                      style={{ fontWeight: 700, strokeWidth: 2 }}
+                      className="font-bold"
+                    />
+                  </span>
                 </span>
               )}
               {img?.type.startsWith("image") && (
@@ -47,15 +57,18 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                   <img
                     className="rounded-md object-cover cursor-pointer  w-full h-full"
                     src={URL?.createObjectURL(img)}
-                    onClick={(e) => {
-                      showFunc(e, "image");
-                    }}
+                    ref={myImage}
                     draggable="false"
                   />
 
-                  <span className="active cursor-pointer">
-                    <EyeOutlined />
-                  </span>
+                  <div
+                    className="active cursor-pointer h-full w-full bg-[#000] "
+                    onClick={() => {
+                      showFunc(index, "image");
+                    }}
+                  >
+                    <EyeOutlined className="z-10" style={{ zIndex: 99 }} />
+                  </div>
                 </div>
               )}
               {img?.type.startsWith("video") && (
@@ -67,11 +80,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
                     src={URL.createObjectURL(img)}
                     muted
-                    onClick={(e) => {
-                      showFunc(e, "video");
-                    }}
                   />
-                  <span className="active cursor-pointer">
+                  <span
+                    className="active cursor-pointer"
+                    onClick={() => {
+                      showFunc(index, "video");
+                    }}
+                  >
                     <EyeOutlined />
                   </span>
                 </div>
@@ -87,13 +102,16 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                         setShowImg(false);
                       }}
                     >
-                      <span className="-mt-[2px]">x</span>
+                      <span className="-mt-[2px]">
+                        {" "}
+                        <CloseCircleOutlined />
+                      </span>
                     </div>
                   </div>
                   <img
                     draggable={false}
                     className="w-full h-full"
-                    src={src}
+                    src={URL.createObjectURL(src)}
                     style={{ objectFit: "contain" }}
                   />
                 </div>
@@ -109,10 +127,17 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                         setShowVideo(false);
                       }}
                     >
-                      <span className="-mt-[2px]">x</span>
+                      <span className="-mt-[2px]">
+                        <CloseCircleOutlined />
+                      </span>
                     </div>
                   </div>
-                  <video className="w-full h-full" src={src} muted controls />
+                  <video
+                    className="w-full h-full"
+                    src={URL.createObjectURL(src)}
+                    muted
+                    controls
+                  />
                 </div>
               </div>
             )}
@@ -123,4 +148,4 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   );
 };
 
-export default ReportImages;
+export default React.memo(ReportImages);

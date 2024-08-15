@@ -115,4 +115,4 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   );
 };
 
-export default ReportFiles;
+export default React.memo(ReportFiles);

@@ -28,12 +28,15 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
 
   return (
     <>
+      <div>
+        <h2> المرفقات</h2>
+      </div>
       <label
-        className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-[#33835C]  w-[300px]"
+        className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-[#33835C]  w-[250px] h-[40px]"
         htmlFor="fileInput"
       >
         <img className="w-[20px]" src={exportSvg} />
-        <span className="text-sm">ارفق الملف هنا </span>
+        <span className="text-sm">إضافة مرفقات</span>
       </label>
       <input
         onChange={handleChangeFile}
