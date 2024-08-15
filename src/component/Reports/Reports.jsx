@@ -18,13 +18,14 @@ import { data } from "autoprefixer";
 import Error from "../../models/Error";
 import { toast } from "react-toastify";
 import { CheckOutlined } from "@ant-design/icons";
+import { icons } from "antd/es/image/PreviewGroup";
 
 const labelProps = {
   textarea: "وصف البلاغ",
   selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
   listInputTitle: "أسماء الاشخاص المشتبه بهم",
   datePickerTitle: "تاريخ ارتكاب المخالفة",
-  locationTitle: "مكان حدوث المخالفة",
+  locationTitle: "أدخل مكان الحادث",
 };
 
 const Reports = () => {
@@ -159,13 +160,13 @@ const Reports = () => {
   const handleSelected = (card) => {
     setCards(card);
   };
-
   const steps = [
     {
       title: "تصنيف البلاغ",
       content: (
         <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "تفاصيل البلاغ",
@@ -192,6 +193,7 @@ const Reports = () => {
           date={date}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "معلومات الاتصال",
@@ -208,6 +210,7 @@ const Reports = () => {
           nameControl={user_name}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "معاينة البلاغ",
@@ -223,6 +226,7 @@ const Reports = () => {
           src={card.src}
         />
       ),
+      icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
   ];
 
@@ -293,7 +297,9 @@ const Reports = () => {
           </span>
         </div>
       </dialog>
-      <div style={contentStyle}>{steps[current].content}</div>
+      <div style={contentStyle} className="min-h-96">
+        {steps[current].content}
+      </div>
       <div className="flex justify-end gap-4 mt-6">
         <button
           className=" bg-white font-semibold  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
@@ -314,7 +320,7 @@ const Reports = () => {
               setShowmodal(true);
             }}
             className={
-              " bg-[#33835C] font-semibold  border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] font-semibold  border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md   disabled:cursor-not-allowed disabled:text-black p-2"
             }
           >
             تاكيد البلاغ
@@ -324,7 +330,7 @@ const Reports = () => {
         {current < items.length - 1 && (
           <button
             className={
-              " bg-[#33835C] font-semibold border border-[#33835C] w-[100px] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] font-semibold border  w-[100px] text-white rounded-md  disabled:cursor-not-allowed  p-2"
             }
             onClick={() => {
               // if (dialogRef?.current && !card.name) {

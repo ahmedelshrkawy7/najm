@@ -90,7 +90,7 @@ const Listinput = ({
                   }}
                   onChange={onChange}
                   placeholder="اسم الشخص"
-                  className="border  pl-[48px] min-w-[200px] md:min-w-[300px]  max-w-full  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
+                  className="border font-thin   text-[16px] pl-[48px] min-w-[200px] md:min-w-[300px]   max-w-full  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll "
                 />
 
                 <Button
@@ -123,14 +123,15 @@ const Listinput = ({
         {watch("suspects").map((el, index) => {
           return (
             <>
-              <div className="tag flex items-center ">
+              <div className="tag flex items-center h-[40px] ">
                 <h3 className="flex items-center">{el.name}</h3>
                 <button
+                  className="text-[20px] w-10 text-center flex items-center justify-center"
                   onClick={() => {
                     deleteTag(index);
                   }}
                 >
-                  <CloseOutlined />
+                  <span className="text-[22px] font-semibold">&times;</span>
                 </button>
               </div>
             </>

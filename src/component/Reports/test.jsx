@@ -30,6 +30,7 @@ const labelProps = {
 const Test = () => {
   const { getData } = useApi();
   const { id } = useParams();
+
   const {
     isLoading,
     error,
@@ -43,7 +44,7 @@ const Test = () => {
 
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
-  const [src, setSrc] = useState("false");
+  const [src, setSrc] = useState("");
 
   if (isLoading) {
     return (
@@ -61,8 +62,15 @@ const Test = () => {
     );
   }
 
-  function showFunc(e, type) {
-    setSrc(e?.target?.src);
+  const photos = values[9]?.images?.filter((img) =>
+    img.file_type?.startsWith("image")
+  );
+  const videos = values[9]?.images?.filter((img) =>
+    img.file_type?.startsWith("video")
+  );
+
+  function showFunc(type, src) {
+    setSrc(src);
     if (type == "image") {
       setShowImg(true);
     }
@@ -174,13 +182,17 @@ const Test = () => {
             </h2>
           </div>
           <div className="md:mr-12">
-            <ReportsTextIcon
-              icon={prev6}
-              title={`الصور والفيديوهات(${values[9]?.images?.length}) `}
-            />
+            <div className="flex items-center gap-4 mt-4">
+              <div className=" rounded-full   h-12  flex items-center justify-center">
+                <img src={prev6} />
+              </div>
+              <span className="font-medium !min-w-[100px]">
+                الصور ( {photos.length} )
+              </span>
+            </div>
             <div className="!pr-[53px]">
               <div className="flex mt-4 flex-wrap   gap-6">
-                {values[9]?.images?.map((img, index) => (
+                {photos.map((img, index) => (
                   <div key={Math.random()}>
                     <div className="relative  w-[160px]">
                       {img?.file_type?.startsWith("image") && (
@@ -191,32 +203,20 @@ const Test = () => {
                           <img
                             className="rounded-md object-cover inline-block cursor-pointer w-full h-full "
                             src={img?.file_url}
-                            onClick={(e) => {
-                              showFunc(e, "image");
-                            }}
                             draggable="false"
                           />
-                          <span className="active cursor-pointer">
-                            <EyeOutlined />
-                          </span>
-                        </div>
-                      )}
-                      {img.file_type.startsWith("video") && (
-                        <div
-                          className="relative wrapper transition-all duration-10000 "
-                          style={{ aspectRatio: 16 / 9 }}
-                        >
-                          <video
-                            className="rounded-md object-cover cursor-pointer inline-block h-full w-full"
-                            src={img?.file_url}
-                            muted
-                            onClick={(e) => {
-                              showFunc(e, "video");
+
+                          <div
+                            className="active cursor-pointer h-full w-full bg-[#000] "
+                            onClick={() => {
+                              showFunc("image", img?.file_url);
                             }}
-                          />
-                          <span className="active cursor-pointer">
-                            <EyeOutlined />
-                          </span>
+                          >
+                            <EyeOutlined
+                              className="z-10 text-white text-[20px]"
+                              style={{ zIndex: 99 }}
+                            />
+                          </div>
                         </div>
                       )}
                     </div>
@@ -238,104 +238,162 @@ const Test = () => {
                         </div>
                       </div>
                     )}
-                    {showVideo && (
-                      <div
-                        className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-[#000000aa]"
-                        onClick={() => {
-                          setShowVideo(false);
-                        }}
-                      >
-                        <div className="w-1/2">
-                          <video
-                            className="w-full h-full"
-                            src={src}
-                            muted
-                            controls
-                          />
-                        </div>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <div className="pb-4 md:mr-12">
-            <ReportsTextIcon
-              icon={prev7}
-              title={`الملفات(${values[9]?.files?.length}) `}
-            />
-            <div className="flex flex-wrap gap-10 mt-8 !pr-[53px]">
-              {values[9]?.files?.map((file, index) => (
-                <div
-                  onClick={() => {
-                    window.open(file.file_url, "_blank");
-                  }}
-                  className="relative cursor-pointer"
-                >
-                  <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
-                    <div className="text-left">
-                      <h2
-                        className="font-bold text-[#D74D52] w-[120px] text-nowrap overflow-hidden text-ellipsis "
-                        style={{ direction: "ltr" }}
-                      >
-                        {file?.file_name?.length > 50
-                          ? "..." + file.file_name.slice(0, 20)
-                          : file.file_name}
-                      </h2>
-                      <span className="text-sm text-gray-400">
-                        {Math.ceil(file.file_size * Math.pow(10, -6))}
-                        <span className="ml-1">mb</span>
-                      </span>
+          <div className="md:mr-12">
+            <div className="flex items-center gap-4 mt-4">
+              <div className=" rounded-full   h-12  flex items-center justify-center">
+                <img src={prev6} />
+              </div>
+              <span className="font-medium !min-w-[100px]">
+                الفيديو ( {videos.length} )
+              </span>
+            </div>
+            <div className="!pr-[53px]">
+              <div className="flex mt-4 flex-wrap   gap-6">
+                {videos.map((img, index) => (
+                  <div key={Math.random()}>
+                    <div className="relative  w-[160px]">
+                      {img?.file_type?.startsWith("video") && (
+                        <div
+                          className="relative wrapper transition-all duration-10000 w-full h-full "
+                          style={{ aspectRatio: 16 / 9 }}
+                        >
+                          <video
+                            className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
+                            src={img?.file_url}
+                            muted
+                          />
+                          <div
+                            className="active cursor-pointer h-full w-full bg-[#000] "
+                            onClick={() => {
+                              showFunc("video", img?.file_url);
+                            }}
+                          >
+                            <EyeOutlined
+                              className="z-10 text-white text-[20px]"
+                              style={{ zIndex: 99 }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    <img
-                      className="rounded-md w-[20px]"
-                      src={`../src/assets/${
-                        file.file_mimes_type.includes("pdf")
-                          ? "pdf.png"
-                          : "doc.svg"
-                      }`}
-                    />
+                    {showVideo && (
+                      <>
+                        <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">
+                          <div className=" h-1/2 relative">
+                            <div className="cursor-pointer">
+                              <div
+                                className="absolute cursor-pointer  -top-4 -left-3 w-6 h-6 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
+                                onClick={() => {
+                                  setShowVideo(false);
+                                }}
+                              >
+                                <span className="-mt-[2px] text-[20px]">
+                                  &times;
+                                </span>
+                              </div>
+                            </div>
+                            <video
+                              className="w-full h-full"
+                              src={src}
+                              muted
+                              controls
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
+                ))}
+              </div>
+            </div>
+            <div className="pb-4 md:msr-12">
+              <div className="flex items-center gap-2 ">
+                <div className=" rounded-full   h-12  flex items-center justify-center">
+                  <img src={prev7} />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
-        <div className="border border-gray-300 rounded-lg mb-6 mt-4 p-4">
-          <div className="flex   gap-2 items-center  rounded-full">
-            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <PhoneOutlined className="text-[#33835C]" />
+                <span className="font-medium !min-w-[100px]">
+                  الملفات ( {values[9]?.files.length} )
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-10 mt-8 !pr-[53px]">
+                {values[9]?.files?.map((file, index) => (
+                  <div
+                    onClick={() => {
+                      window.open(file.file_url, "_blank");
+                    }}
+                    className="relative cursor-pointer"
+                  >
+                    <div className="flex items-center gap-4 bg-[#DC60651A] p-2 px-4 rounded-md border border-[#D74D5224]">
+                      <div className="text-left">
+                        <h2
+                          className="font-bold text-[#D74D52] w-[120px] text-nowrap overflow-hidden text-ellipsis "
+                          style={{ direction: "ltr" }}
+                        >
+                          {file?.file_name?.length > 50
+                            ? "..." + file.file_name.slice(0, 20)
+                            : file.file_name}
+                        </h2>
+                        <span className="text-sm text-gray-400">
+                          {Math.ceil(file.file_size * Math.pow(10, -6))}
+                          <span className="ml-1">mb</span>
+                        </span>
+                      </div>
+
+                      <img
+                        className="rounded-md w-[20px]"
+                        src={`../src/assets/${
+                          file.file_mimes_type.includes("pdf")
+                            ? "pdf.png"
+                            : "doc.svg"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h2 className="text-lg self-center  font-semibold">
-              {" "}
-              معلومات الاتصال
-            </h2>
           </div>
-          <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
-            <ReportsTextIcon
-              subTitle={
-                values[6] ? values[6].name : "من فضلك اعد ادخال البيانات"
-              }
-              icon={note}
-              title={"الاسم"}
-            />
-            <ReportsTextIcon
-              subTitle={
-                values[6] ? values[6].email : "من فضلك اعد ادخال البيانات"
-              }
-              icon={prev1}
-              title={"البريد الالكترونى"}
-            />
-            <ReportsTextIcon
-              subTitle={
-                values[6] ? values[6].phone : "من فضلك اعد ادخال البيانات"
-              }
-              icon={prev8}
-              title={"رقم الجوال"}
-            />
+
+          <div className="border border-gray-300 rounded-lg mb-6 mt-4 p-4">
+            <div className="flex   gap-2 items-center  rounded-full">
+              <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+                <PhoneOutlined className="text-[#33835C]" />
+              </div>
+              <h2 className="text-lg self-center  font-semibold">
+                {" "}
+                معلومات الاتصال
+              </h2>
+            </div>
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
+              <ReportsTextIcon
+                subTitle={
+                  values[6] ? values[6].name : "من فضلك اعد ادخال البيانات"
+                }
+                icon={note}
+                title={"الاسم"}
+              />
+              <ReportsTextIcon
+                subTitle={
+                  values[6] ? values[6].email : "من فضلك اعد ادخال البيانات"
+                }
+                icon={prev1}
+                title={"البريد الالكترونى"}
+              />
+              <ReportsTextIcon
+                subTitle={
+                  values[6] ? values[6].phone : "من فضلك اعد ادخال البيانات"
+                }
+                icon={prev8}
+                title={"رقم الجوال"}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ const Textarea = ({
   return (
     <div ref={wrapperRef} className="flex flex-col gap-4">
       <div className="flex">
-        <h2 className="font-medium text-lg">{textAreaTitle}</h2>
+        <h2 className=" ">{textAreaTitle}</h2>
         <span className="text-red-500">{iconLabel}</span>
       </div>
       {/* <textarea
@@ -38,7 +38,10 @@ const Textarea = ({
       /> */}
       <Controller
         name="description"
-        rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
+        rules={{
+          required: "من فضلك ادخل وصف البلاغ  ",
+          message: " الحقل مطلوب",
+        }}
         control={control}
         render={({ field }) => (
           <>
@@ -51,10 +54,12 @@ const Textarea = ({
                 handleInput(e);
               }}
               autoSize={{ minRows: 4 }}
-              className="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full hover:border-green-500 focus:border-green-500 max-h-72"
+              className={`scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full hover:border-green-500 focus:border-green-500 max-h-72' ${
+                errors.description && "border-red-500"
+              }`}
             />
             {errors.description && (
-              <p className="text-red-500">{errors.description.message}</p>
+              <p className="text-red-500 -mt-2">{errors.description.message}</p>
             )}
           </>
         )}

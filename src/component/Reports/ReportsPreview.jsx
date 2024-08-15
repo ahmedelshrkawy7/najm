@@ -116,7 +116,7 @@ const ReportsPreview = ({
           </div>
         </div>
 
-        <div className="border border-gray-300 py-1 my-8 rounded-lg px-4">
+        <div className="border pb-5 border-gray-300 py-1 my-8 rounded-lg px-4">
           <div className="flex mt-4  gap-2 items-center  rounded-full">
             <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
               <img src={prev9} />
@@ -126,18 +126,14 @@ const ReportsPreview = ({
             </h2>
           </div>
 
-          <div className=" md:mr-12">
-            <ReportsTextIcon
-              icon={prev6}
-              title={`الصور والفيديوهات(${imgs.length}) `}
-            />
-
+          <div className="">
+       
             <div className="!pr-[53px]">
               <ReportImages imgs={imgs} setImgs={setImgs} />
             </div>
           </div>
-          <div className="md:mr-12">
-            <ReportsTextIcon icon={prev7} title={`الملفات(${fils.length}) `} />
+          <div className="mr-12">
+            {/* <ReportsTextIcon icon={prev7} title={`الملفات(${fils.length}) `} /> */}
             <div>
               <ReportFiles fils={fils} setFils={setFils} />
             </div>
