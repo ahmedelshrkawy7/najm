@@ -17,7 +17,7 @@ import Success from "../../models/Success";
 import { data } from "autoprefixer";
 import Error from "../../models/Error";
 import { toast } from "react-toastify";
-import { CheckOutlined, UserAddOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -231,18 +231,11 @@ const Reports = () => {
   }, [current]);
 
   const next = () => {
-    // if (dialogRef?.current && !card.name) {
-    //   document.documentElement.style.overflow = "hidden";
-    //   return dialogRef.current.showModal();
-    // }
-    if (dialogRef?.current && (!card.name || v == false)) {
-      // return toast.error("برجاء اختيار تصنيف البلاغ", {
-      //   className: "font-bold",
-      // });
-      document.documentElement.style.overflow = "hidden";
-      return dialogRef.current.showModal();
+    if (!card.name) {
+      return toast.error("برجاء اختيار تصنيف البلاغ", {
+        className: "font-bold",
+      });
     }
-
     setCurrent(current + 1);
   };
 
@@ -288,7 +281,7 @@ const Reports = () => {
         }}
       >
         <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
-          <h2 className="md:text-xl">من فضلك ادخل البيانات</h2>
+          <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
           <span
             className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
             onClick={() => {
