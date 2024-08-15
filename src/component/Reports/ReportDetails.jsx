@@ -93,7 +93,7 @@ const ReportDetails = ({
           <Listinput
             listInputTitle={labelProps.listInputTitle}
             icon={
-              <PlusOutlined style={{ fontSize: "22px", fontWeight: "800" }} />
+              <PlusOutlined style={{ fontSize: "22px", fontWeight: "700" }} />
             }
             control={control}
             errors={errors}
@@ -120,7 +120,7 @@ const ReportDetails = ({
             width={20}
             src={location}
             inpTitle={labelProps.locationTitle}
-            inputPlaceholder={"اسم المكان المطلوب"}
+            inputPlaceholder={"أدخل مكان الحادث"}
           />
         </div>
         <FileInput
@@ -132,8 +132,8 @@ const ReportDetails = ({
           errors={errors}
           control={control}
         />
-        <div className="rounded-md -mt-20 bg-[#D74D521A]">
-          <p className="p-4 text-[13px] text-[#D74D52] leading-7  font-medium">
+        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit h-[40px] flex items-center">
+          <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">
             في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
             المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،
             علماً سيتم التزويد برقم البلاغ بشكل تلقائي عند إرسال البلاغ.

@@ -1,4 +1,6 @@
 import React from "react";
+import ReportsTextIcon from "./ReportsTextIcon";
+import prev7 from "../../assets/icons/prev7.svg";
 
 const ReportFiles = ({ fils, setFils, preview }) => {
   const handleDeleteFiles = (id) => {
@@ -58,20 +60,29 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
   return (
     <>
+      <div
+        className={`flex mb-4 flex-col  
+       mt-4 gap-2`}
+      >
+        <div className="flex items-center gap-2 ">
+          <div className=" rounded-full   h-12  flex items-center justify-center">
+            <img src={prev7} />
+          </div>
+
+          <span className="font-medium !min-w-[100px]">
+            الملفات ( {fils.length} )
+          </span>
+        </div>
+      </div>{" "}
       <div className="flex flex-wrap gap-10 mt-8">
         {fils?.map((file, index) => (
-          <div
-            onClick={() => {
-              window.open(URL.createObjectURL(file), "_blank");
-            }}
-            className="relative cursor-pointer"
-          >
+          <div className="relative cursor-pointer">
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index)}
-                className="absolute cursor-pointer w-2 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
+                className="absolute cursor-pointer w-5 h-5 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
               >
-                <span className="-mt-[2px] text-[15px]">&times;</span>
+                <span className="-mt-[3px] text-[20px] font-bold">&times;</span>
               </span>
             )}
             <div
@@ -79,6 +90,9 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                 file.type.endsWith("pdf") ? "bg-[#DC60651A]" : "bg-blue-100"
               } p-2 px-4 rounded-md border border-[#D74D5224]`}
               style={{ backgroundColor: getBackgroundColor(file) }}
+              onClick={() => {
+                window.open(URL.createObjectURL(file), "_blank");
+              }}
             >
               <div className="text-left">
                 <h2

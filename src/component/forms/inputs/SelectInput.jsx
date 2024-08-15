@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import React from "react";
 import { Controller } from "react-hook-form";
-
+import { DownOutlined } from "@ant-design/icons";
 const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
   return (
     <div className="flex flex-col self-start gap-4">
@@ -18,11 +18,15 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
           <div>
             <Select
               {...field}
+              suffixIcon={<DownOutlined className="text-[16px]" />}
               defaultValue={field.value}
-              className="w-[70vw] flex items-center h-[43.6px] sm:w-[300px]"
+              className="w-[70vw] flex items-center h-[43.6px] sm:w-[300px] "
               options={[
-                { value: "0", label: <span>لا</span> },
-                { value: "1", label: <span>نعم</span> },
+                { value: "0", label: <span className="text-[16px] ">لا</span> },
+                {
+                  value: "1",
+                  label: <span className="text-[16px] ">نعم</span>,
+                },
               ]}
             />
           </div>
@@ -36,4 +40,3 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
 };
 
 export default SelectInput;
-
