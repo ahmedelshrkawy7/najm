@@ -1,8 +1,8 @@
-const CardUser = ({ icon, title, onClick, active }) => {
+const CardUser = ({ title, onClick, active, src }) => {
   return (
     <div
       onClick={onClick}
-      className={`bg-white border-2 rounded-3xl transition-all   py-12 px-4 cursor-pointer ${
+      className={`bg-white border-2 flex flex-col items-center justify-center rounded-3xl transition-all   py-12 px-4 cursor-pointer ${
         active && "!bg-[#33835C] text-white"
       } border-gray-100`}
     >
@@ -11,7 +11,7 @@ const CardUser = ({ icon, title, onClick, active }) => {
           active && "bg-white"
         } `}
       >
-        {icon}
+        <img src={src} />
       </div>
       <h3 className={`text-black mt-3 ${active && "text-white"}`}>{title}</h3>
     </div>

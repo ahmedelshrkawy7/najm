@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
@@ -11,12 +12,62 @@ import Listinput from "../forms/listInput/Listinput";
 import { PlusOutlined } from "@ant-design/icons";
 import Location from "../forms/inputs/Location";
 import location from "../../../src/assets/icons/location@2x.png";
-import arrowDown from "../../../src/assets/icons/arrow down.svg";
-import Datepicker from "../forms/inputs/datepicker";
-import AddAttach from "../forms/fileInput/addAttach";
-import FileInput from "../forms/fileInput/FileInput";
 
-const ReportDetails = ({ control, errors, labelProps }) => {
+import Datepicker from "../forms/inputs/datepicker";
+import FileInput from "../forms/fileInput/FileInput";
+import SelectInput from "../forms/inputs/SelectInput";
+
+const ReportDetails = ({
+  control,
+  errors,
+  labelProps,
+  setValue,
+  watch,
+  setV,
+  reportDetailsValues,
+  title,
+  resetField,
+  register,
+  fils,
+  setFils,
+  imgs,
+  setImgs,
+  listInputControl,
+  values,
+  getValues,
+  date,
+}) => {
+  const isHidden = watch("suspectKnown") === "0";
+  const [validDate, setValidDate] = useState("");
+  useEffect(() => {
+    if (
+      reportDetailsValues.indexOf("") === -1 &&
+      watch("suspectKnown") === "1" &&
+      listInputControl.length > 0
+    ) {
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
+    } else if (
+      reportDetailsValues.indexOf("") === -1 &&
+      watch("suspectKnown") === "0"
+    ) {
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
+    } else {
+      setV(false);
+    }
+  }, [reportDetailsValues]);
+
   return (
     <>
       <ReportsHeader
@@ -28,38 +79,66 @@ const ReportDetails = ({ control, errors, labelProps }) => {
           textAreaTitle={labelProps.textarea}
           errors={errors}
           control={control}
+          watch={watch}
+          iconLabel={"*"}
         />
-        <Location
-          title={"InputControl"}
+        <SelectInput
           errors={errors}
           control={control}
-          src={arrowDown}
           inpTitle={labelProps.selectTitle}
-          inputPlaceholder={"نعم/لا"}
+          iconLabel={"*"}
         />
-        <Listinput
-          listInputTitle={labelProps.listInputTitle}
-          icon={<PlusOutlined />}
-          control={control}
-          errors={errors}
-        />
+
+        {!isHidden && (
+          <Listinput
+            listInputTitle={labelProps.listInputTitle}
+            icon={
+              <PlusOutlined style={{ fontSize: "22px", fontWeight: "700" }} />
+            }
+            control={control}
+            errors={errors}
+            setValue={setValue}
+            watch={watch}
+            resetField={resetField}
+            values={values}
+            iconLabel={"*"}
+            getValues={getValues}
+          />
+        )}
         <div className="flex items-center gap-6 flex-wrap pb-4">
           <Datepicker
             datePickerTitle={labelProps.datePickerTitle}
             control={control}
             errors={errors}
+            date={date}
           />
+
           <Location
-            title={"locationInputControl"}
+            title={"address"}
             errors={errors}
             control={control}
-            width={24}
+            width={20}
             src={location}
             inpTitle={labelProps.locationTitle}
-            inputPlaceholder={"شارع"}
+            inputPlaceholder={"أدخل مكان الحادث"}
           />
         </div>
-        <AddAttach errors={errors} control={control} />
+        <FileInput
+          fils={fils}
+          setFils={setFils}
+          imgs={imgs}
+          setImgs={setImgs}
+          register={register}
+          errors={errors}
+          control={control}
+        />
+        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit h-[40px] flex items-center">
+          <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">
+            في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
+            المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،
+            علماً سيتم التزويد برقم البلاغ بشكل تلقائي عند إرسال البلاغ.
+          </p>
+        </div>
         {/* <FileInput /> */}
       </div>
     </>

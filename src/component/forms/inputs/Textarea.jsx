@@ -1,28 +1,65 @@
 import { Input } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 const { TextArea } = Input;
 
-const Textarea = ({ register, control, errors, textAreaTitle }) => {
+const Textarea = ({
+  register,
+  control,
+  errors,
+  textAreaTitle,
+  watch,
+  iconLabel,
+}) => {
+  const refVal = useRef(null);
+  const wrapperRef = useRef(null);
+  const textAreaRef = refVal.current;
+  const value = watch("description");
+
+  const handleInput = (e) => {
+    if (textAreaRef.current) {
+      textAreaRef.style.height = "auto";
+      textAreaRef.style.height = e.target.scrollHeight + "px";
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <h2 className="font-medium text-lg">{textAreaTitle}</h2>
+    <div ref={wrapperRef} className="flex flex-col gap-4">
+      <div className="flex">
+        <h2 className=" ">{textAreaTitle}</h2>
+        <span className="text-red-500">{iconLabel}</span>
       </div>
+      {/* <textarea
+        ref={ref}
+        rows={1}
+        onChange={(e) => setValue(e.target.value)}
+        className="!max-h-[250px]"
+        value={value}
+      /> */}
       <Controller
-        name="textareaControl"
-        rules={{ required: "هذا الحقل مطلوب", message: "هذا الحقل مطلوب" }}
+        name="description"
+        rules={{
+          required: "من فضلك ادخل وصف البلاغ  ",
+          message: " الحقل مطلوب",
+        }}
         control={control}
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <>
             <TextArea
-              name="textarea"
               placeholder="اكتب نص البلاغ هنا..."
-              rows={4}
               {...field}
-              className=" hover:border-green-500 focus:border-green-500"
+              ref={refVal}
+              onChange={(e) => {
+                field.onChange(e);
+                handleInput(e);
+              }}
+              autoSize={{ minRows: 4 }}
+              className={`scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full hover:border-green-500 focus:border-green-500 max-h-72' ${
+                errors.description && "border-red-500"
+              }`}
             />
-            {errors.textareaControl && (
-              <p className="text-red-500">{errors.textareaControl.message}</p>
+            {errors.description && (
+              <p className="text-red-500 -mt-2">{errors.description.message}</p>
             )}
           </>
         )}

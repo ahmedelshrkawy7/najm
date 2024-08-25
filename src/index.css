@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,11 +7,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Tajawal;
 }
-body {
-  /* overflow-x: hidden; */
+body,
+html {
+  overflow-x: hidden;
   direction: rtl;
 }
+
 .ant-breadcrumb-link {
   color: white !important;
   font-size: 18px !important;
@@ -22,12 +26,14 @@ body {
   color: white !important;
   font-size: 18px !important;
 }
+
 .ant-steps-item-process .ant-steps-item-icon {
   border-color: #33835c !important;
-  background-color: transparent !important;
+  background-color: #33835c !important;
 }
 .ant-steps-item-process .ant-steps-item-icon .ant-steps-icon {
   color: gray !important;
+  font-weight: 600 !important;
 }
 .ant-steps-item-finish .ant-steps-item-icon {
   background-color: #33835c !important;
@@ -35,6 +41,7 @@ body {
 .ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon {
   color: white !important;
 }
+
 .main_container {
   width: 90% !important;
   margin: 0 auto;
@@ -46,7 +53,133 @@ body {
   font-size: 18px !important;
 }
 .ant-steps-item-title::after {
-  background-color: #33835c !important ;}
-.ant-steps-item-finish .ant-steps-item-title::after{
-  background-color:#33835C !important ;
+  background-color: #33835c !important ;
+}
+.ant-steps-item-finish .ant-steps-item-title::after {
+  background-color: #33835c !important ;
+}
+
+.ant-pagination {
+  justify-content: center !important;
+}
+
+.active {
+  display: none;
+  transition: display 4s ease-in-out !important;
+}
+
+.wrapper:hover .active {
+  @apply absolute w-full h-full flex items-center justify-center top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-[rgba(29,28,28,0.5)];
+}
+
+body::-webkit-scrollbar,
+._textarea::-webkit-scrollbar-thumb {
+  width: 6px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+  /* roundness of the scroll thumb */
+  /*border: 3px solid orange; creates padding around scroll thumb*/
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px;
+}
+._textarea::-webkit-scrollbar-thumb {
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px;
+}
+
+.ant-table-thead .ant-table-cell {
+  background-color: #33835c !important;
+  color: white !important;
+}
+.ant-table-cell::before {
+  display: none !important;
+}
+
+/* loader */
+.loader {
+  --d: 22px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: #33835c;
+  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
+    calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px,
+    calc(0 * var(--d)) calc(1 * var(--d)) 0 2px,
+    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+    calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px,
+    calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px,
+    calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+  animation: l27 1s infinite steps(8);
+}
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.ant-pagination .ant-pagination-item-active {
+  border-color: #33835c !important;
+}
+.ant-pagination .ant-pagination-item-active a {
+  color: #33835c !important ;
+}
+
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  color: #33835c !important;
+}
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link {
+  color: #33835c !important;
+}
+
+.position {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6)),
+    url("../src/assets/admins_image.png");
+  background-position: -360px 0%;
+}
+
+.custom {
+  @apply absolute md:top-0 top-1/2 right-1/2 md:translate-x-0 translate-x-1/2 md:right-0 md:-translate-y-0 -translate-y-1/2 max-w-full w-[75%] sm:h-1/2 sm:w-1/2 md:h-screen bg-white flex flex-col gap-6 items-center px-10 md:rounded-none rounded-lg;
+}
+
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
+  direction: ltr;
+}
+.ant-table {
+  overflow-x: scroll !important;
+}
+
+.ant-table::-webkit-scrollbar-thumb {
+  background-color: #33835c !important; /* color of the scroll thumb */
+  border-radius: 20px !important;
+  width: 6px !important;
+}
+.ant-steps
+  .ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title {
+  font-weight: 600 !important;
+}
+.anticon-close {
+  background-color: green;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 4px;
+  font-weight: 700 !important;
+  strokewidth: 2;
+}
+
+.ant-steps-item-icon {
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  background-color: #eee !important;
+}
+
+.ant-steps-item-active .ant-steps-item-icon {
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  background-color: #eee !important;
 }
