@@ -281,13 +281,14 @@ const Reports = () => {
 
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-black/50"
-        onClick={(e) => {
-          if (e.target === dialogRef.current) {
-            dialogRef?.current.close();
-            document.body.style.overflow = "";
-          }
-        }}
+        className="backdrop:bg-black/50 z-[999]"
+        // onClick={(e) => {
+        //   if (e.target === dialogRef.current) {
+        //     console.log(this, e.target, dialogRef.current);
+        //     dialogRef?.current.close();
+        //     document.documentElement.style.overflow = "";
+        //   }
+        // }}
       >
         <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
           <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
@@ -295,7 +296,7 @@ const Reports = () => {
             className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
             onClick={() => {
               dialogRef?.current.close();
-              document.body.style.overflow = "";
+              document.documentElement.style.overflow = "";
             }}
           >
             x
@@ -338,7 +339,7 @@ const Reports = () => {
             }
             onClick={() => {
               if (dialogRef?.current && !card.name) {
-                document.body.style.overflow = "hidden";
+                document.documentElement.style.overflow = "hidden";
                 return dialogRef.current.showModal();
               }
               next();
