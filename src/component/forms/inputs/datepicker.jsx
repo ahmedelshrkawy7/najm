@@ -21,9 +21,8 @@ const Datepicker = ({ control, date, errors, datePickerTitle }) => {
               {...field}
               placeholder="اختر التاريخ"
               //  onChange={onChange}
-              suffixIcon={<img src={calendarIcon} />}
-              style={{ width: "300px", padding: "10px" }}
-              className=" hover:border-green-600 focus:border-green-600 "
+              suffixIcon={<img width={20} src={calendarIcon} />}
+              className=" hover:border-green-600 focus:border-green-600 w-[70vw] md:w-[300px] p-[10px] "
             />
             {date.getTime() > Date.now() && (
               <p className="text-red-500">التاريخ غير صالح</p>

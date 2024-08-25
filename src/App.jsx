@@ -1,5 +1,5 @@
 import { Navbar, ReportsPage } from "./import.js";
-import Listinput from "./component/forms/listInput/Listinput";
+
 import {
   Routes,
   Route,
@@ -49,7 +49,7 @@ function App() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path="/admin/login" element={<Login />} />
         <Route path="/allAdmins" element={<AllAdmins />} />
         <Route path="*" element={<NotFound msg={"الصفحة غير موجودة"} />} />
       </Routes>

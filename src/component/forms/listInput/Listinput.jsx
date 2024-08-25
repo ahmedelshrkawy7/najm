@@ -26,10 +26,12 @@ const Listinput = ({
   const arrayOfValues = watch("suspects");
   const [isBlur, setIsBlur] = useState(false);
 
+  console.log(watch("list"));
+
   function addLabel() {
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
-      setValue("suspects", [...data, { name: watch("list") }]);
+      setValue("suspects", [...arrayOfValues, { name: watch("list") }]);
       setValue("list", "");
     }
   }
@@ -41,6 +43,7 @@ const Listinput = ({
     setValue("suspects", data1);
     setData(data1);
   }
+  const inputRef = useRef();
   return (
     <div className="listinput">
       <div className="flex gap-2">
@@ -59,6 +62,7 @@ const Listinput = ({
           control={control}
           name="list"
           rules={{
+            pattern: [],
             required: "هذا الحق مطلوب",
             validate: (value) => value !== "",
           }}
@@ -66,18 +70,27 @@ const Listinput = ({
             field: { onChange, onBlur, value, name, ref },
             fieldState,
           }) => (
-            <div className="flex w-[300px] flex-col">
+            <div className="flex  max-w-full flex-col">
               <div className="flex">
                 <Input
-                  ref={ref}
                   value={value}
+                  maxLength={100}
                   onBlur={() => {
                     setIsBlur(true);
                     onBlur();
                   }}
+                  ref={(e) => {
+                    inputRef.current = e;
+                  }}
+                  onKeyUp={() => {
+                    if (inputRef.current) {
+                      inputRef.current.input.style.width =
+                        (value.length + 30) * 4 + "px";
+                    }
+                  }}
                   onChange={onChange}
                   placeholder="اسم الشخص"
-                  className="border  pl-[48px]  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll"
+                  className="border font-thin   text-[16px] pl-[48px] min-w-[200px] md:min-w-[300px]   max-w-full  hover:!border-[#d9d9d9] outline-none focus:border-[#d9d9d9] overflow-scroll "
                 />
 
                 <Button
@@ -87,7 +100,7 @@ const Listinput = ({
                     zIndex: 100,
                     borderWidth: 1,
                     marginRight: "-40px",
-                    borderRadius: "1px",
+                    borderRadius: "10px",
                     borderColor: "#d9d9d9",
                   }}
                   icon={icon}
@@ -110,14 +123,15 @@ const Listinput = ({
         {watch("suspects").map((el, index) => {
           return (
             <>
-              <div className="tag flex items-center ">
+              <div className="tag flex items-center h-[40px] ">
                 <h3 className="flex items-center">{el.name}</h3>
                 <button
+                  className="text-[20px] w-10 text-center flex items-center justify-center"
                   onClick={() => {
                     deleteTag(index);
                   }}
                 >
-                  <CloseOutlined />
+                  <span className="text-[22px] font-semibold">&times;</span>
                 </button>
               </div>
             </>

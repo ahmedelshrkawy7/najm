@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -15,13 +15,17 @@ import useApi from "../../utils/useApi";
 import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
 import { data } from "autoprefixer";
+import Error from "../../models/Error";
+import { toast } from "react-toastify";
 import { CheckOutlined } from "@ant-design/icons";
+import { icons } from "antd/es/image/PreviewGroup";
+
 const labelProps = {
   textarea: "وصف البلاغ",
   selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
   listInputTitle: "أسماء الاشخاص المشتبه بهم",
   datePickerTitle: "تاريخ ارتكاب المخالفة",
-  locationTitle: "مكان حدوث المخالفة",
+  locationTitle: "أدخل مكان الحادث",
 };
 
 const Reports = () => {
@@ -38,6 +42,7 @@ const Reports = () => {
   const [imgs, setImgs] = useState([]);
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
+  const mainContainer = useRef();
   const {
     register,
     watch,
@@ -122,30 +127,11 @@ const Reports = () => {
   if (fullDate === "NaN-NaN-NaN") {
     dataObject = {
       ...restValues,
+      suspects: suspects,
       files: allFiles,
       report_classification_id: card.report_classification_id,
     };
   }
-
-  console.log(dataObject);
-
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    const smoothBehvior = () => {
-      if (wrapperRef.current !== null) {
-        wrapperRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    };
-    smoothBehvior();
-
-    window.addEventListener("load", smoothBehvior);
-    return () => {
-      window.removeEventListener("load", smoothBehvior);
-    };
-  }, []);
 
   const { postData } = useApi();
 
@@ -174,7 +160,6 @@ const Reports = () => {
   const handleSelected = (card) => {
     setCards(card);
   };
-
   const steps = [
     {
       title: "تصنيف البلاغ",
@@ -245,7 +230,16 @@ const Reports = () => {
     },
   ];
 
+  useEffect(() => {
+    mainContainer.current.scrollIntoView();
+  }, [current]);
+
   const next = () => {
+    if (!card.name) {
+      return toast.error("برجاء اختيار تصنيف البلاغ", {
+        className: "font-bold",
+      });
+    }
     setCurrent(current + 1);
   };
 
@@ -259,7 +253,7 @@ const Reports = () => {
   const items = steps.map((item) => ({
     key: item.title,
     title: item.title,
-    icon: item.icon,
+    icon: item.icon, // Assign the custom icon here
   }));
 
   const contentStyle = {
@@ -268,27 +262,27 @@ const Reports = () => {
     overflow: "hidden",
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
-    width: "100%",
+    maxWidth: "100%",
   };
   const dialogRef = useRef();
-
   return (
-    <div className="main_container mx-auto">
+    <div
+      className="main_container mx-auto w-screen scroll-m-8"
+      ref={mainContainer}
+    >
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-black/50 z-[999]"
-        // onClick={(e) => {
-        //   if (e.target === dialogRef.current) {
-        //     console.log(this, e.target, dialogRef.current);
-        //     dialogRef?.current.close();
-        //     document.documentElement.style.overflow = "";
-        //   }
-        // }}
+        className="backdrop:bg-black/50"
+        onClick={(e) => {
+          if (e.target === dialogRef.current) {
+            dialogRef?.current?.close();
+            document.documentElement.style.overflow = "";
+          }
+        }}
       >
         <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
           <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
@@ -303,12 +297,12 @@ const Reports = () => {
           </span>
         </div>
       </dialog>
-      <div style={contentStyle} ref={wrapperRef}>
+      <div style={contentStyle} className="min-h-96">
         {steps[current].content}
       </div>
       <div className="flex justify-end gap-4 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-2  rounded-md"
+          className=" bg-white font-semibold  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -317,7 +311,7 @@ const Reports = () => {
           }}
         >
           {/* <span>&rarr;</span> */}
-          <span>رجوع</span>
+          <span className="text-center">رجوع</span>
         </button>
         {current === items.length - 1 && (
           <button
@@ -325,7 +319,9 @@ const Reports = () => {
               Post.mutate(["/reports", dataObject]);
               setShowmodal(true);
             }}
-            className="bg-[#33835C] rounded-md text-white p-2"
+            className={
+              " bg-[#33835C] font-semibold  border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md   disabled:cursor-not-allowed disabled:text-black p-2"
+            }
           >
             تاكيد البلاغ
           </button>
@@ -333,15 +329,14 @@ const Reports = () => {
 
         {current < items.length - 1 && (
           <button
-            disabled={v === false}
             className={
-              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-2"
+              " bg-[#33835C] font-semibold border  w-[100px] text-white rounded-md  disabled:cursor-not-allowed  p-2"
             }
             onClick={() => {
-              if (dialogRef?.current && !card.name) {
-                document.documentElement.style.overflow = "hidden";
-                return dialogRef.current.showModal();
-              }
+              // if (dialogRef?.current && !card.name) {
+              //   document.documentElement.style.overflow = "hidden";
+              //   return dialogRef.current.showModal();
+              // }
               next();
             }}
           >

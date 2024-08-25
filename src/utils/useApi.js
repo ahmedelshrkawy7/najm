@@ -49,7 +49,7 @@ const useApi = () => {
       const response = await Axios.post(endpoint, data);
       return response;
     } catch (err) {
-      error(err);
+      throw err;
     } finally {
       //   setLoader(false);
     }
@@ -57,22 +57,18 @@ const useApi = () => {
   const getData = async ({ queryKey }) => {
     console.log(queryKey);
     // setLoader(true);
-    let [, [url, pageNumber], id = ""] = queryKey;
-    console.log(pageNumber);
+    let [, [url, param], id = ""] = queryKey;
+    console.log("🚀 ~ getData ~ param:", param);
     try {
-      const response = await Axios.get(
-        id ? url + "/" + id : url,
-        !id && {
-          params: {
-            page: pageNumber,
-          },
-        }
-      );
+      const response = await Axios.get(id ? url + "/" + id : url, {
+        params: param,
+      });
 
       const data = response.data;
       return data;
     } catch (err) {
       error(err);
+      throw err;
     } finally {
       //   setLoader(false);
     }

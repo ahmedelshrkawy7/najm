@@ -1,7 +1,7 @@
 import ReportsPage from "./pages/user/ReportsPage";
 import { Steps, theme, Breadcrumb } from "antd";
 import React, { useState } from "react";
-import ReportClassification from "./component/Reports/ReportClassification";
+import ReportClassification from "../ReportClassification";
 import ReportsPreview from "./component/Reports/ReportsPreview";
 import CardUser from "./component/user/cardUser/CardUser";
 import ReactDOM from "react-dom/client";

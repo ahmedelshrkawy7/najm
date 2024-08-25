@@ -1,4 +1,5 @@
 import { Input, Space } from "antd";
+import { useRef } from "react";
 import { Controller } from "react-hook-form";
 const Location = ({
   src,
@@ -9,12 +10,13 @@ const Location = ({
   errors,
   title,
 }) => {
+  const inputRef = useRef(null);
   return (
     <div className="flex flex-col self-start gap-4">
       <div>
         <h2>{inpTitle}</h2>
       </div>
-      <Space.Compact style={{ width: "300px" }}>
+      <Space.Compact style={{ maxWidth: "62vw" }}>
         <div className="flex flex-col w-full">
           <Controller
             control={control}
@@ -23,8 +25,18 @@ const Location = ({
             render={({ field, fieldState }) => (
               <div>
                 <Input
+                  maxLength={100}
                   {...field}
-                  className="focus:border-green-600 p-[10px] hover:border-green-600 "
+                  ref={(e) => {
+                    inputRef.current = e;
+                  }}
+                  onKeyUp={() => {
+                    if (inputRef.current) {
+                      inputRef.current.input.style.width =
+                        (field.value.length + 30) * 4 + "px";
+                    }
+                  }}
+                  className="focus:border-green-600 p-[10px] w-full hover:border-green-600 "
                   placeholder={inputPlaceholder}
                   suffix={<img width={width} src={src} />}
                 />
