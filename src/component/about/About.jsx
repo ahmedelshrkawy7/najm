@@ -4,11 +4,7 @@ const About = () => {
       <div className="max-w-full lg:py-20 py-8 flex flex-wrap lg:flex-row flex-col-reverse items-center justify-between">
         <div className="lg:w-[53%] lg:self-start w-full lg:pl-12">
           <h2 className="w-fit text-[#33835C] text-2xl font-bold mb-2 justify-between relative after:absolute after:content-[''] after:w-full after:h-1 after:left-0 after:from-green-700 after:to-green-100 after:bg-gradient-to-l after:top-full after:rounded-md after:mt-2">
-<<<<<<< HEAD
-            نظام الابلاغ عن البلاغات
-=======
             نظام الابلاغ عن المخالفات
->>>>>>> be7af2d7b91c5769345ab15712a600fdedf031bb
           </h2>
           <div className="mt-8 md:mb-0 mb-8">
             <p className="mb-4 text-gray-800 text-justify">

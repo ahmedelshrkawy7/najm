@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { memo, useState } from "react";
-=======
 import React, { useEffect, useRef, useState } from "react";
->>>>>>> be7af2d7b91c5769345ab15712a600fdedf031bb
 import VideoDisplay from "../../models/VideoDisplay";
 import prev6 from "../../assets/icons/prev6.svg";
 
@@ -251,8 +247,4 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   );
 };
 
-<<<<<<< HEAD
-export default memo(ReportImages);
-=======
 export default React.memo(ReportImages);
->>>>>>> be7af2d7b91c5769345ab15712a600fdedf031bb

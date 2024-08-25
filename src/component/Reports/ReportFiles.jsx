@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import React, { memo } from "react";
-=======
 import React from "react";
 import ReportsTextIcon from "./ReportsTextIcon";
 import prev7 from "../../assets/icons/prev7.svg";
->>>>>>> be7af2d7b91c5769345ab15712a600fdedf031bb
 
 const ReportFiles = ({ fils, setFils, preview }) => {
   const handleDeleteFiles = (id) => {
@@ -133,8 +129,4 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   );
 };
 
-<<<<<<< HEAD
-export default memo(ReportFiles);
-=======
 export default React.memo(ReportFiles);
->>>>>>> be7af2d7b91c5769345ab15712a600fdedf031bb
