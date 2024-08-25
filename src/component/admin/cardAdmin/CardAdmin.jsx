@@ -89,13 +89,13 @@ const CardAdmin = () => {
         <Space size="middle">
           {/* <a>update {record.name}</a> */}
           <Link to={`/dash/${record.id}`}>عرض</Link>
-          <button
+          {/* <button
             onClick={async () => {
               setEdit(true);
             }}
           >
             تعديل
-          </button>
+          </button> */}
         </Space>
       ),
     },

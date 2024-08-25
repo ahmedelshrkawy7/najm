@@ -25,6 +25,7 @@ const useApi = () => {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
+    timeout: 3000,
   });
 
   //   const { setAuth, Auth } = useContext(AuthContext);

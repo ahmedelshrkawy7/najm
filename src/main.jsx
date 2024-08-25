@@ -5,7 +5,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Toast from "./utils/notifications/Toast";
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>

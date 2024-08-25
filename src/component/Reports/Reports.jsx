@@ -235,12 +235,15 @@ const Reports = () => {
   }, [current]);
 
   const next = () => {
-    if (!card.name) {
-      return toast.error("برجاء اختيار تصنيف البلاغ", {
+    console.log(!card.name);
+
+    if (!card.name || v === false) {
+      return toast.error("من فضلك أدخل البيانات", {
         className: "font-bold",
       });
+    } else {
+      setCurrent(current + 1);
     }
-    setCurrent(current + 1);
   };
 
   const prev = () => {

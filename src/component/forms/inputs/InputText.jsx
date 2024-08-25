@@ -46,7 +46,7 @@ export const InputText = ({
                       );
                   }
                 }}
-                className="hover:border-emerald-500 font-bold  focus:border-emerald-500 w-[90%] md:w-[300px]"
+                className="hover:border-emerald-500   focus:border-emerald-500 w-[90%] md:w-[300px]"
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (
