@@ -92,7 +92,7 @@ const CardAdmin = () => {
           {/* <a>update {record.name}</a> */}
           <Link
             onClick={() => addBreadCrumb({ title: "تفاصيل البلاغ" })}
-            to={`/dash/${record.id}`}
+            to={`${record.id}`}
           >
             عرض
           </Link>

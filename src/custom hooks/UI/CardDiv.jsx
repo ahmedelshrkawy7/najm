@@ -1,7 +1,8 @@
 import React from "react";
 
 const CardDiv = () => {
-  return <div>CardDiv</div>;
+  console.log("hello world");
+  return <div className="">CardDiv</div>;
 };
 
 export default CardDiv;

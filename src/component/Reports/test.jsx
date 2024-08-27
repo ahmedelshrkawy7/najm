@@ -4,6 +4,8 @@ import { useQuery } from "react-query";
 import { useEffect, useRef, useState } from "react";
 import DispalyData from "../../custom hooks/DispalyData";
 import ReportMenu from "../../custom hooks/ReportMenu";
+import CardDiv from "../../custom hooks/UI/CardDiv";
+import Modal from "../../custom hooks/UI/Modal";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -17,12 +19,21 @@ const Test = () => {
   const { getData } = useApi();
   const { id } = useParams();
   const [showMenu, setShowMenu] = useState(false);
+  const [ch, setCh] = useState('');
   const wrapperRef = useRef(null);
   const {
     isLoading,
     error,
     data: { data: { report } = {} } = {},
   } = useQuery(["users", ["/reports"], id], getData);
+
+  useEffect(() => {
+    if (showMenu) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+  }, [showMenu]);
 
   if (isLoading) {
     return (
@@ -44,13 +55,7 @@ const Test = () => {
     setShowMenu(true);
   };
 
-  useEffect(() => {
-    if (showMenu) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "";
-    }
-  }, [showMenu]);
+
 
   return (
     <>
@@ -84,10 +89,12 @@ const Test = () => {
             className="w-full z-[9999] h-full fixed top-0 left-0 bg-[rgba(0,0,0,0.4)]"
           >
             <div className="absolute top-[31.9%] left-[16%] bg-white rounded-lg overflow-hidden">
-              <ReportMenu />
+              <ReportMenu setShowMenu={setShowMenu} func={setCh} />
             </div>
           </div>
         )}
+
+       {ch && <Modal>{ch}</Modal>}
       </div>
     </>
   );

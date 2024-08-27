@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import CardDiv from "./UI/CardDiv";
+import Modal from "./UI/Modal";
 
 const optionItems = [
   {
     id: 1,
     title: "استلام البلاغ",
-    path:"",
-    children:(
-     
-    ),
+    children: <div>dasdsadasdasdsadasd</div>,
   },
   {
     id: 2,
     title: "اعداد دراسة اولية",
-    children:()
+    path: "preparingStudy",
   },
   {
     id: 3,
@@ -60,11 +60,15 @@ const optionItems = [
   },
 ];
 
-const ReportMenu = () => {
+const ReportMenu = ({ setShowMenu, func }) => {
+  const navigate = useNavigate();
   return (
     <ul>
       {optionItems.map((opt) => (
         <li
+          onClick={() => {
+            !!opt.path ? navigate(opt.path) : func(opt.children);
+          }}
           className="py-[5px] px-[10px] cursor-pointer border border-gray-100"
           key={opt.id}
         >
