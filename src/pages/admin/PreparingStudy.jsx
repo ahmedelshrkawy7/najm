@@ -1,7 +1,8 @@
 import React from "react";
+import ReportDetails from "../../component/Reports/ReportDetails";
 
 const PreparingStudy = () => {
-  return <div>PreparingStudy</div>;
+  return <div></div>;
 };
 
 export default PreparingStudy;

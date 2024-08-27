@@ -25,8 +25,8 @@ const DispalyData = ({ values, fils, imgs, title }) => {
       {!location.pathname.includes("dash") && (
         <ReportsHeader title="بيانات البلاغ" />
       )}
-      <div className="mt-14 p-4">
-        <div className=" rounded-md  flex flex-col gap-6">
+      <div className="mt-14">
+        <div className=" rounded-md  flex flex-col ">
           <div className="border p-6 pb-0 rounded-md border-gray-300 ">
             {location.pathname.includes("dash") && (
               <div className="flex gap-2  items-center justify-end  rounded-full pb-3">

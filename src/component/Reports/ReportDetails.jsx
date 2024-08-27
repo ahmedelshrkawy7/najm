@@ -46,9 +46,9 @@ const ReportDetails = ({
       watch("suspectKnown") === "1" &&
       listInputControl.length > 0
     ) {
-      if (!watch("date")) {
+      if (!watch("datePickerControl")) {
         setV(true);
-      } else if (watch("date") && Date.now() >= date.getTime()) {
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
         setV(true);
       } else {
         setV(false);
@@ -57,9 +57,9 @@ const ReportDetails = ({
       reportDetailsValues.indexOf("") === -1 &&
       watch("suspectKnown") === "0"
     ) {
-      if (!watch("date")) {
+      if (!watch("datePickerControl")) {
         setV(true);
-      } else if (watch("date") && Date.now() >= date.getTime()) {
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
         setV(true);
       } else {
         setV(false);

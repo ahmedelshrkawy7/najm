@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/user/HomePage.jsx";
 import Dashboard from "./Dashboard.jsx";
-import Success from "./models/Success.jsx";
+// import Success from "./models/Success.jsx";
 import Test from "./component/Reports/test.jsx";
 import Login from "./pages/admin/Login.jsx";
 import TokenContext, { TokenContextProvider } from "./store/TokenContext.jsx";
@@ -21,6 +21,7 @@ import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
 import PreparingStudy from "./pages/admin/PreparingStudy.jsx";
+import ReportDate from "./pages/admin/ReportDate.jsx";
 
 const routes = [
   {
@@ -64,6 +65,10 @@ const routes = [
           {
             path: "preparingStudy",
             element: <PreparingStudy />,
+          },
+          {
+            path: "reportsDate",
+            element: <ReportDate />,
           },
         ],
       },

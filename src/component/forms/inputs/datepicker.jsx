@@ -13,7 +13,7 @@ const Datepicker = ({ control, date, errors, datePickerTitle }) => {
       </div>
       <Controller
         control={control}
-        name="datePickerControl"
+        name="date"
         rules={{ required: "هذا الحق مطلوب" }}
         render={({ field, fieldState }) => (
           <div>

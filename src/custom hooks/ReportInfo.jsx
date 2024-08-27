@@ -24,6 +24,12 @@ import prev6 from "../assets/icons/prev6.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 const ReportInfo = ({ values }) => {
+  const date = new Date(values.date.$d);
+  console.log(values);
+  const fullDate =
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+  const fDate = fullDate !== "NaN/NaN/NaN";
   return (
     <>
       <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
@@ -60,7 +66,11 @@ const ReportInfo = ({ values }) => {
         </div>
         <div className="">
           <ReportsTextIcon
-            subTitle={values.date === "" ? "لا يوجد" : values.date}
+            subTitle={
+              values.date === "NaN/NaN/NaN"
+                ? "لا يوجد"
+                : (fDate && fullDate) || values?.date
+            }
             icon={prev4}
             title={labelProps.datePickerTitle}
           />

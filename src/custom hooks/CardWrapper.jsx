@@ -3,7 +3,7 @@ import { PhoneOutlined } from "@ant-design/icons";
 const CardWrapper = ({ title, children, icon }) => {
   return (
     <>
-      <div className="flex mr-6  gap-2 items-center   rounded-full">
+      <div className="flex mr-6  gap-2 items-center m-8   rounded-full">
         <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
           {icon}
         </div>

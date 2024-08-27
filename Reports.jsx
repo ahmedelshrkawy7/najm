@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from "react";
 import {
   Steps,
@@ -5,17 +6,17 @@ import {
   ReportClassification,
   theme,
   ReportsPreview,
-} from "../../import";
-import ContactInformation from "./ContactInformation";
-import ReportDetails from "./ReportDetails";
+} from "./src/import";
+import ContactInformation from "./src/component/Reports/ContactInformation";
+import ReportDetails from "./src/component/Reports/ReportDetails";
 import { useForm } from "react-hook-form";
-import { sendData } from "../../utils/http";
+import { sendData } from "./src/utils/http";
 import { useNavigate } from "react-router-dom";
-import useApi from "../../utils/useApi";
+import useApi from "./src/utils/useApi";
 import { QueryClient, useMutation } from "react-query";
-import Success from "../../models/Success";
+import Success from "./src/models/Success";
 import { data } from "autoprefixer";
-import Error from "../../models/Error";
+import Error from "./src/models/Error";
 import { toast } from "react-toastify";
 import { CheckOutlined } from "@ant-design/icons";
 import { icons } from "antd/es/image/PreviewGroup";
@@ -43,6 +44,7 @@ const Reports = () => {
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
   const mainContainer = useRef();
+
   const {
     register,
     watch,
@@ -283,7 +285,7 @@ const Reports = () => {
       <Steps current={current} items={items} />
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-black/50"
+        className="backdrop:bg-black/50 "
         onClick={(e) => {
           if (e.target === dialogRef.current) {
             dialogRef?.current?.close();
