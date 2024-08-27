@@ -6,6 +6,10 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { editReportData } from "../../../../sendRequest";
 import ReportChart from "../../../charts/ReportChart";
+import ReportModel from "../../../models/ReportModel";
+import { useRef } from "react";
+import ReportLock from "../../../models/ReportLock";
+import Model from "../../../models/Model";
 const CardAdmin = () => {
   const { getData } = useApi();
   const [edit, setEdit] = useState(false);
@@ -111,6 +115,7 @@ const CardAdmin = () => {
   //     ),
   //   },
   // ];
+
   const columns = [
     {
       title: "رقم البلاغ",
@@ -165,7 +170,10 @@ const CardAdmin = () => {
       key: "id",
       width: 150,
       render: (_) => (
-        <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
+        <button
+          onClick={() => ref.current.open()}
+          className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]"
+        >
           {"جديد"}
         </button>
       ),
@@ -203,7 +211,6 @@ const CardAdmin = () => {
       return report;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
   return (
     <>
       <div className="w-[90%] mx-auto">

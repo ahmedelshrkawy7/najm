@@ -1,5 +1,6 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
+import { forwardRef } from "react";
 import Model from "./Model";
 import { Radio } from "antd";
 
@@ -28,35 +29,33 @@ const ch = (
   </div>
 );
 
-const ReportModel = ({ children = ch, ...props } = {}) => {
-  let ref = useRef();
+const ReportModel = forwardRef(({ children = ch, ...props } = {}, ref) => {
+  // let ref = useRef();
   return (
-    <>
-      <Model ref={ref}>
-        <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit max-h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
-          <div className="bg-[#33835C] w-full flex justify-between items-center px-5 py-3">
-            <div>
-              <h2 className="text-white text-lg font-semibold self-center">
-                {props?.title || "العنوان :"}
-              </h2>
-            </div>
-            <span
-              className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
-              onClick={() => ref?.current.close()}
-            >
-              &times;
-            </span>
+    <Model ref={ref}>
+      <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit max-h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
+        <div className="bg-[#33835C] w-full flex justify-between items-center px-5 py-3">
+          <div>
+            <h2 className="text-white text-lg font-semibold self-center">
+              {props?.title || "العنوان :"}
+            </h2>
           </div>
-          {children}
-          <div className="px-5 py-3 pt-0 flex items-center justify-end">
-            <button className=" bg-[#33835C] text-white p-1 px-10 rounded-lg ">
-              تاكيد
-            </button>
-          </div>
+          <span
+            className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
+            onClick={() => ref?.current.close()}
+          >
+            &times;
+          </span>
         </div>
-      </Model>
-    </>
+        {children}
+        <div className="px-5 py-3 pt-0 flex items-center justify-end">
+          <button className=" bg-[#33835C] text-white p-1 px-10 rounded-lg ">
+            تاكيد
+          </button>
+        </div>
+      </div>
+    </Model>
   );
-};
+});
 
 export default ReportModel;

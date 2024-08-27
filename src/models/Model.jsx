@@ -9,14 +9,16 @@ const Model = forwardRef(({ children }, ref) => {
     open: () => dialogRef.current?.showModal(),
     close: () => dialogRef.current?.close(),
   }));
+
   return (
-    <dialog
-      ref={dialogRef}
-      className="fixed top-0 w-full h-full bg-black/50 z-50"
-      open
-    >
-      {children}
-    </dialog>
+    <>
+      <dialog
+        ref={dialogRef}
+        className="fixed top-0 min-w-full min-h-full bg-black/50 z-[999]"
+      >
+        {children}
+      </dialog>
+    </>
   );
 });
 
