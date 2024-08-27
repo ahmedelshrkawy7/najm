@@ -1,4 +1,4 @@
-import { Navbar, ReportsPage } from "./import.js";
+import { MiniHeader, Navbar, ReportsPage } from "./import.js";
 
 import {
   Routes,
@@ -6,6 +6,9 @@ import {
   json,
   useNavigation,
   useLocation,
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
 } from "react-router-dom";
 import HomePage from "./pages/user/HomePage.jsx";
 import Dashboard from "./Dashboard.jsx";
@@ -14,47 +17,79 @@ import Test from "./component/Reports/test.jsx";
 import Login from "./pages/admin/Login.jsx";
 import TokenContext, { TokenContextProvider } from "./store/TokenContext.jsx";
 import { useContext } from "react";
-import { Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
 
-function App() {
+const routes = [
+  {
+    element: <AppLayout />, // This wraps all child routes
+    handle: { crumb: "الرئيسية" },
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "/ReportsPage",
+        element: <ReportsPage />,
+        handle: { crumb: "تقديم بلاغ" },
+        loader: () => {
+          console.log("ramy");
+          return ["alexon"];
+        },
+      },
+
+      {
+        path: "/dash",
+        element: (
+          <ProtectedRoutes>
+            <Dashboard />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/dash/:id",
+        element: (
+          <ProtectedRoutes>
+            <Test />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/admin/login",
+        element: <Login />,
+      },
+      {
+        path: "/allAdmins",
+        element: <AllAdmins />,
+      },
+      {
+        path: "*",
+        element: <NotFound msg={"الصفحة غير موجودة"} />,
+      },
+    ],
+  },
+];
+
+function AppLayout() {
   const { token } = useContext(TokenContext);
   console.log(token);
 
   let { pathname } = useLocation();
-  console.log("🚀 ~ App ~ pathname:", pathname);
 
   return (
     <TokenContextProvider>
       {!/(Admin|login)/gi.test(pathname) && <Navbar />}
-
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="/ReportsPage" element={<ReportsPage />} />
-        <Route
-          path="/dash"
-          element={
-            <ProtectedRoutes>
-              <Dashboard />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path="/dash/:id"
-          element={
-            <ProtectedRoutes>
-              <Test />
-            </ProtectedRoutes>
-          }
-        />
-        <Route path="/admin/login" element={<Login />} />
-        <Route path="/allAdmins" element={<AllAdmins />} />
-        <Route path="*" element={<NotFound msg={"الصفحة غير موجودة"} />} />
-      </Routes>
+      <Outlet />
     </TokenContextProvider>
   );
+}
+
+const router = createBrowserRouter(routes);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
