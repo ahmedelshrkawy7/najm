@@ -58,7 +58,7 @@ const Reports = () => {
       description: "",
       address: "",
       suspectKnown: "0",
-      datePickerControl: "",
+      date: "",
       suspects: [],
       user_name: "",
       user_email: "",
@@ -66,7 +66,7 @@ const Reports = () => {
       fileInput: "",
     },
   });
-  const values = watch(
+  const wValues = watch(
     [
       "description",
       "address",
@@ -80,6 +80,11 @@ const Reports = () => {
     ],
     false
   );
+
+  const values = {
+    name: card.name,
+    ...getValues(),
+  };
 
   const date = new Date(values?.[3]?.$d);
   const month =
@@ -134,7 +139,6 @@ const Reports = () => {
   }
 
   const { postData } = useApi();
-
   const Post = useMutation(postData, {
     onSuccess: (e) => {},
     onError: ({ message }) => {},
@@ -151,7 +155,7 @@ const Reports = () => {
     user_name,
     user_email,
     user_phone,
-  ] = values;
+  ] = wValues;
 
   const reportDetailsValues = [description];
 

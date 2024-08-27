@@ -18,7 +18,6 @@ import { Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
-
 function App() {
   const { token } = useContext(TokenContext);
   console.log(token);

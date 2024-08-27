@@ -15,14 +15,14 @@ html {
   direction: rtl;
 }
 
-.ant-breadcrumb-link {
+.miniHeader .ant-breadcrumb-link {
   color: white !important;
   font-size: 18px !important;
 }
-.ant-breadcrumb-link:hover {
+.miniHeader .ant-breadcrumb-link:hover {
   background-color: transparent !important;
 }
-.ant-breadcrumb-separator {
+.miniHeader .ant-breadcrumb-separator {
   color: white !important;
   font-size: 18px !important;
 }

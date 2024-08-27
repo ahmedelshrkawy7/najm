@@ -36,6 +36,7 @@ const ReportDetails = ({
   values,
   getValues,
   date,
+  description,
 }) => {
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
@@ -45,9 +46,9 @@ const ReportDetails = ({
       watch("suspectKnown") === "1" &&
       listInputControl.length > 0
     ) {
-      if (!watch("datePickerControl")) {
+      if (!watch("date")) {
         setV(true);
-      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+      } else if (watch("date") && Date.now() >= date.getTime()) {
         setV(true);
       } else {
         setV(false);
@@ -56,9 +57,9 @@ const ReportDetails = ({
       reportDetailsValues.indexOf("") === -1 &&
       watch("suspectKnown") === "0"
     ) {
-      if (!watch("datePickerControl")) {
+      if (!watch("date")) {
         setV(true);
-      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+      } else if (watch("date") && Date.now() >= date.getTime()) {
         setV(true);
       } else {
         setV(false);

@@ -4,9 +4,13 @@ import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { editReportData } from "../../../../sendRequest";
+
+import { useContext } from "react";
+
 const CardAdmin = () => {
   const { getData } = useApi();
   const [edit, setEdit] = useState(false);
+
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
@@ -24,8 +28,6 @@ const CardAdmin = () => {
       bgColor: "#4CAF50",
     },
   ];
-
-  console.log(data);
 
   const columns = [
     {
@@ -88,7 +90,12 @@ const CardAdmin = () => {
       render: (_, record) => (
         <Space size="middle">
           {/* <a>update {record.name}</a> */}
-          <Link to={`/dash/${record.id}`}>عرض</Link>
+          <Link
+            onClick={() => addBreadCrumb({ title: "تفاصيل البلاغ" })}
+            to={`/dash/${record.id}`}
+          >
+            عرض
+          </Link>
           {/* <button
             onClick={async () => {
               setEdit(true);
