@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import { useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +27,7 @@ const useApi = () => {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
+    // timeout: 3000,
   });
 
   //   const { setAuth, Auth } = useContext(AuthContext);

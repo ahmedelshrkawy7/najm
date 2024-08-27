@@ -145,8 +145,25 @@ body::-webkit-scrollbar-thumb {
 .ant-table-wrapper .ant-table-pagination.ant-pagination {
   direction: ltr;
 }
+/* Ensure the table takes full width and columns are aligned */
 .ant-table {
+  width: 100%;
   overflow-x: scroll !important;
+}
+
+@media (min-width: 768px) {
+  .ant-table {
+    overflow-x: auto !important;
+    /* border: 1px solid #ccc; Enable horizontal scrolling on small screens */
+  }
+}
+
+.ant-table-thead > tr > th {
+  text-align: center !important; /* Center align text in header cells */
+}
+
+.ant-table-tbody > tr > td {
+  text-align: center !important; /* Center align text in body cells */
 }
 
 .ant-table::-webkit-scrollbar-thumb {
@@ -182,4 +199,49 @@ body::-webkit-scrollbar-thumb {
   height: 30px !important;
   line-height: 30px !important;
   background-color: #eee !important;
+}
+
+/* styles.css */
+.custom-radio .ant-radio-inner {
+  border-color: #4caf50; /* Change border color */
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.custom-radio .ant-radio-checked .ant-radio-inner {
+  background-color: #4caf50; /* Change checked background color */
+  border-color: #4caf50;
+  /* Change checked border color */
+}
+
+.custom-radio .ant-radio-inner:after {
+  background-color: #fff; /* Change the color of the inner circle */
+}
+
+/* Custom styles for the checkbox background */
+.custom-checkbox .ant-checkbox-inner {
+  border-radius: 4px; /* Optional: Custom border radius */
+  border-color: #9e9e9e !important; /* Default border color */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #33835c !important; /* Background color when checked */
+  border-color: #33835c !important; /* Border color when checked */
+}
+
+/* Remove hover effect */
+.custom-checkbox .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #9e9e9e !important; /* Border color on hover (same as default) */
+  background-color: transparent !important; /* Background color on hover (same as default) */
+}
+
+/* Ensure the checked state remains consistent */
+.custom-checkbox .ant-checkbox-checked:hover .ant-checkbox-inner {
+  background-color: #33835c !important; /* Background color when checked and hovered */
+  border-color: #33835c !important; /* Border color when checked and hovered */
+}
+
+/* Adjust checkmark color if necessary */
+.custom-checkbox .ant-checkbox-inner::after {
+  border-color: #ffffff !important; /* Color of the checkmark when checked */
 }

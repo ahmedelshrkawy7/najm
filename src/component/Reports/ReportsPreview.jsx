@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-key */
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 
 import ReportsTextIcon from "./ReportsTextIcon";
@@ -14,7 +16,11 @@ import prev1 from "../../assets/icons/prev1.svg";
 import ReportImages from "./ReportImages";
 import ReportFiles from "./ReportFiles";
 import { useState } from "react";
-import { UserOutlined, ContainerOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  ContainerOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
 
 const ReportsPreview = ({
   labelProps,
@@ -31,9 +37,9 @@ const ReportsPreview = ({
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   return (
-    <div>
+    <div className="flex flex-col  gap-8">
       <ReportsHeader title={"بيانات البلاغ"} />
-      <div className="px-8 pt-4">
+      <div className="px-8 pt-8 flex flex-col  gap-8">
         <div className="border rounded-md border-gray-300">
           <div className="flex  p-4  rounded-xl flex-col gap-6 mb-2">
             <div className="flex   gap-2 items-center  rounded-full">
@@ -60,14 +66,14 @@ const ReportsPreview = ({
                 تفاصيل البلاغ
               </h2>
             </div>
-            <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px]">
+            <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px] mr-8">
               <ReportsTextIcon
                 icon={note}
                 description={true}
                 subTitle={values[0] ? values[0] : "من فضلك اعد ادخال البيانات"}
               />
             </div>
-            <div className="md:mr-8  px-2 md:px-4 lg:gap-6">
+            <div className="    lg:gap-6">
               <ReportsTextIcon
                 subTitle={fullDate === "NaN/NaN/NaN" ? "لا يوجد" : fullDate}
                 icon={prev4}
@@ -79,7 +85,7 @@ const ReportsPreview = ({
                 title={labelProps.selectTitle}
               />
             </div>
-            <div className=" md:mr-8   px-2 md:px-4 lg:gap-6">
+            <div className="    lg:gap-6">
               <ReportsTextIcon
                 subTitle={values[1] ? values[1] : "لا يوجد"}
                 icon={prev5}
@@ -116,52 +122,55 @@ const ReportsPreview = ({
           </div>
         </div>
 
-        <div className="border pb-5 border-gray-300 py-1 my-8 rounded-lg px-4">
-          <div className="flex mt-4  gap-2 items-center  rounded-full">
-            <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-              <img src={prev9} />
+        {!!imgs.length && !!fils.length && (
+          <>
+            <div className="flex   gap-2 items-center  rounded-full">
+              <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full mr-4">
+                <img src={prev9} />
+              </div>
+              <h2 className="text-lg self-center  font-semibold">
+                المستندات الداعمه للاشتباه
+              </h2>
             </div>
-            <h2 className="text-lg self-center  font-semibold">
-              المستندات الداعمه للاشتباه
-            </h2>
-          </div>
 
-          <div className="">
-       
-            <div className="!pr-[53px]">
-              <ReportImages imgs={imgs} setImgs={setImgs} />
+            <div className="border  border-gray-300 py-1  rounded-lg p-8 ">
+              <div className="">
+                <div className="">
+                  <ReportImages imgs={imgs} setImgs={setImgs} />
+                </div>
+              </div>
+              <div className="pb-8">
+                {/* <ReportsTextIcon icon={prev7} title={`الملفات(${fils.length}) `} /> */}
+                <div>
+                  <ReportFiles fils={fils} setFils={setFils} />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="mr-12">
-            {/* <ReportsTextIcon icon={prev7} title={`الملفات(${fils.length}) `} /> */}
-            <div>
-              <ReportFiles fils={fils} setFils={setFils} />
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
-      <div className="border border-gray-300 rounded-lg mb-6 mt-4 m-8">
-        <div className="flex   gap-2 items-center p-4 rounded-full">
-          <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
-            <img src="../../../src/assets/icons/export.svg" />
-          </div>
-          <h2 className="text-lg self-center  font-semibold">
-            {" "}
-            معلومات الاتصال
-          </h2>
+      <div className="flex   gap-2 items-center rounded-full px-8 ms-4">
+        <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
+          <PhoneOutlined className="text-[#33835C]" />
         </div>
-        <div className="grid grid-cols-1  xl:grid-cols-3 md:-ml-1 md:mr-12 mt-2 xl:gap-24 items-center">
+        <h2 className="text-lg self-center  font-semibold"> معلومات الاتصال</h2>
+      </div>
+      <div className="border border-gray-300 rounded-lg mb-6 mt-0 m-8 p-4">
+        <div className="flex flex-wrap justify-between md:-ml-1   mt-2  items-center">
           <ReportsTextIcon
+            row={true}
             subTitle={values[5] ? values[5] : "من فضلك اعد ادخال البيانات"}
             icon={note}
             title={"الاسم"}
           />
           <ReportsTextIcon
+            row={true}
             subTitle={values[6] ? values[6] : "من فضلك اعد ادخال البيانات"}
             icon={prev1}
             title={"البريد الالكترونى"}
           />
           <ReportsTextIcon
+            row={true}
             subTitle={values[7] ? values[7] : "من فضلك اعد ادخال البيانات"}
             icon={prev8}
             title={"رقم الجوال"}

@@ -1,10 +1,17 @@
 
-const ReportsTextIcon = ({ icon, title, subTitle, description, bottom }) => {
+const ReportsTextIcon = ({
+  icon,
+  title,
+  subTitle,
+  description,
+  bottom,
+  row,
+}) => {
   return (
     <div
-      className={`flex mb-4 flex-col  ${
+      className={`flex mb-4 flex-col   ${
         description === true && "flex-col !items-start"
-      }   mt-4 gap-2`}
+      } ${row && "!flex-row items-center"}  mt-4 gap-2`}
     >
       <div className="flex items-center gap-2">
         {!description && (
@@ -12,12 +19,14 @@ const ReportsTextIcon = ({ icon, title, subTitle, description, bottom }) => {
             <img src={icon} />
           </div>
         )}
-        <span className="font-medium !min-w-[100px]">{title}</span>
+        <span className="font-medium ">{title}</span>
       </div>
 
       {subTitle && (
         <span
-          className={`mr-14 ${description && "!mr-2 sm:!mr-12 text-justify"}`}
+          className={`${row ? "mr-4" : "mr-14"} ${
+            description && "!mr-2 sm:!mr-12 text-justify"
+          }`}
         >
           {subTitle}
         </span>

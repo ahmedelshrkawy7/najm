@@ -60,20 +60,22 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
   return (
     <>
-      <div
-        className={`flex mb-4 flex-col  
+      {!!fils?.length && (
+        <div
+          className={`flex mb-4 flex-col  
        mt-4 gap-2`}
-      >
-        <div className="flex items-center gap-2 ">
-          <div className=" rounded-full   h-12  flex items-center justify-center">
-            <img src={prev7} />
-          </div>
+        >
+          <div className="flex items-center gap-2 ">
+            <div className=" rounded-full   h-12  flex items-center justify-center">
+              <img src={prev7} />
+            </div>
 
-          <span className="font-medium !min-w-[100px]">
-            الملفات ( {fils.length} )
-          </span>
+            <span className="font-medium !min-w-[100px]">
+              الملفات ( {fils.length} )
+            </span>
+          </div>
         </div>
-      </div>{" "}
+      )}
       <div className="flex flex-wrap gap-10 mt-8">
         {fils?.map((file, index) => (
           <div className="relative cursor-pointer">

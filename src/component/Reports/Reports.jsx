@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from "react";
 import {
   Steps,
@@ -43,6 +44,7 @@ const Reports = () => {
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
   const mainContainer = useRef();
+
   const {
     register,
     watch,
@@ -235,12 +237,15 @@ const Reports = () => {
   }, [current]);
 
   const next = () => {
-    if (!card.name) {
-      return toast.error("برجاء اختيار تصنيف البلاغ", {
+    console.log(!card.name);
+
+    if (!card.name || v === false) {
+      return toast.error("من فضلك أدخل البيانات", {
         className: "font-bold",
       });
+    } else {
+      setCurrent(current + 1);
     }
-    setCurrent(current + 1);
   };
 
   const prev = () => {
@@ -276,7 +281,7 @@ const Reports = () => {
       <Steps current={current} items={items} />
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-black/50"
+        className="backdrop:bg-black/50 "
         onClick={(e) => {
           if (e.target === dialogRef.current) {
             dialogRef?.current?.close();

@@ -1,24 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import useApi from "../../utils/useApi";
 import { useMutation } from "react-query";
-import { json, Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import TokenContext from "../../store/TokenContext";
 import { EyeFilled, EyeInvisibleFilled, LockFilled } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
-import { message } from "antd";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
-import loginLogo from "../../assets/icons/loginLogo.png";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);
 
   const Post = useMutation(postData, {
-    onError: (error) => {
-      if (error.response.status === 401) {
-        // Handle 401 error here
-        console.log("hello world");
-      }
-    },
     onSuccess: (e) => {
       if (e.status === 200) {
         login(e.data.data.token);
@@ -35,7 +27,7 @@ const Login = () => {
     },
   });
 
-  const { data: { data = {} } = {}, isLoading: isFetching, error } = Post;
+  const { data: { data = {} } = {}, isLoading: isFetching } = Post;
   // console.log(error);
   const { login, token } = useContext(TokenContext);
   const {
@@ -49,7 +41,7 @@ const Login = () => {
       enteredPassword: "",
     },
   });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   console.log(errors);
 
