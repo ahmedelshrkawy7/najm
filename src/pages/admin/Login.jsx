@@ -11,6 +11,7 @@ import loginLogo from "../../assets/icons/loginLogo.png";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const Post = useMutation(postData, {
     onError: (error) => {
@@ -23,6 +24,7 @@ const Login = () => {
       if (e.status === 200) {
         login(e.data.data.token);
         successNotf("تم تسجيل الدخول بنجاح");
+        navigate("/dash");
       }
     },
     onError: ({
@@ -49,7 +51,6 @@ const Login = () => {
       enteredPassword: "",
     },
   });
-  const navigate = useNavigate();
 
   console.log(errors);
 

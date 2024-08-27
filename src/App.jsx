@@ -56,10 +56,7 @@ const routes = [
           </ProtectedRoutes>
         ),
       },
-      {
-        path: "/admin/login",
-        element: <Login />,
-      },
+
       {
         path: "/allAdmins",
         element: <AllAdmins />,
@@ -69,6 +66,10 @@ const routes = [
         element: <NotFound msg={"الصفحة غير موجودة"} />,
       },
     ],
+  },
+  {
+    path: "/admin/login",
+    element: <Login />,
   },
 ];
 
@@ -80,7 +81,7 @@ function AppLayout() {
 
   return (
     <TokenContextProvider>
-      {!/(Admin|login)/gi.test(pathname) && <Navbar />}
+      <Navbar />
       <Outlet />
     </TokenContextProvider>
   );
