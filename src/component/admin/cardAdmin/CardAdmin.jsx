@@ -4,7 +4,6 @@ import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { editReportData } from "../../../../sendRequest";
 import ReportChart from "../../../charts/ReportChart";
 import ReportModel from "../../../models/ReportModel";
 import { useRef } from "react";
@@ -129,28 +128,7 @@ const CardAdmin = () => {
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
       width: 200,
-      render: (text, record) =>
-        edit ? (
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const data = await editReportData(
-                record.report_classification.id,
-                {
-                  name_ar: record.report_classification.name,
-                  name_en: record.report_classification.name,
-                  _method: "PUT",
-                }
-              );
-              console.log("hello world");
-              setEdit(false);
-            }}
-          >
-            <input type="text" />
-          </form>
-        ) : (
-          <Link to={`/dash/${record.id}`}>{text}</Link>
-        ),
+      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
     },
     {
       title: "اسم المبلغ",
@@ -170,10 +148,7 @@ const CardAdmin = () => {
       key: "id",
       width: 150,
       render: (_) => (
-        <button
-          onClick={() => ref.current.open()}
-          className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]"
-        >
+        <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
           {"جديد"}
         </button>
       ),

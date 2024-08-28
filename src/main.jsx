@@ -12,11 +12,12 @@ import ReportLock from "./models/ReportLock";
 import UsableReport from "./models/UsableReport";
 import ReportEscalation from "./models/ReportEscalation";
 import Model from "./models/Model";
+import { ContextProvider } from "./pages/admin/CardContext";
 const queryClient = new QueryClient({});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-      <App />
+        <App />
       <Toast />
     </QueryClientProvider>
   </BrowserRouter>

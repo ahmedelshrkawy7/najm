@@ -6,6 +6,7 @@ const AdminManager = () => {
       icon: "../src/assets/icons/manager_1.svg",
       title: "الصلاحيات",
       buttons: ["عرض الصلاحيات", "إضافة صلاحية"],
+      children: <div>hi</div>,
     },
     {
       icon: "../src/assets/icons/manager_2.svg",
@@ -39,6 +40,8 @@ const AdminManager = () => {
               icon={card.icon}
               title={card.title}
               buttons={card.buttons}
+              ch={card.children}
+              index={index}
             />
           ))}
         </div>

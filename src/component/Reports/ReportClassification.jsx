@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import ReportsHeader from "./src/custom hooks/ReportsHeader";
-import { CardUser } from "./src/import";
-import { fetchData } from "./src/utils/http";
+import ReportsHeader from "../../custom hooks/ReportsHeader";
+import { CardUser } from "../../import";
+import { fetchData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import useApi from "./src/utils/useApi";
+import useApi from "../../utils/useApi";
 
 const ReportClassification = ({ _card, handleSelected }) => {
   const { getData } = useApi();

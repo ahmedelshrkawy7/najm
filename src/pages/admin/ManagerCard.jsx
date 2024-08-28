@@ -1,28 +1,57 @@
 /* eslint-disable react/prop-types */
 
-const ManagerCard = ({ icon, title, buttons }) => {
-  console.log(icon);
+import { useRef, useState } from "react";
+import ReportModel from "../../models/ReportModel";
+import { useNavigate } from "react-router-dom";
+import { columns, data } from "./data";
+
+const ManagerCard = ({ icon, title, buttons, index, ch }) => {
+  let ref = useRef(null);
+  const navigate = useNavigate();
+
+  let [modelState, setModelState] = useState("");
+
+  let handleClick = (button, btnIndex) => {
+    if (btnIndex === 1) {
+      setModelState({ button, ch });
+      ref.current?.open();
+    } else {
+      navigate("/depts", {
+        state: {
+          data: data[index],
+          columns: columns[index],
+        },
+      });
+    }
+  };
+
   return (
-    <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
-      <div className="bg-white w-full text-center py-2">
-        <div className="mx-auto mt-2 w-14 h-14 rounded-full bg-[#EBF3EF] flex items-center justify-center">
-          <img className="w-fit h-fit" src={icon} alt="" />
+    <>
+      <ReportModel ref={ref} title={modelState.title} msg={"اضافة"}>
+        <div className="px-5 py-3">{modelState.ch}</div>
+      </ReportModel>
+      <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
+        <div className="bg-white w-full text-center py-2">
+          <div className="mx-auto mt-2 w-14 h-14 rounded-full bg-[#EBF3EF] flex items-center justify-center">
+            <img className="w-fit h-fit" src={icon} alt="" />
+          </div>
+          <h2 className="text-md font-semibold my-2">{title}</h2>
         </div>
-        <h2 className="text-md font-semibold my-2">{title}</h2>
-      </div>
-      <div className="w-full p-0 bg-[#EBF3EF]">
-        <div className="flex gap-4 p-4 justify-center">
-          {buttons.map((button, index) => (
-            <button
-              key={index}
-              className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm"
-            >
-              {button}
-            </button>
-          ))}
+        <div className="w-full p-0 bg-[#EBF3EF]">
+          <div className="flex gap-4 p-4 justify-center">
+            {buttons.map((button, btnIndex) => (
+              <button
+                onClick={() => handleClick(button, btnIndex)}
+                key={button}
+                className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm"
+              >
+                {button}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
