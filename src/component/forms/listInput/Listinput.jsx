@@ -60,7 +60,7 @@ const Listinput = ({
       >
         <Controller
           control={control}
-          name="list"
+          name={nameType}
           rules={{
             pattern: [],
             required: "هذا الحق مطلوب",

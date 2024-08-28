@@ -144,7 +144,7 @@ const CardAdmin = () => {
           ))}
         </div>
         <div className="mt-6">
-          {/* <ReportChart data={data} /> */}
+          <ReportChart data={data} />
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}

@@ -2,7 +2,7 @@ import { DatePicker } from "antd";
 import calendarIcon from "../../../assets/icons/calendar.svg";
 import { Controller } from "react-hook-form";
 
-const Datepicker = ({ control, date, errors, datePickerTitle }) => {
+const Datepicker = ({ control, nameType, date, errors, datePickerTitle }) => {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -13,7 +13,7 @@ const Datepicker = ({ control, date, errors, datePickerTitle }) => {
       </div>
       <Controller
         control={control}
-        name="date"
+        name={nameType}
         rules={{ required: "هذا الحق مطلوب" }}
         render={({ field, fieldState }) => (
           <div>

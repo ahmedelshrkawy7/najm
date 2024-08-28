@@ -2,7 +2,7 @@ import { Select } from "antd";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { DownOutlined } from "@ant-design/icons";
-const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
+const SelectInput = ({ inpTitle, errors, control, iconLabel, nameType }) => {
   return (
     <div className="flex flex-col self-start gap-4">
       <div className="flex gap-2">
@@ -12,7 +12,7 @@ const SelectInput = ({ inpTitle, errors, control, iconLabel }) => {
 
       <Controller
         control={control}
-        name="suspectKnown"
+        name={nameType}
         rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
         render={({ field, fieldState }) => (
           <div>

@@ -10,6 +10,7 @@ const Textarea = ({
   textAreaTitle,
   watch,
   iconLabel,
+  nameType,
 }) => {
   const refVal = useRef(null);
   const wrapperRef = useRef(null);
@@ -37,7 +38,7 @@ const Textarea = ({
         value={value}
       /> */}
       <Controller
-        name="description"
+        name={nameType}
         rules={{
           required: "من فضلك ادخل وصف البلاغ  ",
           message: " الحقل مطلوب",

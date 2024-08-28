@@ -73,7 +73,7 @@ const Reports = () => {
       "description",
       "address",
       "suspectKnown",
-      "datePickerControl",
+      "date",
       "suspects",
       "user_name",
       "user_email",
@@ -88,7 +88,7 @@ const Reports = () => {
     ...getValues(),
   };
 
-  const date = new Date(values?.[3]?.$d);
+  const date = new Date(wValues?.[3]?.$d);
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
@@ -129,7 +129,6 @@ const Reports = () => {
     };
   }
 
-  console.log("🚀 ~ Reports ~ dataObject:", dataObject);
   console.log(fullDate);
 
   if (fullDate === "NaN-NaN-NaN") {
