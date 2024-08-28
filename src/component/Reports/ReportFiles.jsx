@@ -44,20 +44,20 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   };
 
   const getBackgroundColor = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return backgroundColors[extension] || backgroundColors.default;
   };
 
   const getTextColor = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return textColors[extension] || textColors.default;
   };
 
   const makeSrc = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return fileIcons[extension] || fileIcons.default;
   };
-
+  console.log(fils);
   return (
     <>
       {!!fils?.length && (
@@ -87,34 +87,44 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                 <span className="-mt-[3px] text-[20px] font-bold">&times;</span>
               </span>
             )}
+
             <div
               className={`flex items-center gap-4  ${
-                file.type.endsWith("pdf") ? "bg-[#DC60651A]" : "bg-blue-100"
+                file?.type?.endsWith("pdf") || file?.file_name.endsWith("pdf")
+                  ? "bg-[#DC60651A]"
+                  : "bg-blue-100"
               } p-2 px-4 rounded-md border border-[#D74D5224]`}
               style={{ backgroundColor: getBackgroundColor(file) }}
               onClick={() => {
-                window.open(URL.createObjectURL(file), "_blank");
+                window.open(
+                  file?.file_url || URL?.createObjectURL(file),
+                  "_blank"
+                );
               }}
             >
               <div className="text-left">
                 <h2
                   className={`font-bold  w-[120px] text-nowrap overflow-hidden text-ellipsis ${
-                    file.type.endsWith("pdf")
+                    file?.type?.endsWith("pdf") ||
+                    file?.file_name.endsWith("pdf")
                       ? "text-[#D74D52]"
                       : "text-blue-400"
                   }`}
                   style={{ direction: "ltr", color: getTextColor(file) }}
                 >
-                  {file.name}
+                  {file?.name || file.file_name}
                 </h2>
                 <span
                   className={`text-sm ${
-                    file.type.endsWith("pdf")
+                    file?.type?.endsWith("pdf") ||
+                    file?.file_name?.endsWith("pdf")
                       ? "text-gray-400"
                       : "text-blue-300"
                   }`}
                 >
-                  {(file.size * Math.pow(10, -6)).toFixed(2)}
+                  {(file?.size || file?.file_size * Math.pow(10, -6)).toFixed(
+                    2
+                  )}
                   <span className="ml-1">mb</span>
                 </span>
               </div>

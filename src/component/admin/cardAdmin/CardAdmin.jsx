@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { Space, Table, Tag } from "antd";
 import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { editReportData } from "../../../../sendRequest";
+import ReportChart from "../../../charts/ReportChart";
 const CardAdmin = () => {
   const { getData } = useApi();
   const [edit, setEdit] = useState(false);
+
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
@@ -26,18 +29,19 @@ const CardAdmin = () => {
   ];
 
   console.log(data);
-
   const columns = [
     {
       title: "رقم البلاغ",
       dataIndex: "id",
       key: "id",
+      width: 150,
       render: (text) => <p>{text}</p>,
     },
     {
       title: "تصنيف البلاغ",
       dataIndex: ["report_classification", "name"],
       key: "report_classification['name']",
+      width: 200,
       render: (text, record) =>
         edit ? (
           <form
@@ -65,37 +69,44 @@ const CardAdmin = () => {
       title: "اسم المبلغ",
       dataIndex: ["user", "name"],
       key: "user['name']",
+      width: 200,
     },
     {
       title: "البريد الالكترونى",
       dataIndex: ["user", "email"],
       key: "user['email']",
+      width: 250,
     },
-
+    {
+      title: "حالة البلاغ",
+      dataIndex: "_",
+      key: "id",
+      width: 150,
+      render: (_) => (
+        <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
+          {"جديد"}
+        </button>
+      ),
+    },
     {
       title: "رقم الهاتف",
       dataIndex: ["user", "phone"],
       key: "user['phone']",
+      width: 150,
     },
     {
       title: "التاريخ",
       dataIndex: "date",
       key: "date",
+      width: 200,
     },
     {
       title: "",
       key: "action",
+      width: 150,
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>update {record.name}</a> */}
           <Link to={`/dash/${record.id}`}>عرض</Link>
-          {/* <button
-            onClick={async () => {
-              setEdit(true);
-            }}
-          >
-            تعديل
-          </button> */}
         </Space>
       ),
     },
@@ -113,7 +124,7 @@ const CardAdmin = () => {
 
   return (
     <>
-      <div className="w-[90%] mx-auto ">
+      <div className="w-[90%] mx-auto">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
           {cards?.map((card) => (
             <div
@@ -133,6 +144,7 @@ const CardAdmin = () => {
           ))}
         </div>
         <div className="mt-6">
+          <ReportChart data={data} />
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}

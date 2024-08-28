@@ -36,6 +36,7 @@ const ReportDetails = ({
   values,
   getValues,
   date,
+  description,
 }) => {
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
@@ -77,6 +78,7 @@ const ReportDetails = ({
       <div className="px-8 pt-4 pb-8  space-y-6">
         <Textarea
           textAreaTitle={labelProps.textarea}
+          nameType="description"
           errors={errors}
           control={control}
           watch={watch}
@@ -86,6 +88,7 @@ const ReportDetails = ({
           errors={errors}
           control={control}
           inpTitle={labelProps.selectTitle}
+          nameType="suspectKnown"
           iconLabel={"*"}
         />
 
@@ -102,6 +105,7 @@ const ReportDetails = ({
             resetField={resetField}
             values={values}
             iconLabel={"*"}
+            nameType="list"
             getValues={getValues}
           />
         )}
@@ -111,6 +115,7 @@ const ReportDetails = ({
             control={control}
             errors={errors}
             date={date}
+            nameType="date"
           />
 
           <Location

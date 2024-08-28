@@ -15,12 +15,12 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
     setImgs(images);
   };
 
-  console.log(imgs);
   const myImage = useRef();
-
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");
+
+  console.log(src);
 
   function showFunc(index, type) {
     setSrc(imgs[index]);
@@ -32,16 +32,17 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
     }
   }
 
-  let photos = imgs.filter((el) => {
-    return el.type.includes("image");
+  let photos = imgs?.filter((el) => {
+    return el?.file_type?.includes("image") || el?.type?.includes("image");
   });
-  let videos = imgs.filter((el) => {
-    return el.type.includes("video");
+  let videos = imgs?.filter((el) => {
+    return el?.file_type?.includes("video") || el?.type?.includes("video");
   });
-
+  console.log(photos, videos);
+  console.log(src);
   return (
     <>
-      {!!photos.length > 0 && (
+      {!!photos?.length > 0 && (
         <>
           <div
             className={`flex mb-4 flex-col  
@@ -73,14 +74,15 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </span>
                     </div>
                   )}
-                  {img?.type.startsWith("image") && (
+                  {(img?.file_type?.startsWith("image") ||
+                    img?.type?.startsWith("image")) && (
                     <div
                       className="relative wrapper transition-all duration-1000 h-full border border-gray-300 rounded-md "
                       style={{ aspectRatio: 16 / 9 }}
                     >
                       <img
                         className="rounded-md object-cover cursor-pointer  w-full h-full"
-                        src={URL?.createObjectURL(img)}
+                        src={img?.file_url || URL?.createObjectURL(img)}
                         ref={myImage}
                         draggable="false"
                       />
@@ -105,7 +107,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       <img
                         draggable={false}
                         className="object-contain "
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         style={{ objectFit: "contain" }}
                       />
 
@@ -135,7 +137,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </div>
                       <video
                         className="w-full h-full"
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         muted
                         controls
                       />
@@ -168,7 +170,8 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               <div key={Math.random()}>
                 {!img && <p>Loading</p>}
                 <div className=" relative h-full w-[220px] ">
-                  {img?.type.startsWith("video") && (
+                  {(img?.file_type?.startsWith("video") ||
+                    img?.type?.startsWith("video")) && (
                     <>
                       {preview && (
                         <div
@@ -186,7 +189,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       >
                         <video
                           className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
-                          src={URL.createObjectURL(img)}
+                          src={img?.file_url || URL?.createObjectURL(img)}
                           muted
                         />
                         <span
@@ -201,13 +204,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     </>
                   )}
                 </div>
-                {showImg && (
+                {/* {showImg && (
                   <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center !bg-black/50">
                     <div className="relative  w-1/2 flex justify-center items-center scale-75">
                       <img
                         draggable={false}
                         className="object-contain "
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         style={{ objectFit: "contain" }}
                       />
 
@@ -237,13 +240,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </div>
                       <video
                         className="w-full h-full"
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         muted
                         controls
                       />
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             ))}
           </div>

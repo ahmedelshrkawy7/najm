@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from "react";
 import {
   Steps,
@@ -43,6 +44,7 @@ const Reports = () => {
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
   const mainContainer = useRef();
+
   const {
     register,
     watch,
@@ -58,7 +60,7 @@ const Reports = () => {
       description: "",
       address: "",
       suspectKnown: "0",
-      datePickerControl: "",
+      date: "",
       suspects: [],
       user_name: "",
       user_email: "",
@@ -66,12 +68,12 @@ const Reports = () => {
       fileInput: "",
     },
   });
-  const values = watch(
+  const wValues = watch(
     [
       "description",
       "address",
       "suspectKnown",
-      "datePickerControl",
+      "date",
       "suspects",
       "user_name",
       "user_email",
@@ -81,7 +83,12 @@ const Reports = () => {
     false
   );
 
-  const date = new Date(values?.[3]?.$d);
+  const values = {
+    name: card.name,
+    ...getValues(),
+  };
+
+  const date = new Date(wValues?.[3]?.$d);
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
@@ -134,7 +141,6 @@ const Reports = () => {
   }
 
   const { postData } = useApi();
-
   const Post = useMutation(postData, {
     onSuccess: (e) => {},
     onError: ({ message }) => {},
@@ -151,7 +157,7 @@ const Reports = () => {
     user_name,
     user_email,
     user_phone,
-  ] = values;
+  ] = wValues;
 
   const reportDetailsValues = [description];
 
@@ -279,7 +285,7 @@ const Reports = () => {
       <Steps current={current} items={items} />
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-black/50"
+        className="backdrop:bg-black/50 "
         onClick={(e) => {
           if (e.target === dialogRef.current) {
             dialogRef?.current?.close();
