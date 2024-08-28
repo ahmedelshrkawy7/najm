@@ -94,17 +94,22 @@ function AppLayout() {
   let { pathname } = useLocation();
 
   return (
-    <TokenContextProvider>
+    <>
       <Navbar />
       <Outlet />
-    </TokenContextProvider>
+    </>
   );
 }
 
 const router = createBrowserRouter(routes);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+        <TokenContextProvider>
+        <RouterProvider router={router} />
+        </TokenContextProvider>
+
+  )
 }
 
 export default App;

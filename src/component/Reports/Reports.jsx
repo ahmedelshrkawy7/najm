@@ -6,17 +6,17 @@ import {
   ReportClassification,
   theme,
   ReportsPreview,
-} from "./src/import";
-import ContactInformation from "./src/component/Reports/ContactInformation";
-import ReportDetails from "./src/component/Reports/ReportDetails";
+} from "../../import";
+import ContactInformation from "./ContactInformation";
+import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
-import { sendData } from "./src/utils/http";
+import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
-import useApi from "./src/utils/useApi";
+import useApi from "../../utils/useApi";
 import { QueryClient, useMutation } from "react-query";
-import Success from "./src/models/Success";
+import Success from "../../models/Success";
 import { data } from "autoprefixer";
-import Error from "./src/models/Error";
+import Error from "../../models/Error";
 import { toast } from "react-toastify";
 import { CheckOutlined } from "@ant-design/icons";
 import { icons } from "antd/es/image/PreviewGroup";
@@ -73,7 +73,7 @@ const Reports = () => {
       "description",
       "address",
       "suspectKnown",
-      "datePickerControl",
+      "date",
       "suspects",
       "user_name",
       "user_email",
@@ -88,7 +88,7 @@ const Reports = () => {
     ...getValues(),
   };
 
-  const date = new Date(values?.[3]?.$d);
+  const date = new Date(wValues?.[3]?.$d);
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
