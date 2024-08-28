@@ -24,7 +24,7 @@ import prev6 from "../assets/icons/prev6.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 const ReportInfo = ({ values }) => {
-  const date = new Date(values.date.$d);
+  const date = new Date(values?.date?.$d);
   console.log(values);
   const fullDate =
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();

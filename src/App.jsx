@@ -20,8 +20,10 @@ import { useContext } from "react";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
-import PreparingStudy from "./pages/admin/PreparingStudy.jsx";
+import PreparingStudy from "./component/PreparingStudy.jsx";
 import ReportDate from "./pages/admin/ReportDate.jsx";
+import StudyPreview from "./component/StudyPreview.jsx";
+import Study from "./pages/admin/Study.jsx";
 
 const routes = [
   {
@@ -64,8 +66,9 @@ const routes = [
           },
           {
             path: "preparingStudy",
-            element: <PreparingStudy />,
+            element: <Study />,
           },
+
           {
             path: "reportsDate",
             element: <ReportDate />,
@@ -105,11 +108,10 @@ const router = createBrowserRouter(routes);
 
 function App() {
   return (
-        <TokenContextProvider>
-        <RouterProvider router={router} />
-        </TokenContextProvider>
-
-  )
+    <TokenContextProvider>
+      <RouterProvider router={router} />
+    </TokenContextProvider>
+  );
 }
 
 export default App;

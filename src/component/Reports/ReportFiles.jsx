@@ -90,7 +90,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
 
             <div
               className={`flex items-center gap-4  ${
-                file?.type?.endsWith("pdf") || file?.file_name.endsWith("pdf")
+                file?.type?.startsWith("application") ||
+                file?.file_name.endsWith("pdf")
                   ? "bg-[#DC60651A]"
                   : "bg-blue-100"
               } p-2 px-4 rounded-md border border-[#D74D5224]`}
@@ -105,7 +106,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
               <div className="text-left">
                 <h2
                   className={`font-bold  w-[120px] text-nowrap overflow-hidden text-ellipsis ${
-                    file?.type?.endsWith("pdf") ||
+                    file?.type?.startsWith("application") ||
                     file?.file_name.endsWith("pdf")
                       ? "text-[#D74D52]"
                       : "text-blue-400"
@@ -116,7 +117,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                 </h2>
                 <span
                   className={`text-sm ${
-                    file?.type?.endsWith("pdf") ||
+                    file?.type?.startsWith("application") ||
                     file?.file_name?.endsWith("pdf")
                       ? "text-gray-400"
                       : "text-blue-300"

@@ -15,6 +15,7 @@ const Listinput = ({
   values,
   iconLabel,
   getValues,
+  nameType,
 }) => {
   const [data, setData] = useState([]);
 

@@ -6,9 +6,9 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoutes = ({ children }) => {
   const { token } = useContext(TokenContext);
 
-  // if (!token) {
-  //   return <Navigate replace={true} to="/admin/login" />;
-  // }
+  if (!token) {
+    return <Navigate replace={true} to="/admin/login" />;
+  }
 
   return children;
 };

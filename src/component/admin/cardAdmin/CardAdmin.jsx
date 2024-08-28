@@ -17,6 +17,7 @@ const CardAdmin = () => {
     ["users", ["/reports", { page: pagination }]],
     getData
   );
+
   console.log(data);
   let cards = [
     {

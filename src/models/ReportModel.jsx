@@ -28,12 +28,17 @@ const ch = (
   </div>
 );
 
-const ReportModel = ({ setShowMenu, children = ch, ...props } = {}) => {
+const ReportModel = ({
+  setShowMenu = () => {},
+  setShowSvg = () => {},
+  children = ch,
+  ...props
+} = {}) => {
   console.log(props);
   // const ref = useRef();
   return (
     <>
-      <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit max-h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
+      <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit  max-h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
         <div className="bg-[#33835C] w-full flex justify-between items-center px-5 py-3">
           <div>
             <h2 className="text-white text-lg font-semibold self-center">
@@ -42,7 +47,10 @@ const ReportModel = ({ setShowMenu, children = ch, ...props } = {}) => {
           </div>
           <span
             className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
-            onClick={() => props.setShowSvg(false)}
+            onClick={() => {
+              setShowMenu(false);
+              setShowSvg(false);
+            }}
           >
             &times;
           </span>

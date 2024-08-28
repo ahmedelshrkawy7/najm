@@ -11,12 +11,13 @@ export const InputText = ({
   pattern,
   setValue,
   max,
+  icon,
 }) => {
   return (
     <div className="flex  w-full md:w-auto flex-col self-start gap-4">
       <div className="flex gap-2">
         <h2> {inputTitle} </h2>
-        <span className="text-red-500">*</span>
+        <span className="text-red-500">{icon}</span>
       </div>
       <Space.Compact size="large">
         <Controller

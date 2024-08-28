@@ -12,7 +12,7 @@ import ReportInfo from "./ReportInfo";
 import { useLocation } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
 
-const DispalyData = ({ values, fils, imgs, title }) => {
+const DispalyData = ({ values = [], fils = [], imgs = [], title }) => {
   console.log(imgs);
 
   console.log(values);
@@ -34,7 +34,7 @@ const DispalyData = ({ values, fils, imgs, title }) => {
                   <NumberOutlined />
                 </div>
                 <h2 className="text-lg self-center  font-semibold">
-                  رقم البلاغ {values.id}
+                  رقم البلاغ {values?.id}
                 </h2>
               </div>
             )}

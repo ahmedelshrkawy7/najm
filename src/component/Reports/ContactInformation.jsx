@@ -50,6 +50,7 @@ const ContactInformation = ({
             inputPlaceHolder={"الاسم..."}
             setValue={setValue}
             max={50}
+            icon={"*"}
           />
           <InputText
             errors={errors}
@@ -62,6 +63,7 @@ const ContactInformation = ({
               message: "يجب ادخال البريد الالكترونى",
             }}
             inputPlaceHolder={"البريد الالكترونى..."}
+            icon={"*"}
           />
           <InputText
             errors={errors}
@@ -71,6 +73,7 @@ const ContactInformation = ({
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
             setValue={setValue}
+            icon={"*"}
             pattern={{
               value:
                 /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,}/g,

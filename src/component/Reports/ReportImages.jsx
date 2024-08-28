@@ -22,6 +22,14 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
 
   console.log(src);
 
+  let photos = imgs?.filter((el) => {
+    return el?.file_type?.includes("image") || el?.type?.includes("image");
+  });
+  let videos = imgs?.filter((el) => {
+    return el?.file_type?.includes("video") || el?.type?.includes("video");
+  });
+  console.log(photos, videos);
+  console.log(src);
   function showFunc(index, type) {
     setSrc(imgs[index]);
     if (type == "image") {
@@ -31,15 +39,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
       setShowVideo(true);
     }
   }
-
-  let photos = imgs?.filter((el) => {
-    return el?.file_type?.includes("image") || el?.type?.includes("image");
-  });
-  let videos = imgs?.filter((el) => {
-    return el?.file_type?.includes("video") || el?.type?.includes("video");
-  });
-  console.log(photos, videos);
-  console.log(src);
   return (
     <>
       {!!photos?.length > 0 && (
@@ -66,7 +65,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                 <div className=" relative h-full w-[220px] ">
                   {preview && (
                     <div
-                      onClick={() => handleDeleteImages(index)}
+                      onClick={() => handleDeleteImages(img.name)}
                       className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                     >
                       <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -122,28 +121,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     </div>
                   </div>
                 )}
-                {showVideo && (
-                  <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">
-                    <div className=" h-1/2 relative">
-                      <div className="cursor-pointer">
-                        <div
-                          className="absolute cursor-pointer  -top-4 -left-3 w-6 h-6 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
-                          onClick={() => {
-                            setShowVideo(false);
-                          }}
-                        >
-                          <span className="-mt-[2px] text-[20px]">&times;</span>
-                        </div>
-                      </div>
-                      <video
-                        className="w-full h-full"
-                        src={src?.file_url || URL.createObjectURL(src)}
-                        muted
-                        controls
-                      />
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
             <div
@@ -175,7 +152,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     <>
                       {preview && (
                         <div
-                          onClick={() => handleDeleteImages(index)}
+                          onClick={() => handleDeleteImages(img.name)}
                           className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                         >
                           <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -204,6 +181,28 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     </>
                   )}
                 </div>
+                {showVideo && (
+                  <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">
+                    <div className=" h-1/2 relative">
+                      <div className="cursor-pointer">
+                        <div
+                          className="absolute cursor-pointer  -top-4 -left-3 w-6 h-6 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
+                          onClick={() => {
+                            setShowVideo(false);
+                          }}
+                        >
+                          <span className="-mt-[2px] text-[20px]">&times;</span>
+                        </div>
+                      </div>
+                      <video
+                        className="w-full h-full"
+                        src={src?.file_url || URL?.createObjectURL(src)}
+                        muted
+                        controls
+                      />
+                    </div>
+                  </div>
+                )}
                 {/* {showImg && (
                   <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center !bg-black/50">
                     <div className="relative  w-1/2 flex justify-center items-center scale-75">

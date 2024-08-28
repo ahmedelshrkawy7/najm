@@ -90,6 +90,13 @@ const ReportDetails = ({
           inpTitle={labelProps.selectTitle}
           nameType="suspectKnown"
           iconLabel={"*"}
+          options={[
+            { value: "0", label: <span className="text-[16px] ">لا</span> },
+            {
+              value: "1",
+              label: <span className="text-[16px] ">نعم</span>,
+            },
+          ]}
         />
 
         {!isHidden && (
