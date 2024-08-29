@@ -23,10 +23,12 @@ jobs:
 
       - name: Build Angular project
         run: npm run build
-
-      - name: Move asset folder
-        run: mv ./build/asset ./src/
-
+ 
+- name: Move asset folder
+  run: |
+    mkdir -p src
+    mv ./build/asset ./src/
+    
       - name: Install lftp
         run: sudo apt-get install lftp
 
