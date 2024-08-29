@@ -29,7 +29,7 @@ jobs:
 
       - name: Deploy to FTP
         env:
-          FTP_HOST: ${{ secrets.ftp_host }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
