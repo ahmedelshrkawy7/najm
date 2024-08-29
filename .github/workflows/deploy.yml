@@ -37,5 +37,5 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
           echo "Starting deployment..."
-          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --verbose --no-perms ./dist /; bye"
+          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --verbose --no-perms ./dist//; bye"
           echo "Deployment finished."
