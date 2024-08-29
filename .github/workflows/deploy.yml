@@ -16,13 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Update Node.js version to the correct one
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Angular project
         run: npm run build
+
+      - name: Move asset folder
+        run: mv ./build/asset ./src/
 
       - name: Install lftp
         run: sudo apt-get install lftp
