@@ -24,6 +24,10 @@ jobs:
       - name: Build Vite React project
         run: npm run build
 
+      # Debugging step to list contents of the working directory
+      - name: List files after build
+        run: ls -la
+
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
