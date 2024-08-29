@@ -24,18 +24,19 @@ jobs:
       - name: Build Vite React project
         run: npm run build
 
+      # Debugging step to list contents of the working directory
       - name: List files after build
-        run: ls -la
+        run: ls -la ./dist
 
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
       - name: Deploy to FTP
         env:
-          FTP_HOST: ftp.tharawatdev.com
+          FTP_HOST: ${{ secrets.FTP_HOST }} # Ensure this is an FTP URL, e.g., ftp.tharawatdev.com
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
           echo "Starting deployment..."
-          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --verbose --no-perms ./dist//; bye"
+          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --verbose --no-perms ./dist /; bye"
           echo "Deployment finished."
