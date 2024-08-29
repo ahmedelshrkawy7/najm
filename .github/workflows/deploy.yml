@@ -1,4 +1,4 @@
-name: Build and Deploy Angular Project to FTP
+name: Build and Deploy Vite React Project to FTP
 
 on:
   push:
@@ -16,16 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Update Node.js version to the correct one
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular project
+      - name: Build Vite React project
         run: npm run build
 
       - name: Install lftp
-        run: sudo apt-get install lftp
+        run: sudo apt-get install -y lftp
 
       - name: Deploy to FTP
         env:
@@ -34,10 +34,5 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
           echo "Starting deployment..."
-          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --delete --verbose ./build/; bye"
+          lftp -e "set ssl:verify-certificate no; open $FTP_HOST; user $FTP_USER $FTP_PASS; mirror --reverse --delete --verbose ./dist /; bye"
           echo "Deployment finished."
-
-
-
-
- 
