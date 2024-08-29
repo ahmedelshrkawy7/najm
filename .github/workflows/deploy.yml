@@ -1,4 +1,5 @@
 name: Build and Deploy Angular Project to FTP
+
 on:
   push:
     branches:
