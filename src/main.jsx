@@ -6,7 +6,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Toast from "./utils/notifications/Toast";
-import ReportModel from "./models/ReportModel";
+import ReportModal from "./models/ReportModal";
 import ReportInfo from "./models/ReportInfo";
 import ReportLock from "./models/ReportLock";
 import UsableReport from "./models/UsableReport";

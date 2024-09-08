@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ReportModel from "../models/ReportModel";
 import ReportEscalation from "../models/ReportEscalation";
 import ReportInfo from "../models/ReportInfo";
 import ReportLock from "../models/ReportLock";
