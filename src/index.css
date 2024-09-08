@@ -245,3 +245,7 @@ body::-webkit-scrollbar-thumb {
 .custom-checkbox .ant-checkbox-inner::after {
   border-color: #ffffff !important; /* Color of the checkmark when checked */
 }
+
+.ant-select-dropdown {
+  z-index: 1050; /* Ensure it's above the modal */
+}

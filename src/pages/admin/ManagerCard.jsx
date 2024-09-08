@@ -1,19 +1,28 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 
-import { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useNavigate } from "react-router-dom";
 import { columns, data } from "./data";
 
-const ManagerCard = ({ icon, title, buttons, index, ch }) => {
+const ManagerCard = ({
+  icon,
+  title,
+  buttons,
+  index,
+  ch,
+  currentView,
+  setCurrentView,
+}) => {
   let ref = useRef(null);
   const navigate = useNavigate();
-
-  let [modelState, setModelState] = useState("");
+  const [modelState, setModelState] = useState("");
 
   let handleClick = (button, btnIndex) => {
     if (btnIndex === 1) {
-      setModelState({ button, ch });
+      // document.documentElement.style.overflow = "hidden";
+      setModelState(button);
       ref.current?.open();
     } else {
       navigate("/depts", {
@@ -25,10 +34,22 @@ const ManagerCard = ({ icon, title, buttons, index, ch }) => {
     }
   };
 
+  //   const enhancedChildren = React.Children.map(ch, (child) =>
+  //     React.isValidElement(child)
+  //       ? React.cloneElement(child) // Modify props here if needed
+  //       : child
+  //   );
+
   return (
     <>
-      <ReportModel ref={ref} title={modelState.title} msg={"اضافة"}>
-        <div className="px-5 py-3">{modelState.ch}</div>
+      <ReportModel
+        ref={ref}
+        title={modelState}
+        // msg={"اضافة"}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        <div className="px-5 py-3">{React.cloneElement(ch)}</div>
       </ReportModel>
       <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
         <div className="bg-white w-full text-center py-2">
@@ -43,7 +64,7 @@ const ManagerCard = ({ icon, title, buttons, index, ch }) => {
               <button
                 onClick={() => handleClick(button, btnIndex)}
                 key={button}
-                className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm"
+                className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm outline-none"
               >
                 {button}
               </button>
@@ -55,4 +76,4 @@ const ManagerCard = ({ icon, title, buttons, index, ch }) => {
   );
 };
 
-export default ManagerCard;
+export default memo(ManagerCard);

@@ -13,12 +13,16 @@ import UsableReport from "./models/UsableReport";
 import ReportEscalation from "./models/ReportEscalation";
 import Model from "./models/Model";
 import { ContextProvider } from "./pages/admin/CardContext";
+import SuccessModel from "./models/SuccessModel";
 const queryClient = new QueryClient({});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-        <App />
+      <App />
       <Toast />
+      {/* <ReportModel title="hahah" >
+        <SuccessModel />
+      </ReportModel> */}
     </QueryClientProvider>
   </BrowserRouter>
 );
