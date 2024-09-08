@@ -37,7 +37,6 @@ const routes = [
         element: <ReportsPage />,
         handle: { crumb: "تقديم بلاغ" },
         loader: () => {
-          console.log("ramy");
           return ["alexon"];
         },
       },
@@ -105,11 +104,10 @@ const router = createBrowserRouter(routes);
 
 function App() {
   return (
-        <TokenContextProvider>
-        <RouterProvider router={router} />
-        </TokenContextProvider>
-
-  )
+    <TokenContextProvider>
+      <RouterProvider router={router} />
+    </TokenContextProvider>
+  );
 }
 
 export default App;
