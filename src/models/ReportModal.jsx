@@ -28,7 +28,7 @@ const ch = (
   </div>
 );
 
-const ReportModel = ({
+const ReportModal = ({
   setShowMenu = () => {},
   setShowSvg = () => {},
   children = ch,
@@ -66,4 +66,4 @@ const ReportModel = ({
   );
 };
 
-export default ReportModel;
+export default ReportModal;

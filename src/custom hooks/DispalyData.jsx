@@ -25,9 +25,9 @@ const DispalyData = ({ values = [], fils = [], imgs = [], title }) => {
       {!location.pathname.includes("dash") && (
         <ReportsHeader title="بيانات البلاغ" />
       )}
-      <div className="mt-14">
+      <div className="p-6">
         <div className=" rounded-md  flex flex-col ">
-          <div className="border p-6 pb-0 rounded-md border-gray-300 ">
+          <div className=" ">
             {location.pathname.includes("dash") && (
               <div className="flex gap-2  items-center justify-end  rounded-full pb-3">
                 <div className="h-12 w-12 bg-[#33835C1A] text-[#33835C] flex items-center justify-center rounded-full">
@@ -56,7 +56,7 @@ const DispalyData = ({ values = [], fils = [], imgs = [], title }) => {
             icon={<PhoneOutlined className="text-green-700" />}
             title="معلومات الاتصال"
           >
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 md:-ml-1 mt-2 xl:gap-24 items-center">
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
               <ContactInformation values={values} />
             </div>
           </CardWrapper>

@@ -22,7 +22,8 @@ import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
 import PreparingStudy from "./component/PreparingStudy.jsx";
 import ReportDate from "./pages/admin/ReportDate.jsx";
-import StudyPreview from "./component/StudyPreview.jsx";
+
+import { StudyContextPrtovider } from "./store/StudyContext.jsx";
 import Study from "./pages/admin/Study.jsx";
 
 const routes = [
@@ -108,9 +109,13 @@ const router = createBrowserRouter(routes);
 
 function App() {
   return (
+    // <StudyContextPrtovider>
     <TokenContextProvider>
-      <RouterProvider router={router} />
+      <StudyContextPrtovider>
+        <RouterProvider router={router} />
+      </StudyContextPrtovider>
     </TokenContextProvider>
+    // </StudyContextPrtovider>
   );
 }
 

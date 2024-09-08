@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const ReportOptionType = ({ label }) => {
   const [checked, setChecked] = useState(false);
   const onChange = (e) => {
-    console.log("checked = ", e.target.checked);
+    console.log(e.target.checked);
     setChecked(e.target.checked);
   };
   return (

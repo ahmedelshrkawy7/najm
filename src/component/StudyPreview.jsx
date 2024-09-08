@@ -23,7 +23,7 @@ const StudyPreview = () => {
   ];
 
   return (
-    <div className="bg-white -mt-14">
+    <div className="bg-white">
       <DispalyData values={data} />
       <Results />
     </div>

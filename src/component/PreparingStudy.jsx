@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReportDetails from "./Reports/ReportDetails";
 import { useForm } from "react-hook-form";
 import SelectInput from "./forms/inputs/SelectInput";
 import ReportsHeader from "../custom hooks/ReportsHeader";
 import { DownOutlined } from "@ant-design/icons";
-import ReportModel from "../models/ReportModel";
+import ReportModel from "../models/ReportModal";
 import ReportOptionType from "../custom hooks/ReportOptionType";
 import ReportOptions from "../custom hooks/ReportOptions";
 import Textarea from "./forms/inputs/Textarea";
@@ -15,7 +15,7 @@ import Location from "./forms/inputs/Location";
 import location from "../../../src/assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
-import { useNavigate } from "react-router-dom";
+
 const PreparingStudy = () => {
   const {
     register,
@@ -42,11 +42,17 @@ const PreparingStudy = () => {
   });
   const [showSvg, setShowSvg] = useState(false);
 
-
-
   const [fils, setFils] = useState([]);
   const [imgs, setImgs] = useState([]);
   const date = new Date();
+
+  useEffect(() => {
+    if (showSvg) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "";
+    }
+  }, [showSvg]);
 
   return (
     <>

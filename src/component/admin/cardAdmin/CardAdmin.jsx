@@ -6,6 +6,39 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { editReportData } from "../../../../sendRequest";
 import ReportChart from "../../../charts/ReportChart";
+import SelectInput from "../../forms/inputs/SelectInput";
+
+const SELECTS = [
+  {
+    label: "رقم البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "حالة الاعتماد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "درجة المخاطر",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "الادارة المسند لها ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ الاسناد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: " حالة البلاغ",
+    options: ["1", "2", "3"],
+  },
+];
+
 const CardAdmin = () => {
   const { getData } = useApi();
   const [edit, setEdit] = useState(false);
@@ -144,8 +177,27 @@ const CardAdmin = () => {
             </div>
           ))}
         </div>
+
         <div className="mt-6">
           <ReportChart data={data} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
+            {SELECTS.map((sel) => (
+              <div className="flex flex-col">
+                <label>{sel.label}</label>
+                <select
+                  defaultValue={""}
+                  className="!bg-white border-none outline-none !p-2 mt-2 rounded-md"
+                >
+                  {sel.options.map((opt) => (
+                    <option>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+            <button className="bg-[#33835c] self-end p-2 text-white rounded-md">
+              اعادة
+            </button>
+          </div>
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}

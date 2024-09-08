@@ -31,16 +31,17 @@ const ReportsPreview = ({
   title,
   src,
 }) => {
-  
   console.log(values, fils, imgs);
   return (
-    <DispalyData
-      imgs={imgs}
-      fils={fils}
-      values={values}
-      setFils={setFils}
-      setImgs={setImgs}
-    />
+    <div className="">
+      <DispalyData
+        imgs={imgs}
+        fils={fils}
+        values={values}
+        setFils={setFils}
+        setImgs={setImgs}
+      />
+    </div>
     // <div className="flex flex-col  gap-8">
     //   <ReportsHeader title={"بيانات البلاغ"} />
     //   <div className="px-8 pt-8 flex flex-col  gap-8">
