@@ -122,8 +122,8 @@ const Reports = () => {
     date: fullDate,
     report_classification_id: card.report_classification_id,
     suspects: suspects,
-    user_name: userName,
-    user_phone: userPhone,
+    user_name: userName ? userName : null,
+    user_phone: userPhone ? userPhone : null,
   };
 
   if (hidden) {
@@ -140,20 +140,21 @@ const Reports = () => {
   if (fullDate === "NaN-NaN-NaN") {
     dataObject = {
       ...restValues,
+
       suspects: suspects,
       files: allFiles,
       report_classification_id: card.report_classification_id,
     };
   }
-  if (userName === "" || userPhone === "") {
-    dataObject = {
-      ...restValues,
-      suspects: suspects,
-      date: fullDate === "NaN-NaN-NaN" ? "" : fullDate,
-      files: allFiles,
-      report_classification_id: card.report_classification_id,
-    };
-  }
+  // if (userName === "" || userPhone === "") {
+  //   dataObject = {
+  //     ...restValues,
+  //     suspects: suspects,
+  //     date: fullDate === "NaN-NaN-NaN" ? "" : fullDate,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
 
   const { postData } = useApi();
   const Post = useMutation(postData, {

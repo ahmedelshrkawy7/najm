@@ -141,7 +141,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
           </div>
         </>
       )}
-      {!!videos.length > 0 && (
+      {!!videos?.length > 0 && (
         <>
           <div className="flex items-center gap-2 ">
             <div className=" rounded-full   h-12  flex items-center justify-center">

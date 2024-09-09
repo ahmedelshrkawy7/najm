@@ -51,10 +51,10 @@ const DispalyData = ({
             <ReportInfo values={values} />
           </div>
 
-          {(values.medea?.files?.length > 0 ||
+          {(values?.medea?.files?.length > 0 ||
             fils?.length > 0 ||
-            imgs.length > 0 ||
-            videos.length > 0 ||
+            imgs?.length > 0 ||
+            videos?.length > 0 ||
             imgsServ?.length > 0 ||
             videosServ?.length > 0) && (
             <CardWrapper
