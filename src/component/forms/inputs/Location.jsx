@@ -20,7 +20,7 @@ const Location = ({
         <div className="flex flex-col w-full">
           <Controller
             control={control}
-            name={title}
+            name={title}    
             rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
             render={({ field, fieldState }) => (
               <div>
