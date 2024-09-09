@@ -179,7 +179,7 @@ const CardAdmin = () => {
         </div>
 
         <div className="mt-6">
-          <ReportChart data={data} />
+          {/* <ReportChart data={data} /> */}
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
             {SELECTS.map((sel) => (
               <div className="flex flex-col">

@@ -36,7 +36,7 @@ const Location = ({
                         (field.value.length + 30) * 4 + "px";
                     }
                   }}
-                  className="focus:border-green-600 p-[10px] w-full hover:border-green-600 "
+                  className="focus:border-green-600 p-[10px] w-[70vw] sm:w-full  hover:border-green-600 "
                   placeholder={inputPlaceholder}
                   suffix={<img width={width} src={src} />}
                 />

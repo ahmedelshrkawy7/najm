@@ -17,7 +17,7 @@ const Success = ({ id }) => {
         status="success"
         title={
           <h1 className="font-bold">
-            {id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${id}`}
+            {id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم WB-${id}`}
           </h1>
         }
         subTitle={

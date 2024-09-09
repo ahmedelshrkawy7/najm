@@ -7,24 +7,28 @@ const ContactInformation = ({ values = [] }) => {
   console.log(values);
   return (
     <>
-      <ReportsTextIcon
-        row={true}
-        subTitle={values?.user_name || values?.user?.name}
-        icon={note}
-        title={"الاسم"}
-      />
+      {(values?.user_name || values?.user?.name) && (
+        <ReportsTextIcon
+          row={true}
+          subTitle={values?.user_name || values?.user?.name}
+          icon={note}
+          title={"الاسم"}
+        />
+      )}
       <ReportsTextIcon
         row={true}
         subTitle={values?.user_email || values?.user?.email}
         icon={prev1}
         title={"البريد الالكترونى"}
       />
-      <ReportsTextIcon
-        row={true}
-        subTitle={values?.user_phone || values?.user?.phone}
-        icon={prev8}
-        title={"رقم الجوال"}
-      />
+      {(values?.user_phone || values?.user?.phone) && (
+        <ReportsTextIcon
+          row={true}
+          subTitle={values?.user_phone || values?.user?.phone}
+          icon={prev8}
+          title={"رقم الجوال"}
+        />
+      )}
     </>
   );
 };

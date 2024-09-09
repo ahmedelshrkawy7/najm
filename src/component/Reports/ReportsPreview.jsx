@@ -30,6 +30,7 @@ const ReportsPreview = ({
   setImgs,
   title,
   src,
+  videos
 }) => {
   console.log(values, fils, imgs);
   return (
@@ -39,6 +40,7 @@ const ReportsPreview = ({
         fils={fils}
         values={values}
         setFils={setFils}
+        videos={videos}
         setImgs={setImgs}
       />
     </div>

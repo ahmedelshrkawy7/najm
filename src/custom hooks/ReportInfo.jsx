@@ -30,6 +30,9 @@ const ReportInfo = ({ values }) => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   const fDate = fullDate !== "NaN/NaN/NaN";
+
+  console.log(values);
+
   return (
     <>
       <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
@@ -65,28 +68,36 @@ const ReportInfo = ({ values }) => {
           />
         </div>
         <div className="">
-          <ReportsTextIcon
-            subTitle={
-              values.date === "NaN/NaN/NaN"
-                ? "لا يوجد"
-                : (fDate && fullDate) || values?.date
-            }
-            icon={prev4}
-            title={labelProps.datePickerTitle}
-          />
-          <ReportsTextIcon
-            subTitle={values.address ? values.address : "لا يوجد"}
-            icon={prev5}
-            title={labelProps.locationTitle}
-          />
+          {values.date && (
+            <ReportsTextIcon
+              subTitle={
+                values.date === "NaN/NaN/NaN"
+                  ? "لا يوجد"
+                  : (fDate && fullDate) || values?.date
+              }
+              icon={prev4}
+              title={labelProps.datePickerTitle}
+            />
+          )}
+          {values.address && (
+            <ReportsTextIcon
+              subTitle={values.address ? values.address : "لا يوجد"}
+              icon={prev5}
+              title={labelProps.locationTitle}
+            />
+          )}
         </div>
         <div className="">
           <ReportsTextIcon
-            subTitle={values.suspectKnown === true ? "نعم" : "لا"}
+            subTitle={
+              values.suspectKnown === "1" || values.suspectKnown === true
+                ? "نعم"
+                : "لا"
+            }
             icon={prev2}
             title={labelProps.selectTitle}
           />
-          {values.suspectKnown === true && (
+          {(values?.suspectKnown === "1" || values?.suspectKnown === true) && (
             <ReportsTextIcon
               bottom={true}
               subTitle={

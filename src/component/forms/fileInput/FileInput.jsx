@@ -7,12 +7,23 @@ import ReportImages from "../../Reports/ReportImages";
 import ReportFiles from "../../Reports/ReportFiles";
 import { CloudUploadOutlined } from "@ant-design/icons";
 
-const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
+const FileInput = ({
+  imgs,
+  setImgs,
+  fils,
+  setFils,
+  videos,
+  setVideos,
+  register,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
-    let allImages = [...e.target.files].filter(
-      (file) => file.type.startsWith("image") || file.type.startsWith("video")
+    let allImages = [...e.target.files].filter((file) =>
+      file.type.startsWith("image")
+    );
+    let allVideos = [...e.target.files].filter((file) =>
+      file.type.startsWith("video")
     );
 
     let allFiles = [...e.target.files].filter((file) =>
@@ -21,12 +32,15 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
     setIsLoading(true);
     setTimeout(() => {
       setImgs([...imgs, ...allImages]);
+      setVideos([...videos, ...allVideos]);
       setFils([...fils, ...allFiles]);
       setIsLoading(false);
     }, 1000);
 
     e.target.value = "";
   };
+
+  console.log(imgs, videos);
 
   return (
     <>
@@ -52,9 +66,15 @@ const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
         {" "}
         يمكن إضافة ملفات متعددة بصيغ مختلفة.{" "}
       </small>
-      {imgs.length > 0 && (
+      {(imgs.length > 0 || videos.length > 0) && (
         <>
-          <ReportImages setImgs={setImgs} imgs={imgs} preview={true} />
+          <ReportImages
+            videos={videos}
+            setVideos={setVideos}
+            setImgs={setImgs}
+            imgs={imgs}
+            preview={true}
+          />
         </>
       )}
       {isLoading === true && fils.length === 0 && imgs.length === 0 && (

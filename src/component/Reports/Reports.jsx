@@ -26,7 +26,7 @@ const labelProps = {
   selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
   listInputTitle: "أسماء الاشخاص المشتبه بهم",
   datePickerTitle: "تاريخ ارتكاب المخالفة",
-  locationTitle: "أدخل مكان الحادث",
+  locationTitle: "مكان حدوث المخالفة",
 };
 
 const Reports = () => {
@@ -41,6 +41,7 @@ const Reports = () => {
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
   const mainContainer = useRef();
@@ -89,6 +90,7 @@ const Reports = () => {
   };
 
   const date = new Date(wValues?.[3]?.$d);
+  console.log(date);
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
@@ -106,10 +108,12 @@ const Reports = () => {
     datePickerControl: datePicker,
     fileInput,
     suspects,
+    user_name: userName,
+    user_phone: userPhone,
     ...restValues
   } = newValues;
 
-  const allFiles = [...imgs, ...fils];
+  const allFiles = [...imgs, ...videos, ...fils];
   console.log(allFiles);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
@@ -118,6 +122,8 @@ const Reports = () => {
     date: fullDate,
     report_classification_id: card.report_classification_id,
     suspects: suspects,
+    user_name: userName,
+    user_phone: userPhone,
   };
 
   if (hidden) {
@@ -139,15 +145,21 @@ const Reports = () => {
       report_classification_id: card.report_classification_id,
     };
   }
+  if (userName === "" || userPhone === "") {
+    dataObject = {
+      ...restValues,
+      suspects: suspects,
+      date: fullDate === "NaN-NaN-NaN" ? "" : fullDate,
+      files: allFiles,
+      report_classification_id: card.report_classification_id,
+    };
+  }
 
   const { postData } = useApi();
   const Post = useMutation(postData, {
     onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
-
-  console.log(Post.data?.data?.data?.report?.id);
-
   const [
     description,
     address,
@@ -158,11 +170,8 @@ const Reports = () => {
     user_email,
     user_phone,
   ] = wValues;
-
   const reportDetailsValues = [description];
-
-  const contactInforamtionValues = [user_name, user_email, user_phone];
-
+  const contactInforamtionValues = [user_email];
   const handleSelected = (card) => {
     setCards(card);
   };
@@ -172,7 +181,10 @@ const Reports = () => {
       content: (
         <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">1</span>
+      ),
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "تفاصيل البلاغ",
@@ -188,6 +200,8 @@ const Reports = () => {
           setV={setV}
           title={card.name}
           imgs={imgs}
+          videos={videos}
+          setVideos={setVideos}
           setImgs={setImgs}
           fils={fils}
           setFils={setFils}
@@ -199,7 +213,10 @@ const Reports = () => {
           date={date}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">2</span>
+      ),
     },
     {
       title: "معلومات الاتصال",
@@ -210,13 +227,16 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
+          watch={watch}
           setValue={setValue}
           emailControl={user_email}
           phoneControl={user_phone}
           nameControl={user_name}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">3</span>
+      ),
     },
     {
       title: "معاينة البلاغ",
@@ -226,13 +246,17 @@ const Reports = () => {
           setFils={setFils}
           imgs={imgs}
           setImgs={setImgs}
+          videos={videos}
+          setVideos={setVideos}
           values={values}
           labelProps={labelProps}
           title={card.name}
           src={card.src}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">4</span>
+      ),
     },
   ];
 

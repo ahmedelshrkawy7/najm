@@ -12,14 +12,24 @@ import ReportInfo from "./ReportInfo";
 import { useLocation } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
 
-const DispalyData = ({ values = [], fils = [], imgs = [], title }) => {
-  console.log(imgs);
-
+const DispalyData = ({
+  values = [],
+  fils = [],
+  imgs = [],
+  title,
+  videos = [],
+}) => {
   console.log(values);
 
   console.log();
   const location = useLocation();
   console.log(values);
+  let imgsServ = values?.medea?.images.filter((el) => {
+    return el?.file_type?.includes("image");
+  });
+  let videosServ = values?.medea?.images?.filter((el) => {
+    return el?.file_type?.includes("video");
+  });
   return (
     <>
       {!location.pathname.includes("dash") && (
@@ -40,17 +50,26 @@ const DispalyData = ({ values = [], fils = [], imgs = [], title }) => {
             )}
             <ReportInfo values={values} />
           </div>
-          {fils?.length > 0 ||
-            values[9]?.files > 0 ||
-            ((imgs?.length > 0 || values[9]?.images) && (
-              <CardWrapper
-                icon={<img src={prev9} />}
-                title="المستندات الداعمه للاشتباه"
-              >
-                <ReportFiles fils={fils || values[9]?.files} />
-                <ReportImages imgs={imgs || values[9]?.images} />
-              </CardWrapper>
-            ))}
+
+          {(values.medea?.files?.length > 0 ||
+            fils?.length > 0 ||
+            imgs.length > 0 ||
+            videos.length > 0 ||
+            imgsServ?.length > 0 ||
+            videosServ?.length > 0) && (
+            <CardWrapper
+              icon={<img src={prev9} />}
+              title="المستندات الداعمه للاشتباه"
+            >
+              <ReportFiles
+                fils={fils.length == 0 ? values.medea?.files : fils}
+              />
+              <ReportImages
+                imgs={imgs.length === 0 ? imgsServ : imgs}
+                videos={videos.length === 0 ? videosServ : videos}
+              />
+            </CardWrapper>
+          )}
 
           <CardWrapper
             icon={<PhoneOutlined className="text-green-700" />}

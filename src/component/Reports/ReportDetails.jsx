@@ -35,14 +35,17 @@ const ReportDetails = ({
   listInputControl,
   values,
   getValues,
+  videos,
+  setVideos,
   date,
   description,
 }) => {
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
+  console.log(description);
   useEffect(() => {
     if (
-      reportDetailsValues.indexOf("") === -1 &&
+      watch("description").trim() !== "" &&
       watch("suspectKnown") === "1" &&
       listInputControl.length > 0
     ) {
@@ -54,7 +57,7 @@ const ReportDetails = ({
         setV(false);
       }
     } else if (
-      reportDetailsValues.indexOf("") === -1 &&
+      watch("description").trim() !== "" &&
       watch("suspectKnown") === "0"
     ) {
       if (!watch("datePickerControl")) {
@@ -138,13 +141,15 @@ const ReportDetails = ({
         <FileInput
           fils={fils}
           setFils={setFils}
+          videos={videos}
+          setVideos={setVideos}
           imgs={imgs}
           setImgs={setImgs}
           register={register}
           errors={errors}
           control={control}
         />
-        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit h-[40px] flex items-center">
+        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit min-h-[40px] flex items-center">
           <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">
             في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
             المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،

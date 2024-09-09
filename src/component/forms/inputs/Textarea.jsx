@@ -41,7 +41,9 @@ const Textarea = ({
         name={nameType}
         rules={{
           required: "من فضلك ادخل وصف البلاغ  ",
-          message: " الحقل مطلوب",
+          validate: (value) => {
+            return value.trim() === "" && "هذ الحقل لا يمكن ان يكون فارغا";
+          },
         }}
         control={control}
         render={({ field }) => (
@@ -56,7 +58,7 @@ const Textarea = ({
               }}
               autoSize={{ minRows: 4 }}
               className={`scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full hover:border-green-500 focus:border-green-500 max-h-72' ${
-                errors.description && "border-red-500"
+                errors.description?.message && "border-red-500"
               }`}
             />
             {errors.description && (
