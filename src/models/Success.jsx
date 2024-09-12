@@ -2,12 +2,13 @@ import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
 import icon from "../assets/icons/success.png";
 
-const Success = ({ id }) => {
-  console.log(id);
-  return !id ? (
+const Success = ({ report }) => {
+  const date = new Date(report?.date).getFullYear();
+  const dateX = String(date).substring(2, 4);
+  return !report?.id ? (
     <div className="loader"></div>
   ) : (
-    <div className="bg-[#fff]  z-[99999] top-0 left-0 w-[85vw] sm:max-w-[500px]   rounded-md">
+    <div className="bg-[#fff]  z-[99999] top-0 left-0 w-[85vw] sm:max-w-[600px]   rounded-md">
       <Result
         icon={
           <div className="flex justify-center">
@@ -17,7 +18,8 @@ const Success = ({ id }) => {
         status="success"
         title={
           <h1 className="font-bold">
-            {id && ` شكرًا لتعاونكم تم تأكيد البلاغ رقم WB-${id}`}
+            {report?.id &&
+              ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.id}-${dateX}-WB`}
           </h1>
         }
         subTitle={

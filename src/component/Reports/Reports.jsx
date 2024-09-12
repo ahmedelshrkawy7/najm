@@ -382,7 +382,7 @@ const Reports = () => {
 
       {showmodal && (
         <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
-          <Success id={Post.data?.data?.data?.report?.id} />
+          <Success report={Post.data?.data?.data?.report} />
         </div>
       )}
     </div>

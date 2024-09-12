@@ -69,10 +69,10 @@ const Test = () => {
 
   return (
     <>
-      <div className="m-20   pr-4">
+      <div className="mt-20   pr-4">
         <div className="w-[95%] rounded-md mx-auto">
           <h2 className="text-[24px]">مسؤول البلاغات</h2>
-          <div className="flex gap-4 items-center justify-end w-full  text-left">
+          {/* <div className="flex gap-4 items-center justify-end w-full  text-left">
             <button
               onClick={handleShowMenu}
               className="bg-[#33835C]  p-4 py-2 rounded-md text-white"
@@ -86,12 +86,12 @@ const Test = () => {
               {" "}
               تاريخ سير البلاغ{" "}
             </button>
-          </div>
+          </div> */}
           <div className="border overflow-hidden mt-4  pb-0 rounded-md border-gray-300">
             <ReportsHeader title="بيانات البلاغ" />
             <div className="p-6">
               <DispalyData title="بيانات البلاغ" values={report} />
-              <Results />
+              {/* <Results /> */}
             </div>
           </div>
         </div>
