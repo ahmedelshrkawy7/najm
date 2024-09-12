@@ -9,8 +9,6 @@ const TokenContext = React.createContext({
 
 export const TokenContextProvider = ({ children }) => {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
-  console.log(token);
-
   useEffect(() => {
     const savesToken = JSON.parse(localStorage.getItem("token"));
     setToken(savesToken);
@@ -20,7 +18,7 @@ export const TokenContextProvider = ({ children }) => {
     setToken(token);
     localStorage.setItem("token", JSON.stringify(token));
     // navigate("/dash");
-    return redirect('/dash')
+    return redirect("/dash");
   };
   const logoutHandler = () => {
     setToken("");

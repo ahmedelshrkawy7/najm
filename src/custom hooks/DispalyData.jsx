@@ -35,7 +35,7 @@ const DispalyData = ({
       {!location.pathname.includes("dash") && (
         <ReportsHeader title="بيانات البلاغ" />
       )}
-      <div className="p-6">
+      <div className="p-1 sm:p-6">
         <div className=" rounded-md  flex flex-col ">
           <div className=" ">
             {location.pathname.includes("dash") && (
