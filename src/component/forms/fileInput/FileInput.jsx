@@ -17,15 +17,18 @@ const FileInput = ({
   register,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  console.log();
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
     let allImages = [...e.target.files].filter((file) =>
       file.type.startsWith("image")
     );
-    let allVideos = [...e.target.files].filter((file) =>
-      file.type.startsWith("video")
+    let allVideos = [...e.target.files].filter(
+      (file) => file.type.startsWith("video") || file.type.startsWith("audio")
     );
 
+    console.log(allVideos);
+    console.log(e.target.files);
     let allFiles = [...e.target.files].filter((file) =>
       file.type.startsWith("application")
     );

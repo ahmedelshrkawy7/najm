@@ -150,7 +150,12 @@ const CardAdmin = () => {
     ?.map((report) => {
       if (report.date === "") {
         report.date = "لا يوجد تاريخ";
-        return report;
+      }
+      if (report.user.name.trim() === "") {
+        report.user.name = "لا يوجد";
+      }
+      if (report.user.phone.trim() === "") {
+        report.user.phone = "لا يوجد رقم تليفون";
       }
       return report;
     })
@@ -180,7 +185,7 @@ const CardAdmin = () => {
 
         <div className="mt-6">
           {/* <ReportChart data={data} /> */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
             {SELECTS.map((sel) => (
               <div className="flex flex-col">
                 <label>{sel.label}</label>
@@ -197,7 +202,7 @@ const CardAdmin = () => {
             <button className="bg-[#33835c] self-end p-2 text-white rounded-md">
               اعادة
             </button>
-          </div>
+          </div> */}
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}

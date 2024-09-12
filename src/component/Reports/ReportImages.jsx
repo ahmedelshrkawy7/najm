@@ -192,6 +192,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                           className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
                           src={img?.file_url || URL?.createObjectURL(img)}
                           muted
+                          // poster={img?.type.startsWith("audio") ? prev6 : ""}
                         />
                         <span
                           className="active cursor-pointer"
