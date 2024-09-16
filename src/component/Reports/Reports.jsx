@@ -98,11 +98,27 @@ const Reports = () => {
 
   const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
-  const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+  const fullDate =
+    date && !isNaN(date.getTime())
+      ? date?.getFullYear() + "-" + month + "-" + getDay
+      : "";
 
   console.log(fullDate);
 
+  // const date = new Date(values[3]?.$d);
+  // const month = date?.getUTCMonth() + 1;
+  // const day = date?.getDate();
+  // const year = date?.getFullYear();
+
+  // const fullDate =
+  //   date && !isNaN(date.getTime())
+  //     ? `${year}-${month < 10 ? "0" + month : month}-${
+  //         day < 10 ? "0" + day : day
+  //       }`
+  //     : "";
+
   const newValues = getValues();
+  console.log(newValues);
   const {
     list,
     datePickerControl: datePicker,
@@ -115,6 +131,7 @@ const Reports = () => {
 
   const allFiles = [...imgs, ...videos, ...fils];
   console.log(allFiles);
+  console.log(userName);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -132,20 +149,22 @@ const Reports = () => {
       files: allFiles,
       date: fullDate,
       report_classification_id: card.report_classification_id,
+      user_name: userName ? userName : null,
+      user_phone: userPhone ? userPhone : null,
     };
   }
 
   console.log(fullDate);
 
-  if (fullDate === "NaN-NaN-NaN") {
-    dataObject = {
-      ...restValues,
+  // if (fullDate === "NaN-NaN-NaN") {
+  //   dataObject = {
+  //     ...restValues,
 
-      suspects: suspects,
-      files: allFiles,
-      report_classification_id: card.report_classification_id,
-    };
-  }
+  //     suspects: suspects,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
   // if (userName === "" || userPhone === "") {
   //   dataObject = {
   //     ...restValues,

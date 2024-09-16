@@ -15,6 +15,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     pdf: "#FDECEC",
     rar: "#FFF4E5",
     zip: "#FFF4E5",
+    xls: "#E8F5E9",
+    xlsx: "#E8F5E9",
     default: "#F0F0F0",
   };
 
@@ -25,6 +27,9 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     rar: "#C07530",
     zip: "#C07530",
     pptx: "#D74D52",
+    ppt: "#D74D52",
+    // xls: "#E8F5E9",
+    // xlsx: "#E8F5E9",
     default: "#000000",
   };
 
@@ -36,6 +41,9 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     zip: "zip.png",
     rar: "rar.png",
     pptx: "powerpoint.png",
+    ppt: "powerpoint.png",
+    xls: "excel.png",
+    xlsx: "excel.png",
     default: "default.png",
   };
 
@@ -58,6 +66,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     return fileIcons[extension] || fileIcons.default;
   };
   console.log(fils);
+
   return (
     <>
       {!!fils?.length && (
@@ -123,9 +132,11 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                       : "text-blue-300"
                   }`}
                 >
-                  {(file?.size || file?.file_size * Math.pow(10, -6)).toFixed(
-                    2
-                  )}
+                  {/* || file?.file_size * Math.pow(10, -6)).toFixed( 2 ) */}
+                  {(!isNaN(Number(file?.file_size)) &&
+                    file?.file_size !== null &&
+                    (Number(file?.file_size) / 1024 ** 2).toFixed(3)) ||
+                    (file?.size / 1024 ** 2).toFixed(3)}
                   <span className="ml-1">mb</span>
                 </span>
               </div>

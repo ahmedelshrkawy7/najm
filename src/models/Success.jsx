@@ -4,7 +4,7 @@ import icon from "../assets/icons/success.png";
 
 const Success = ({ report }) => {
   const date = new Date(report?.date).getFullYear();
-  const dateX = String(date).substring(2, 4);
+  const dateX = report?.date ? "-" + String(date).substring(2, 4) : "";
   return !report?.id ? (
     <div className="loader"></div>
   ) : (
@@ -19,7 +19,7 @@ const Success = ({ report }) => {
         title={
           <h1 className="font-bold">
             {report?.id &&
-              ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.id}-${dateX}-WB`}
+              ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.id}${dateX}-WB`}
           </h1>
         }
         subTitle={

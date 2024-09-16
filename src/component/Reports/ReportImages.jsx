@@ -71,7 +71,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                 <div className=" relative h-full w-[220px] ">
                   {preview && (
                     <div
-                      onClick={() => handleDeleteImages(img.name)}
+                      onClick={() => handleDeleteImages(index)}
                       className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                     >
                       <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -107,11 +107,11 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
                         <a
                           href={
-                            img.file_urls
+                            img.file_url
                               ? img?.file_url
                               : URL.createObjectURL(new Blob([img]))
                           }
-                          download={`image-${img?.file_name || img?.name}.jpg`}
+                          download={`image-${img?.file_name || img?.name}`}
                         >
                           <DownloadOutlined className="text-white text-[16px]" />
                         </a>
@@ -176,7 +176,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                     <>
                       {preview && (
                         <div
-                          onClick={() => handleDeleteVideos(img.name)}
+                          onClick={() => handleDeleteVideos(index)}
                           className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                         >
                           <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -206,11 +206,11 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
                         <a
                           href={
-                            img?.file_urls
+                            img?.file_url
                               ? img?.file_url
                               : URL.createObjectURL(new Blob([img]))
                           }
-                          download={`image-${img?.file_name || img?.name}.jpg`}
+                          download={`image-${img?.file_name || img?.name}`}
                         >
                           <DownloadOutlined className="text-white text-[16px]" />
                         </a>
