@@ -2,7 +2,7 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 
-const UsableReport = ({ selectTitle="", textAreaLabel="" }) => {
+const UsableReport = ({ selectTitle = "", textAreaLabel = "" }) => {
   return (
     <>
       <div>

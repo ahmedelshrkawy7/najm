@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import ReportsTextIcon from "./ReportsTextIcon";
 import prev7 from "../../assets/icons/prev7.svg";
@@ -15,6 +17,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     pdf: "#FDECEC",
     rar: "#FFF4E5",
     zip: "#FFF4E5",
+    xls: "#E8F5E9",
+    xlsx: "#E8F5E9",
     default: "#F0F0F0",
   };
 
@@ -26,6 +30,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     zip: "#C07530",
     pptx: "#D74D52",
     ppt: "#D74D52",
+    // xls: "#E8F5E9",
+    // xlsx: "#E8F5E9",
     default: "#000000",
   };
 
@@ -37,6 +43,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     zip: "zip.png",
     pptx: "powerpoint.png",
     ppt: "powerpoint.png",
+    xls: "excel.png",
+    xlsx: "excel.png",
     default: "default.png",
   };
 
@@ -45,19 +53,20 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   };
 
   const getBackgroundColor = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return backgroundColors[extension] || backgroundColors.default;
   };
 
   const getTextColor = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return textColors[extension] || textColors.default;
   };
 
   const makeSrc = (file) => {
-    const extension = getFileExtension(file.name);
+    const extension = getFileExtension(file?.name || file?.file_name);
     return fileIcons[extension] || fileIcons.default;
   };
+  console.log(fils);
 
   return (
     <>
@@ -79,7 +88,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
       )}
       <div className="flex flex-wrap gap-10 mt-8">
         {fils?.map((file, index) => (
-          <div className="relative cursor-pointer">
+          <div className="relative cursor-pointer" key={file.id}>
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index)}
@@ -88,34 +97,51 @@ const ReportFiles = ({ fils, setFils, preview }) => {
                 <span className="-mt-[3px] text-[20px] font-bold">&times;</span>
               </span>
             )}
+
             <div
               className={`flex items-center gap-4  ${
-                file.type.endsWith("pdf") ? "bg-[#DC60651A]" : "bg-blue-100"
+                file?.type?.startsWith("application") ||
+                file?.file_name.endsWith("pdf")
+                  ? "bg-[#DC60651A]"
+                  : "bg-blue-100"
               } p-2 px-4 rounded-md border border-[#D74D5224]`}
               style={{ backgroundColor: getBackgroundColor(file) }}
               onClick={() => {
-                window.open(URL.createObjectURL(file), "_blank");
+                window.open(
+                  file?.file_url || URL?.createObjectURL(file),
+                  "_blank"
+                );
               }}
             >
               <div className="text-left">
                 <h2
                   className={`font-bold  w-[120px] text-nowrap overflow-hidden text-ellipsis ${
-                    file.type.endsWith("pdf")
+                    file?.type?.startsWith("application") ||
+                    file?.file_name.endsWith("pdf")
                       ? "text-[#D74D52]"
                       : "text-blue-400"
                   }`}
                   style={{ direction: "ltr", color: getTextColor(file) }}
                 >
-                  {file.name}
+                  {file?.name || file.file_name}
                 </h2>
                 <span
-                  className={`text-sm ${
-                    file.type.endsWith("pdf")
-                      ? "text-gray-400"
-                      : "text-blue-300"
-                  }`}
+                  className={
+                    "text-sm text-gray-400"
+                    // `text-sm
+                    // ${
+                    //   file?.type?.startsWith("application") ||
+                    //   file?.file_name?.endsWith("pdf")
+                    //     ? "text-gray-400"
+                    //     : "text-blue-300"
+                    // } `
+                  }
                 >
-                  {(file.size * Math.pow(10, -6)).toFixed(2)}
+                  {/* || file?.file_size * Math.pow(10, -6)).toFixed( 2 ) */}
+                  {(!isNaN(Number(file?.file_size)) &&
+                    file?.file_size !== null &&
+                    (Number(file?.file_size) / 1024 ** 2).toFixed(3)) ||
+                    (file?.size / 1024 ** 2).toFixed(3)}
                   <span className="ml-1">mb</span>
                 </span>
               </div>

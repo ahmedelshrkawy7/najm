@@ -1,4 +1,3 @@
-
 const ReportsTextIcon = ({
   icon,
   title,

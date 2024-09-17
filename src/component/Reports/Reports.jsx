@@ -26,7 +26,7 @@ const labelProps = {
   selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
   listInputTitle: "أسماء الاشخاص المشتبه بهم",
   datePickerTitle: "تاريخ ارتكاب المخالفة",
-  locationTitle: "أدخل مكان الحادث",
+  locationTitle: "مكان حدوث المخالفة",
 };
 
 const Reports = () => {
@@ -41,6 +41,7 @@ const Reports = () => {
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
   const mainContainer = useRef();
@@ -60,7 +61,7 @@ const Reports = () => {
       description: "",
       address: "",
       suspectKnown: "0",
-      datePickerControl: "",
+      date: "",
       suspects: [],
       user_name: "",
       user_email: "",
@@ -68,12 +69,12 @@ const Reports = () => {
       fileInput: "",
     },
   });
-  const values = watch(
+  const wValues = watch(
     [
       "description",
       "address",
       "suspectKnown",
-      "datePickerControl",
+      "date",
       "suspects",
       "user_name",
       "user_email",
@@ -82,43 +83,55 @@ const Reports = () => {
     ],
     false
   );
-  console.log(values);
 
-  // const date = new Date(values?.[3]?.$d);
-  // const month =
-  //   date?.getUTCMonth() + 1 < 10
-  //     ? "0" + (date?.getUTCMonth() + 1)
-  //     : date?.getUTCMonth() + 1;
+  const values = {
+    name: card.name,
+    ...getValues(),
+  };
 
-  // const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
+  const date = new Date(wValues?.[3]?.$d);
+  console.log(date);
+  const month =
+    date?.getUTCMonth() + 1 < 10
+      ? "0" + (date?.getUTCMonth() + 1)
+      : date?.getUTCMonth() + 1;
 
-  // const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
-
-  const date = new Date(values[3]?.$d);
-  const month = date?.getUTCMonth() + 1;
-  const day = date?.getDate();
-  const year = date?.getFullYear();
+  const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
   const fullDate =
     date && !isNaN(date.getTime())
-      ? `${year}-${month < 10 ? "0" + month : month}-${
-          day < 10 ? "0" + day : day
-        }`
+      ? date?.getFullYear() + "-" + month + "-" + getDay
       : "";
 
   console.log(fullDate);
 
+  // const date = new Date(values[3]?.$d);
+  // const month = date?.getUTCMonth() + 1;
+  // const day = date?.getDate();
+  // const year = date?.getFullYear();
+
+  // const fullDate =
+  //   date && !isNaN(date.getTime())
+  //     ? `${year}-${month < 10 ? "0" + month : month}-${
+  //         day < 10 ? "0" + day : day
+  //       }`
+  //     : "";
+
   const newValues = getValues();
+  console.log(newValues);
   const {
     list,
     datePickerControl: datePicker,
     fileInput,
     suspects,
+    user_name: userName,
+    user_phone: userPhone,
     ...restValues
   } = newValues;
 
-  const allFiles = [...imgs, ...fils];
+  const allFiles = [...imgs, ...videos, ...fils];
   console.log(allFiles);
+  console.log(userName);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -126,6 +139,8 @@ const Reports = () => {
     date: fullDate,
     report_classification_id: card.report_classification_id,
     suspects: suspects,
+    user_name: userName ? userName : null,
+    user_phone: userPhone ? userPhone : null,
   };
 
   if (hidden) {
@@ -134,6 +149,8 @@ const Reports = () => {
       files: allFiles,
       date: fullDate,
       report_classification_id: card.report_classification_id,
+      user_name: userName ? userName : null,
+      user_phone: userPhone ? userPhone : null,
     };
   }
 
@@ -142,21 +159,27 @@ const Reports = () => {
   // if (fullDate === "NaN-NaN-NaN") {
   //   dataObject = {
   //     ...restValues,
+
   //     suspects: suspects,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
+  // if (userName === "" || userPhone === "") {
+  //   dataObject = {
+  //     ...restValues,
+  //     suspects: suspects,
+  //     date: fullDate === "NaN-NaN-NaN" ? "" : fullDate,
   //     files: allFiles,
   //     report_classification_id: card.report_classification_id,
   //   };
   // }
 
   const { postData } = useApi();
-
   const Post = useMutation(postData, {
     onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
-
-  console.log(Post.data?.data?.data?.report?.id);
-
   const [
     description,
     address,
@@ -166,12 +189,9 @@ const Reports = () => {
     user_name,
     user_email,
     user_phone,
-  ] = values;
-
+  ] = wValues;
   const reportDetailsValues = [description];
-
-  const contactInforamtionValues = [user_name, user_email, user_phone];
-
+  const contactInforamtionValues = [user_email];
   const handleSelected = (card) => {
     setCards(card);
   };
@@ -181,7 +201,10 @@ const Reports = () => {
       content: (
         <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">1</span>
+      ),
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "تفاصيل البلاغ",
@@ -197,6 +220,8 @@ const Reports = () => {
           setV={setV}
           title={card.name}
           imgs={imgs}
+          videos={videos}
+          setVideos={setVideos}
           setImgs={setImgs}
           fils={fils}
           setFils={setFils}
@@ -208,7 +233,10 @@ const Reports = () => {
           date={date}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">2</span>
+      ),
     },
     {
       title: "معلومات الاتصال",
@@ -219,13 +247,16 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
+          watch={watch}
           setValue={setValue}
           emailControl={user_email}
           phoneControl={user_phone}
           nameControl={user_name}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">3</span>
+      ),
     },
     {
       title: "معاينة البلاغ",
@@ -235,13 +266,17 @@ const Reports = () => {
           setFils={setFils}
           imgs={imgs}
           setImgs={setImgs}
+          videos={videos}
+          setVideos={setVideos}
           values={values}
           labelProps={labelProps}
           title={card.name}
           src={card.src}
         />
       ),
-      icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">4</span>
+      ),
     },
   ];
 
@@ -366,7 +401,7 @@ const Reports = () => {
 
       {showmodal && (
         <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
-          <Success id={Post.data?.data?.data?.report?.id} />
+          <Success report={Post.data?.data?.data?.report} />
         </div>
       )}
     </div>

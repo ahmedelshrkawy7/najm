@@ -15,17 +15,14 @@ const ContactInformation = ({
   useEffect(() => {
     if (
       contactInforamtionValues.indexOf("") === -1 &&
-      emailControl.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) &&
-      phoneControl.match(
-        /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g
-      )
+      emailControl.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
     ) {
       setV(true);
     } else {
       setV(false);
     }
   }, [contactInforamtionValues]);
-  console.log(phoneControl);
+
   return (
     <>
       <ReportsHeader
@@ -62,6 +59,7 @@ const ContactInformation = ({
               message: "يجب ادخال البريد الالكترونى",
             }}
             inputPlaceHolder={"البريد الالكترونى..."}
+            icon={"*"}
           />
           <InputText
             errors={errors}

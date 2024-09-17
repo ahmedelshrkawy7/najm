@@ -30,6 +30,8 @@ const Login = () => {
   const { data: { data = {} } = {}, isLoading: isFetching } = Post;
   // console.log(error);
   const { login, token } = useContext(TokenContext);
+
+  console.log(login);
   const {
     register,
     watch,

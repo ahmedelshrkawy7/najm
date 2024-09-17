@@ -6,23 +6,17 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Toast from "./utils/notifications/Toast";
-import ReportModel from "./models/ReportModel";
+import ReportModal from "./models/ReportModal";
 import ReportInfo from "./models/ReportInfo";
 import ReportLock from "./models/ReportLock";
 import UsableReport from "./models/UsableReport";
 import ReportEscalation from "./models/ReportEscalation";
+import { Modal } from "antd";
 import Model from "./models/Model";
-import { ContextProvider } from "./pages/admin/CardContext";
-import SuccessModel from "./models/SuccessModel";
 const queryClient = new QueryClient({});
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-      <App />
-      <Toast />
-      {/* <ReportModel title="hahah" >
-        <SuccessModel />
-      </ReportModel> */}
-    </QueryClientProvider>
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <App />
+    <Toast />
+  </QueryClientProvider>
 );

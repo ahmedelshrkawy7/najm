@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
-import ReportsHeader from "../../custom hooks/ReportsHeader";
-import { CardUser } from "../../import";
-import { fetchData } from "../../utils/http";
+
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+
+import ReportsHeader from "../../custom hooks/ReportsHeader";
+import { CardUser } from "../../import";
 import useApi from "../../utils/useApi";
 
 const ReportClassification = ({ _card, handleSelected }) => {

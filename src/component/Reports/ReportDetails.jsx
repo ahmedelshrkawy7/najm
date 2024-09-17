@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, {
-  memo,
   useCallback,
   useContext,
   useEffect,
@@ -13,7 +14,6 @@ import Listinput from "../forms/listInput/Listinput";
 import { PlusOutlined } from "@ant-design/icons";
 import Location from "../forms/inputs/Location";
 import location from "../../../src/assets/icons/location@2x.png";
-
 import Datepicker from "../forms/inputs/datepicker";
 import FileInput from "../forms/fileInput/FileInput";
 import SelectInput from "../forms/inputs/SelectInput";
@@ -36,13 +36,17 @@ const ReportDetails = ({
   listInputControl,
   values,
   getValues,
+  videos,
+  setVideos,
   date,
+  description,
 }) => {
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
+  console.log(description);
   useEffect(() => {
     if (
-      reportDetailsValues.indexOf("") === -1 &&
+      watch("description").trim() !== "" &&
       watch("suspectKnown") === "1" &&
       watch("description").trim() !== "" &&
       listInputControl.length > 0
@@ -55,7 +59,6 @@ const ReportDetails = ({
         setV(false);
       }
     } else if (
-      reportDetailsValues.indexOf("") === -1 &&
       watch("description").trim() !== "" &&
       watch("suspectKnown") === "0"
     ) {
@@ -80,6 +83,7 @@ const ReportDetails = ({
       <div className="px-8 pt-4 pb-8  space-y-6">
         <Textarea
           textAreaTitle={labelProps.textarea}
+          nameType="description"
           errors={errors}
           control={control}
           watch={watch}
@@ -89,7 +93,15 @@ const ReportDetails = ({
           errors={errors}
           control={control}
           inpTitle={labelProps.selectTitle}
+          nameType="suspectKnown"
           iconLabel={"*"}
+          options={[
+            { value: "0", label: <span className="text-[16px] ">لا</span> },
+            {
+              value: "1",
+              label: <span className="text-[16px] ">نعم</span>,
+            },
+          ]}
         />
 
         {!isHidden && (
@@ -105,6 +117,7 @@ const ReportDetails = ({
             resetField={resetField}
             values={values}
             iconLabel={"*"}
+            nameType="list"
             getValues={getValues}
           />
         )}
@@ -114,6 +127,7 @@ const ReportDetails = ({
             control={control}
             errors={errors}
             date={date}
+            nameType="date"
           />
 
           <Location
@@ -129,13 +143,15 @@ const ReportDetails = ({
         <FileInput
           fils={fils}
           setFils={setFils}
+          videos={videos}
+          setVideos={setVideos}
           imgs={imgs}
           setImgs={setImgs}
           register={register}
           errors={errors}
           control={control}
         />
-        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit h-[40px] flex items-center">
+        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit min-h-[40px] flex items-center">
           <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">
             في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
             المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،
@@ -148,4 +164,4 @@ const ReportDetails = ({
   );
 };
 
-export default memo(ReportDetails);
+export default ReportDetails;

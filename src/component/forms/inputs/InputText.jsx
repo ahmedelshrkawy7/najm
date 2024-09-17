@@ -11,23 +11,26 @@ export const InputText = ({
   pattern,
   setValue,
   max,
+  icon,
+  validate,
 }) => {
   return (
     <div className="flex  w-full md:w-auto flex-col self-start gap-4">
       <div className="flex gap-2">
         <h2> {inputTitle} </h2>
-        <span className="text-red-500">*</span>
+        <span className="text-red-500">{icon}</span>
       </div>
       <Space.Compact size="large">
         <Controller
           control={control}
           name={name}
           rules={{
-            required: "هذا الحقل مطلوب",
+            required: name === "user_email" && "هذا الحقل مطلوب",
             pattern: pattern,
+            validate: validate,
           }}
           render={({ field, fieldState }) => (
-            <div>
+            <div className="w-full">
               <Input
                 {...field}
                 maxLength={max}
@@ -46,7 +49,7 @@ export const InputText = ({
                       );
                   }
                 }}
-                className="hover:border-emerald-500   focus:border-emerald-500 w-[90%] md:w-[300px]"
+                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:w-[300px] "
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

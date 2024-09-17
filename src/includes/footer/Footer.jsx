@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import {
   RightOutlined,
@@ -6,14 +7,16 @@ import {
 } from "@ant-design/icons";
 const Footer = () => {
   return (
-    <div className="bg-[#55565a] pb-6">
+    <div className="bg-[#55565a] ">
       <div className="w-[90%] mx-auto  ">
-        <div className="relative py-8">
-          <img
-            src="https://najm.sa/sites/ar/_catalogs/masterpage/Najm/images/assets/najm-footer.svg"
-            className="w-[100px] h-[130px] absolute -mr-2 top-0"
-          />
-          <div className="max-w-5xl mx-auto">
+        <div className="relative py-8 flex justify-between gap-0 sm:gap-24">
+          <div>
+            <img
+              src="https://najm.sa/sites/ar/_catalogs/masterpage/Najm/images/assets/najm-footer.svg"
+              className="w-[100px] h-[130px] absolute -mr-2 top-0"
+            />
+          </div>
+          <div className="max-w-5xl mx-auto flex-1 sm:mt-0 mt-[100px] ">
             <div className="grid grid-cols-2 md:grid-cols-3 text-white/85 mt-5 gap-6 pb-4">
               <div className="text-sm md:text-md">
                 <div className="space-y-3">

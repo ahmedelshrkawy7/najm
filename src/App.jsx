@@ -1,6 +1,15 @@
-import { Navbar, ReportsPage } from "./import.js";
+import { MiniHeader, Navbar, ReportsPage } from "./import.js";
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  json,
+  useNavigation,
+  useLocation,
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+} from "react-router-dom";
 import HomePage from "./pages/user/HomePage.jsx";
 import Dashboard from "./Dashboard.jsx";
 // import Success from "./models/Success.jsx";
@@ -8,50 +17,105 @@ import Test from "./component/Reports/test.jsx";
 import Login from "./pages/admin/Login.jsx";
 import TokenContext, { TokenContextProvider } from "./store/TokenContext.jsx";
 import { useContext } from "react";
-// import { Navigate } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
-import AdminManager from "./pages/admin/AdminManager.jsx";
-import Deptview from "./pages/admin/Deptview.jsx";
+import PreparingStudy from "./component/PreparingStudy.jsx";
+import ReportDate from "./pages/admin/ReportDate.jsx";
 
-function App() {
+import { StudyContextPrtovider } from "./store/StudyContext.jsx";
+import Study from "./pages/admin/Study.jsx";
+
+const routes = [
+  {
+    element: <AppLayout />, // This wraps all child routes
+    handle: { crumb: "الرئيسية" },
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "ReportsPage",
+        element: <ReportsPage />,
+        handle: { crumb: "تقديم بلاغ" },
+        loader: () => {
+          console.log("ramy");
+          return ["alexon"];
+        },
+      },
+
+      {
+        path: "/dash",
+        element: (
+          <ProtectedRoutes>
+            <Dashboard />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/dash/:id",
+        element: (
+          <ProtectedRoutes>
+            <Outlet />
+          </ProtectedRoutes>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Test />,
+          },
+          {
+            path: "preparingStudy",
+            element: <Study />,
+          },
+
+          {
+            path: "reportsDate",
+            element: <ReportDate />,
+          },
+        ],
+      },
+      {
+        path: "allAdmins",
+        element: <AllAdmins />,
+      },
+      {
+        path: "*",
+        element: <NotFound msg={"الصفحة غير موجودة"} />,
+      },
+    ],
+  },
+  {
+    path: "admin/login",
+    element: <Login />,
+  },
+];
+
+function AppLayout() {
   const { token } = useContext(TokenContext);
-  console.log(token);
 
   let { pathname } = useLocation();
-  console.log("🚀 ~ App ~ pathname:", pathname);
 
   return (
-    <TokenContextProvider>
-      {!/(Admin|login)/gi.test(pathname) && <Navbar />}
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+}
 
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="/ReportsPage" element={<ReportsPage />} />
-        <Route
-          path="/dash"
-          element={
-            <ProtectedRoutes>
-              <Dashboard />
-            </ProtectedRoutes>
-          }
-        />
-        <Route
-          path="/dash/:id"
-          element={
-            <ProtectedRoutes>
-              <Test />
-            </ProtectedRoutes>
-          }
-        />
-        <Route path="/admin/login" element={<Login />} />
-        <Route path="/allAdmins" element={<AllAdmins />} />
-        <Route path="/managers" element={<AdminManager />} />
-        <Route path="/depts" element={<Deptview />} />
-        <Route path="*" element={<NotFound msg={"الصفحة غير موجودة"} />} />
-      </Routes>
+const router = createBrowserRouter(routes);
+
+function App() {
+  return (
+    // <StudyContextPrtovider>
+    <TokenContextProvider>
+      <StudyContextPrtovider>
+        <RouterProvider router={router} />
+      </StudyContextPrtovider>
     </TokenContextProvider>
+    // </StudyContextPrtovider>
   );
 }
 

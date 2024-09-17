@@ -5,13 +5,43 @@ import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
-import ReportModel from "../../../models/ReportModel";
-import { useRef } from "react";
-import ReportLock from "../../../models/ReportLock";
-import Model from "../../../models/Model";
+import SelectInput from "../../forms/inputs/SelectInput";
+
+const SELECTS = [
+  {
+    label: "رقم البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "حالة الاعتماد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "درجة المخاطر",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "الادارة المسند لها ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ الاسناد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: " حالة البلاغ",
+    options: ["1", "2", "3"],
+  },
+];
+
 const CardAdmin = () => {
   const { getData } = useApi();
   const [edit, setEdit] = useState(false);
+
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
@@ -19,6 +49,7 @@ const CardAdmin = () => {
     ["users", ["/reports", { page: pagination }]],
     getData
   );
+
   console.log(data);
   let cards = [
     {
@@ -31,90 +62,6 @@ const CardAdmin = () => {
   ];
 
   console.log(data);
-
-  // const columns = [
-  //   {
-  //     title: "رقم البلاغ",
-  //     dataIndex: "id",
-  //     key: "id",
-  //     render: (text) => <p>{text}</p>,
-  //   },
-  //   {
-  //     title: "تصنيف البلاغ",
-  //     dataIndex: ["report_classification", "name"],
-  //     key: "report_classification['name']",
-  //     render: (text, record) =>
-  //       edit ? (
-  //         <form
-  //           onSubmit={async (e) => {
-  //             e.preventDefault();
-  //             const data = await editReportData(
-  //               record.report_classification.id,
-  //               {
-  //                 name_ar: record.report_classification.name,
-  //                 name_en: record.report_classification.name,
-  //                 _method: "PUT",
-  //               }
-  //             );
-  //             console.log("hello world");
-  //             setEdit(false);
-  //           }}
-  //         >
-  //           <input type="text" />
-  //         </form>
-  //       ) : (
-  //         <Link to={`/dash/${record.id}`}>{text}</Link>
-  //       ),
-  //   },
-  //   {
-  //     title: "اسم المبلغ",
-  //     dataIndex: ["user", "name"],
-  //     key: "user['name']",
-  //   },
-  //   {
-  //     title: "البريد الالكترونى",
-  //     dataIndex: ["user", "email"],
-  //     key: "user['email']",
-  //   },
-  //   {
-  //     title: "حالة البلاغ",
-  //     dataIndex: "_",
-  //     key: "id",
-  //     render: (_) => (
-  //       <button className="p-1 bg-[#33835C] text-white px-7 rounded-full text-[11px]">
-  //         {"جديد"}
-  //       </button>
-  //     ),
-  //   },
-  //   {
-  //     title: "رقم الهاتف",
-  //     dataIndex: ["user", "phone"],
-  //     key: "user['phone']",
-  //   },
-  //   {
-  //     title: "التاريخ",
-  //     dataIndex: "date",
-  //     key: "date",
-  //   },
-  //   {
-  //     title: "",
-  //     key: "action",
-  //     render: (_, record) => (
-  //       <Space size="middle">
-  //         {/* <a>update {record.name}</a> */}
-  //         <Link to={`/dash/${record.id}`}>عرض</Link>
-  //         {/* <button
-  //           onClick={async () => {
-  //             setEdit(true);
-  //           }}
-  //         >
-  //           تعديل
-  //         </button> */}
-  //       </Space>
-  //     ),
-  //   },
-  // ];
-
   const columns = [
     {
       title: "رقم البلاغ",
@@ -181,7 +128,12 @@ const CardAdmin = () => {
     ?.map((report) => {
       if (report.date === "") {
         report.date = "لا يوجد تاريخ";
-        return report;
+      }
+      if (report.user.name.trim() === "") {
+        report.user.name = "لا يوجد";
+      }
+      if (report.user.phone.trim() === "") {
+        report.user.phone = "لا يوجد رقم تليفون";
       }
       return report;
     })
@@ -207,8 +159,27 @@ const CardAdmin = () => {
             </div>
           ))}
         </div>
+
         <div className="mt-6">
           {/* <ReportChart data={data} /> */}
+          {/* <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
+            {SELECTS.map((sel) => (
+              <div className="flex flex-col">
+                <label>{sel.label}</label>
+                <select
+                  defaultValue={""}
+                  className="!bg-white border-none outline-none !p-2 mt-2 rounded-md"
+                >
+                  {sel.options.map((opt) => (
+                    <option>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+            <button className="bg-[#33835c] self-end p-2 text-white rounded-md">
+              اعادة
+            </button>
+          </div> */}
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}

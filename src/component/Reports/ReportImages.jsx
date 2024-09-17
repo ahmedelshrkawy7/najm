@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from "react";
 import VideoDisplay from "../../models/VideoDisplay";
 import prev6 from "../../assets/icons/prev6.svg";
@@ -8,44 +10,46 @@ import {
   CloseOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
-const ReportImages = ({ imgs, setImgs, preview }) => {
+const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
+  // let photos = imgs?.filter((el) => {
+  //   return el?.file_type?.includes("image") || el?.type?.includes("image");
+  // });
+  // let videos = imgs?.filter((el) => {
+  //   return el?.file_type?.includes("video") || el?.type?.includes("video");
+  // });
+  console.log(videos);
   const handleDeleteImages = (id) => {
     const images = [...imgs];
     images.splice(id, 1);
     setImgs(images);
   };
+  const handleDeleteVideos = (id) => {
+    const images = [...videos];
+    images.splice(id, 1);
+    setVideos(images);
+  };
 
-  console.log(imgs);
   const myImage = useRef();
-
   const [showVideo, setShowVideo] = useState(false);
   const [showImg, setShowImg] = useState(false);
-  const [src, setSrc] = useState("false");
-
-  let photos = imgs.filter((el) => {
-    return el.type.includes("image");
-  });
-  let videos = imgs.filter((el) => {
-    return el.type.includes("video");
-  });
-
+  const [imgSrc, setSrc] = useState("false");
+  const [videoSrc, setVideoSrc] = useState("");
   function showFunc(index, type) {
     if (type == "image") {
-      setSrc(photos[index]);
-      setShowVideo(false);
       setShowImg(true);
+      setSrc(imgs[index]);
     }
     if (type == "video") {
-      setSrc(videos[index]);
-      setShowImg(false);
       setShowVideo(true);
+      setVideoSrc(videos[index]);
     }
   }
 
+  console.log(imgs, videos);
   return (
     <>
-      {!!photos.length > 0 && (
+      {!!imgs?.length > 0 && (
         <>
           <div
             className={`flex mb-4 flex-col  
@@ -57,13 +61,13 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
               </div>
 
               <span className="font-medium !min-w-[100px]">
-                الصور ( {photos.length} )
+                الصور ( {imgs.length} )
               </span>
             </div>
           </div>
 
           <div className="flex flex-wrap mt-4  gap-6">
-            {photos.map((img, index) => (
+            {imgs.map((img, index) => (
               <div key={Math.random()}>
                 {!img && <p>Loading</p>}
                 <div className=" relative h-full w-[220px]  ">
@@ -77,14 +81,16 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </span>
                     </div>
                   )}
-                  {img?.type.startsWith("image") && (
+                  {
                     <div
                       className="relative wrapper transition-all duration-1000 h-full border border-gray-300 rounded-md "
                       style={{ aspectRatio: 16 / 9 }}
                     >
                       <img
                         className="rounded-md object-cover cursor-pointer  w-full h-full"
-                        src={URL?.createObjectURL(img)}
+                        src={
+                          img.file_url ? img.file_url : URL.createObjectURL(img)
+                        }
                         ref={myImage}
                         draggable="false"
                       />
@@ -102,22 +108,31 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </div>
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
                         <a
-                          href={URL.createObjectURL(img)}
-                          download={`image-${index}.jpg`}
+                          href={
+                            img.file_url
+                              ? img?.file_url
+                              : URL.createObjectURL(new Blob([img]))
+                          }
+                          download={`image-${img?.file_name || img?.name}`}
                         >
-                          <DownloadOutlined className="text-white text-[16px] " />
+                          <DownloadOutlined className="text-white text-[16px]" />
                         </a>
                       </div>
                     </div>
-                  )}
+                  }
                 </div>
+
                 {showImg && (
                   <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center !bg-black/50">
                     <div className="relative  w-1/2 flex justify-center items-center scale-75">
                       <img
                         draggable={false}
                         className="object-contain "
-                        src={URL.createObjectURL(src)}
+                        src={
+                          imgSrc?.file_url
+                            ? imgSrc?.file_url
+                            : URL.createObjectURL(imgSrc)
+                        }
                         style={{ objectFit: "contain" }}
                       />
 
@@ -132,28 +147,6 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                     </div>
                   </div>
                 )}
-                {showVideo && (
-                  <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">
-                    <div className=" h-1/2 relative">
-                      <div className="cursor-pointer">
-                        <div
-                          className="absolute cursor-pointer  -top-4 -left-3 w-6 h-6 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
-                          onClick={() => {
-                            setShowVideo(false);
-                          }}
-                        >
-                          <span className="-mt-[2px] text-[20px]">&times;</span>
-                        </div>
-                      </div>
-                      <video
-                        className="w-full h-full"
-                        src={URL.createObjectURL(src)}
-                        muted
-                        controls
-                      />
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
             <div
@@ -163,7 +156,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
           </div>
         </>
       )}
-      {!!videos.length && (
+      {!!videos?.length > 0 && (
         <>
           <div className="flex items-center gap-2 ">
             <div className=" rounded-full   h-12  flex items-center justify-center">
@@ -176,15 +169,16 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
           </div>
 
           <div className="flex flex-wrap mt-4  gap-6">
-            {videos.map((img, index) => (
-              <div key={Math.random()}>
-                {!img && <p>Loading</p>}
-                <div className=" relative h-full w-[220px] ">
-                  {img?.type.startsWith("video") && (
+            {videos.map((img, index) => {
+              console.log(img);
+              return (
+                <div key={Math.random()}>
+                  {!img && <p>Loading</p>}
+                  <div className=" relative h-full w-[220px] ">
                     <>
                       {preview && (
                         <div
-                          onClick={() => handleDeleteImages(index)}
+                          onClick={() => handleDeleteVideos(index)}
                           className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                         >
                           <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -198,8 +192,9 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       >
                         <video
                           className="rounded-md object-cover cursor-pointer inline-block w-full h-full"
-                          src={URL.createObjectURL(img)}
+                          src={img?.file_url || URL?.createObjectURL(img)}
                           muted
+                          // poster={img?.type.startsWith("audio") ? prev6 : ""}
                         />
                         <span
                           className="active cursor-pointer"
@@ -209,25 +204,56 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                         >
                           <EyeOutlined className="text-[20px] text-white" />
                         </span>
-                        <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
-                          <a
-                            href={URL.createObjectURL(img)}
-                            download={`video-${index}.mp4`}
-                          >
-                            <DownloadOutlined className="text-white text-[16px] " />
-                          </a>
-                        </div>
+                      </div>
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
+                        <a
+                          href={
+                            img?.file_url
+                              ? img?.file_url
+                              : URL.createObjectURL(new Blob([img]))
+                          }
+                          download={`image-${img?.file_name || img?.name}`}
+                        >
+                          <DownloadOutlined className="text-white text-[16px]" />
+                        </a>
                       </div>
                     </>
+                  </div>
+                  {showVideo && (
+                    <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">
+                      <div className=" h-1/2 relative">
+                        <div className="cursor-pointer">
+                          <div
+                            className="absolute cursor-pointer  -top-4 -left-3 w-6 h-6 text-white bg-[#33835C] rounded-full font-semibold flex justify-center items-center"
+                            onClick={() => {
+                              setShowVideo(false);
+                            }}
+                          >
+                            <span className="-mt-[2px] text-[20px]">
+                              &times;
+                            </span>
+                          </div>
+                        </div>
+                        <video
+                          className="w-full h-full"
+                          src={
+                            videoSrc?.file_url
+                              ? videoSrc?.file_url
+                              : URL.createObjectURL(videoSrc)
+                          }
+                          muted
+                          controls
+                        />
+                      </div>
+                    </div>
                   )}
-                </div>
-                {showImg && (
+                  {/* {showImg && (
                   <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center !bg-black/50">
                     <div className="relative  w-1/2 flex justify-center items-center scale-75">
                       <img
                         draggable={false}
                         className="object-contain "
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         style={{ objectFit: "contain" }}
                       />
 
@@ -257,15 +283,16 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                       </div>
                       <video
                         className="w-full h-full"
-                        src={URL.createObjectURL(src)}
+                        src={src?.file_url || URL.createObjectURL(src)}
                         muted
                         controls
                       />
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
+                )} */}
+                </div>
+              );
+            })}
           </div>
         </>
       )}

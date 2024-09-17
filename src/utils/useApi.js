@@ -19,7 +19,6 @@ import TokenContext from "../store/TokenContext";
 
 const useApi = () => {
   const { token } = useContext(TokenContext);
-  console.log(token);
   const Axios = axios.create({
     baseURL: "https://najm.alexondev.net/api",
     headers: {
