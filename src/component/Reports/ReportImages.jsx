@@ -6,6 +6,7 @@ import {
   EyeOutlined,
   CloseCircleOutlined,
   CloseOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 const ReportImages = ({ imgs, setImgs, preview }) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
@@ -22,22 +23,25 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
   const [showImg, setShowImg] = useState(false);
   const [src, setSrc] = useState("false");
 
-  function showFunc(index, type) {
-    setSrc(imgs[index]);
-    if (type == "image") {
-      setShowImg(true);
-    }
-    if (type == "video") {
-      setShowVideo(true);
-    }
-  }
-
   let photos = imgs.filter((el) => {
     return el.type.includes("image");
   });
   let videos = imgs.filter((el) => {
     return el.type.includes("video");
   });
+
+  function showFunc(index, type) {
+    if (type == "image") {
+      setSrc(photos[index]);
+      setShowVideo(false);
+      setShowImg(true);
+    }
+    if (type == "video") {
+      setSrc(videos[index]);
+      setShowImg(false);
+      setShowVideo(true);
+    }
+  }
 
   return (
     <>
@@ -62,7 +66,7 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
             {photos.map((img, index) => (
               <div key={Math.random()}>
                 {!img && <p>Loading</p>}
-                <div className=" relative h-full w-[220px] ">
+                <div className=" relative h-full w-[220px]  ">
                   {preview && (
                     <div
                       onClick={() => handleDeleteImages(index)}
@@ -95,6 +99,14 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                           className="z-10 text-white text-[20px]"
                           style={{ zIndex: 99 }}
                         />
+                      </div>
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
+                        <a
+                          href={URL.createObjectURL(img)}
+                          download={`image-${index}.jpg`}
+                        >
+                          <DownloadOutlined className="text-white text-[16px] " />
+                        </a>
                       </div>
                     </div>
                   )}
@@ -197,6 +209,14 @@ const ReportImages = ({ imgs, setImgs, preview }) => {
                         >
                           <EyeOutlined className="text-[20px] text-white" />
                         </span>
+                        <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
+                          <a
+                            href={URL.createObjectURL(img)}
+                            download={`video-${index}.mp4`}
+                          >
+                            <DownloadOutlined className="text-white text-[16px] " />
+                          </a>
+                        </div>
                       </div>
                     </>
                   )}

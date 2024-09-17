@@ -44,6 +44,7 @@ const ReportDetails = ({
     if (
       reportDetailsValues.indexOf("") === -1 &&
       watch("suspectKnown") === "1" &&
+      watch("description").trim() !== "" &&
       listInputControl.length > 0
     ) {
       if (!watch("datePickerControl")) {
@@ -55,6 +56,7 @@ const ReportDetails = ({
       }
     } else if (
       reportDetailsValues.indexOf("") === -1 &&
+      watch("description").trim() !== "" &&
       watch("suspectKnown") === "0"
     ) {
       if (!watch("datePickerControl")) {
@@ -68,7 +70,7 @@ const ReportDetails = ({
       setV(false);
     }
   }, [reportDetailsValues]);
-
+  console.log(watch("description").trim());
   return (
     <>
       <ReportsHeader

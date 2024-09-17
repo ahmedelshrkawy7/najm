@@ -21,6 +21,7 @@ import {
   UserOutlined,
   ContainerOutlined,
   PhoneOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import NotFound from "../../NotFound";
@@ -75,6 +76,7 @@ const Test = () => {
   const videos = values[9]?.images?.filter((img) =>
     img.file_type?.startsWith("video")
   );
+
   function showFunc(type, src) {
     setSrc(src);
     if (type == "image") {
@@ -194,7 +196,7 @@ const Test = () => {
             </div>
           </div>
         </div>
-        {!!(values[9].files.length && values[9].images.length) && (
+        {!!values[9]?.files?.length && !!values[9]?.images?.length && (
           <>
             <div className="flex  gap-2 items-center mr-6  rounded-full">
               <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">

@@ -22,7 +22,7 @@ const Textarea = ({
       textAreaRef.style.height = e.target.scrollHeight + "px";
     }
   };
-
+  console.log(errors, watch("desription"));
   return (
     <div ref={wrapperRef} className="flex flex-col gap-4">
       <div className="flex">
@@ -41,6 +41,8 @@ const Textarea = ({
         rules={{
           required: "من فضلك ادخل وصف البلاغ  ",
           message: " الحقل مطلوب",
+          validate: (value) =>
+            value.trim() === "" && "الحقل لا يمكن أن يكون فارغًا",
         }}
         control={control}
         render={({ field }) => (
@@ -50,6 +52,7 @@ const Textarea = ({
               {...field}
               ref={refVal}
               onChange={(e) => {
+                // field.onChange(e.target.value.trimStart());
                 field.onChange(e);
                 handleInput(e);
               }}

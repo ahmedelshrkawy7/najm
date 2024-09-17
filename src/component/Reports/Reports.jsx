@@ -82,16 +82,29 @@ const Reports = () => {
     ],
     false
   );
+  console.log(values);
 
-  const date = new Date(values?.[3]?.$d);
-  const month =
-    date?.getUTCMonth() + 1 < 10
-      ? "0" + (date?.getUTCMonth() + 1)
-      : date?.getUTCMonth() + 1;
+  // const date = new Date(values?.[3]?.$d);
+  // const month =
+  //   date?.getUTCMonth() + 1 < 10
+  //     ? "0" + (date?.getUTCMonth() + 1)
+  //     : date?.getUTCMonth() + 1;
 
-  const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
+  // const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
-  const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+  // const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+
+  const date = new Date(values[3]?.$d);
+  const month = date?.getUTCMonth() + 1;
+  const day = date?.getDate();
+  const year = date?.getFullYear();
+
+  const fullDate =
+    date && !isNaN(date.getTime())
+      ? `${year}-${month < 10 ? "0" + month : month}-${
+          day < 10 ? "0" + day : day
+        }`
+      : "";
 
   console.log(fullDate);
 
@@ -126,14 +139,14 @@ const Reports = () => {
 
   console.log(fullDate);
 
-  if (fullDate === "NaN-NaN-NaN") {
-    dataObject = {
-      ...restValues,
-      suspects: suspects,
-      files: allFiles,
-      report_classification_id: card.report_classification_id,
-    };
-  }
+  // if (fullDate === "NaN-NaN-NaN") {
+  //   dataObject = {
+  //     ...restValues,
+  //     suspects: suspects,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
 
   const { postData } = useApi();
 

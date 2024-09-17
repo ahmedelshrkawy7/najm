@@ -25,6 +25,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     rar: "#C07530",
     zip: "#C07530",
     pptx: "#D74D52",
+    ppt: "#D74D52",
     default: "#000000",
   };
 
@@ -34,8 +35,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
     pdf: "pdf.png",
     rar: "rar.png",
     zip: "zip.png",
-    rar: "rar.png",
     pptx: "powerpoint.png",
+    ppt: "powerpoint.png",
     default: "default.png",
   };
 

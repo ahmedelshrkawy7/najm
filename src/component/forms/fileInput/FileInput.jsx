@@ -10,7 +10,7 @@ import { CloudUploadOutlined } from "@ant-design/icons";
 const FileInput = ({ imgs, setImgs, fils, setFils, register }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
-    console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
+    console.log("🚀 ~ handleChangeFile ~ e:", e.target.files[0]);
     let allImages = [...e.target.files].filter(
       (file) => file.type.startsWith("image") || file.type.startsWith("video")
     );
