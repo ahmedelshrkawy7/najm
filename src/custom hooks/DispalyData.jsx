@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import ReportImages from "../component/Reports/ReportImages";
 import ReportFiles from "../component/Reports/ReportFiles";

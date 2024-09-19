@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 
 import ReportsTextIcon from "./ReportsTextIcon";

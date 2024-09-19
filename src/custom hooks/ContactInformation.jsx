@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 import note from "../assets/icons/note.svg";

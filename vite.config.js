@@ -7,4 +7,7 @@ export default defineConfig({
   alias: {
     "source-map-js": "source-map",
   },
+  server: {
+    host: true,
+  },
 });

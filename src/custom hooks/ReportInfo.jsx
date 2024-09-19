@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import {
   EyeOutlined,
@@ -6,13 +9,7 @@ import {
   ContainerOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
-const labelProps = {
-  textarea: "وصف البلاغ",
-  selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
-  listInputTitle: "أسماء الاشخاص المشتبه بهم",
-  datePickerTitle: "تاريخ ارتكاب المخالفة",
-  locationTitle: "ادخل مكان الحادث",
-};
+
 import { useState } from "react";
 
 import note from "../assets/icons/note.svg";
@@ -30,6 +27,14 @@ const ReportInfo = ({ values }) => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
   const fDate = fullDate !== "NaN/NaN/NaN";
+
+  const labelProps = {
+    textarea: "وصف البلاغ",
+    selectTitle: "هل انت على علم باسماء المشتبه بهم؟",
+    listInputTitle: "أسماء الاشخاص المشتبه بهم",
+    datePickerTitle: "تاريخ ارتكاب المخالفة",
+    locationTitle: "مكان حدوث المخالفة",
+  };
 
   console.log(values);
 
@@ -59,14 +64,15 @@ const ReportInfo = ({ values }) => {
           </div>
           <h2 className="text-lg self-center  font-semibold">تفاصيل البلاغ</h2>
         </div>
-
-        <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px] mr-9 ">
-          <ReportsTextIcon
-            icon={note}
-            description={true}
-            subTitle={values.description}
-          />
-        </div>
+        <pre>
+          <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px] mr-9 ">
+            <ReportsTextIcon
+              icon={note}
+              description={true}
+              subTitle={values.description}
+            />
+          </div>
+        </pre>
         <div className="">
           {values.date && (
             <ReportsTextIcon

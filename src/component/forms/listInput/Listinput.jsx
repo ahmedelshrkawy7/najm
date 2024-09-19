@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Input, message, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
@@ -30,6 +32,7 @@ const Listinput = ({
   console.log(watch("list"));
 
   function addLabel() {
+    inputRef.current.input.style.width = "300px";
     if (watch("list")) {
       setData([...data, { name: watch("list") }]);
       setValue("suspects", [...arrayOfValues, { name: watch("list") }]);

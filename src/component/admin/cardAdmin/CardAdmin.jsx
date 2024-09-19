@@ -127,13 +127,13 @@ const CardAdmin = () => {
   let _reports = data?.data?.reports
     ?.map((report) => {
       if (report.date === "") {
-        report.date = "لا يوجد تاريخ";
+        report.date = "لا يوجد";
       }
       if (report.user.name.trim() === "") {
         report.user.name = "لا يوجد";
       }
       if (report.user.phone.trim() === "") {
-        report.user.phone = "لا يوجد رقم تليفون";
+        report.user.phone = "لا يوجد";
       }
       return report;
     })

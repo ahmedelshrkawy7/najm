@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { Input, Space } from "antd";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
