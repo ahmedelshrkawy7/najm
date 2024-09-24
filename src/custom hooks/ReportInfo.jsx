@@ -72,7 +72,7 @@ const ReportInfo = ({ values }) => {
               subTitle={values.description}
             />
           </div>
-        </pre>
+        </pre> 
         <div className="">
           {values.date && (
             <ReportsTextIcon

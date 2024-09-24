@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MiniHeader, Navbar, ReportsPage } from "./import.js";
 
 import {
@@ -25,6 +26,8 @@ import ReportDate from "./pages/admin/ReportDate.jsx";
 
 import { StudyContextPrtovider } from "./store/StudyContext.jsx";
 import Study from "./pages/admin/Study.jsx";
+import AdminManager from "./pages/admin/AdminManager.jsx";
+import Deptview from "./pages/admin/Deptview.jsx";
 
 const routes = [
   {
@@ -75,6 +78,14 @@ const routes = [
             element: <ReportDate />,
           },
         ],
+      },
+      {
+        path: "managers",
+        element: <AdminManager />,
+      },
+      {
+        path: "depts",
+        element: <Deptview />,
       },
       {
         path: "allAdmins",
