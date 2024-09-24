@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 import { useCallback, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
+import TokenContext from "../store/TokenContext";
 // export const Axios = axios.create({
 //   baseURL: "https://pm.alexondev.net/api",
 //   headers: {
@@ -14,25 +17,28 @@ import { useNavigate } from "react-router-dom";
 //   },
 // });
 
-export const Axios = axios.create({
-  baseURL: "https://najm.alexondev.net/api",
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Accept: "application/json",
-  },
-});
-
 const useApi = () => {
+  const { token } = useContext(TokenContext);
+
+  const Axios = axios.create({
+    baseURL: "http://192.168.1.32/najm/public/api",
+    // baseURL: "https://najm.alexondev.net/api",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    // timeout: 3000,
+  });
+
   //   const { setAuth, Auth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  //   const { setLoader } = useContext(LoadContext);
-
   const error = useCallback(async (err) => {
     if (err.response.status === 401) {
       //   errorNotf("Unauthorized");
-      navigate("/login");
+      // navigate("/login");
       return;
     }
     // errorNotf(err.response.data.message);
@@ -47,20 +53,33 @@ const useApi = () => {
       const response = await Axios.post(endpoint, data);
       return response;
     } catch (err) {
-      error(err);
+      throw err;
     } finally {
       //   setLoader(false);
     }
   };
-  const getData = async (url) => {
+  const getData = async ({ queryKey }) => {
+    console.log(queryKey);
     // setLoader(true);
-
+    let [, [url, param], id = ""] = queryKey;
+    console.log("🚀 ~ getData ~ param:", param);
     try {
-      const response = await Axios.get(url);
-      const data = response.data.data;
+      const response = await Axios.get(id ? url + "/" + id : url, {
+        params: param,
+      });
+
+      const data = response.data;
       return data;
     } catch (err) {
-      error(err);
+      console.log(err.response.status);
+
+      if (err.response.status == 401) {
+        localStorage.removeItem("token");
+        return navigate("/admin/login");
+      }
+
+      // error(err);
+      throw err;
     } finally {
       //   setLoader(false);
     }

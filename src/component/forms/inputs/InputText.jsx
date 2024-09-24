@@ -1,26 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { Input, Space } from "antd";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
-
-{
-  /* <Controller
-  control={control}
-  name={title}
-  rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
-  render={({ field, fieldState }) => (
-    <div>
-      <Input
-        {...field}
-        className="focus:border-green-600 p-[10px] hover:border-green-600 "
-        placeholder={inputPlaceholder}
-        suffix={<img width={width} src={src} />}
-      />
-    </div>
-  )}
-/>;
-{
-  errors[title] && <p className="text-red-500">{errors[title].message}</p>;
-} */
-}
 
 export const InputText = ({
   inputTitle,
@@ -29,27 +11,47 @@ export const InputText = ({
   errors,
   control,
   pattern,
+  setValue,
+  max,
+  icon,
+  validate,
 }) => {
-  console.log(pattern);
   return (
     <div className="flex  w-full md:w-auto flex-col self-start gap-4">
       <div className="flex gap-2">
         <h2> {inputTitle} </h2>
-        <span className="text-red-500">*</span>
+        <span className="text-red-500">{icon}</span>
       </div>
       <Space.Compact size="large">
         <Controller
           control={control}
           name={name}
           rules={{
-            required: "هذا الحقل مطلوب",
+            required: name === "user_email" && "هذا الحقل مطلوب",
             pattern: pattern,
+            validate: validate,
           }}
           render={({ field, fieldState }) => (
-            <div>
+            <div className="w-full">
               <Input
                 {...field}
-                className="hover:border-emerald-500  focus:border-emerald-500 w-[90%] md:w-[300px]"
+                maxLength={max}
+                onChange={(e) => {
+                  {
+                    field.onChange(e);
+                    name === "user_phone" &&
+                      setValue(
+                        "user_phone",
+                        e.target.value.replace(/[a-zA-Z]+/g, "")
+                      );
+                    name === "user_name" &&
+                      setValue(
+                        "user_name",
+                        e.target.value.replace(/[0-9]+/g, "")
+                      );
+                  }
+                }}
+                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:w-[300px] "
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

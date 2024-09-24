@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useRef } from "react";
 import {
   Steps,
   useState,
@@ -12,8 +13,13 @@ import { useForm } from "react-hook-form";
 import { sendData } from "../../utils/http";
 import { useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
+import { data } from "autoprefixer";
+import Error from "../../models/Error";
+import { toast } from "react-toastify";
+import { CheckOutlined } from "@ant-design/icons";
+import { icons } from "antd/es/image/PreviewGroup";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -24,14 +30,22 @@ const labelProps = {
 };
 
 const Reports = () => {
+  const queryClient = new QueryClient();
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  const [card, setCards] = useState({ name: "", report_classification_id: 0 });
+  const [card, setCards] = useState({
+    name: "",
+    report_classification_id: 0,
+    src: "",
+  });
   const [v, setV] = useState(true);
   const navigate = useNavigate();
   const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [fils, setFils] = useState([]);
   const [showmodal, setShowmodal] = useState(false);
+  const mainContainer = useRef();
+
   const {
     register,
     watch,
@@ -42,12 +56,12 @@ const Reports = () => {
     resetField,
     getValues,
   } = useForm({
-    mode: "onBlur",
+    mode: "all",
     defaultValues: {
       description: "",
       address: "",
-      suspectKnown: "1",
-      datePickerControl: "",
+      suspectKnown: "0",
+      date: "",
       suspects: [],
       user_name: "",
       user_email: "",
@@ -55,12 +69,12 @@ const Reports = () => {
       fileInput: "",
     },
   });
-  const values = watch(
+  const wValues = watch(
     [
       "description",
       "address",
       "suspectKnown",
-      "datePickerControl",
+      "date",
       "suspects",
       "user_name",
       "user_email",
@@ -69,27 +83,55 @@ const Reports = () => {
     ],
     false
   );
-  console.log(card);
-  // 2023-07-20
-  const date = new Date(values?.[3]?.$d);
 
+  const values = {
+    name: card.name,
+    ...getValues(),
+  };
+
+  const date = new Date(wValues?.[3]?.$d);
+  console.log(date);
   const month =
-    date?.getMonth() < 10 ? "0" + date?.getMonth() : date?.getMonth();
+    date?.getUTCMonth() + 1 < 10
+      ? "0" + (date?.getUTCMonth() + 1)
+      : date?.getUTCMonth() + 1;
 
   const getDay = date?.getDate() < 10 ? "0" + date?.getDate() : date?.getDate();
 
-  const fullDate = date?.getFullYear() + "-" + month + "-" + getDay;
+  const fullDate =
+    date && !isNaN(date.getTime())
+      ? date?.getFullYear() + "-" + month + "-" + getDay
+      : "";
+
+  console.log(fullDate);
+
+  // const date = new Date(values[3]?.$d);
+  // const month = date?.getUTCMonth() + 1;
+  // const day = date?.getDate();
+  // const year = date?.getFullYear();
+
+  // const fullDate =
+  //   date && !isNaN(date.getTime())
+  //     ? `${year}-${month < 10 ? "0" + month : month}-${
+  //         day < 10 ? "0" + day : day
+  //       }`
+  //     : "";
 
   const newValues = getValues();
+  console.log(newValues);
   const {
     list,
     datePickerControl: datePicker,
     fileInput,
     suspects,
+    user_name: userName,
+    user_phone: userPhone,
     ...restValues
   } = newValues;
 
-  const allFiles = [...imgs, ...fils];
+  const allFiles = [...imgs, ...videos, ...fils];
+  console.log(allFiles);
+  console.log(userName);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -97,6 +139,8 @@ const Reports = () => {
     date: fullDate,
     report_classification_id: card.report_classification_id,
     suspects: suspects,
+    user_name: userName ? userName : null,
+    user_phone: userPhone ? userPhone : null,
   };
 
   if (hidden) {
@@ -105,37 +149,37 @@ const Reports = () => {
       files: allFiles,
       date: fullDate,
       report_classification_id: card.report_classification_id,
+      user_name: userName ? userName : null,
+      user_phone: userPhone ? userPhone : null,
     };
   }
 
-  const wrapperRef = useRef(null);
+  console.log(fullDate);
 
-  useEffect(() => {
-    const smoothBehvior = () => {
-      if (wrapperRef.current !== null) {
-        wrapperRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    };
-    smoothBehvior();
+  // if (fullDate === "NaN-NaN-NaN") {
+  //   dataObject = {
+  //     ...restValues,
 
-    window.addEventListener("load", smoothBehvior);
-    return () => {
-      window.removeEventListener("load", smoothBehvior);
-    };
-  }, []);
+  //     suspects: suspects,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
+  // if (userName === "" || userPhone === "") {
+  //   dataObject = {
+  //     ...restValues,
+  //     suspects: suspects,
+  //     date: fullDate === "NaN-NaN-NaN" ? "" : fullDate,
+  //     files: allFiles,
+  //     report_classification_id: card.report_classification_id,
+  //   };
+  // }
 
   const { postData } = useApi();
-
   const Post = useMutation(postData, {
-    onSuccess: (e) => {
-      setShowmodal(true);
-      navigate("/dash");
-    },
+    onSuccess: (e) => {},
     onError: ({ message }) => {},
   });
-
   const [
     description,
     address,
@@ -145,22 +189,22 @@ const Reports = () => {
     user_name,
     user_email,
     user_phone,
-  ] = values;
-
-  const reportDetailsValues = [description, address, InputControl];
-
-  const contactInforamtionValues = [user_name, user_email, user_phone];
-
+  ] = wValues;
+  const reportDetailsValues = [description];
+  const contactInforamtionValues = [user_email];
   const handleSelected = (card) => {
     setCards(card);
   };
-
   const steps = [
     {
       title: "تصنيف البلاغ",
       content: (
         <ReportClassification _card={card} handleSelected={handleSelected} />
       ),
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">1</span>
+      ),
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
     },
     {
       title: "تفاصيل البلاغ",
@@ -176,6 +220,8 @@ const Reports = () => {
           setV={setV}
           title={card.name}
           imgs={imgs}
+          videos={videos}
+          setVideos={setVideos}
           setImgs={setImgs}
           fils={fils}
           setFils={setFils}
@@ -184,7 +230,12 @@ const Reports = () => {
           resetField={resetField}
           getValues={getValues}
           values={values}
+          date={date}
         />
+      ),
+      // icon: <CheckOutlined className="text-[18px] font-bold" />,
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">2</span>
       ),
     },
     {
@@ -196,10 +247,15 @@ const Reports = () => {
           control={control}
           setV={setV}
           v={v}
+          watch={watch}
+          setValue={setValue}
           emailControl={user_email}
           phoneControl={user_phone}
           nameControl={user_name}
         />
+      ),
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">3</span>
       ),
     },
     {
@@ -210,16 +266,34 @@ const Reports = () => {
           setFils={setFils}
           imgs={imgs}
           setImgs={setImgs}
+          videos={videos}
+          setVideos={setVideos}
           values={values}
           labelProps={labelProps}
           title={card.name}
+          src={card.src}
         />
+      ),
+      icon: (
+        <span className="text-[14px] flex items-center justify-center">4</span>
       ),
     },
   ];
 
+  useEffect(() => {
+    mainContainer.current.scrollIntoView();
+  }, [current]);
+
   const next = () => {
-    setCurrent(current + 1);
+    console.log(!card.name);
+
+    if (!card.name || v === false) {
+      return toast.error("من فضلك أدخل البيانات", {
+        className: "font-bold",
+      });
+    } else {
+      setCurrent(current + 1);
+    }
   };
 
   const prev = () => {
@@ -229,7 +303,11 @@ const Reports = () => {
     setCurrent(current - 1);
   };
 
-  const items = steps.map((item) => ({ key: item.title, title: item.title }));
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+    icon: item.icon, // Assign the custom icon here
+  }));
 
   const contentStyle = {
     backgroundColor: "white",
@@ -237,20 +315,47 @@ const Reports = () => {
     overflow: "hidden",
     border: `1px solid ${token.colorBorder}`,
     marginTop: 50,
+    maxWidth: "100%",
   };
-
+  const dialogRef = useRef();
   return (
-    <div className="main_container mx-auto">
+    <div
+      className="main_container mx-auto w-screen scroll-m-8"
+      ref={mainContainer}
+    >
       <h2 className='text-3xl w-fit my-12 relative after:absolute after:content-[""] after:top-12 after:right-0 after:w-full after:h-[2px] after:block after:bg-gradient-to-l after:from-[#33835C]  after:to-[#33835C'>
         تقديم بلاغ
       </h2>
       <Steps current={current} items={items} />
-      <div style={contentStyle} ref={wrapperRef}>
+      <dialog
+        ref={dialogRef}
+        className="backdrop:bg-black/50 "
+        onClick={(e) => {
+          if (e.target === dialogRef.current) {
+            dialogRef?.current?.close();
+            document.documentElement.style.overflow = "";
+          }
+        }}
+      >
+        <div className="py-2 flex flex-col items-center justify-center !fixed rounded-lg w-[85%] md:w-1/2 h-20  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-green-700 bg-white">
+          <h2 className="md:text-xl">من فضلك ادخل سبب البلاغ</h2>
+          <span
+            className="absolute -top-2 -right-2 w-5 h-5 text-white bg-green-600 rounded-full cursor-pointer font-semibold flex justify-center items-center"
+            onClick={() => {
+              dialogRef?.current.close();
+              document.documentElement.style.overflow = "";
+            }}
+          >
+            x
+          </span>
+        </div>
+      </dialog>
+      <div style={contentStyle} className="min-h-96">
         {steps[current].content}
       </div>
-      <div className="flex justify-end gap-8 mt-6">
+      <div className="flex justify-end gap-4 mt-6">
         <button
-          className=" bg-white border border-[#33835C] text-[#33835C]  flex gap-2  p-3 rounded-md  text-center"
+          className=" bg-white font-semibold  text-center border w-[100px] border-[#33835C] text-[#33835C]    p-2  rounded-md"
           onClick={() => {
             if (current === 0) {
               return navigate("/");
@@ -259,14 +364,17 @@ const Reports = () => {
           }}
         >
           {/* <span>&rarr;</span> */}
-          رجوع
+          <span className="text-center">رجوع</span>
         </button>
         {current === items.length - 1 && (
           <button
             onClick={() => {
               Post.mutate(["/reports", dataObject]);
+              setShowmodal(true);
             }}
-            className="bg-[#33835C] rounded-md text-white p-3"
+            className={
+              " bg-[#33835C] font-semibold  border border-[#33835C] hover:border-[#33835C] w-[100px] text-white rounded-md   disabled:cursor-not-allowed disabled:text-black p-2"
+            }
           >
             تاكيد البلاغ
           </button>
@@ -274,13 +382,18 @@ const Reports = () => {
 
         {current < items.length - 1 && (
           <button
-            disabled={v === false || !card.name}
             className={
-              " bg-[#33835C] text-white rounded-md disabled:bg-[#2eac72]  disabled:cursor-not-allowed disabled:text-black p-3"
+              " bg-[#33835C] font-semibold border  w-[100px] text-white rounded-md  disabled:cursor-not-allowed  p-2"
             }
-            onClick={next}
+            onClick={() => {
+              // if (dialogRef?.current && !card.name) {
+              //   document.documentElement.style.overflow = "hidden";
+              //   return dialogRef.current.showModal();
+              // }
+              next();
+            }}
           >
-            التالى
+            <span>التالى </span>
             {/* <span>&larr;</span> */}
           </button>
         )}
@@ -288,7 +401,7 @@ const Reports = () => {
 
       {showmodal && (
         <div className=" fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#000000aa]">
-          <Success />
+          <Success report={Post.data?.data?.data?.report} />
         </div>
       )}
     </div>

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, {
   useCallback,
   useContext,
@@ -12,7 +14,6 @@ import Listinput from "../forms/listInput/Listinput";
 import { PlusOutlined } from "@ant-design/icons";
 import Location from "../forms/inputs/Location";
 import location from "../../../src/assets/icons/location@2x.png";
-
 import Datepicker from "../forms/inputs/datepicker";
 import FileInput from "../forms/fileInput/FileInput";
 import SelectInput from "../forms/inputs/SelectInput";
@@ -35,21 +36,44 @@ const ReportDetails = ({
   listInputControl,
   values,
   getValues,
+  videos,
+  setVideos,
+  date,
+  description,
 }) => {
-  const ref = useRef();
   const isHidden = watch("suspectKnown") === "0";
+  const [validDate, setValidDate] = useState("");
+  console.log(description);
   useEffect(() => {
     if (
-      reportDetailsValues.indexOf("") === -1 ||
-      listInputControl.length > 0 ||
-      isHidden
+      watch("description").trim() !== "" &&
+      watch("suspectKnown") === "1" &&
+      watch("description").trim() !== "" &&
+      listInputControl.length > 0
     ) {
-      setV(true);
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
+    } else if (
+      watch("description").trim() !== "" &&
+      watch("suspectKnown") === "0"
+    ) {
+      if (!watch("datePickerControl")) {
+        setV(true);
+      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+        setV(true);
+      } else {
+        setV(false);
+      }
     } else {
       setV(false);
     }
   }, [reportDetailsValues]);
-
+  console.log(watch("description").trim());
   return (
     <>
       <ReportsHeader
@@ -59,6 +83,7 @@ const ReportDetails = ({
       <div className="px-8 pt-4 pb-8  space-y-6">
         <Textarea
           textAreaTitle={labelProps.textarea}
+          nameType="description"
           errors={errors}
           control={control}
           watch={watch}
@@ -68,14 +93,22 @@ const ReportDetails = ({
           errors={errors}
           control={control}
           inpTitle={labelProps.selectTitle}
+          nameType="suspectKnown"
           iconLabel={"*"}
+          options={[
+            { value: "0", label: <span className="text-[16px] ">لا</span> },
+            {
+              value: "1",
+              label: <span className="text-[16px] ">نعم</span>,
+            },
+          ]}
         />
 
         {!isHidden && (
           <Listinput
             listInputTitle={labelProps.listInputTitle}
             icon={
-              <PlusOutlined style={{ fontSize: "22px", fontWeight: "800" }} />
+              <PlusOutlined style={{ fontSize: "22px", fontWeight: "700" }} />
             }
             control={control}
             errors={errors}
@@ -84,6 +117,7 @@ const ReportDetails = ({
             resetField={resetField}
             values={values}
             iconLabel={"*"}
+            nameType="list"
             getValues={getValues}
           />
         )}
@@ -92,28 +126,38 @@ const ReportDetails = ({
             datePickerTitle={labelProps.datePickerTitle}
             control={control}
             errors={errors}
+            date={date}
+            nameType="date"
           />
 
           <Location
             title={"address"}
             errors={errors}
             control={control}
-            width={24}
+            width={20}
             src={location}
             inpTitle={labelProps.locationTitle}
-            inputPlaceholder={"شارع"}
+            inputPlaceholder={"أدخل مكان الحادث"}
           />
         </div>
-        {/* <AddAttach errors={errors} control={control} /> */}
         <FileInput
           fils={fils}
           setFils={setFils}
+          videos={videos}
+          setVideos={setVideos}
           imgs={imgs}
           setImgs={setImgs}
           register={register}
           errors={errors}
           control={control}
         />
+        <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit min-h-[40px] flex items-center">
+          <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">
+            في حال تعذر رفع المستندات بسبب تجاوز السعة المسموح بها يرجى إرسال
+            المستندات على البريد الإلكتروني wb@najm.sa , متبوعاً برقم البلاغ،
+            علماً سيتم التزويد برقم البلاغ بشكل تلقائي عند إرسال البلاغ.
+          </p>
+        </div>
         {/* <FileInput /> */}
       </div>
     </>

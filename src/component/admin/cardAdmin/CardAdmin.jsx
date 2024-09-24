@@ -1,18 +1,56 @@
+/* eslint-disable no-unused-vars */
 import { Space, Table, Tag } from "antd";
-import { Navbar } from "../../../import";
+import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import ReportChart from "../../../charts/ReportChart";
+import SelectInput from "../../forms/inputs/SelectInput";
+
+const SELECTS = [
+  {
+    label: "رقم البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ البلاغ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "حالة الاعتماد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "درجة المخاطر",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "الادارة المسند لها ",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: "تاريخ الاسناد",
+    options: ["1", "2", "3"],
+  },
+  {
+    label: " حالة البلاغ",
+    options: ["1", "2", "3"],
+  },
+];
 
 const CardAdmin = () => {
   const { getData } = useApi();
+  const [edit, setEdit] = useState(false);
 
-  const {
-    isLoading,
-    error,
-    data: reports,
-  } = useQuery("users", () => getData("/reports"));
-  console.log("🚀 ~ CardAdmin ~ data:", reports);
+  let [pagination, setPagination] = useState(
+    localStorage.getItem("pageNumber") || 1
+  );
+  const { isLoading, error, data } = useQuery(
+    ["users", ["/reports", { page: pagination }]],
+    getData
+  );
+
+  console.log(data?.data?.reports[0]);
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -23,111 +61,165 @@ const CardAdmin = () => {
     },
   ];
 
+  //   {
+  //     "id": 42,
+  //     "status": "new",
+  //     "number": "UlJ42",
+  //     "has_decision": false,
+  //     "certified": "UlJ42",
+  //     "age": "منذ 4 ساعات",
+  //     "date": "23-09-2024",
+  //     "date_of_assignment": "23-09-2024",
+  //     "classification": null,
+  //     "management_assigned_to": null,
+  //     "processing_time": null,
+  //     "risk_assessment": null
+  // }
   const columns = [
     {
       title: "رقم البلاغ",
       dataIndex: "id",
       key: "id",
-      render: (text) => <a>{text}</a>,
+      width: 150,
+      render: (text) => <p>{text}</p>,
     },
     {
-      title: "اسم البلاغ",
-      dataIndex: ["report_classification", "name"],
+      title: "تصنيف البلاغ",
+      dataIndex: ["classification"],
       key: "report_classification['name']",
-      render: (text) => <a>{text}</a>,
+      width: 200,
+      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
     },
     {
-      title: "العنوان",
-      dataIndex: "address",
-      key: "address",
+      title: "اسم المبلغ",
+      dataIndex: ["person", "name"],
+      key: "user['name']",
+      width: 200,
     },
     {
-      title: "تفاصيل البلاغ",
-      dataIndex: "description",
-      key: "description",
+      title: "البريد الالكترونى",
+      dataIndex: ["person", "email"],
+      key: "user['email']",
+      width: 250,
     },
-    // {
-    //   title: "Tags",
-    //   key: "tags",
-    //   dataIndex: "tags",
-    //   render: (_, { tags }) => (
-    //     <>
-    //       {tags.map((tag) => {
-    //         let color = tag.length > 5 ? "geekblue" : "green";
-    //         if (tag === "loser") {
-    //           color = "volcano";
-    //         }
-    //         return (
-    //           <Tag color={color} key={tag}>
-    //             {tag.toUpperCase()}
-    //           </Tag>
-    //         );
-    //       })}
-    //     </>
-    //   ),
-    // },
     {
-      title: "عرض",
+      title: "حالة البلاغ",
+      dataIndex: "_",
+      key: "id",
+      width: 150,
+      render: (_) => (
+        <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
+          {"جديد"}
+        </button>
+      ),
+    },
+    {
+      title: "رقم الهاتف",
+      dataIndex: ["person", "phone"],
+      key: "user['phone']",
+      width: 150,
+    },
+    {
+      title: "التاريخ",
+      dataIndex: "date",
+      key: "date",
+      width: 200,
+    },
+    {
+      title: "",
       key: "action",
+      width: 150,
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>update {record.name}</a> */}
           <Link to={`/dash/${record.id}`}>عرض</Link>
         </Space>
       ),
     },
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
 
+  // let _reports = data?.data?.reports
+  //   ?.map((report) => {
+  //     if (report.date === "") {
+  //       report.date = "لا يوجد";
+  //     }
+  //     if (report.user.name.trim() === "") {
+  //       report.user.name = "لا يوجد";
+  //     }
+  //     if (report.user.phone.trim() === "") {
+  //       report.user.phone = "لا يوجد";
+  //     }
+  //     return report;
+  //   })
+  //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   return (
     <>
-      <div className="w-[90%] mx-auto ">
+      <div className="w-[90%] mx-auto">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
           {cards?.map((card) => (
             <div
               key={Math.random() * 10}
-              className={`text-white rounded-lg p-3 flex items-center gap-6 bg-[#4CAF50]`}
+              className={`text-white border-2 mb-4 border-[#33835C] rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C1A]`}
             >
               <div className="space-y-2">
-                <h2 className="text-lg">{card.title}</h2>
-                <h2 className="text-xl font-bold">
-                  {reports?.reports?.length}
+                <h2 className="text-lg text-[#33835C]">{card.title}</h2>
+                <h2 className="text-4xl text-[#33835C] font-bold text-center">
+                  {data?.meta?.reports?.totalItems}
                 </h2>
               </div>
-              <div className="self-center w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center mr-auto">
+              <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
                 {card.icon}
               </div>
             </div>
           ))}
         </div>
+
         <div className="mt-6">
-          <Table columns={columns} dataSource={reports?.reports} />
+          {/* <ReportChart data={data} /> */}
+          {/* <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
+            {SELECTS.map((sel) => (
+              <div className="flex flex-col">
+                <label>{sel.label}</label>
+                <select
+                  defaultValue={""}
+                  className="!bg-white border-none outline-none !p-2 mt-2 rounded-md"
+                >
+                  {sel.options.map((opt) => (
+                    <option>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+            <button className="bg-[#33835c] self-end p-2 text-white rounded-md">
+              اعادة
+            </button>
+          </div> */}
+          <Table
+            style={{ backgroundColor: "red !important" }}
+            columns={columns}
+            loading={{
+              spinning: isLoading,
+              indicator: (
+                <diV className=" w-full h-[650px] flex justify-center items-center">
+                  <div className="loader"></div>
+                </diV>
+              ),
+            }}
+            pagination={{
+              current: pagination,
+              pageSize: 25,
+              total: data?.meta?.reports?.totalItems,
+              showSizeChanger: false,
+              onChange: (pageNumber) => {
+                setPagination(pageNumber);
+                localStorage.setItem("pageNumber", pageNumber);
+              },
+
+              // defaultPageSize: _reports.length
+            }}
+            dataSource={data?.data?.reports}
+          />
         </div>
       </div>
-
-      <></>
     </>
   );
 };
