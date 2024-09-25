@@ -45,23 +45,137 @@ const CardAdmin = () => {
   let [pagination, setPagination] = useState(
     localStorage.getItem("pageNumber") || 1
   );
-  const { isLoading, error, data } = useQuery(
-    ["users", ["/reports", { page: pagination }]],
-    getData
-  );
+  const {
+    isLoading,
+    error,
+    data = {},
+  } = useQuery(["users", ["/reports", { page: pagination }]], getData);
 
-  console.log(data);
+  console.log(data?.data?.reports[0]);
+
   let cards = [
     {
       title: "بلاغات جديدة",
       icon: (
-        <img src="../src/assets/icons/Group.svg" className="p-2 rounded-full" />
+        <img
+          src="../src/assets/icons/report_Vector.png"
+          className="p-2 rounded-full h-[61%] w-[61%] bg-[#33835C]"
+        />
       ),
       bgColor: "#4CAF50",
     },
+    {
+      title: "بلاغات مقبولة",
+      icon: (
+        <img
+          src="../src/assets/icons/report_Vector.png"
+          className="p-2 rounded-full h-[61%] w-[61%] bg-[#6de487]"
+        />
+      ),
+      bgColor: "#6de487",
+    },
+    {
+      title: "بلاغات تحت الاعتماد",
+      icon: (
+        <img
+          src="../src/assets/icons/rotate.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#E7D066",
+    },
+    {
+      title: "بلاغات معتمدة",
+      icon: (
+        <img
+          src="../src/assets/icons/report_Vector.png"
+          className="p-2 rounded-full h-[61%] w-[61%] bg-[#9DC3E6]"
+        />
+      ),
+      bgColor: "#9DC3E6",
+    },
+    {
+      title: "بلاغات مسندة تحت الدراسة",
+      icon: (
+        <img
+          src="../src/assets/icons/rotate.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#EB974B",
+    },
+    {
+      title: "بلاغات مقفلة",
+      icon: (
+        <img
+          src="../src/assets/icons/report_Vector.png"
+          className="p-2 rounded-full h-[61%] w-[61%] bg-[#3865A3]"
+        />
+      ),
+      bgColor: "#3865A3",
+    },
+    {
+      title: "بلاغات مرفوضة",
+      icon: (
+        <img
+          src="../src/assets/icons/delete.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#FF6A6F",
+    },
+    {
+      title: "بلاغات تحت التصعيد",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#df5f5f",
+    },
+    {
+      title: "اجمالى البلاغات المستلمة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#5F5F5F",
+    },
   ];
 
-  console.log(data);
+  let { data: { counter = {} } = {} } = data;
+  // let counter = {
+  //   new: 75,
+  //   accepted: 0,
+  //   rejected: 0,
+  //   under_confirm: 1,
+  //   confirmed: 2,
+  //   under_approved: 0,
+  //   under_study: 0,
+  //   closed: 0,
+  //   escalated: 0,
+  //   all: 78,
+  // };
+
+  console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
+
+  //   {
+  //     "id": 42,
+  //     "status": "new",
+  //     "number": "UlJ42",
+  //     "has_decision": false,
+  //     "certified": "UlJ42",
+  //     "age": "منذ 4 ساعات",
+  //     "date": "23-09-2024",
+  //     "date_of_assignment": "23-09-2024",
+  //     "classification": null,
+  //     "management_assigned_to": null,
+  //     "processing_time": null,
+  //     "risk_assessment": null
+  // }
   const columns = [
     {
       title: "رقم البلاغ",
@@ -72,20 +186,20 @@ const CardAdmin = () => {
     },
     {
       title: "تصنيف البلاغ",
-      dataIndex: ["report_classification", "name"],
+      dataIndex: ["report_classification-name"],
       key: "report_classification['name']",
       width: 200,
       render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
     },
     {
       title: "اسم المبلغ",
-      dataIndex: ["user", "name"],
+      dataIndex: ["person", "name"],
       key: "user['name']",
       width: 200,
     },
     {
       title: "البريد الالكترونى",
-      dataIndex: ["user", "email"],
+      dataIndex: ["person", "email"],
       key: "user['email']",
       width: 250,
     },
@@ -102,7 +216,7 @@ const CardAdmin = () => {
     },
     {
       title: "رقم الهاتف",
-      dataIndex: ["user", "phone"],
+      dataIndex: ["person", "phone"],
       key: "user['phone']",
       width: 150,
     },
@@ -123,38 +237,48 @@ const CardAdmin = () => {
       ),
     },
   ];
-
-  let _reports = data?.data?.reports
-    ?.map((report) => {
-      if (report.date === "") {
-        report.date = "لا يوجد";
-      }
-      if (report.user.name.trim() === "") {
-        report.user.name = "لا يوجد";
-      }
-      if (report.user.phone.trim() === "") {
-        report.user.phone = "لا يوجد";
-      }
-      return report;
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  console.log(data);
+  // let _reports = data?.data?.reports
+  //   ?.map((report) => {
+  //     if (report.date === "") {
+  //       report.date = "لا يوجد";
+  //     }
+  //     if (report.user.name.trim() === "") {
+  //       report.user.name = "لا يوجد";
+  //     }
+  //     if (report.user.phone.trim() === "") {
+  //       report.user.phone = "لا يوجد";
+  //     }
+  //     return report;
+  //   })
+  //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   return (
     <>
       <div className="w-[90%] mx-auto">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
-          {cards?.map((card) => (
+          {cards?.map((card, i) => (
             <div
               key={Math.random() * 10}
-              className={`text-white border-2 mb-4 border-[#33835C] rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 bg-[#33835C1A]`}
+              className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 `}
+              style={{ backgroundColor: card.bgColor }}
             >
               <div className="space-y-2">
-                <h2 className="text-lg text-[#33835C]">{card.title}</h2>
-                <h2 className="text-4xl text-[#33835C] font-bold text-center">
-                  {data?.meta?.reports?.totalItems}
+                <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
+                <h2 className="text-4xl text-[#fff] font-bold text-center">
+                  {/* {data?.meta?.reports?.totalItems} */}
+                  {Object.values(counter)[i]}
                 </h2>
               </div>
-              <div className="  w-12 h-12 rounded-full bg-white flex flex-col items-center justify-center ">
-                {card.icon}
+              <div style={{ backgroundColor: card.bgColor }}>
+                <div
+                  className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
+                    i === 3 || i === 0 || i === 5 || i === 1
+                      ? "bg-white/100"
+                      : "bg-white/5"
+                  }`}
+                >
+                  {card.icon}
+                </div>
               </div>
             </div>
           ))}
@@ -203,7 +327,7 @@ const CardAdmin = () => {
 
               // defaultPageSize: _reports.length
             }}
-            dataSource={_reports}
+            dataSource={data?.data?.reports}
           />
         </div>
       </div>

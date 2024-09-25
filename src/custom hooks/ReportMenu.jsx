@@ -17,7 +17,12 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
     {
       id: 1,
       title: "استلام البلاغ",
-      children: <ReportModal setShowSvg={setShowSvg}></ReportModal>,
+      children: (
+        <ReportModal
+          title="استلام البلاغ"
+          setShowSvg={setShowSvg}
+        ></ReportModal>
+      ),
     },
     {
       id: 2,

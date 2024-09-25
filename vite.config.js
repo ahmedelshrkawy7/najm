@@ -8,6 +8,7 @@ export default defineConfig({
     "source-map-js": "source-map",
   },
   server: {
+    port: 3001,
     host: true,
   },
 });

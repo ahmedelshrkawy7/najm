@@ -1,42 +1,67 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 import Model from "./Model";
 import { Radio } from "antd";
 
-const ch = (
-  <div className="px-5 py-3 flex flex-col gap-4 pt-6">
-    <div>
-      <Radio.Group
-        name="radiogroup"
-        defaultValue={1}
-        className=" custom-radio font-medium"
-      >
-        <Radio value={1}>قبول البلاغ</Radio>
-        <Radio value={2}>رفض البلاغ</Radio>
-      </Radio.Group>
-    </div>
-    <div>
-      <label htmlFor="textarea" className="font-medium text-[15px]">
-        يرجى كتابة سبب الرفض
-      </label>
-      <textarea
-        id="textarea"
-        className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
-        placeholder="اكتب هنا"
-      ></textarea>
-    </div>
-  </div>
-);
+// const ch = (
+//   <div className="px-5 py-3 flex flex-col gap-4 pt-6">
+//     <div>
+//       <Radio.Group
+//         name="radiogroup"
+//         defaultValue={1}
+//         className=" custom-radio font-medium"
+//       >
+//         <Radio value={1}>قبول البلاغ</Radio>
+//         <Radio value={2}>رفض البلاغ</Radio>
+//       </Radio.Group>
+//     </div>
+//     <div>
+//       <label htmlFor="textarea" className="font-medium text-[15px]">
+//         يرجى كتابة سبب الرفض
+//       </label>
+//       <textarea
+//         id="textarea"
+//         className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
+//         placeholder="اكتب هنا"
+//       ></textarea>
+//     </div>
+//   </div>
+// );
 
 const ReportModal = ({
   setShowMenu = () => {},
   setShowSvg = () => {},
-  children = ch,
+  children = (
+    <div className="px-5 py-3 flex flex-col gap-4 pt-6">
+      <div>
+        <Radio.Group
+          name="radiogroup"
+          defaultValue={1}
+          className=" custom-radio font-medium"
+        >
+          <Radio value={1}>قبول البلاغ</Radio>
+          <Radio value={2}>رفض البلاغ</Radio>
+        </Radio.Group>
+      </div>
+      <div>
+        <label htmlFor="textarea" className="font-medium text-[15px]">
+          يرجى كتابة سبب الرفض
+        </label>
+        <textarea
+          id="textarea"
+          className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
+          placeholder="اكتب هنا"
+        ></textarea>
+      </div>
+    </div>
+  ),
   ...props
 } = {}) => {
   console.log(props);
   // const ref = useRef();
+  const [radioValue, setRadioValue] = useState("");
+  const [reason, setReason] = useState("");
   return (
     <>
       <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit  max-h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
@@ -58,7 +83,12 @@ const ReportModal = ({
         </div>
         {children}
         <div className="px-5 py-3 pt-0 flex items-center justify-end">
-          <button className=" bg-[#33835C] text-white p-1 px-10 rounded-lg ">
+          <button
+            className=" bg-[#33835C] text-white p-1 px-10 rounded-lg"
+            onClick={() => {
+              console.log("first");
+            }}
+          >
             تاكيد
           </button>
         </div>

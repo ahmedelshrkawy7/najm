@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-useless-catch */
 import axios from "axios";
 import { useCallback, useContext } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import TokenContext from "../store/TokenContext";
 // export const Axios = axios.create({
 //   baseURL: "https://pm.alexondev.net/api",
 //   headers: {
@@ -17,28 +14,25 @@ import TokenContext from "../store/TokenContext";
 //   },
 // });
 
+export const Axios = axios.create({
+  baseURL: "https://najm.alexondev.net/api",
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Accept: "application/json",
+  },
+});
+
 const useApi = () => {
-  const { token } = useContext(TokenContext);
-
-  const Axios = axios.create({
-    baseURL: "http://192.168.1.32/najm/public/api",
-    // baseURL: "https://najm.alexondev.net/api",
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    // timeout: 3000,
-  });
-
   //   const { setAuth, Auth } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
+  //   const { setLoader } = useContext(LoadContext);
+
   const error = useCallback(async (err) => {
     if (err.response.status === 401) {
       //   errorNotf("Unauthorized");
-      // navigate("/login");
+      navigate("/login");
       return;
     }
     // errorNotf(err.response.data.message);
@@ -53,33 +47,20 @@ const useApi = () => {
       const response = await Axios.post(endpoint, data);
       return response;
     } catch (err) {
-      throw err;
+      error(err);
     } finally {
       //   setLoader(false);
     }
   };
-  const getData = async ({ queryKey }) => {
-    console.log(queryKey);
+  const getData = async (url) => {
     // setLoader(true);
-    let [, [url, param], id = ""] = queryKey;
-    console.log("🚀 ~ getData ~ param:", param);
-    try {
-      const response = await Axios.get(id ? url + "/" + id : url, {
-        params: param,
-      });
 
-      const data = response.data;
+    try {
+      const response = await Axios.get(url);
+      const data = response.data.data;
       return data;
     } catch (err) {
-      console.log(err.response.status);
-
-      if (err.response.status == 401) {
-        localStorage.removeItem("token");
-        return navigate("/admin/login");
-      }
-
-      // error(err);
-      throw err;
+      error(err);
     } finally {
       //   setLoader(false);
     }
@@ -104,3 +85,25 @@ const useApi = () => {
 };
 
 export default useApi;
+
+// ${Cookies.get('token') &&JSON.parse(Cookies.get('token')).user.token }
+
+// Axios.interceptors.response.use(
+//   (response) => response,
+//   (err) => {
+//     if (err.response) {
+//       // The request was made and the server responded with an error status code
+//       error( err.response.data.message);
+//     } else if (err.request) {
+//       // The request was made but no response was received
+//       error( err.response.data.message);
+//     } else {
+//       // Something happened in setting up the request that triggered an error
+//       error( err.response.data.message);
+//     }
+//   }
+// );
+
+// Example usage:
+// const todo = await makeRequest('https://jsonplaceholder.typicode.com/todos/1', 'get');
+// console.log(todo);

@@ -45,6 +45,7 @@ const PreparingStudy = () => {
 
   const [fils, setFils] = useState([]);
   const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
   const date = new Date();
 
   useEffect(() => {
@@ -65,7 +66,46 @@ const PreparingStudy = () => {
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
             nameType="adasdasd"
-            options={[]}
+            options={[
+              {
+                value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
+                label: (
+                  <span className="text-[15px] ">
+                    احتيال أو فساد أو رشوة او اختلاس او تزوير
+                  </span>
+                ),
+              },
+              {
+                value: "غسل أموال أو تمويل إرهاب",
+                label: (
+                  <span className="text-[15px] ">غسل أموال أو تمويل إرهاب</span>
+                ),
+              },
+              {
+                value: "مخالفة للأنظمة والتعليمات",
+                label: (
+                  <span className="text-[15px] ">
+                    مخالفة للأنظمة والتعليمات
+                  </span>
+                ),
+              },
+              {
+                value: "مخالفة لسياسة وإجراءات الشركة",
+                label: (
+                  <span className="text-[15px] ">
+                    مخالفة لسياسة وإجراءات الشركة
+                  </span>
+                ),
+              },
+              {
+                value: "مخالفة لمدونة قواعد السلوك",
+                label: (
+                  <span className="text-[15px] ">
+                    مخالفة لمدونة قواعد السلوك
+                  </span>
+                ),
+              },
+            ]}
           />
           <SelectInput
             errors={errors}
@@ -81,7 +121,12 @@ const PreparingStudy = () => {
             placeholder="...الدرجة"
             inpTitle="درجة المخاطر"
             nameType="adasdasd"
-            options={[]}
+            options={[
+              {
+                value: "high",
+                label: <span className="text-[15px] ">high</span>,
+              },
+            ]}
           />
           <div
             onClick={() => {
@@ -112,7 +157,7 @@ const PreparingStudy = () => {
         <div className="mt-4">
           <Textarea
             textAreaTitle={"وصف البلاغ"}
-            nameType=""
+            nameType="description"
             errors={errors}
             control={control}
             watch={watch}
@@ -164,6 +209,8 @@ const PreparingStudy = () => {
               <FileInput
                 fils={fils}
                 setFils={setFils}
+                videos={videos}
+                setVideos={setVideos}
                 imgs={imgs}
                 setImgs={setImgs}
                 register={register}
@@ -180,7 +227,7 @@ const PreparingStudy = () => {
           errors={errors}
           control={control}
           name="user_name"
-          inputTitle={"الاسم"}
+          inputTitle={"نتائج الدراسة الاولية"}
           inputPlaceHolder={"....النتائج"}
           setValue={setValue}
           max={50}

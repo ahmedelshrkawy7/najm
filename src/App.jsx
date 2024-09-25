@@ -92,6 +92,14 @@ const routes = [
         element: <AllAdmins />,
       },
       {
+        path: "managers",
+        element: <AdminManager />,
+      },
+      {
+        path: "depts",
+        element: <Deptview />,
+      },
+      {
         path: "*",
         element: <NotFound msg={"الصفحة غير موجودة"} />,
       },
