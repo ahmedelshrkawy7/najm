@@ -65,7 +65,44 @@ const PreparingStudy = () => {
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
             nameType="adasdasd"
-            options={[]}
+            options={[
+              {
+                // value: "0",
+                label: (
+                  <span className="text-[13px]">
+                    احتيال أو فساد أو رشوة او اختلاس او تزوير
+                  </span>
+                ),
+              },
+              {
+                // value: "0",
+                label: (
+                  <span className="text-[13px]">غسل أموال أو تمويل إرهاب</span>
+                ),
+              },
+              {
+                // value: "0",
+                label: (
+                  <span className="text-[13px]">مخالفة للأنظمة والتعليمات</span>
+                ),
+              },
+              {
+                // value: "0",
+                label: (
+                  <span className="text-[13px]">
+                    مخالفة لسياسة وإجراءات الشركة
+                  </span>
+                ),
+              },
+              {
+                // value: "0",
+                label: (
+                  <span className="text-[13px]">
+                    مخالفة لمدونة قواعد السلوك
+                  </span>
+                ),
+              },
+            ]}
           />
           <SelectInput
             errors={errors}
