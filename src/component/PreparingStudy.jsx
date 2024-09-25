@@ -16,6 +16,7 @@ import Location from "./forms/inputs/Location";
 import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
+import ReportModal from "../models/ReportModal";
 
 const PreparingStudy = () => {
   const {
@@ -39,6 +40,11 @@ const PreparingStudy = () => {
       user_email: "",
       user_phone: "",
       fileInput: "",
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result:"",
     },
   });
   const [showSvg, setShowSvg] = useState(false);
@@ -65,7 +71,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
-            nameType="adasdasd"
+            nameType="description"
             options={[
               {
                 value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
@@ -112,7 +118,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...النوع"
             inpTitle="نوع البلاغ"
-            nameType="adasdasd"
+            nameType="risk_assessment"
             options={[]}
           />
           <SelectInput
@@ -120,7 +126,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...الدرجة"
             inpTitle="درجة المخاطر"
-            nameType="adasdasd"
+            nameType="risk_type"
             options={[
               {
                 value: "high",
@@ -142,7 +148,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="المدة الزمنية...."
             inpTitle="مدة معالجة البلاغ"
-            nameType="adasdasd"
+            nameType="processing_time"
             options={[]}
           />
           <SelectInput
@@ -178,7 +184,7 @@ const PreparingStudy = () => {
               getValues={getValues}
             />
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8 flex-wrap">
             <Datepicker
               datePickerTitle={"تاريخ ارتكاب المخالفة"}
               control={control}
@@ -202,8 +208,21 @@ const PreparingStudy = () => {
               control={control}
               placeholder="...نوع المستندات"
               inpTitle="مستندات داعمة للبلاغ"
-              nameType="adasdasd"
-              options={[]}
+              nameType="files"
+              options={[
+                {
+                  value: "تقرير فنى",
+                  label: <span className="text-[15px] ">تقرير فنى </span>,
+                },
+                {
+                  value: "معاينة",
+                  label: <span className="text-[15px] ">معاينة </span>,
+                },
+                {
+                  value: "مقطع فيديو",
+                  label: <span className="text-[15px] ">مقطع فيديو </span>,
+                },
+              ]}
             />
             <div className="mt-4">
               <FileInput
@@ -226,7 +245,7 @@ const PreparingStudy = () => {
         <InputText
           errors={errors}
           control={control}
-          name="user_name"
+          name="result"
           inputTitle={"نتائج الدراسة الاولية"}
           inputPlaceHolder={"....النتائج"}
           setValue={setValue}
@@ -236,9 +255,9 @@ const PreparingStudy = () => {
 
       {showSvg && (
         <div className="fixed top-0 left-0 z-[99999] bg-[rgba(0,0,0,0.4)] w-screen h-screen">
-          <ReportModel title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
+          <ReportModal title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
             <ReportOptions />
-          </ReportModel>
+          </ReportModal>
         </div>
       )}
     </>
