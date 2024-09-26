@@ -61,7 +61,7 @@ const PreparingStudy = () => {
       document.documentElement.style.overflow = "";
     }
   }, [showSvg]);
-
+  console.log(getValues())
   return (
     <>
       <div className=" bg-white p-10 w-[100%]">

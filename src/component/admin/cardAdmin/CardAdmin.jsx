@@ -1,42 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { Space, Table, Tag } from "antd";
+import { Select, Space, Table, Tag } from "antd";
 import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
-
-const SELECTS = [
-  {
-    label: "رقم البلاغ",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: "تاريخ البلاغ",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: "حالة الاعتماد",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: "درجة المخاطر",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: "الادارة المسند لها ",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: "تاريخ الاسناد",
-    options: ["1", "2", "3"],
-  },
-  {
-    label: " حالة البلاغ",
-    options: ["1", "2", "3"],
-  },
-];
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -50,6 +19,344 @@ const CardAdmin = () => {
     error,
     data = {},
   } = useQuery(["users", ["/reports", { page: pagination }]], getData);
+  console.log("🚀 ~ CardAdmin ~ data:", data);
+
+  // const selectOptions = {
+  //   reportNumber: data?.data?.reports?.map((report) => report.id) || [],
+  //   classifications:
+  //     data?.data?.reports?.map(
+  //       (report) => report["report_classification-name"]
+  //     ) || [],
+  //   reporterNames:
+  //     data?.data?.reports?.map((report) => report.person?.name) || [],
+  //   emails: data?.data?.reports?.map((report) => report.person?.email) || [],
+  //   statuses: ["جديد", "مقبول", "مرفوض"],
+  //   phoneNumbers:
+  //     data?.data?.reports?.map((report) => report.person?.phone) || [],
+  //   dates: data?.data?.reports?.map((report) => report.date) || [],
+  // };
+
+  const selectOptions = {
+    reportNumber:
+      [...new Set(data?.data?.reports?.map((report) => report.id))] || [],
+    classifications:
+      [
+        ...new Set(
+          data?.data?.reports?.map(
+            (report) => report["report_classification-name"]
+          )
+        ),
+      ] || [],
+    reporterNames:
+      [...new Set(data?.data?.reports?.map((report) => report.person?.name))] ||
+      [],
+    emails:
+      [
+        ...new Set(data?.data?.reports?.map((report) => report.person?.email)),
+      ] || [],
+    statuses: ["جديد", "مقبول", "مرفوض"],
+    phoneNumbers:
+      [
+        ...new Set(data?.data?.reports?.map((report) => report.person?.phone)),
+      ] || [],
+    dates:
+      [...new Set(data?.data?.reports?.map((report) => report.date))] || [],
+  };
+
+  // const SELECTS = [
+  //   {
+  //     label: "رقم البلاغ",
+  //     dataIndex: "id",
+  //     options: selectOptions.reportNumber,
+  //   },
+  //   {
+  //     label: "تاريخ البلاغ",
+  //     options: ["1", "2", "3"],
+  //   },
+  //   {
+  //     label: "حالة الاعتماد",
+  //     options: ["1", "2", "3"],
+  //   },
+  //   {
+  //     label: "درجة المخاطر",
+  //     options: ["1", "2", "3"],
+  //   },
+  //   {
+  //     label: "الادارة المسند لها ",
+  //     options: ["1", "2", "3"],
+  //   },
+  //   {
+  //     label: "تاريخ الاسناد",
+  //     options: ["1", "2", "3"],
+  //   },
+  //   {
+  //     label: " حالة البلاغ",
+  //     options: ["1", "2", "3"],
+  //   },
+  // ];
+
+  // const SELECTS = [
+  //   {
+  //     label: "رقم البلاغ", // Report Number
+  //     dataIndex: "id",
+  //     options: [
+  //       "", // Disabled placeholder
+
+  //       ...(data?.data?.reports?.map((report) => report.id) || []),
+  //     ], // Add empty string for placeholder
+  //   },
+  //   {
+  //     label: "تصنيف البلاغ", // Report Classification
+  //     dataIndex: "report_classification-name",
+  //     options: [
+  //       "",
+  //       ...(data?.data?.reports?.map(
+  //         (report) => report["report_classification-name"]
+  //       ) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "اسم المبلغ", // Reporter Name
+  //     dataIndex: ["person", "name"],
+  //     options: [
+  //       "",
+  //       ...(data?.data?.reports?.map((report) => report.person?.name) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "البريد الالكترونى", // Email
+  //     dataIndex: ["person", "email"],
+  //     options: [
+  //       "",
+  //       ...(data?.data?.reports?.map((report) => report.person?.email) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "حالة البلاغ", // Report Status
+  //     dataIndex: "status",
+  //     options: ["", "جديد", "مقبول", "مرفوض"], // Static options with placeholder
+  //   },
+  //   {
+  //     label: "رقم الهاتف", // Phone Number
+  //     dataIndex: ["person", "phone"],
+  //     options: [
+  //       "",
+  //       ...(data?.data?.reports?.map((report) => report.person?.phone) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "التاريخ", // Date
+  //     dataIndex: "date",
+  //     options: [
+  //       "",
+  //       ...(data?.data?.reports?.map((report) => report.date) || []),
+  //     ],
+  //   },
+  // ];
+
+  // const SELECTS = [
+  //   {
+  //     label: "رقم البلاغ", // Report Number
+  //     dataIndex: "id",
+  //     options: [
+  //       { value: "", label: "اختر رقم البلاغ", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report.id,
+  //         label: report.id,
+  //       })) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "تصنيف البلاغ", // Report Classification
+  //     dataIndex: "report_classification-name",
+  //     options: [
+  //       { value: "", label: "اختر تصنيف البلاغ", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report["report_classification-name"],
+  //         label: report["report_classification-name"],
+  //       })) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "اسم المبلغ", // Reporter Name
+  //     dataIndex: ["person", "name"],
+  //     options: [
+  //       { value: "", label: "اختر اسم المبلغ", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report.person?.name,
+  //         label: report.person?.name,
+  //       })) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "البريد الالكترونى", // Email
+  //     dataIndex: ["person", "email"],
+  //     options: [
+  //       { value: "", label: "اختر البريد الالكترونى", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report.person?.email,
+  //         label: report.person?.email,
+  //       })) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "حالة البلاغ", // Report Status
+  //     dataIndex: "status",
+  //     options: [
+  //       { value: "", label: "اختر حالة البلاغ", disabled: true }, // Disabled placeholder
+  //       { value: "جديد", label: "جديد" },
+  //       { value: "مقبول", label: "مقبول" },
+  //       { value: "مرفوض", label: "مرفوض" },
+  //     ],
+  //   },
+  //   {
+  //     label: "رقم الهاتف", // Phone Number
+  //     dataIndex: ["person", "phone"],
+  //     options: [
+  //       { value: "", label: "اختر رقم الهاتف", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report.person?.phone,
+  //         label: report.person?.phone,
+  //       })) || []),
+  //     ],
+  //   },
+  //   {
+  //     label: "التاريخ", // Date
+  //     dataIndex: "date",
+  //     options: [
+  //       { value: "", label: "اختر التاريخ", disabled: true }, // Disabled placeholder
+  //       ...(data?.data?.reports?.map((report) => ({
+  //         value: report.date,
+  //         label: report.date,
+  //       })) || []),
+  //     ],
+  //   },
+  // ];
+  const SELECTS = [
+    {
+      label: "رقم البلاغ",
+      dataIndex: "id",
+      options: [
+        { value: "", label: "اختر رقم البلاغ", disabled: true },
+        ...(data?.data?.reports?.map((report) => ({
+          value: report.id,
+          label: report.id,
+          key: report.id,
+        })) || []),
+      ],
+    },
+    {
+      label: "تصنيف البلاغ",
+      dataIndex: "report_classification-name",
+      options: [
+        { value: "", label: "اختر تصنيف البلاغ", disabled: true },
+        ...(data?.data?.reports?.map((report) => ({
+          value: report["report_classification-name"],
+          label: report["report_classification-name"],
+          key: `${report.id}-${report["report_classification-name"]}`, // Unique key
+        })) || []),
+      ],
+    },
+    {
+      label: "اسم المبلغ",
+      dataIndex: ["person", "name"],
+      options: [
+        { value: "", label: "اختر اسم المبلغ", disabled: true },
+        ...(data?.data?.reports?.map((report) => ({
+          value: report.person?.name,
+          label: report.person?.name,
+          key: `${report.id}-${report.person?.name}`,
+        })) || []),
+      ],
+    },
+    {
+      label: "البريد الالكترونى", // Email
+      dataIndex: ["person", "email"],
+      options: [
+        { value: "", label: "اختر البريد الالكترونى", disabled: true },
+        ...(data?.data?.reports?.map((report, i) => ({
+          value: report.person?.email,
+          label: report.person?.email,
+          key: `${report.id}-${report.person?.email}`,
+        })) || []),
+      ],
+    },
+    {
+      label: "حالة البلاغ",
+      dataIndex: "status",
+      options: [
+        { value: "", label: "اختر حالة البلاغ", disabled: true },
+        { value: "جديد", label: "جديد", key: "جديد" },
+        { value: "مقبول", label: "مقبول", key: "مقبول" },
+        { value: "مرفوض", label: "مرفوض", key: "مرفوض" },
+      ],
+    },
+    {
+      label: "رقم الهاتف",
+      dataIndex: ["person", "phone"],
+      options: [
+        { value: "", label: "اختر رقم الهاتف", disabled: true },
+        ...(data?.data?.reports?.map((report) => ({
+          value: report.person?.phone,
+          label: report.person?.phone,
+          key: `${report.id}-${report.person?.phone}`,
+        })) || []),
+      ],
+    },
+    {
+      label: "التاريخ", // Date
+      dataIndex: "date",
+      options: [
+        { value: "", label: "اختر التاريخ", disabled: true },
+        ...(data?.data?.reports?.map((report) => ({
+          value: report.date,
+          label: report.date,
+          key: `${report.id}-${report.date}`,
+        })) || []),
+      ],
+    },
+  ];
+
+  // const SELECTS = [
+  //   {
+  //     label: "رقم البلاغ", // Report Number
+  //     dataIndex: "id", // Matches the 'id' column
+  //     options: data?.data?.reports?.map((report) => report.id) || [], // Extract report IDs
+  //   },
+  //   {
+  //     label: "تصنيف البلاغ", // Report Classification
+  //     dataIndex: "report_classification-name", // Matches 'report_classification-name'
+  //     options:
+  //       data?.data?.reports?.map(
+  //         (report) => report["report_classification-name"]
+  //       ) || [], // Extract classification names
+  //   },
+  //   {
+  //     label: "اسم المبلغ", // Reporter Name
+  //     dataIndex: ["person", "name"], // Matches 'person.name'
+  //     options: data?.data?.reports?.map((report) => report.person?.name) || [], // Extract names
+  //   },
+  //   {
+  //     label: "البريد الالكترونى", // Email
+  //     dataIndex: ["person", "email"], // Matches 'person.email'
+  //     options: data?.data?.reports?.map((report) => report.person?.email) || [], // Extract emails
+  //   },
+  //   {
+  //     label: "حالة البلاغ", // Report Status
+  //     dataIndex: "status", // Matches status (adjust if needed)
+  //     options: ["جديد", "مقبول", "مرفوض"], // Static options
+  //   },
+  //   {
+  //     label: "رقم الهاتف", // Phone Number
+  //     dataIndex: ["person", "phone"], // Matches 'person.phone'
+  //     options: data?.data?.reports?.map((report) => report.person?.phone) || [], // Extract phone numbers
+  //   },
+  //   {
+  //     label: "التاريخ", // Date
+  //     dataIndex: "date", // Matches 'date'
+  //     options: data?.data?.reports?.map((report) => report.date) || [], // Extract dates
+  //   },
+  // ];
 
   console.log(data?.data?.reports[0]);
 
@@ -252,6 +559,32 @@ const CardAdmin = () => {
   //     return report;
   //   })
   //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const [filters, setFilters] = useState(Array(SELECTS.length).fill("")); // State for selected filters
+  const handleFilterChange = (index, value) => {
+    const newFilters = [...filters];
+    newFilters[index] = value;
+    setFilters(newFilters);
+  };
+  const filteredReports = data?.data?.reports.filter((report) => {
+    return filters.every((filter, index) => {
+      if (!filter) return true;
+
+      const reportValue = (() => {
+        const selectConfig = SELECTS[index];
+        if (Array.isArray(selectConfig.dataIndex)) {
+          return selectConfig.dataIndex.reduce(
+            (acc, key) => acc && acc[key],
+            report
+          );
+        }
+        return report[selectConfig.dataIndex];
+      })();
+
+      // return reportValue ? reportValue.toString() === filter : false;
+      return reportValue ? reportValue.toString() === filter.toString() : false;
+    });
+  });
   return (
     <>
       <div className="w-[90%] mx-auto">
@@ -286,24 +619,55 @@ const CardAdmin = () => {
 
         <div className="mt-6">
           {/* <ReportChart data={data} /> */}
-          {/* <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-10">
-            {SELECTS.map((sel) => (
-              <div className="flex flex-col">
-                <label>{sel.label}</label>
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8  my-8 gap-5 ">
+            {/* {SELECTS.map((sel, index) => (
+              <div className="flex flex-col" key={sel}>
+                <label className="text-sm font-bold">{sel.label}</label>
                 <select
-                  defaultValue={""}
-                  className="!bg-white border-none outline-none !p-2 mt-2 rounded-md"
+                  // defaultValue={""}
+                  value={filters[index]}
+                  onChange={(e) => handleFilterChange(index, e.target.value)}
+                  className="!bg-white border-none outline-none !p-2 mt-2 rounded-md w-full scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full"
                 >
                   {sel.options.map((opt) => (
-                    <option>{opt}</option>
+                    <option
+                      key={opt}
+                      className="text-sm"
+                      disabled={opt.disabled}
+                    >
+                      {opt}
+                    </option>
                   ))}
                 </select>
               </div>
+            ))} */}
+            {SELECTS.map((sel, index) => (
+              <div className="flex flex-col" key={sel.label}>
+                <label className="text-sm font-bold">{sel.label}</label>
+                <Select
+                  value={filters[index]} // Ensure undefined for no selection
+                  onChange={(value) => handleFilterChange(index, value)}
+                  className="mt-2"
+                  placeholder={`...${sel.label}`} // Custom placeholder
+                  style={{ width: "100%" }}
+                  // dropdownStyle={{ width: "150px" }}
+                  popupMatchSelectWidth={false}
+                  // dropdownClassName="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full" // Tailwind scrollbar styles
+                  // options={sel.options.map((opt) => ({
+                  //   value: opt,
+                  //   label: <span className="text-sm">{opt}</span>, // Customize the label styling here
+                  // }))}
+                  options={sel.options}
+                />
+              </div>
             ))}
-            <button className="bg-[#33835c] self-end p-2 text-white rounded-md">
+            <button
+              className="bg-[#33835c] self-end p-2 py-1 w-auto text-white rounded-md"
+              onClick={() => setFilters(Array(SELECTS.length).fill(""))}
+            >
               اعادة
             </button>
-          </div> */}
+          </div>
           <Table
             style={{ backgroundColor: "red !important" }}
             columns={columns}
@@ -317,17 +681,18 @@ const CardAdmin = () => {
             }}
             pagination={{
               current: pagination,
-              pageSize: 25,
+              pageSize: 15,
               total: data?.meta?.reports?.totalItems,
               showSizeChanger: false,
               onChange: (pageNumber) => {
                 setPagination(pageNumber);
                 localStorage.setItem("pageNumber", pageNumber);
+                setFilters(Array(SELECTS.length).fill("")); // Reset filters on page change
               },
 
               // defaultPageSize: _reports.length
             }}
-            dataSource={data?.data?.reports}
+            dataSource={filteredReports}
           />
         </div>
       </div>
