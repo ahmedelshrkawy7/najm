@@ -238,11 +238,9 @@ const CardAdmin = () => {
       dataIndex: "id",
       options: [
         { value: "", label: "اختر رقم البلاغ", disabled: true },
-        ...(data?.data?.reports?.map((report) => ({
-          value: report.id,
-          label: report.id,
-          key: report.id,
-        })) || []),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report.id))
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
@@ -250,11 +248,13 @@ const CardAdmin = () => {
       dataIndex: "report_classification-name",
       options: [
         { value: "", label: "اختر تصنيف البلاغ", disabled: true },
-        ...(data?.data?.reports?.map((report) => ({
-          value: report["report_classification-name"],
-          label: report["report_classification-name"],
-          key: `${report.id}-${report["report_classification-name"]}`, // Unique key
-        })) || []),
+        ...Array.from(
+          new Set(
+            data?.data?.reports?.map(
+              (report) => report["report_classification-name"]
+            )
+          )
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
@@ -262,23 +262,19 @@ const CardAdmin = () => {
       dataIndex: ["person", "name"],
       options: [
         { value: "", label: "اختر اسم المبلغ", disabled: true },
-        ...(data?.data?.reports?.map((report) => ({
-          value: report.person?.name,
-          label: report.person?.name,
-          key: `${report.id}-${report.person?.name}`,
-        })) || []),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report.person?.name))
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
-      label: "البريد الالكترونى", // Email
+      label: "البريد الالكترونى",
       dataIndex: ["person", "email"],
       options: [
         { value: "", label: "اختر البريد الالكترونى", disabled: true },
-        ...(data?.data?.reports?.map((report, i) => ({
-          value: report.person?.email,
-          label: report.person?.email,
-          key: `${report.id}-${report.person?.email}`,
-        })) || []),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report.person?.email))
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
@@ -286,9 +282,10 @@ const CardAdmin = () => {
       dataIndex: "status",
       options: [
         { value: "", label: "اختر حالة البلاغ", disabled: true },
-        { value: "جديد", label: "جديد", key: "جديد" },
-        { value: "مقبول", label: "مقبول", key: "مقبول" },
-        { value: "مرفوض", label: "مرفوض", key: "مرفوض" },
+        ...["جديد", "مقبول", "مرفوض", "قيد التأكيد"].map((status) => ({
+          value: status,
+          label: status,
+        })),
       ],
     },
     {
@@ -296,23 +293,19 @@ const CardAdmin = () => {
       dataIndex: ["person", "phone"],
       options: [
         { value: "", label: "اختر رقم الهاتف", disabled: true },
-        ...(data?.data?.reports?.map((report) => ({
-          value: report.person?.phone,
-          label: report.person?.phone,
-          key: `${report.id}-${report.person?.phone}`,
-        })) || []),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report.person?.phone))
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
-      label: "التاريخ", // Date
+      label: "التاريخ",
       dataIndex: "date",
       options: [
         { value: "", label: "اختر التاريخ", disabled: true },
-        ...(data?.data?.reports?.map((report) => ({
-          value: report.date,
-          label: report.date,
-          key: `${report.id}-${report.date}`,
-        })) || []),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report.date))
+        ).map((value) => ({ value, label: value })),
       ],
     },
   ];
@@ -512,12 +505,12 @@ const CardAdmin = () => {
     },
     {
       title: "حالة البلاغ",
-      dataIndex: "_",
-      key: "id",
+      dataIndex: "status",
+      key: "status",
       width: 150,
-      render: (_) => (
+      render: (text) => (
         <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
-          {"جديد"}
+          {text}
         </button>
       ),
     },
@@ -568,10 +561,10 @@ const CardAdmin = () => {
   };
   const filteredReports = data?.data?.reports.filter((report) => {
     return filters.every((filter, index) => {
-      if (!filter) return true;
+      if (!filter) return true; // Skip if filter is empty
 
+      const selectConfig = SELECTS[index];
       const reportValue = (() => {
-        const selectConfig = SELECTS[index];
         if (Array.isArray(selectConfig.dataIndex)) {
           return selectConfig.dataIndex.reduce(
             (acc, key) => acc && acc[key],
@@ -581,10 +574,11 @@ const CardAdmin = () => {
         return report[selectConfig.dataIndex];
       })();
 
-      // return reportValue ? reportValue.toString() === filter : false;
+      // Compare the report value with the selected filter
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
+
   return (
     <>
       <div className="w-[90%] mx-auto">
