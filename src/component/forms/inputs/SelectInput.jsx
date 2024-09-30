@@ -21,7 +21,7 @@ const SelectInput = ({
       <Controller
         control={control}
         name={nameType}
-        rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+        // rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
         render={({ field, fieldState }) => (
           <div>
             <Select

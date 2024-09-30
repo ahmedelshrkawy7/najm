@@ -147,7 +147,7 @@ const Reports = () => {
     dataObject = {
       ...restValues,
       files: allFiles,
-      date: fullDate,
+      // date: fullDate,
       report_classification_id: card.report_classification_id,
       user_name: userName ? userName : null,
       user_phone: userPhone ? userPhone : null,

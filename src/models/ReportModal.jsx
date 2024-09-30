@@ -15,6 +15,7 @@ function Ch() {
     register,
     watch,
     setValue,
+
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -39,7 +40,19 @@ function Ch() {
   });
 
   const onSubmit = (data) => {
-    mutation.mutate([`/reports/${id}`, data]);
+    if (watch("status") == "accepted") {
+      const { status, action, _method } = data;
+      mutation.mutate([
+        `/reports/${id}`,
+        {
+          status,
+          action,
+          _method,
+        },
+      ]);
+    } else {
+      mutation.mutate([`/reports/${id}`, data]);
+    }
   };
 
   if (watch("status") == "accepted") {

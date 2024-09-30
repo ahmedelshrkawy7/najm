@@ -41,12 +41,12 @@ const Textarea = ({
       /> */}
       <Controller
         name={nameType}
-        rules={{
-          required: "من فضلك ادخل وصف البلاغ  ",
-          validate: (value) => {
-            return value.trim() === "" && "هذ الحقل لا يمكن ان يكون فارغا";
-          },
-        }}
+        // rules={{
+        //   required: "من فضلك ادخل وصف البلاغ  ",
+        //   validate: (value) => {
+        //     return value.trim() === "" && "هذ الحقل لا يمكن ان يكون فارغا";
+        //   },
+        // }}
         control={control}
         render={({ field }) => (
           <>

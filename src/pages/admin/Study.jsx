@@ -3,12 +3,17 @@ import React, { useContext, useEffect, useState } from "react";
 import PreparingStudy from "../../component/PreparingStudy";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import StudyPreview from "../../component/StudyPreview";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import StudyContext from "../../store/StudyContext";
+import { useMutation } from "react-query";
+import useApi from "../../utils/useApi";
+import { useForm } from "react-hook-form";
 
 const Study = () => {
   const location = useLocation();
-  console.log("🚀 ~ Study ~ location:", location)
+  const { postData } = useApi();
+  const { id } = useParams();
+  console.log("🚀 ~ Study ~ location:", location);
   const { handleHideMenu, showMenu } = useContext(StudyContext);
   const [loc, setLoc] = useState(location?.state?.index);
   console.log(showMenu);
@@ -21,10 +26,44 @@ const Study = () => {
   }, [showMenu]);
 
   console.log(location.state?.closeModal, showMenu);
+  const methods = useForm({
+    mode: "all",
+    defaultValues: {
+      description: "",
+      address: "",
+      date: "",
+      suspects: [],
+
+      processing_time: "255",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result: "",
+      _method: "PUT",
+      action: "prepare_initial_study",
+    },
+  });
+
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries("todos");
+      setLoc(3);
+    },
+  });
+  console.log("🚀 ~ Study ~ methods:", methods.formState.errors);
+  console.log("🚀 ~ Study ~ values:", methods.values);
+
+  const onSubmit = (val) => {
+    mutation.mutate([`/reports/${id}`, val]);
+  };
 
   return (
     <div className="bg-[#E6E6E6]">
-      <div className=" w-[90%]  py-20   mx-auto ">
+      <form
+        className=" w-[90%]  py-20   mx-auto "
+        onSubmit={methods.handleSubmit(onSubmit)}
+      >
         <div className="bg-white rounded-md">
           <div className="rounded-t-md overflow-hidden">
             <ReportsHeader
@@ -33,13 +72,13 @@ const Study = () => {
           </div>
         </div>
         <div>
-          {loc === 2 && <PreparingStudy />}
+          {loc === 2 && <PreparingStudy {...methods} />}
           {loc === 3 && <StudyPreview />}
         </div>
         <div className="py-5  w-[100%]   text-left">
           {loc === 2 && (
             <button
-              onClick={() => setLoc(3)}
+              type="submit"
               className={`bg-[#33835C] p-2 rounded-md text-white`}
             >
               {" "}
@@ -56,7 +95,7 @@ const Study = () => {
             </button>
           )}
         </div>
-      </div>
+      </form>
     </div>
   );
 };

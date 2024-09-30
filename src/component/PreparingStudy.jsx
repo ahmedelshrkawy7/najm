@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import ReportDetails from "./Reports/ReportDetails";
@@ -17,39 +18,25 @@ import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
 import ReportModal from "../models/ReportModal";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import useApi from "../utils/useApi";
 
-const PreparingStudy = () => {
-  const {
-    register,
-    watch,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    control,
-    resetField,
-    getValues,
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      description: "",
-      address: "",
-      suspectKnown: "0",
-      date: "",
-      suspects: [],
-      user_name: "",
-      user_email: "",
-      user_phone: "",
-      fileInput: "",
-      processing_time: "",
-      files: "",
-      risk_type: "",
-      risk_assessment: "",
-      result: "",
-    },
-  });
+//   risk_assessment
+// report_type
+// processing_time
+// department_id
+// result
 
+const PreparingStudy = ({
+  register,
+  watch,
+  formState: { errors },
+  handleSubmit,
+  setValue,
+  control,
+  resetField,
+  getValues,
+}) => {
   const { getData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
@@ -85,7 +72,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
-            nameType="description"
+            nameType="report_type"
             options={[
               {
                 value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
@@ -212,7 +199,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...الادارة"
             inpTitle="الادارة المعنية بدراسة اليلاغ"
-            nameType="adasdasd"
+            nameType="department_id"
             options={data.map((opt) => ({
               value: opt.id,
               label: (
@@ -252,7 +239,8 @@ const PreparingStudy = () => {
               datePickerTitle={"تاريخ ارتكاب المخالفة"}
               control={control}
               errors={errors}
-              date={date}
+              setValue={setValue}
+              // date={date}
               nameType="date"
             />
             <Location
