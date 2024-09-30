@@ -36,6 +36,7 @@ const Test = () => {
     error,
     data: { data: { report } = {} } = {},
   } = useQuery(["users", ["/reports"], id], getData);
+  console.log("🚀 ~ Test ~ report:", report);
 
   useEffect(() => {
     if (showMenu || showSvg) {
@@ -89,6 +90,7 @@ const Test = () => {
                     setShowSvg={setShowSvg}
                     func={setCh}
                     showModal={showMenu}
+                    status={report?.status}
                   />
                 </div>
               )}

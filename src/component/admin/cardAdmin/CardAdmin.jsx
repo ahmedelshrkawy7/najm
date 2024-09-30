@@ -18,7 +18,9 @@ const CardAdmin = () => {
     isLoading,
     error,
     data = {},
-  } = useQuery(["users", ["/reports", { page: pagination }]], getData);
+  } = useQuery(["users", ["/reports", { page: pagination }]], getData, {
+    keepPreviousData: true,
+  });
   console.log("🚀 ~ CardAdmin ~ data:", data);
 
   // const selectOptions = {
@@ -405,6 +407,16 @@ const CardAdmin = () => {
       bgColor: "#EB974B",
     },
     {
+      title: "بلاغات تحت الموافقة",
+      icon: (
+        <img
+          src="../src/assets/icons/rotate.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#9DC3E6",
+    },
+    {
       title: "بلاغات مقفلة",
       icon: (
         <img
@@ -447,6 +459,7 @@ const CardAdmin = () => {
   ];
 
   let { data: { counter = {} } = {} } = data;
+  console.log("🚀 ~ CardAdmin ~ counter:", counter);
   // let counter = {
   //   new: 75,
   //   accepted: 0,
@@ -459,6 +472,18 @@ const CardAdmin = () => {
   //   escalated: 0,
   //   all: 78,
   // };
+  const counterValues = [
+    counter.new || 0,
+    counter.accepted || 0,
+    counter.under_approved || 0,
+    counter.confirmed || 0,
+    counter.under_study || 0,
+    counter.under_confirm || 0,
+    counter.closed || 0,
+    counter.rejected || 0,
+    counter.escalated || 0,
+    counter.all || 0,
+  ];
 
   console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
 
@@ -508,11 +533,34 @@ const CardAdmin = () => {
       dataIndex: "status",
       key: "status",
       width: 150,
-      render: (text) => (
-        <button className="p-1 bg-[#33835C] text-white px-8 rounded-full text-[12px]">
-          {text}
-        </button>
-      ),
+      render: (text) => {
+        let bgColor;
+        switch (text) {
+          case "جديد":
+            bgColor = "#33835C";
+            break;
+          case "مقبول":
+            bgColor = "#9DC3E6";
+            break;
+          case "مرفوض":
+            bgColor = "#FF6A6F";
+            break;
+          case "قيد التأكيد":
+            bgColor = "#E7D066";
+            break;
+          default:
+            bgColor = "#33835C";
+        }
+        return (
+          <button
+            style={{ backgroundColor: bgColor }}
+            className="w-[115px] py-[6px] px-8 bg-[#33835C] text-white rounded-full text-[11px]
+         font-semibold"
+          >
+            {text}
+          </button>
+        );
+      },
     },
     {
       title: "رقم الهاتف",
@@ -578,6 +626,7 @@ const CardAdmin = () => {
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
+  console.log("🚀 ~ filteredReports ~ filteredReports:", data.data);
 
   return (
     <>
@@ -593,13 +642,13 @@ const CardAdmin = () => {
                 <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
                 <h2 className="text-4xl text-[#fff] font-bold text-center">
                   {/* {data?.meta?.reports?.totalItems} */}
-                  {Object.values(counter)[i]}
+                  {counterValues[i]}
                 </h2>
               </div>
               <div style={{ backgroundColor: card.bgColor }}>
                 <div
                   className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
-                    i === 3 || i === 0 || i === 5 || i === 1
+                    i === 3 || i === 0 || i === 6 || i === 1
                       ? "bg-white/100"
                       : "bg-white/5"
                   }`}

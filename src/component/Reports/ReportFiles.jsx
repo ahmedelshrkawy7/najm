@@ -49,6 +49,7 @@ const ReportFiles = ({ fils, setFils, preview }) => {
   };
 
   const getFileExtension = (fileName) => {
+    if (!fileName) return "";
     return fileName.split(".").pop().toLowerCase();
   };
 
