@@ -43,7 +43,7 @@ const ReportClassification = ({ _card, handleSelected }) => {
                 key={card.title}
                 active={_card.report_classification_id === card.id}
                 title={card.name}
-                src={card.image_url}
+                src={card.image_path}
               />
             ))}
           </div>

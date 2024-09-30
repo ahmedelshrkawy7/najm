@@ -31,9 +31,16 @@ const FileInput = ({
 
     console.log(allVideos);
     console.log(e.target.files);
-    let allFiles = [...e.target.files].filter((file) =>
-      file.type.startsWith("application")
-    );
+    let allFiles = [...e.target.files]
+      .map((file) => {
+        if (file.name.endsWith(".rar")) {
+          return new File([file], file.name, {
+            type: "application/x-rar-compressed",
+          });
+        }
+        return file;
+      })
+      .filter((file) => file.type.startsWith("application"));
     setIsLoading(true);
     setTimeout(() => {
       setImgs([...imgs, ...allImages]);

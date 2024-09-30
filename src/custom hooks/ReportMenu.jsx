@@ -10,7 +10,7 @@ import ReportLock from "../models/ReportLock";
 import StudyContext from "../store/StudyContext";
 import ReportModal from "../models/ReportModal";
 
-const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
+const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
   const navigate = useNavigate();
   const { handleHideMenu } = useContext(StudyContext);
   const optionItems = [
@@ -23,24 +23,29 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           setShowSvg={setShowSvg}
         ></ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 2,
       title: "اعداد دراسة اولية",
       path: "preparingStudy",
+      disabled: false,
     },
     {
       id: 3,
       title: "توجيه الدراسة الاولية للاعتماد",
       path: "preparingStudy",
+      disabled: false,
     },
     {
       id: 4,
       title: "التعديل على الدراسة الاولية",
+      disabled: false,
     },
     {
       id: 5,
       title: "اسناد البلاغ",
+      disabled: false,
     },
     {
       id: 6,
@@ -50,6 +55,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportInfo />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 7,
@@ -59,10 +65,12 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportInfo />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 8,
       title: "استلام البلاغ",
+      disabled: false,
     },
     {
       id: 9,
@@ -72,6 +80,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportInfo />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 10,
@@ -81,6 +90,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportInfo />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 11,
@@ -90,6 +100,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportInfo />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 12,
@@ -99,6 +110,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportLock />
         </ReportModal>
       ),
+      disabled: false,
     },
     {
       id: 13,
@@ -108,6 +120,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
           <ReportEscalation />
         </ReportModal>
       ),
+      disabled: false,
     },
   ];
 
@@ -119,11 +132,16 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
     navigate(path, state);
   };
 
+  console.log(status);
   return (
     <ul className="h-full">
       {optionItems.map((opt) => (
         <li
           onClick={() => {
+            if (status === "rejected") {
+              opt.disabled = true;
+              return;
+            }
             setShowSvg(true);
             !!opt?.path
               ? navigateTo(opt.path, {
@@ -131,7 +149,11 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg }) => {
                 })
               : clickModal(opt.children);
           }}
-          className="py-[5px] px-[10px] cursor-pointer border border-gray-100 text-[16px]"
+          className={`py-[5px] px-[10px]  border border-gray-100 text-[16px] ${
+            status === "rejected"
+              ? "text-gray-400 cursor-not-allowed"
+              : "cursor-pointer"
+          }`}
           key={opt.id}
         >
           {opt.title}

@@ -20,18 +20,17 @@ const DispalyData = ({
   imgs = [],
   title,
   videos = [],
-
 }) => {
-  console.log("🚀 ~ values:", values)
+  console.log("🚀 ~ values:", values);
   // console.log(values);
 
   console.log();
   const location = useLocation();
   console.log(values);
-  let imgsServ = values?.medea?.images.filter((el) => {
+  let imgsServ = values?.media?.images.filter((el) => {
     return el?.file_type?.includes("image");
   });
-  let videosServ = values?.medea?.images?.filter((el) => {
+  let videosServ = values?.media?.videos?.filter((el) => {
     return el?.file_type?.includes("video");
   });
   console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
@@ -67,7 +66,7 @@ const DispalyData = ({
               title="المستندات الداعمه للاشتباه"
             >
               <ReportFiles
-                fils={fils.length == 0 ? values.medea?.files : fils}
+                fils={fils.length == 0 ? values.media?.files : fils}
               />
               <ReportImages
                 imgs={imgs.length === 0 ? imgsServ : imgs}

@@ -17,6 +17,8 @@ import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
 import ReportModal from "../models/ReportModal";
+import { useQuery } from "react-query";
+import useApi from "../utils/useApi";
 
 const PreparingStudy = () => {
   const {
@@ -47,6 +49,18 @@ const PreparingStudy = () => {
       result: "",
     },
   });
+
+  const { getData } = useApi();
+
+  const { data: { data = [] } = {} } = useQuery(
+    ["admin", ["/admin/departments", ""]],
+    getData
+  );
+  console.log(
+    "🚀 ~ PreparingStudy ~ data:",
+    data.map((dt) => dt.name)
+  );
+
   const [showSvg, setShowSvg] = useState(false);
 
   const [fils, setFils] = useState([]);
@@ -119,7 +133,49 @@ const PreparingStudy = () => {
             placeholder="...النوع"
             inpTitle="نوع البلاغ"
             nameType="risk_assessment"
-            options={[]}
+            options={[
+              {
+                value: "سوء أستخدام ممتلكات الشركة",
+                label: (
+                  <span className="text-[15px] ">
+                    سوء أستخدام ممتلكات الشركة
+                  </span>
+                ),
+              },
+              {
+                value: "سوء استخدام السلطة او اتخاذ القرار",
+                label: (
+                  <span className="text-[15px] ">
+                    {" "}
+                    سوء استخدام السلطة او اتخاذ القرار
+                  </span>
+                ),
+              },
+              {
+                value: "سوء استخدام الصلاحيات الممنوحة",
+                label: (
+                  <span className="text-[15px] ">
+                    سوء استخدام الصلاحيات الممنوحة
+                  </span>
+                ),
+              },
+              {
+                value: "الحصول على منافع او مكافأت غير مستحقة",
+                label: (
+                  <span className="text-[15px] ">
+                    الحصول على منافع او مكافأت غير مستحقة
+                  </span>
+                ),
+              },
+              {
+                value: "الإفصاح عن معلومات سرية بطريقة غير نظامية",
+                label: (
+                  <span className="text-[15px] ">
+                    الإفصاح عن معلومات سرية بطريقة غير نظامية
+                  </span>
+                ),
+              },
+            ]}
           />
           <SelectInput
             errors={errors}
@@ -157,7 +213,14 @@ const PreparingStudy = () => {
             placeholder="...الادارة"
             inpTitle="الادارة المعنية بدراسة اليلاغ"
             nameType="adasdasd"
-            options={[]}
+            options={data.map((opt) => ({
+              value: opt.id,
+              label: (
+                <span className="text-sm" key={opt.id}>
+                  {opt.name}
+                </span>
+              ),
+            }))}
           />
         </div>
         <div className="mt-4">
