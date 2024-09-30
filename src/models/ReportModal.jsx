@@ -3,6 +3,7 @@
 import { forwardRef, useRef, useState } from "react";
 import Model from "./Model";
 import { Radio } from "antd";
+import SuccessModal from "./successModal";
 
 // const ch = (
 //   <div className="px-5 py-3 flex flex-col gap-4 pt-6">
@@ -62,36 +63,51 @@ const ReportModal = ({
   // const ref = useRef();
   const [radioValue, setRadioValue] = useState("");
   const [reason, setReason] = useState("");
+  const [currentView, setCurrentView] = useState("default");
+
   return (
     <>
       <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit  max-h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
         <div className="bg-[#33835C] w-full flex justify-between items-center px-5 py-3">
-          <div>
-            <h2 className="text-white text-lg font-semibold self-center">
-              {props?.title || "العنوان :"}
-            </h2>
-          </div>
-          <span
-            className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
-            onClick={() => {
-              setShowMenu(false);
-              setShowSvg(false);
-            }}
-          >
-            &times;
-          </span>
+          {(currentView === "default" && (
+            <>
+              <div>
+                <h2 className="text-white text-lg font-semibold self-center">
+                  {props?.title || "العنوان :"}
+                </h2>
+              </div>
+              <span
+                className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
+                onClick={() => {
+                  setShowMenu(false);
+                  setShowSvg(false);
+                }}
+              >
+                &times;
+              </span>
+            </>
+          )) ||
+            ""}
         </div>
-        {children}
-        <div className="px-5 py-3 pt-0 flex items-center justify-end">
+        {currentView === "success" || currentView === "edit" ? (
+          <SuccessModal
+            setShowSvg={setShowSvg}
+            close={true}
+            title={"تم انشاء الدراسة بنجاح"}
+          />
+        ) : (
+          children
+        )}{" "}
+        {/* <div className="px-5 py-3 pt-0 flex items-center justify-end">
           <button
             className=" bg-[#33835C] text-white p-1 px-10 rounded-lg"
             onClick={() => {
-              console.log("first");
+              setCurrentView("success");
             }}
           >
             تاكيد
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
