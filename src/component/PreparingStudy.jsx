@@ -16,6 +16,7 @@ import Location from "./forms/inputs/Location";
 import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
+import ReportModal from "../models/ReportModal";
 
 const PreparingStudy = () => {
   const {
@@ -39,12 +40,18 @@ const PreparingStudy = () => {
       user_email: "",
       user_phone: "",
       fileInput: "",
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result: "",
     },
   });
   const [showSvg, setShowSvg] = useState(false);
 
   const [fils, setFils] = useState([]);
   const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
   const date = new Date();
 
   useEffect(() => {
@@ -54,7 +61,7 @@ const PreparingStudy = () => {
       document.documentElement.style.overflow = "";
     }
   }, [showSvg]);
-
+  console.log(getValues());
   return (
     <>
       <div className=" bg-white p-10 w-[100%]">
@@ -64,40 +71,42 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
-            nameType="adasdasd"
+            nameType="description"
             options={[
               {
-                // value: "0",
+                value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
                 label: (
-                  <span className="text-[13px]">
+                  <span className="text-[15px] ">
                     احتيال أو فساد أو رشوة او اختلاس او تزوير
                   </span>
                 ),
               },
               {
-                // value: "0",
+                value: "غسل أموال أو تمويل إرهاب",
                 label: (
-                  <span className="text-[13px]">غسل أموال أو تمويل إرهاب</span>
+                  <span className="text-[15px] ">غسل أموال أو تمويل إرهاب</span>
                 ),
               },
               {
-                // value: "0",
+                value: "مخالفة للأنظمة والتعليمات",
                 label: (
-                  <span className="text-[13px]">مخالفة للأنظمة والتعليمات</span>
+                  <span className="text-[15px] ">
+                    مخالفة للأنظمة والتعليمات
+                  </span>
                 ),
               },
               {
-                // value: "0",
+                value: "مخالفة لسياسة وإجراءات الشركة",
                 label: (
-                  <span className="text-[13px]">
+                  <span className="text-[15px] ">
                     مخالفة لسياسة وإجراءات الشركة
                   </span>
                 ),
               },
               {
-                // value: "0",
+                value: "مخالفة لمدونة قواعد السلوك",
                 label: (
-                  <span className="text-[13px]">
+                  <span className="text-[15px] ">
                     مخالفة لمدونة قواعد السلوك
                   </span>
                 ),
@@ -109,7 +118,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...النوع"
             inpTitle="نوع البلاغ"
-            nameType="adasdasd"
+            nameType="risk_assessment"
             options={[]}
           />
           <SelectInput
@@ -117,8 +126,13 @@ const PreparingStudy = () => {
             control={control}
             placeholder="...الدرجة"
             inpTitle="درجة المخاطر"
-            nameType="adasdasd"
-            options={[]}
+            nameType="risk_type"
+            options={[
+              {
+                value: "high",
+                label: <span className="text-[15px] ">high</span>,
+              },
+            ]}
           />
           <div
             onClick={() => {
@@ -134,7 +148,7 @@ const PreparingStudy = () => {
             control={control}
             placeholder="المدة الزمنية...."
             inpTitle="مدة معالجة البلاغ"
-            nameType="adasdasd"
+            nameType="processing_time"
             options={[]}
           />
           <SelectInput
@@ -149,7 +163,7 @@ const PreparingStudy = () => {
         <div className="mt-4">
           <Textarea
             textAreaTitle={"وصف البلاغ"}
-            nameType=""
+            nameType="description"
             errors={errors}
             control={control}
             watch={watch}
@@ -170,7 +184,7 @@ const PreparingStudy = () => {
               getValues={getValues}
             />
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8 flex-wrap">
             <Datepicker
               datePickerTitle={"تاريخ ارتكاب المخالفة"}
               control={control}
@@ -194,13 +208,28 @@ const PreparingStudy = () => {
               control={control}
               placeholder="...نوع المستندات"
               inpTitle="مستندات داعمة للبلاغ"
-              nameType="adasdasd"
-              options={[]}
+              nameType="files"
+              options={[
+                {
+                  value: "تقرير فنى",
+                  label: <span className="text-[15px] ">تقرير فنى </span>,
+                },
+                {
+                  value: "معاينة",
+                  label: <span className="text-[15px] ">معاينة </span>,
+                },
+                {
+                  value: "مقطع فيديو",
+                  label: <span className="text-[15px] ">مقطع فيديو </span>,
+                },
+              ]}
             />
             <div className="mt-4">
               <FileInput
                 fils={fils}
                 setFils={setFils}
+                videos={videos}
+                setVideos={setVideos}
                 imgs={imgs}
                 setImgs={setImgs}
                 register={register}
@@ -216,8 +245,8 @@ const PreparingStudy = () => {
         <InputText
           errors={errors}
           control={control}
-          name="user_name"
-          inputTitle={"الاسم"}
+          name="result"
+          inputTitle={"نتائج الدراسة الاولية"}
           inputPlaceHolder={"....النتائج"}
           setValue={setValue}
           max={50}
@@ -226,9 +255,9 @@ const PreparingStudy = () => {
 
       {showSvg && (
         <div className="fixed top-0 left-0 z-[99999] bg-[rgba(0,0,0,0.4)] w-screen h-screen">
-          <ReportModel title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
+          <ReportModal title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
             <ReportOptions />
-          </ReportModel>
+          </ReportModal>
         </div>
       )}
     </>

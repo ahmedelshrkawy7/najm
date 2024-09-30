@@ -8,6 +8,7 @@ import StudyContext from "../../store/StudyContext";
 
 const Study = () => {
   const location = useLocation();
+  console.log("🚀 ~ Study ~ location:", location)
   const { handleHideMenu, showMenu } = useContext(StudyContext);
   const [loc, setLoc] = useState(location?.state?.index);
   console.log(showMenu);

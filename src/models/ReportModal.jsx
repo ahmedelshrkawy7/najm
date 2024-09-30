@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 import Model from "./Model";
 import { Radio } from "antd";
 import { Controller, useForm } from "react-hook-form";
@@ -9,7 +9,14 @@ import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
 
 function Ch() {
-  const { control, handleSubmit, register, watch, setValue } = useForm({
+  const {
+    control,
+    handleSubmit,
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       image: "",
       reason: "",
@@ -71,9 +78,15 @@ function Ch() {
           className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
           placeholder="اكتب هنا"
           name="reason"
-          {...register("reason")}
+          {...register("reason", {
+            required:
+              watch("status") === "rejected" ? "هذا الحقل مطلوب" : false,
+          })}
           disabled={watch("status") === "accepted"}
         ></textarea>
+        {errors.reason && (
+          <p className="text-red-500 ">{errors.reason.message}</p>
+        )}
       </div>
 
       <div className="py-3 pt-0 flex items-center justify-end">
@@ -121,6 +134,8 @@ const ReportModal = ({
 } = {}) => {
   console.log(props);
   // const ref = useRef();
+  const [radioValue, setRadioValue] = useState("");
+  const [reason, setReason] = useState("");
   return (
     <>
       <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit  max-h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">

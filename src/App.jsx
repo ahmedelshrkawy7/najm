@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MiniHeader, Navbar, ReportsPage } from "./import.js";
 
 import {
@@ -77,6 +78,14 @@ const routes = [
             element: <ReportDate />,
           },
         ],
+      },
+      {
+        path: "managers",
+        element: <AdminManager />,
+      },
+      {
+        path: "depts",
+        element: <Deptview />,
       },
       {
         path: "allAdmins",

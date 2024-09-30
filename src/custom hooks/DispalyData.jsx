@@ -20,8 +20,10 @@ const DispalyData = ({
   imgs = [],
   title,
   videos = [],
+
 }) => {
-  console.log(values);
+  console.log("🚀 ~ values:", values)
+  // console.log(values);
 
   console.log();
   const location = useLocation();
@@ -32,6 +34,7 @@ const DispalyData = ({
   let videosServ = values?.medea?.images?.filter((el) => {
     return el?.file_type?.includes("video");
   });
+  console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
   return (
     <>
       {!location.pathname.includes("dash") && (
