@@ -172,8 +172,16 @@ const PreparingStudy = ({
             nameType="risk_type"
             options={[
               {
-                value: "high",
-                label: <span className="text-[15px] ">high</span>,
+                value: "عالى",
+                label: <span className="text-[15px] ">عالى</span>,
+              },
+              {
+                value: "متوسط",
+                label: <span className="text-[15px] ">متوسط</span>,
+              },
+              {
+                value: "منخفض",
+                label: <span className="text-[15px] ">منخفض</span>,
               },
             ]}
           />
@@ -192,7 +200,20 @@ const PreparingStudy = ({
             placeholder="المدة الزمنية...."
             inpTitle="مدة معالجة البلاغ"
             nameType="processing_time"
-            options={[]}
+            options={[
+              {
+                value: "15  ",
+                label: <span className="text-[15px] ">15 يوم عمل</span>,
+              },
+              {
+                value: "20 ",
+                label: <span className="text-[15px] ">20 يوم عمل</span>,
+              },
+              {
+                value: "30",
+                label: <span className="text-[15px] ">30 يوم عمل</span>,
+              },
+            ]}
           />
           <SelectInput
             errors={errors}

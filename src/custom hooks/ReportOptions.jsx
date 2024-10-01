@@ -10,6 +10,9 @@ const ReportOptions = () => {
       departmentIssues: [],
       employeeParticipation: [],
       externalParties: [],
+      reputationRisks: [],
+      legalRisks: [],
+      proofs: [],
     },
   });
 
@@ -30,17 +33,17 @@ const ReportOptions = () => {
               <ReportOptionType
                 control={control}
                 name="typeOfReport"
-                label="اشكال الفساد"
+                label="اشكال الفساد او الرشوة او الاحتيال او التزوير او الاختلاس او سوء استخدام الصلاحية والسلطة او غش الاموال او تمويل الارهاب"
               />
               <ReportOptionType
                 control={control}
                 name="typeOfReport"
-                label=" الرشوة"
+                label=" عدم الالتزام بالقواعد واللوائح والتعليمات"
               />
               <ReportOptionType
                 control={control}
                 name="typeOfReport"
-                label="غشل الاموال "
+                label="مخالفة لسياسة واجراءات الشركة والانظمة والتعليمات ومدونة قواعد السلوك "
               />
             </div>
           </div>
@@ -53,17 +56,17 @@ const ReportOptions = () => {
               <ReportOptionType
                 control={control}
                 name="departmentIssues"
-                label="مجلس الادارة"
+                label="مجلس الادارة - الادارة التنفيذية - قطاع الالتزام والمراجعة الداخلية - قطاع المخاطر - قطاع المالية"
               />
               <ReportOptionType
                 control={control}
                 name="departmentIssues"
-                label="الادارة التنفيذية"
+                label="قطاع الخدمات المشتركة - قطاع العمليات - قطاع تقنية المعلومات"
               />
               <ReportOptionType
                 control={control}
                 name="departmentIssues"
-                label="قطاع الالتزام "
+                label="اقسام اخرى"
               />
             </div>
           </div>
@@ -75,17 +78,17 @@ const ReportOptions = () => {
               <ReportOptionType
                 control={control}
                 name="employeeParticipation"
-                label="رئيس"
+                label="رئيس او اعضاء مجلس ادارة - الرئيس التنفيذى - نواب الرئيس التنفيذى - مدير عام"
               />
               <ReportOptionType
                 control={control}
                 name="employeeParticipation"
-                label="الرئيس التنفيذى"
+                label="رئيس قسم - مدير - مشرف"
               />
               <ReportOptionType
                 control={control}
                 name="employeeParticipation"
-                label="اعضاء مجلس الادارة"
+                label="مستويات اخرى او اقل او متعاقدين"
               />
             </div>
           </div>
@@ -98,30 +101,95 @@ const ReportOptions = () => {
               <ReportOptionType
                 control={control}
                 name="externalParties"
-                label="طرف ثالث"
+                label="طرف ثالث - اصحاب النفوذ - الاشخاص المعرفين سياسيا"
               />
               <ReportOptionType
                 control={control}
                 name="externalParties"
-                label="الاشخاص المعرفين سياسيا"
+                label="شركة اقليمية - شركة تامين تعمل داخل المملكة العربية السعودية - عضو مجلس ادارة يعمل فى شركة مرموقة داخل المملكة العربية السعودية"
               />
               <ReportOptionType
                 control={control}
                 name="externalParties"
-                label="اصحاب النفوذ"
+                label="اشخاص عاديون او مدير عام او مدير فى شركة تعمل خارج المملكة العربية السعودية"
+              />
+            </div>
+          </div>
+          <div>
+            <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
+              {" "}
+              مخاطر السمعة{" "}
+            </div>
+            <div className="flex flex-col mt-4 gap-2">
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="   قد یؤدي الحدث إلى تحقيق من الجهات الرقابية أو عقوبات أو غرامات
+"
+              />
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="قد یؤدي الحدث تأثير على العلاقة مع شركات التأمین  "
+              />
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label=" قد یؤدي الحدث تأثير ضئیل على سمعة الشركة"
+              />
+            </div>
+          </div>
+          <div>
+            <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
+              {" "}
+              العواقب القانونیة{" "}
+            </div>
+            <div className="flex flex-col mt-4 gap-2">
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="قد یؤدي الحدث إلى دعاوى جماعية و جنائية ضد الشركة"
+              />
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="الحدث من شأنه أن یؤدي إلى غرامات أو عقوبات، او دعاوي جنائیة ضد الإدارات التشغيلية او شكوى الى هيئة التأمين"
+              />
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="الحدث من شأنھ أن یؤدي إلى دعوى مدنیة، والحرمان من العمل             "
+              />
+            </div>
+          </div>
+          <div>
+            <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
+              {" "}
+              وجود دلیل مرفق بالبلاغ من قبل المبلغ ( دليل قد يتم إتلافه){" "}
+            </div>
+            <div className="flex flex-col mt-4 gap-2">
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label="نعم"
+              />
+              <ReportOptionType
+                control={control}
+                name="externalParties"
+                label=" لا"
               />
             </div>
           </div>
         </div>
       </div>
-      {/* <div className="px-5 py-3 pt-0 flex items-center justify-end">
+      <div className="px-5 py-3 pt-0 flex items-center justify-end">
         <button
           type="submit"
           className=" bg-[#33835C] text-white p-1 px-10 rounded-lg"
         >
           تاكيد
         </button>
-      </div> */}
+      </div>
     </form>
   );
 };

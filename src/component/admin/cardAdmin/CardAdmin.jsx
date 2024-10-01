@@ -18,7 +18,7 @@ const CardAdmin = () => {
     isLoading,
     error,
     data = {},
-  } = useQuery(["users", ["/reports", { page: pagination }]], getData, {
+  } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
   });
   console.log("🚀 ~ CardAdmin ~ data:", data);

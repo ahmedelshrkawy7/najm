@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
+import SuccessModal from "./successModal";
 
 function Ch() {
   const {
@@ -30,12 +31,18 @@ function Ch() {
   const { id } = useParams();
 
   const { postData } = useApi();
+  let [currentView, setCurrentView] = useState("default");
 
   const mutation = useMutation({
     mutationFn: postData,
 
     onSuccess: () => {
-      console.log("success");
+      console.log("success", currentView);
+      setCurrentView("success");
+    },
+    onError: (error) => {
+      console.log("🚀 ~ Ch ~ error:", error.message);
+      setCurrentView("default");
     },
   });
 
@@ -50,6 +57,8 @@ function Ch() {
           _method,
         },
       ]);
+      // setCurrentView("success");
+      console.log(currentView);
     } else {
       mutation.mutate([`/reports/${id}`, data]);
     }
@@ -60,57 +69,63 @@ function Ch() {
   }
 
   return (
-    <form
-      className="px-5 py-3 flex flex-col gap-4 pt-6"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div>
-        <Controller
-          name="status"
-          control={control}
-          render={({ field }) => (
-            <Radio.Group
-              {...field}
-              name="radiogroup"
-              defaultValue={field.value}
-              className=" custom-radio font-medium"
-            >
-              <Radio value={"accepted"}>قبول البلاغ</Radio>
-              <Radio value={"rejected"}>رفض البلاغ</Radio>
-            </Radio.Group>
-          )}
-        />
-      </div>
-      <div>
-        <label htmlFor="textarea" className="font-medium text-[15px]">
-          يرجى كتابة سبب الرفض
-        </label>
-
-        <textarea
-          id="textarea"
-          className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
-          placeholder="اكتب هنا"
-          name="reason"
-          {...register("reason", {
-            required:
-              watch("status") === "rejected" ? "هذا الحقل مطلوب" : false,
-          })}
-          disabled={watch("status") === "accepted"}
-        ></textarea>
-        {errors.reason && (
-          <p className="text-red-500 ">{errors.reason.message}</p>
-        )}
-      </div>
-
-      <div className="py-3 pt-0 flex items-center justify-end">
-        <button
-          type="submit"
-          className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
+    <>
+      {currentView === "default" ? (
+        <form
+          className="px-5 py-3 flex flex-col gap-4 pt-6"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          تاكيد
-        </button>
-      </div>
-    </form>
+          <div>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Radio.Group
+                  {...field}
+                  name="radiogroup"
+                  defaultValue={field.value}
+                  className=" custom-radio font-medium"
+                >
+                  <Radio value={"accepted"}>قبول البلاغ</Radio>
+                  <Radio value={"rejected"}>رفض البلاغ</Radio>
+                </Radio.Group>
+              )}
+            />
+          </div>
+          <div>
+            <label htmlFor="textarea" className="font-medium text-[15px]">
+              يرجى كتابة سبب الرفض
+            </label>
+
+            <textarea
+              id="textarea"
+              className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
+              placeholder="اكتب هنا"
+              name="reason"
+              {...register("reason", {
+                required:
+                  watch("status") === "rejected" ? "هذا الحقل مطلوب" : false,
+              })}
+              disabled={watch("status") === "accepted"}
+            ></textarea>
+            {errors.reason && (
+              <p className="text-red-500 ">{errors.reason.message}</p>
+            )}
+          </div>
+
+          <div className="py-3 pt-0 flex items-center justify-end">
+            <button
+              type="submit"
+              className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
+            >
+              تاكيد
+            </button>
+          </div>
+        </form>
+      ) : (
+        <SuccessModal title={"تم استلام البلاغ بنجاح"} />
+      )}
+    </>
   );
 }
 
@@ -149,26 +164,51 @@ const ReportModal = ({
   // const ref = useRef();
   const [radioValue, setRadioValue] = useState("");
   const [reason, setReason] = useState("");
+  const [currentView, setCurrentView] = useState("default");
+
   return (
     <>
       <div className="flex flex-col !fixed rounded-lg w-[85%] md:w-1/2 h-fit  max-h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white overflow-auto">
         <div className="bg-[#33835C] w-full flex justify-between items-center px-5 py-3">
-          <div>
-            <h2 className="text-white text-lg font-semibold self-center">
-              {props?.title || "العنوان :"}
-            </h2>
-          </div>
-          <span
-            className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
+          {(currentView === "default" && (
+            <>
+              <div>
+                <h2 className="text-white text-lg font-semibold self-center">
+                  {props?.title || "العنوان :"}
+                </h2>
+              </div>
+              <span
+                className="text-[28px] leading-[0] self-center font-medium text-white cursor-pointer"
+                onClick={() => {
+                  setShowMenu(false);
+                  setShowSvg(false);
+                }}
+              >
+                &times;
+              </span>
+            </>
+          )) ||
+            ""}
+        </div>
+        {currentView === "success" || currentView === "edit" ? (
+          <SuccessModal
+            setShowSvg={setShowSvg}
+            close={true}
+            title={"تم انشاء الدراسة بنجاح"}
+          />
+        ) : (
+          children
+        )}{" "}
+        {/* <div className="px-5 py-3 pt-0 flex items-center justify-end">
+          <button
+            className=" bg-[#33835C] text-white p-1 px-10 rounded-lg"
             onClick={() => {
-              setShowMenu(false);
-              setShowSvg(false);
+              setCurrentView("success");
             }}
           >
-            &times;
-          </span>
-        </div>
-        {children}
+            تاكيد
+          </button>
+        </div> */}
       </div>
     </>
   );

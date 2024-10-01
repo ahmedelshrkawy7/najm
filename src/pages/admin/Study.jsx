@@ -5,9 +5,10 @@ import ReportsHeader from "../../custom hooks/ReportsHeader";
 import StudyPreview from "../../component/StudyPreview";
 import { useLocation, useParams } from "react-router-dom";
 import StudyContext from "../../store/StudyContext";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useForm } from "react-hook-form";
+import SuccessModal from "../../models/successModal";
 
 const Study = () => {
   const location = useLocation();
@@ -26,19 +27,26 @@ const Study = () => {
   }, [showMenu]);
 
   console.log(location.state?.closeModal, showMenu);
+  const queryClient = useQueryClient();
+  console.log("🚀 ~ Study ~ queryClient:", queryClient);
+  const {
+    data: { report },
+  } = queryClient.getQueryData(["users", ["/reports"], id]);
+
+  console.log("🚀 ~ Study ~ report:", report);
   const methods = useForm({
     mode: "all",
     defaultValues: {
-      description: "",
-      address: "",
+      description: report.description,
+      address: report.address,
       date: "",
-      suspects: [],
+      suspects: report.suspects || [],
 
-      processing_time: "255",
+      processing_time: report.processing_time,
       files: "",
-      risk_type: "",
-      risk_assessment: "",
-      result: "",
+      risk_type: report.risk_type,
+      risk_assessment: report.risk_assessment,
+      result: report.result,
       _method: "PUT",
       action: "prepare_initial_study",
     },
@@ -48,14 +56,16 @@ const Study = () => {
     onSuccess: () => {
       // Invalidate and refetch
       // queryClient.invalidateQueries("todos");
-      setLoc(3);
+      // setLoc(3);
     },
+    onError: () => {},
   });
   console.log("🚀 ~ Study ~ methods:", methods.formState.errors);
   console.log("🚀 ~ Study ~ values:", methods.values);
 
   const onSubmit = (val) => {
     mutation.mutate([`/reports/${id}`, val]);
+    setLoc(3);
   };
 
   return (
