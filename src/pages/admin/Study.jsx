@@ -3,12 +3,18 @@ import React, { useContext, useEffect, useState } from "react";
 import PreparingStudy from "../../component/PreparingStudy";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import StudyPreview from "../../component/StudyPreview";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import StudyContext from "../../store/StudyContext";
+import { useMutation, useQueryClient } from "react-query";
+import useApi from "../../utils/useApi";
+import { useForm } from "react-hook-form";
+import SuccessModal from "../../models/successModal";
 
 const Study = () => {
   const location = useLocation();
-  console.log("🚀 ~ Study ~ location:", location)
+  const { postData } = useApi();
+  const { id } = useParams();
+  console.log("🚀 ~ Study ~ location:", location);
   const { handleHideMenu, showMenu } = useContext(StudyContext);
   const [loc, setLoc] = useState(location?.state?.index);
   console.log(showMenu);
@@ -21,10 +27,53 @@ const Study = () => {
   }, [showMenu]);
 
   console.log(location.state?.closeModal, showMenu);
+  const queryClient = useQueryClient();
+  console.log("🚀 ~ Study ~ queryClient:", queryClient);
+  const {
+    data: { report },
+  } = queryClient.getQueryData(["users", ["/reports"], id]);
+
+  console.log("🚀 ~ Study ~ report:", report);
+  const methods = useForm({
+    mode: "all",
+    defaultValues: {
+      description: report.description,
+      address: report.address,
+      date: "",
+      suspects: report.suspects || [],
+
+      processing_time: report.processing_time,
+      files: "",
+      risk_type: report.risk_type,
+      risk_assessment: report.risk_assessment,
+      result: report.result,
+      _method: "PUT",
+      action: "prepare_initial_study",
+    },
+  });
+
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries("todos");
+      // setLoc(3);
+    },
+    onError: () => {},
+  });
+  console.log("🚀 ~ Study ~ methods:", methods.formState.errors);
+  console.log("🚀 ~ Study ~ values:", methods.values);
+
+  const onSubmit = (val) => {
+    mutation.mutate([`/reports/${id}`, val]);
+    setLoc(3);
+  };
 
   return (
     <div className="bg-[#E6E6E6]">
-      <div className=" w-[90%]  py-20   mx-auto ">
+      <form
+        className=" w-[90%]  py-20   mx-auto "
+        onSubmit={methods.handleSubmit(onSubmit)}
+      >
         <div className="bg-white rounded-md">
           <div className="rounded-t-md overflow-hidden">
             <ReportsHeader
@@ -33,13 +82,13 @@ const Study = () => {
           </div>
         </div>
         <div>
-          {loc === 2 && <PreparingStudy />}
+          {loc === 2 && <PreparingStudy {...methods} />}
           {loc === 3 && <StudyPreview />}
         </div>
         <div className="py-5  w-[100%]   text-left">
           {loc === 2 && (
             <button
-              onClick={() => setLoc(3)}
+              type="submit"
               className={`bg-[#33835C] p-2 rounded-md text-white`}
             >
               {" "}
@@ -56,7 +105,7 @@ const Study = () => {
             </button>
           )}
         </div>
-      </div>
+      </form>
     </div>
   );
 };

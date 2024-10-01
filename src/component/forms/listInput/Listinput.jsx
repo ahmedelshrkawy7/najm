@@ -65,11 +65,11 @@ const Listinput = ({
         <Controller
           control={control}
           name={nameType}
-          rules={{
-            pattern: [],
-            required: "هذا الحق مطلوب",
-            validate: (value) => value !== "",
-          }}
+          // rules={{
+          //   pattern: [],
+          //   required: "هذا الحق مطلوب",
+          //   validate: (value) => value !== "",
+          // }}
           render={({
             field: { onChange, onBlur, value, name, ref },
             fieldState,

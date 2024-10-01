@@ -3,10 +3,134 @@
 import { forwardRef, useRef, useState } from "react";
 import Model from "./Model";
 import { Radio } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import useApi from "../utils/useApi";
+import { useParams } from "react-router-dom";
 import SuccessModal from "./successModal";
 
+function Ch() {
+  const {
+    control,
+    handleSubmit,
+    register,
+    watch,
+    setValue,
+
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      image: "",
+      reason: "",
+      status: "accepted",
+      action: "receive_report",
+      _method: "put",
+    },
+  });
+
+  const { id } = useParams();
+
+  const { postData } = useApi();
+  let [currentView, setCurrentView] = useState("default");
+
+  const mutation = useMutation({
+    mutationFn: postData,
+
+    onSuccess: () => {
+      console.log("success", currentView);
+      setCurrentView("success");
+    },
+    onError: (error) => {
+      console.log("🚀 ~ Ch ~ error:", error.message);
+      setCurrentView("default");
+    },
+  });
+
+  const onSubmit = (data) => {
+    if (watch("status") == "accepted") {
+      const { status, action, _method } = data;
+      mutation.mutate([
+        `/reports/${id}`,
+        {
+          status,
+          action,
+          _method,
+        },
+      ]);
+      // setCurrentView("success");
+      console.log(currentView);
+    } else {
+      mutation.mutate([`/reports/${id}`, data]);
+    }
+  };
+
+  if (watch("status") == "accepted") {
+    setValue("reason", "");
+  }
+
+  return (
+    <>
+      {currentView === "default" ? (
+        <form
+          className="px-5 py-3 flex flex-col gap-4 pt-6"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Radio.Group
+                  {...field}
+                  name="radiogroup"
+                  defaultValue={field.value}
+                  className=" custom-radio font-medium"
+                >
+                  <Radio value={"accepted"}>قبول البلاغ</Radio>
+                  <Radio value={"rejected"}>رفض البلاغ</Radio>
+                </Radio.Group>
+              )}
+            />
+          </div>
+          <div>
+            <label htmlFor="textarea" className="font-medium text-[15px]">
+              يرجى كتابة سبب الرفض
+            </label>
+
+            <textarea
+              id="textarea"
+              className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
+              placeholder="اكتب هنا"
+              name="reason"
+              {...register("reason", {
+                required:
+                  watch("status") === "rejected" ? "هذا الحقل مطلوب" : false,
+              })}
+              disabled={watch("status") === "accepted"}
+            ></textarea>
+            {errors.reason && (
+              <p className="text-red-500 ">{errors.reason.message}</p>
+            )}
+          </div>
+
+          <div className="py-3 pt-0 flex items-center justify-end">
+            <button
+              type="submit"
+              className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
+            >
+              تاكيد
+            </button>
+          </div>
+        </form>
+      ) : (
+        <SuccessModal title={"تم استلام البلاغ بنجاح"} />
+      )}
+    </>
+  );
+}
+
 // const ch = (
-//   <div className="px-5 py-3 flex flex-col gap-4 pt-6">
+//   <form className="px-5 py-3 flex flex-col gap-4 pt-6">
 //     <div>
 //       <Radio.Group
 //         name="radiogroup"
@@ -27,36 +151,13 @@ import SuccessModal from "./successModal";
 //         placeholder="اكتب هنا"
 //       ></textarea>
 //     </div>
-//   </div>
+//   </form>
 // );
 
 const ReportModal = ({
   setShowMenu = () => {},
   setShowSvg = () => {},
-  children = (
-    <div className="px-5 py-3 flex flex-col gap-4 pt-6">
-      <div>
-        <Radio.Group
-          name="radiogroup"
-          defaultValue={1}
-          className=" custom-radio font-medium"
-        >
-          <Radio value={1}>قبول البلاغ</Radio>
-          <Radio value={2}>رفض البلاغ</Radio>
-        </Radio.Group>
-      </div>
-      <div>
-        <label htmlFor="textarea" className="font-medium text-[15px]">
-          يرجى كتابة سبب الرفض
-        </label>
-        <textarea
-          id="textarea"
-          className="my-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
-          placeholder="اكتب هنا"
-        ></textarea>
-      </div>
-    </div>
-  ),
+  children = <Ch />,
   ...props
 } = {}) => {
   console.log(props);

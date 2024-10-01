@@ -51,7 +51,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
       id: 6,
       title: "طلب مستجدات",
       children: (
-        <ReportModal setShowSvg={setShowSvg}>
+        <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
           <ReportInfo />
         </ReportModal>
       ),
@@ -61,7 +61,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
       id: 7,
       title: "اضافة مستجدات",
       children: (
-        <ReportModal setShowSvg={setShowSvg}>
+        <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
           <ReportInfo />
         </ReportModal>
       ),
@@ -76,7 +76,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
       id: 9,
       title: "طلب معلومات",
       children: (
-        <ReportModal setShowSvg={setShowSvg}>
+        <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
           <ReportInfo />
         </ReportModal>
       ),
@@ -86,7 +86,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
       id: 10,
       title: "اضافة معلومات",
       children: (
-        <ReportModal setShowSvg={setShowSvg}>
+        <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
           <ReportInfo />
         </ReportModal>
       ),
@@ -96,7 +96,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
       id: 11,
       title: "اضافة ملاحظات",
       children: (
-        <ReportModal setShowSvg={setShowSvg}>
+        <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
           <ReportInfo />
         </ReportModal>
       ),

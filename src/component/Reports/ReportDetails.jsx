@@ -126,7 +126,8 @@ const ReportDetails = ({
             datePickerTitle={labelProps.datePickerTitle}
             control={control}
             errors={errors}
-            date={date}
+            // date={date}
+            setValue={setValue}
             nameType="date"
           />
 

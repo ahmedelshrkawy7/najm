@@ -26,6 +26,14 @@ const ReportInfo = () => {
           <input multiple id="fileInput" type="file" className="hidden" />
         </div>
       </div>
+      <div className="py-3 pt-0 flex items-center justify-end">
+        <button
+          type="submit"
+          className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
+        >
+          تاكيد
+        </button>
+      </div>
     </div>
   );
 };
