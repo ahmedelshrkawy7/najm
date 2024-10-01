@@ -21,7 +21,7 @@ const ReportOptions = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    < >
       <div className="p-5">
         {" "}
         <div className="flex gap-4 flex-col">
@@ -123,18 +123,18 @@ const ReportOptions = () => {
             <div className="flex flex-col mt-4 gap-2">
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="reputationRisks"
                 label="   قد یؤدي الحدث إلى تحقيق من الجهات الرقابية أو عقوبات أو غرامات
 "
               />
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="reputationRisks"
                 label="قد یؤدي الحدث تأثير على العلاقة مع شركات التأمین  "
               />
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="reputationRisks"
                 label=" قد یؤدي الحدث تأثير ضئیل على سمعة الشركة"
               />
             </div>
@@ -147,17 +147,17 @@ const ReportOptions = () => {
             <div className="flex flex-col mt-4 gap-2">
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="legalRisks"
                 label="قد یؤدي الحدث إلى دعاوى جماعية و جنائية ضد الشركة"
               />
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="legalRisks"
                 label="الحدث من شأنه أن یؤدي إلى غرامات أو عقوبات، او دعاوي جنائیة ضد الإدارات التشغيلية او شكوى الى هيئة التأمين"
               />
               <ReportOptionType
                 control={control}
-                name="externalParties"
+                name="legalRisks"
                 label="الحدث من شأنھ أن یؤدي إلى دعوى مدنیة، والحرمان من العمل             "
               />
             </div>
@@ -168,16 +168,8 @@ const ReportOptions = () => {
               وجود دلیل مرفق بالبلاغ من قبل المبلغ ( دليل قد يتم إتلافه){" "}
             </div>
             <div className="flex flex-col mt-4 gap-2">
-              <ReportOptionType
-                control={control}
-                name="externalParties"
-                label="نعم"
-              />
-              <ReportOptionType
-                control={control}
-                name="externalParties"
-                label=" لا"
-              />
+              <ReportOptionType control={control} name="proofs" label="نعم" />
+              <ReportOptionType control={control} name="proofs" label=" لا" />
             </div>
           </div>
         </div>
@@ -190,7 +182,7 @@ const ReportOptions = () => {
           تاكيد
         </button>
       </div>
-    </form>
+    </>
   );
 };
 

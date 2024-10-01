@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useForm } from "react-hook-form";
 import SuccessModal from "../../models/successModal";
+import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 
 const Study = () => {
   const location = useLocation();
@@ -29,9 +30,12 @@ const Study = () => {
   console.log(location.state?.closeModal, showMenu);
   const queryClient = useQueryClient();
   console.log("🚀 ~ Study ~ queryClient:", queryClient);
-  const {
-    data: { report },
-  } = queryClient.getQueryData(["users", ["/reports"], id]);
+
+  const queryData = queryClient.getQueryData(["users", ["/reports"], id]);
+  // const {
+  //   data: { report },
+  // } = queryClient.getQueryData(["users", ["/reports"], id]);
+  const report = queryData?.data?.report || {};
 
   console.log("🚀 ~ Study ~ report:", report);
   const methods = useForm({
@@ -57,15 +61,19 @@ const Study = () => {
       // Invalidate and refetch
       // queryClient.invalidateQueries("todos");
       // setLoc(3);
+      successNotf("تم اعداد الدراسة الاولية بنجاج");
+      setLoc(3);
     },
-    onError: () => {},
+    onError: () => {
+      errorNotf("error");
+    },
   });
   console.log("🚀 ~ Study ~ methods:", methods.formState.errors);
   console.log("🚀 ~ Study ~ values:", methods.values);
 
   const onSubmit = (val) => {
     mutation.mutate([`/reports/${id}`, val]);
-    setLoc(3);
+    // setLoc(3);
   };
 
   return (

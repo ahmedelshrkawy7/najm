@@ -182,6 +182,7 @@ const ReportModal = ({
                 onClick={() => {
                   setShowMenu(false);
                   setShowSvg(false);
+                  props.refetch();
                 }}
               >
                 &times;
@@ -195,6 +196,7 @@ const ReportModal = ({
             setShowSvg={setShowSvg}
             close={true}
             title={"تم انشاء الدراسة بنجاح"}
+            refetch={props.refetch}
           />
         ) : (
           children

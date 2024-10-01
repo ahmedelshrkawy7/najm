@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import ReportDetails from "./Reports/ReportDetails";
@@ -18,25 +17,39 @@ import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
 import ReportModal from "../models/ReportModal";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import useApi from "../utils/useApi";
 
-//   risk_assessment
-// report_type
-// processing_time
-// department_id
-// result
+const PreparingStudy = () => {
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+    resetField,
+    getValues,
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      description: "",
+      address: "",
+      suspectKnown: "0",
+      date: "",
+      suspects: [],
+      user_name: "",
+      user_email: "",
+      user_phone: "",
+      fileInput: "",
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result: "",
+    },
+  });
 
-const PreparingStudy = ({
-  register,
-  watch,
-  formState: { errors },
-  handleSubmit,
-  setValue,
-  control,
-  resetField,
-  getValues,
-}) => {
   const { getData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
@@ -73,7 +86,7 @@ const PreparingStudy = ({
             control={control}
             placeholder="...التصنيف"
             inpTitle="تصنيف البلاغ"
-            nameType="report_type"
+            nameType="description"
             options={[
               {
                 value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
@@ -201,27 +214,14 @@ const PreparingStudy = ({
             placeholder="المدة الزمنية...."
             inpTitle="مدة معالجة البلاغ"
             nameType="processing_time"
-            options={[
-              {
-                value: "15  ",
-                label: <span className="text-[15px] ">15 يوم عمل</span>,
-              },
-              {
-                value: "20 ",
-                label: <span className="text-[15px] ">20 يوم عمل</span>,
-              },
-              {
-                value: "30",
-                label: <span className="text-[15px] ">30 يوم عمل</span>,
-              },
-            ]}
+            options={[]}
           />
           <SelectInput
             errors={errors}
             control={control}
             placeholder="...الادارة"
             inpTitle="الادارة المعنية بدراسة اليلاغ"
-            nameType="department_id"
+            nameType="adasdasd"
             options={data.map((opt) => ({
               value: opt.id,
               label: (
@@ -261,8 +261,7 @@ const PreparingStudy = ({
               datePickerTitle={"تاريخ ارتكاب المخالفة"}
               control={control}
               errors={errors}
-              setValue={setValue}
-              // date={date}
+              date={date}
               nameType="date"
             />
             <Location

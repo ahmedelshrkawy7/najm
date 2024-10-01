@@ -39,7 +39,10 @@ const Datepicker = ({
               suffixIcon={<img width={20} src={calendarIcon} />}
               className=" hover:border-green-600 focus:border-green-600 w-[70vw] md:w-[300px] p-[10px] "
             />
-            {date.getTime() > Date.now() && (
+            {/* {date.getTime() > Date.now() && (
+              <p className="text-red-500">التاريخ غير صالح</p>
+            )} */}
+            {field.value && new Date(field.value).getTime() > Date.now() && (
               <p className="text-red-500">التاريخ غير صالح</p>
             )}
           </div>
