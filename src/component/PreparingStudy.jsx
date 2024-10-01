@@ -76,6 +76,7 @@ const PreparingStudy = () => {
     }
   }, [showSvg]);
   console.log(getValues());
+  console.log("watch", watch("files"));
   return (
     <>
       <div className=" bg-white p-10 w-[100%]">
@@ -185,8 +186,16 @@ const PreparingStudy = () => {
             nameType="risk_type"
             options={[
               {
-                value: "high",
-                label: <span className="text-[15px] ">high</span>,
+                value: "عالى",
+                label: <span className="text-[15px] ">عالى</span>,
+              },
+              {
+                value: "متوسط",
+                label: <span className="text-[15px] ">متوسط</span>,
+              },
+              {
+                value: "منخفض",
+                label: <span className="text-[15px] ">منخفض</span>,
               },
             ]}
           />
@@ -288,17 +297,31 @@ const PreparingStudy = () => {
               ]}
             />
             <div className="mt-4">
-              <FileInput
-                fils={fils}
-                setFils={setFils}
-                videos={videos}
-                setVideos={setVideos}
-                imgs={imgs}
-                setImgs={setImgs}
-                register={register}
-                errors={errors}
-                control={control}
-              />
+              {watch("files") === "" ? (
+                <FileInput
+                  fils={fils}
+                  setFils={setFils}
+                  videos={videos}
+                  setVideos={setVideos}
+                  imgs={imgs}
+                  setImgs={setImgs}
+                  register={register}
+                  errors={errors}
+                  control={control}
+                />
+              ) : (
+                <FileInput
+                  fils={watch("files") === "تقرير فنى" ? fils : []}
+                  setFils={setFils}
+                  videos={watch("files") === "مقطع فيديو" ? videos : []}
+                  setVideos={setVideos}
+                  imgs={watch("files") === "معاينة" ? imgs : []}
+                  setImgs={setImgs}
+                  register={register}
+                  errors={errors}
+                  control={control}
+                />
+              )}
             </div>
           </div>
         </div>

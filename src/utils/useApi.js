@@ -21,7 +21,7 @@ const useApi = () => {
   const { token } = useContext(TokenContext);
 
   const Axios = axios.create({
-    baseURL: "https://najm-dev-backend.alexondev.net/public/api",
+    baseURL: "https://backend.najm-dev.alexondev.net/api",
     // baseURL: "https://najm.alexondev.net/api",
     headers: {
       "Content-Type": "multipart/form-data",
