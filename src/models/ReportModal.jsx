@@ -182,6 +182,7 @@ const ReportModal = ({
                 onClick={() => {
                   setShowMenu(false);
                   setShowSvg(false);
+                  props.refetch();
                 }}
               >
                 &times;

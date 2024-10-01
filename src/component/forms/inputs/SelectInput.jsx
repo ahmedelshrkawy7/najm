@@ -10,6 +10,7 @@ const SelectInput = ({
   nameType,
   options,
   placeholder,
+  disapled,
 }) => {
   return (
     <div className="flex flex-col self-start gap-4">
@@ -33,6 +34,7 @@ const SelectInput = ({
               className="w-[70vw] flex items-center h-[43.6px] sm:w-[300px] "
               options={options}
               // allowClear={field.value && true}
+              disabled={disapled}
             />
           </div>
         )}

@@ -19,7 +19,6 @@ const FileInput = ({
   register,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  console.log();
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
     let allImages = [...e.target.files].filter((file) =>

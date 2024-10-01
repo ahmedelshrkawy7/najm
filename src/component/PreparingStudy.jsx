@@ -18,8 +18,9 @@ import location from "../assets/icons/location@2x.png";
 import FileInput from "./forms/fileInput/FileInput";
 import { InputText } from "./forms/inputs/InputText";
 import ReportModal from "../models/ReportModal";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
+import { useParams } from "react-router-dom";
 
 //   risk_assessment
 // report_type
@@ -27,33 +28,23 @@ import useApi from "../utils/useApi";
 // department_id
 // result
 
-const PreparingStudy = ({
-  register,
-  watch,
-  formState: { errors },
-  handleSubmit,
-  setValue,
-  control,
-  resetField,
-  getValues,
-}) => {
-  const { getData } = useApi();
+const PreparingStudy = ({ change }) => {
+  const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
     ["admin", ["/admin/departments", ""]],
     getData
-  );
-  console.log(
-    "🚀 ~ PreparingStudy ~ data:",
-    data.map((dt) => dt.name)
   );
 
   const [showSvg, setShowSvg] = useState(false);
 
   const [fils, setFils] = useState([]);
   const [imgs, setImgs] = useState([]);
+  const [prevData, setPrevData] = useState({});
+
   const [videos, setVideos] = useState([]);
   const date = new Date();
+  const { id } = useParams();
 
   useEffect(() => {
     if (showSvg) {
@@ -62,273 +53,390 @@ const PreparingStudy = ({
       document.documentElement.style.overflow = "";
     }
   }, [showSvg]);
+  const queryClient = useQueryClient();
+
+  const getDanger = (percent) => {
+    console.log("🚀 ~ getDanger ~ percent:", percent);
+    if (percent <= 0.3) {
+      setValue("risk_type", "منخفض");
+      setValue("processing_time", 30);
+    } else if (percent <= 0.6) {
+      setValue("risk_type", "متوسط");
+      setValue("processing_time", 20);
+    } else {
+      setValue("risk_type", "عالي");
+      setValue("processing_time", 15);
+    }
+  };
+
+  useEffect(() => {
+    const getPrev = async () => {
+      const res = await queryClient.getQueryData(["users", ["/reports"], id]);
+
+      setPrevData(res?.data?.report);
+
+      return res;
+    };
+    if (!getPrev()) {
+      // Data is found in the cache
+
+      // Data is not found in cache, fetch it
+      queryClient
+        .fetchQuery(["users", ["/reports"], id], getData)
+        .then((res) => {
+          setPrevData(res?.data?.report);
+          reset({
+            mode: "all",
+            defaultValues: {
+              description: "ffff",
+              address: "",
+              date: "",
+              suspects: "" || [],
+
+              processing_time: "",
+              files: "",
+              risk_type: "",
+              risk_assessment: "",
+              result: "",
+              _method: "PUT",
+              action: "prepare_initial_study",
+            },
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id, queryClient]);
+
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+    resetField,
+    getValues,
+    reset,
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      description: "",
+      address: "",
+      date: "",
+      suspects: "" || [],
+
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result: "",
+      _method: "PUT",
+      action: "prepare_initial_study",
+    },
+  });
+
   console.log(getValues());
+
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries("todos");
+      // setLoc(3);
+      change(3);
+    },
+    onError: () => {},
+  });
+
+  const onSubmit = (val) => {
+    mutation.mutate([`/reports/${id}`, val]);
+    // setLoc(3);
+  };
+
   return (
     <>
-      <div className=" bg-white p-10 w-[100%]">
-        <div className="flex items-center flex-wrap gap-6 mt-8 ">
-          <SelectInput
-            errors={errors}
-            control={control}
-            placeholder="...التصنيف"
-            inpTitle="تصنيف البلاغ"
-            nameType="report_type"
-            options={[
-              {
-                value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
-                label: (
-                  <span className="text-[15px] ">
-                    احتيال أو فساد أو رشوة او اختلاس او تزوير
-                  </span>
-                ),
-              },
-              {
-                value: "غسل أموال أو تمويل إرهاب",
-                label: (
-                  <span className="text-[15px] ">غسل أموال أو تمويل إرهاب</span>
-                ),
-              },
-              {
-                value: "مخالفة للأنظمة والتعليمات",
-                label: (
-                  <span className="text-[15px] ">
-                    مخالفة للأنظمة والتعليمات
-                  </span>
-                ),
-              },
-              {
-                value: "مخالفة لسياسة وإجراءات الشركة",
-                label: (
-                  <span className="text-[15px] ">
-                    مخالفة لسياسة وإجراءات الشركة
-                  </span>
-                ),
-              },
-              {
-                value: "مخالفة لمدونة قواعد السلوك",
-                label: (
-                  <span className="text-[15px] ">
-                    مخالفة لمدونة قواعد السلوك
-                  </span>
-                ),
-              },
-            ]}
-          />
-          <SelectInput
-            errors={errors}
-            control={control}
-            placeholder="...النوع"
-            inpTitle="نوع البلاغ"
-            nameType="risk_assessment"
-            options={[
-              {
-                value: "سوء أستخدام ممتلكات الشركة",
-                label: (
-                  <span className="text-[15px] ">
-                    سوء أستخدام ممتلكات الشركة
-                  </span>
-                ),
-              },
-              {
-                value: "سوء استخدام السلطة او اتخاذ القرار",
-                label: (
-                  <span className="text-[15px] ">
-                    {" "}
-                    سوء استخدام السلطة او اتخاذ القرار
-                  </span>
-                ),
-              },
-              {
-                value: "سوء استخدام الصلاحيات الممنوحة",
-                label: (
-                  <span className="text-[15px] ">
-                    سوء استخدام الصلاحيات الممنوحة
-                  </span>
-                ),
-              },
-              {
-                value: "الحصول على منافع او مكافأت غير مستحقة",
-                label: (
-                  <span className="text-[15px] ">
-                    الحصول على منافع او مكافأت غير مستحقة
-                  </span>
-                ),
-              },
-              {
-                value: "الإفصاح عن معلومات سرية بطريقة غير نظامية",
-                label: (
-                  <span className="text-[15px] ">
-                    الإفصاح عن معلومات سرية بطريقة غير نظامية
-                  </span>
-                ),
-              },
-            ]}
-          />
-          <SelectInput
-            errors={errors}
-            control={control}
-            placeholder="...الدرجة"
-            inpTitle="درجة المخاطر"
-            nameType="risk_type"
-            options={[
-              {
-                value: "عالى",
-                label: <span className="text-[15px] ">عالى</span>,
-              },
-              {
-                value: "متوسط",
-                label: <span className="text-[15px] ">متوسط</span>,
-              },
-              {
-                value: "منخفض",
-                label: <span className="text-[15px] ">منخفض</span>,
-              },
-            ]}
-          />
-          <div
-            onClick={() => {
-              setShowSvg(true);
-            }}
-            className="flex   px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
-          >
-            <span>اداة تقييم المخاطر</span>
-            <DownOutlined />
-          </div>
-          <SelectInput
-            errors={errors}
-            control={control}
-            placeholder="المدة الزمنية...."
-            inpTitle="مدة معالجة البلاغ"
-            nameType="processing_time"
-            options={[
-              {
-                value: "15  ",
-                label: <span className="text-[15px] ">15 يوم عمل</span>,
-              },
-              {
-                value: "20 ",
-                label: <span className="text-[15px] ">20 يوم عمل</span>,
-              },
-              {
-                value: "30",
-                label: <span className="text-[15px] ">30 يوم عمل</span>,
-              },
-            ]}
-          />
-          <SelectInput
-            errors={errors}
-            control={control}
-            placeholder="...الادارة"
-            inpTitle="الادارة المعنية بدراسة اليلاغ"
-            nameType="department_id"
-            options={data.map((opt) => ({
-              value: opt.id,
-              label: (
-                <span className="text-sm" key={opt.id}>
-                  {opt.name}
-                </span>
-              ),
-            }))}
-          />
-        </div>
-        <div className="mt-4">
-          <Textarea
-            textAreaTitle={"وصف البلاغ"}
-            nameType="description"
-            errors={errors}
-            control={control}
-            watch={watch}
-          />
-
-          <div className="mt-4">
-            <Listinput
-              listInputTitle="اسماء الاشخاص المشتبه بهم"
-              icon={
-                <PlusOutlined style={{ fontSize: "22px", fontWeight: "700" }} />
-              }
-              control={control}
-              errors={errors}
-              setValue={setValue}
-              watch={watch}
-              resetField={resetField}
-              nameType="list"
-              getValues={getValues}
-            />
-          </div>
-          <div className="flex gap-8 flex-wrap">
-            <Datepicker
-              datePickerTitle={"تاريخ ارتكاب المخالفة"}
-              control={control}
-              errors={errors}
-              setValue={setValue}
-              // date={date}
-              nameType="date"
-            />
-            <Location
-              title={"address"}
-              errors={errors}
-              control={control}
-              width={20}
-              src={location}
-              inpTitle={"مكان حدوث المخالفة"}
-              inputPlaceholder={"أدخل مكان الحادث"}
-            />
-          </div>
-          <div className="mt-4">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className=" bg-white p-10 w-[100%]">
+          <div className="flex items-center flex-wrap gap-6 mt-8 ">
             <SelectInput
               errors={errors}
               control={control}
-              placeholder="...نوع المستندات"
-              inpTitle="مستندات داعمة للبلاغ"
-              nameType="files"
+              placeholder="...التصنيف"
+              inpTitle="تصنيف البلاغ"
+              nameType="report_type"
               options={[
                 {
-                  value: "تقرير فنى",
-                  label: <span className="text-[15px] ">تقرير فنى </span>,
+                  value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
+                  label: (
+                    <span className="text-[15px] ">
+                      احتيال أو فساد أو رشوة او اختلاس او تزوير
+                    </span>
+                  ),
                 },
                 {
-                  value: "معاينة",
-                  label: <span className="text-[15px] ">معاينة </span>,
+                  value: "غسل أموال أو تمويل إرهاب",
+                  label: (
+                    <span className="text-[15px] ">
+                      غسل أموال أو تمويل إرهاب
+                    </span>
+                  ),
                 },
                 {
-                  value: "مقطع فيديو",
-                  label: <span className="text-[15px] ">مقطع فيديو </span>,
+                  value: "مخالفة للأنظمة والتعليمات",
+                  label: (
+                    <span className="text-[15px] ">
+                      مخالفة للأنظمة والتعليمات
+                    </span>
+                  ),
+                },
+                {
+                  value: "مخالفة لسياسة وإجراءات الشركة",
+                  label: (
+                    <span className="text-[15px] ">
+                      مخالفة لسياسة وإجراءات الشركة
+                    </span>
+                  ),
+                },
+                {
+                  value: "مخالفة لمدونة قواعد السلوك",
+                  label: (
+                    <span className="text-[15px] ">
+                      مخالفة لمدونة قواعد السلوك
+                    </span>
+                  ),
                 },
               ]}
             />
+            <SelectInput
+              errors={errors}
+              control={control}
+              placeholder="...النوع"
+              inpTitle="نوع البلاغ"
+              nameType="risk_assessment"
+              options={[
+                {
+                  value: "سوء أستخدام ممتلكات الشركة",
+                  label: (
+                    <span className="text-[15px] ">
+                      سوء أستخدام ممتلكات الشركة
+                    </span>
+                  ),
+                },
+                {
+                  value: "سوء استخدام السلطة او اتخاذ القرار",
+                  label: (
+                    <span className="text-[15px] ">
+                      {" "}
+                      سوء استخدام السلطة او اتخاذ القرار
+                    </span>
+                  ),
+                },
+                {
+                  value: "سوء استخدام الصلاحيات الممنوحة",
+                  label: (
+                    <span className="text-[15px] ">
+                      سوء استخدام الصلاحيات الممنوحة
+                    </span>
+                  ),
+                },
+                {
+                  value: "الحصول على منافع او مكافأت غير مستحقة",
+                  label: (
+                    <span className="text-[15px] ">
+                      الحصول على منافع او مكافأت غير مستحقة
+                    </span>
+                  ),
+                },
+                {
+                  value: "الإفصاح عن معلومات سرية بطريقة غير نظامية",
+                  label: (
+                    <span className="text-[15px] ">
+                      الإفصاح عن معلومات سرية بطريقة غير نظامية
+                    </span>
+                  ),
+                },
+              ]}
+            />
+            <SelectInput
+              errors={errors}
+              control={control}
+              placeholder="...الدرجة"
+              inpTitle="درجة المخاطر"
+              nameType="risk_type"
+              disapled={true}
+              options={[
+                {
+                  value: "عالى",
+                  label: <span className="text-[15px] ">عالى</span>,
+                },
+                {
+                  value: "متوسط",
+                  label: <span className="text-[15px] ">متوسط</span>,
+                },
+                {
+                  value: "منخفض",
+                  label: <span className="text-[15px] ">منخفض</span>,
+                },
+              ]}
+            />
+            <div
+              onClick={() => {
+                setShowSvg(true);
+              }}
+              className="flex   px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
+            >
+              <span>اداة تقييم المخاطر</span>
+              <DownOutlined />
+            </div>
+            <SelectInput
+              errors={errors}
+              control={control}
+              placeholder="المدة الزمنية...."
+              inpTitle="مدة معالجة البلاغ"
+              nameType="processing_time"
+              disapled={true}
+              options={[
+                {
+                  value: "15  ",
+                  label: <span className="text-[15px] ">15 يوم عمل</span>,
+                },
+                {
+                  value: "20 ",
+                  label: <span className="text-[15px] ">20 يوم عمل</span>,
+                },
+                {
+                  value: "30",
+                  label: <span className="text-[15px] ">30 يوم عمل</span>,
+                },
+              ]}
+            />
+            <SelectInput
+              errors={errors}
+              control={control}
+              placeholder="...الادارة"
+              inpTitle="الادارة المعنية بدراسة اليلاغ"
+              nameType="department_id"
+              options={data.map((opt) => ({
+                value: opt.id,
+                label: (
+                  <span className="text-sm" key={opt.id}>
+                    {opt.name}
+                  </span>
+                ),
+              }))}
+            />
+          </div>
+          <div className="mt-4">
+            <Textarea
+              textAreaTitle={"وصف البلاغ"}
+              nameType="description"
+              errors={errors}
+              control={control}
+              watch={watch}
+            />
+
             <div className="mt-4">
-              <FileInput
-                fils={fils}
-                setFils={setFils}
-                videos={videos}
-                setVideos={setVideos}
-                imgs={imgs}
-                setImgs={setImgs}
-                register={register}
+              <Listinput
+                listInputTitle="اسماء الاشخاص المشتبه بهم"
+                icon={
+                  <PlusOutlined
+                    style={{ fontSize: "22px", fontWeight: "700" }}
+                  />
+                }
+                control={control}
+                errors={errors}
+                setValue={setValue}
+                watch={watch}
+                resetField={resetField}
+                nameType="list"
+                getValues={getValues}
+              />
+            </div>
+            <div className="flex gap-8 flex-wrap">
+              <Datepicker
+                datePickerTitle={"تاريخ ارتكاب المخالفة"}
+                control={control}
+                errors={errors}
+                setValue={setValue}
+                // date={date}
+                nameType="date"
+              />
+              <Location
+                title={"address"}
                 errors={errors}
                 control={control}
+                width={20}
+                src={location}
+                inpTitle={"مكان حدوث المخالفة"}
+                inputPlaceholder={"أدخل مكان الحادث"}
               />
+            </div>
+            <div className="mt-4">
+              {/* <SelectInput
+                errors={errors}
+                control={control}
+                placeholder="...نوع المستندات"
+                inpTitle="مستندات داعمة للبلاغ"
+                nameType="files"
+                options={[
+                  {
+                    value: "تقرير فنى",
+                    label: <span className="text-[15px] ">تقرير فنى </span>,
+                  },
+                  {
+                    value: "معاينة",
+                    label: <span className="text-[15px] ">معاينة </span>,
+                  },
+                  {
+                    value: "مقطع فيديو",
+                    label: <span className="text-[15px] ">مقطع فيديو </span>,
+                  },
+                ]}
+              /> */}
+              <div className="mt-4">
+                <FileInput
+                  fils={fils}
+                  setFils={setFils}
+                  videos={videos}
+                  setVideos={setVideos}
+                  imgs={imgs}
+                  setImgs={setImgs}
+                  register={register}
+                  errors={errors}
+                  control={control}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="bg-white  w-[100%] p-10  mt-4 rounded-md">
-        <InputText
-          errors={errors}
-          control={control}
-          name="result"
-          inputTitle={"نتائج الدراسة الاولية"}
-          inputPlaceHolder={"....النتائج"}
-          setValue={setValue}
-          max={50}
-        />
-      </div>
+        <div className="bg-white  w-[100%] p-10  mt-4 rounded-md">
+          <InputText
+            errors={errors}
+            control={control}
+            name="result"
+            inputTitle={"نتائج الدراسة الاولية"}
+            inputPlaceHolder={"....النتائج"}
+            setValue={setValue}
+            max={50}
+          />
+        </div>
+        <div className="py-5  w-[100%]   text-left">
+          <button
+            type="submit"
+            className={`bg-[#33835C] p-2 rounded-md text-white`}
+          >
+            {" "}
+            {"معاينة الدراسة الاولية"}
+          </button>
+        </div>
+      </form>
 
       {showSvg && (
         <div className="fixed top-0 left-0 z-[99999] bg-[rgba(0,0,0,0.4)] w-screen h-screen">
           <ReportModal title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
-            <ReportOptions />
+            <ReportOptions getDanger={getDanger} setShowSvg={setShowSvg} />
           </ReportModal>
         </div>
       )}

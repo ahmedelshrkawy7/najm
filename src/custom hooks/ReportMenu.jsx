@@ -10,7 +10,14 @@ import ReportLock from "../models/ReportLock";
 import StudyContext from "../store/StudyContext";
 import ReportModal from "../models/ReportModal";
 
-const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
+const ReportMenu = ({
+  setShowMenu,
+  func,
+  showModal,
+  setShowSvg,
+  status,
+  refetch,
+}) => {
   const navigate = useNavigate();
   const { handleHideMenu } = useContext(StudyContext);
   const optionItems = [
@@ -21,6 +28,7 @@ const ReportMenu = ({ setShowMenu, func, showModal, setShowSvg, status }) => {
         <ReportModal
           title="استلام البلاغ"
           setShowSvg={setShowSvg}
+          refetch={refetch}
         ></ReportModal>
       ),
       disabled: false,

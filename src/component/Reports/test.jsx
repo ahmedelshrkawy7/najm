@@ -34,9 +34,9 @@ const Test = () => {
   const {
     isLoading,
     error,
+    refetch,
     data: { data: { report } = {} } = {},
   } = useQuery(["users", ["/reports"], id], getData);
-  console.log("🚀 ~ Test ~ report:", report);
 
   useEffect(() => {
     if (showMenu || showSvg) {
@@ -91,6 +91,7 @@ const Test = () => {
                     func={setCh}
                     showModal={showMenu}
                     status={report?.status}
+                    refetch={refetch}
                   />
                 </div>
               )}
