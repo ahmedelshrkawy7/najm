@@ -27,7 +27,7 @@ const DispalyData = ({
   console.log();
   const location = useLocation();
   console.log(values);
-  let imgsServ = values?.media?.images.filter((el) => {
+  let imgsServ = values?.media?.images?.filter((el) => {
     return el?.file_type?.includes("image");
   });
   let videosServ = values?.media?.videos?.filter((el) => {
@@ -55,7 +55,7 @@ const DispalyData = ({
             <ReportInfo values={values} />
           </div>
 
-          {(values?.medea?.files?.length > 0 ||
+          {(values?.media?.files?.length > 0 ||
             fils?.length > 0 ||
             imgs?.length > 0 ||
             videos?.length > 0 ||
