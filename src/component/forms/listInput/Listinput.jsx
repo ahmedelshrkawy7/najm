@@ -124,7 +124,7 @@ const Listinput = ({
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">
-        {watch("suspects").map((el, index) => {
+        {watch("suspects")?.map((el, index) => {
           return (
             <>
               <div className="tag flex items-center h-[40px] ">

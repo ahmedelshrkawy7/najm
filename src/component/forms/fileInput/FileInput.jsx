@@ -19,7 +19,6 @@ const FileInput = ({
   register,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  console.log();
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
     let allImages = [...e.target.files].filter((file) =>
@@ -94,7 +93,7 @@ const FileInput = ({
           <div className="loader my-4"></div>
         </div>
       )}
-      {fils.length > 0 && (
+      {fils?.length > 0 && (
         <ReportFiles setFils={setFils} fils={fils} preview={true} />
       )}
     </>

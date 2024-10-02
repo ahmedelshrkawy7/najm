@@ -106,7 +106,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                           style={{ zIndex: 99 }}
                         />
                       </div>
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[60]">
                         <a
                           href={
                             img.file_url
