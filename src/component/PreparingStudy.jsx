@@ -61,13 +61,13 @@ const PreparingStudy = ({ change }) => {
   const getDanger = (percent) => {
     console.log("🚀 ~ getDanger ~ percent:", percent);
     if (percent <= 0.3) {
-      setValue("risk_type", "منخفض");
+      setValue("risk_assessment", "منخفض");
       setValue("processing_time", 30);
     } else if (percent <= 0.6) {
-      setValue("risk_type", "متوسط");
+      setValue("risk_assessment", "متوسط");
       setValue("processing_time", 20);
     } else {
-      setValue("risk_type", "عالي");
+      setValue("risk_assessment", "عالي");
       setValue("processing_time", 15);
     }
   };
@@ -75,7 +75,6 @@ const PreparingStudy = ({ change }) => {
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
-      console.log("🚀 ~ getPrev ~ res:", res);
 
       // setPrevData(res?.data?.report);
 
@@ -215,7 +214,7 @@ const PreparingStudy = ({ change }) => {
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      change(3);
+      // change(3);
     },
     onError: (err) => {
       errorNotf(err.response.data.message);
@@ -224,7 +223,7 @@ const PreparingStudy = ({ change }) => {
 
   const onSubmit = (val) => {
     const x = mutation.mutate([`/reports/${id}`, val]);
-    // change(3);
+    change(3);
     console.log("🚀 ~ onSubmit ~ x:", x);
 
     // setLoc(3);
