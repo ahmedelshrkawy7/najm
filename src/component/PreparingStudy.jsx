@@ -23,6 +23,7 @@ import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { errorNotf } from "../utils/notifications/Toast";
+import dayjs from "dayjs";
 
 //   risk_assessment
 // report_type
@@ -84,13 +85,14 @@ const PreparingStudy = ({ change }) => {
       queryClient
         .fetchQuery(["users", ["/reports"], id], getData)
         .then((res) => {
-          console.log("🚀 ~ .then ~ res:", res);
+          console.log(dayjs(res?.data?.report?.date));
           reset({
             description: res?.data?.report?.description,
             address: res?.data?.report?.address,
             suspects: res?.data?.report?.suspects || [],
-            report_type: res?.data?.report?.report_classification?.name,
-            date: res?.data?.report?.date,
+            report_classification:
+              res?.data?.report?.report_classification?.name,
+            date: dayjs(res?.data?.report?.date),
             processing_time: "",
             files: "",
             risk_type: "",
@@ -339,7 +341,7 @@ const PreparingStudy = ({ change }) => {
               placeholder="...الدرجة"
               inpTitle="درجة المخاطر"
               nameType="risk_assessment"
-              // disapled={true}
+              disapled={true}
               options={[
                 {
                   value: "عالى",
@@ -370,7 +372,7 @@ const PreparingStudy = ({ change }) => {
               placeholder="المدة الزمنية...."
               inpTitle="مدة معالجة البلاغ"
               nameType="processing_time"
-              // disapled={true}
+              disapled={true}
               options={[
                 {
                   value: "15  ",

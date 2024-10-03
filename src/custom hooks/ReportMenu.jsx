@@ -159,8 +159,7 @@ const ReportMenu = ({
               : clickModal(opt.children);
           }}
           className={`py-[5px] px-[10px]  border border-gray-100 text-[16px] ${
-            status === "rejected" ||
-            (status === "accepted" && (opt.id === 1 || opt.id === 2))
+            status === "rejected" || (status === "accepted" && opt.id === 1)
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
           }`}
