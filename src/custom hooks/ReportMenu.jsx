@@ -37,7 +37,7 @@ const ReportMenu = ({
       id: 2,
       title: "اعداد دراسة اولية",
       path: "preparingStudy",
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 3,
@@ -160,7 +160,9 @@ const ReportMenu = ({
           }}
           className={`py-[5px] px-[10px]  border border-gray-100 text-[16px] ${
             status === "rejected" ||
-            (status === "accepted" && (opt.id === 1 || opt.id === 2))
+            (status === "new" && opt.id !== 1) ||
+            (status === "accepted" && opt.id === 1) ||
+            (status === "under_confirm" && (opt.id === 1 || opt.id === 2))
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
           }`}

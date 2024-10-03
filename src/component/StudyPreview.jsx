@@ -38,7 +38,7 @@ const StudyPreview = () => {
     user: {
       name: data.user_name,
       email: data.user_email,
-      phone: data.phone,
+      phone: data.user_phone,
     },
     result: data.result,
     adminData: [

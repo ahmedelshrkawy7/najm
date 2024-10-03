@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { CheckOutlined } from "@ant-design/icons";
 
@@ -23,10 +24,10 @@ const SuccessModal = ({ title, close, setShowSvg }) => {
           <button
             className=" bg-[#33835C] text-white p-1 px-10 rounded-lg"
             onClick={() => {
-              setShowSvg(false);
+              // setShowSvg(true);
             }}
           >
-            close
+            {close}
           </button>
         </div>
       )}
