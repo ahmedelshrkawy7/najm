@@ -105,7 +105,7 @@ const ReportModel = forwardRef(
               ""}
           </div>
           {props?.currentView === "success" || props?.currentView === "edit" ? (
-            <SuccessModel />
+            <SuccessModel title={props.title} />
           ) : (
             children
           )}

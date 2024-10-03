@@ -92,7 +92,7 @@ const PreparingStudy = ({ change }) => {
             suspects: res?.data?.report?.suspects || [],
             report_classification:
               res?.data?.report?.report_classification?.name,
-            date: dayjs(res?.data?.report?.date),
+            date: res?.data?.report?.date,
             processing_time: "",
             files: "",
             risk_type: "",
@@ -216,7 +216,7 @@ const PreparingStudy = ({ change }) => {
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      // change(3);
+      change(3);
     },
     onError: (err) => {
       errorNotf(err.response.data.message);
@@ -225,7 +225,7 @@ const PreparingStudy = ({ change }) => {
 
   const onSubmit = (val) => {
     const x = mutation.mutate([`/reports/${id}`, val]);
-    change(3);
+    // change(3);
     console.log("🚀 ~ onSubmit ~ x:", x);
 
     // setLoc(3);

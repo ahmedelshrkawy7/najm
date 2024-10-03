@@ -55,7 +55,7 @@ const Datepicker = ({
               <DatePicker
                 placeholder="اختر التاريخ"
                 // {...field}
-                value={dayjs(field.value)}
+                value={field.value ? dayjs(field.value) : null}
                 onBlur={field.onBlur}
                 ref={field.ref}
                 onChange={handleChange}
