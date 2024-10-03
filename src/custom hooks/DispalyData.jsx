@@ -22,11 +22,9 @@ const DispalyData = ({
   videos = [],
 }) => {
   console.log("🚀 ~ values:", values);
-  // console.log(values);
-
-  console.log();
-  const location = useLocation();
   console.log(values);
+
+  const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
     return el?.file_type?.includes("image");
   });

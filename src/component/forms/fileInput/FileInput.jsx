@@ -17,6 +17,7 @@ const FileInput = ({
   videos,
   setVideos,
   register,
+  control,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
@@ -46,7 +47,7 @@ const FileInput = ({
       setVideos([...videos, ...allVideos]);
       setFils([...fils, ...allFiles]);
       setIsLoading(false);
-    }, 1000);
+    }, 0);
 
     e.target.value = "";
   };
@@ -66,12 +67,28 @@ const FileInput = ({
         <CloudUploadOutlined className="text-[#33835C] text-[20px]" />
         <span className="text-sm">إضافة مرفقات</span>
       </label>
-      <input
-        onChange={handleChangeFile}
-        multiple
-        id="fileInput"
-        type="file"
-        className="hidden"
+
+      <Controller
+        name="files"
+        control={control}
+        render={({ field: { onChange, value } }) => {
+          const handleChange = (e) => {
+            onChange([...value, ...e.target.files]);
+            handleChangeFile(e);
+          };
+
+          return (
+            <input
+              // onChange={handleChangeFile}
+              multiple
+              id="fileInput"
+              type="file"
+              name="files"
+              className="hidden"
+              onChange={handleChange}
+            />
+          );
+        }}
       />
       <small className="text-gray-600">
         {" "}

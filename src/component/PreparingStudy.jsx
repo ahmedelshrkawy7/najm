@@ -5,7 +5,7 @@ import ReportDetails from "./Reports/ReportDetails";
 import { useForm } from "react-hook-form";
 import SelectInput from "./forms/inputs/SelectInput";
 import ReportsHeader from "../custom hooks/ReportsHeader";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, LoadingOutlined } from "@ant-design/icons";
 import ReportModel from "../models/ReportModal";
 import ReportOptionType from "../custom hooks/ReportOptionType";
 import ReportOptions from "../custom hooks/ReportOptions";
@@ -21,6 +21,8 @@ import ReportModal from "../models/ReportModal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
+import { Spin } from "antd";
+import { errorNotf } from "../utils/notifications/Toast";
 
 //   risk_assessment
 // report_type
@@ -72,41 +74,55 @@ const PreparingStudy = ({ change }) => {
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
+      console.log("🚀 ~ getPrev ~ res:", res);
 
-      setPrevData(res?.data?.report);
+      // setPrevData(res?.data?.report);
 
-      return res;
-    };
-    if (!getPrev()) {
       // Data is found in the cache
 
       // Data is not found in cache, fetch it
       queryClient
         .fetchQuery(["users", ["/reports"], id], getData)
         .then((res) => {
-          setPrevData(res?.data?.report);
+          console.log("🚀 ~ .then ~ res:", res);
           reset({
-            mode: "all",
-            defaultValues: {
-              description: "ffff",
-              address: "",
-              date: "",
-              suspects: "" || [],
-
-              processing_time: "",
-              files: "",
-              risk_type: "",
-              risk_assessment: "",
-              result: "",
-              _method: "PUT",
-              action: "prepare_initial_study",
-            },
+            description: res?.data?.report?.description,
+            address: res?.data?.report?.address,
+            suspects: res?.data?.report?.suspects || [],
+            report_type: res?.data?.report?.report_classification?.name,
+            date: res?.data?.report?.date,
+            processing_time: "",
+            files: "",
+            risk_type: "",
+            risk_assessment: "",
+            result: "",
+            _method: "PUT",
+            action: "prepare_initial_study",
           });
+          setVideos(res?.data?.report?.media?.videos);
+          setImgs(res?.data?.report?.media?.images);
+          setFils(res?.data?.report?.media?.files);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    }
+      // } else {
+      //   reset({
+      //     description: "mmm",
+      //     address: "fff",
+      //     date: "",
+      //     suspects: "" || [],
+
+      //     processing_time: "",
+      //     files: "",
+      //     risk_type: "",
+      //     risk_assessment: "",
+      //     result: "",
+      //     _method: "PUT",
+      //     action: "prepare_initial_study",
+      //   });
+    };
+    console.log(getPrev());
   }, [id, queryClient]);
 
   const {
@@ -126,10 +142,10 @@ const PreparingStudy = ({ change }) => {
       address: "",
       date: "",
       suspects: "" || [],
-
       processing_time: "",
       files: "",
       risk_type: "",
+      report_type: "",
       risk_assessment: "",
       result: "",
       _method: "PUT",
@@ -146,11 +162,18 @@ const PreparingStudy = ({ change }) => {
       // setLoc(3);
       change(3);
     },
-    onError: () => {},
+    onError: (err) => {
+      console.log(err);
+
+      errorNotf(err.response.data.message);
+    },
   });
 
   const onSubmit = (val) => {
-    mutation.mutate([`/reports/${id}`, val]);
+    const x = mutation.mutate([`/reports/${id}`, val]);
+    // change(3);
+    console.log("🚀 ~ onSubmit ~ x:", x);
+
     // setLoc(3);
   };
 
@@ -422,13 +445,19 @@ const PreparingStudy = ({ change }) => {
             max={50}
           />
         </div>
-        <div className="py-5  w-[100%]   text-left">
+        <div className="py-5     text-left">
           <button
             type="submit"
-            className={`bg-[#33835C] p-2 rounded-md text-white`}
+            className={`bg-[#33835C] p-2 rounded-md text-white min-w-60`}
           >
-            {" "}
-            {"معاينة الدراسة الاولية"}
+            {mutation.isLoading ? (
+              <Spin
+                indicator={<LoadingOutlined spin style={{ color: "white" }} />}
+                size="default"
+              />
+            ) : (
+              "معاينة الدراسة الاولية"
+            )}
           </button>
         </div>
       </form>

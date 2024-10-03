@@ -67,6 +67,7 @@ const Reports = () => {
       user_email: "",
       user_phone: "",
       fileInput: "",
+      files: [],
     },
   });
   const wValues = watch(

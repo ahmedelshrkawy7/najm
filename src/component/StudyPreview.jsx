@@ -16,50 +16,32 @@ const StudyPreview = () => {
     getData
   );
   console.log("🚀 ~ StudyPreview ~ data:", data);
-  const values = [
-    {
-      address: data?.address,
-      date: data.date,
-      description: data.report_classification,
-      id: data.id,
-      media: {
-        files: data.media?.files?.paths,
-        images: data.media?.images?.paths,
-        videos: data.media?.videos?.paths,
-      },
-      number: "BHE186",
-      suspectKnown: data.has_suspects,
-      suspects: data.suspects,
-      user: {
-        name: "ahmed",
-        email: "seo.consultant2001@gmail.com",
-        phone: "1006770779",
-      },
+  const values = {
+    address: data?.address,
+    date: data.date,
+    description: data.report_classification,
+    id: data.id,
+    media: {
+      files: data.media?.files?.paths,
+      images: data.media?.images?.paths,
+      videos: data.media?.videos?.paths,
     },
-  ];
+    number: "BHE186",
+    suspectKnown: data.has_suspects,
+    suspects: data.suspects,
+    user: {
+      name: data?.user_name,
+      email: data.user_email,
+      phone: data.user_phone,
+    },
+  };
+
   console.log("🚀 ~ StudyPreview ~ values:", values);
-  // const data = [
-  //   {
-  //     address: "mansoura",
-  //     date: "2024-08-28",
-  //     description: "dsafadfa",
-  //     id: 266,
-  //     medea: { files: [], images: [] },
-  //     number: "BHE186",
-  //     suspectKnown: false,
-  //     suspects: [],
-  //     user: {
-  //       name: "ahmed",
-  //       email: "seo.consultant2001@gmail.com",
-  //       phone: "1006770779",
-  //     },
-  //   },
-  // ];
 
   return (
     <>
       <div className="bg-white">
-        <DispalyData values={values[0]} />
+        <DispalyData values={values} />
         <Results />
       </div>
       <div className="py-5  w-[100%]   text-left">
