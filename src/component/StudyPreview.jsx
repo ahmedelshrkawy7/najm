@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import DispalyData from "../custom hooks/DispalyData";
 import { Result } from "antd";
@@ -5,6 +6,10 @@ import { Results } from "../custom hooks/Results";
 import { useLocation } from "react-router-dom";
 import useApi from "../utils/useApi";
 import { useQuery } from "react-query";
+import prev4 from "../assets/icons/prev4.svg";
+import prev3 from "../assets/icons/prev3.svg";
+import prev7 from "../assets/icons/prev7.svg";
+import prev2 from "../assets/icons/prev2.svg";
 
 const StudyPreview = () => {
   const { pathname } = useLocation();
@@ -19,7 +24,8 @@ const StudyPreview = () => {
   const values = {
     address: data?.address,
     date: data.date,
-    description: data.report_classification,
+    description: data.description,
+    name: data.report_classification,
     id: data.id,
     media: {
       files: data.media?.files?.paths,
@@ -30,10 +36,33 @@ const StudyPreview = () => {
     suspectKnown: data.has_suspects,
     suspects: data.suspects,
     user: {
-      name: data?.user_name,
+      name: data.user_name,
       email: data.user_email,
-      phone: data.user_phone,
+      phone: data.phone,
     },
+    result: data.result,
+    adminData: [
+      {
+        title: "الادارة المعنية بدراسة البلاغ",
+        res: data.department,
+        icon: prev7,
+      },
+      {
+        title: "المدة الزمنية لمعالجة البلاغ",
+        res: data.processing_time,
+        icon: prev4,
+      },
+      {
+        title: "تقييم مخاطر البلاغ",
+        res: data.risk_assessment,
+        icon: prev3,
+      },
+      {
+        title: "نوع البلاغ",
+        res: data.report_type,
+        icon: prev2,
+      },
+    ],
   };
 
   console.log("🚀 ~ StudyPreview ~ values:", values);

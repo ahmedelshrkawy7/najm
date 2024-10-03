@@ -10,6 +10,7 @@ const Datepicker = ({
   errors,
   setValue,
   datePickerTitle,
+  // prevData,
 }) => {
   const date = new Date();
   const onChange = (date, dateString) => {
@@ -18,8 +19,10 @@ const Datepicker = ({
       setValue("date", dateString);
     } else {
       console.log("No valid date selected");
+      setValue("date", "");
     }
   };
+  // console.log(prevData);
   return (
     <div className="flex flex-col self-start gap-4">
       <div>
@@ -39,7 +42,10 @@ const Datepicker = ({
               suffixIcon={<img width={20} src={calendarIcon} />}
               className=" hover:border-green-600 focus:border-green-600 w-[70vw] md:w-[300px] p-[10px] "
             />
-            {date.getTime() > Date.now() && (
+            {/* {date.getTime() > Date.now() && (
+              <p className="text-red-500">التاريخ غير صالح</p>
+            )} */}
+            {field.value && new Date(field.value).getTime() > Date.now() && (
               <p className="text-red-500">التاريخ غير صالح</p>
             )}
           </div>

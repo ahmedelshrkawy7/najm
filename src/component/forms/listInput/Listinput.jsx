@@ -26,7 +26,8 @@ const Listinput = ({
   //     setData([...values[4], { name: watch("list") }]);
   //   }
   // }, []);
-  const arrayOfValues = watch("suspects");
+  const arrayOfValues = watch("suspects") || [];
+  console.log("🚀 ~ arrayOfValues:", arrayOfValues);
   const [isBlur, setIsBlur] = useState(false);
 
   console.log(watch("list"));
@@ -124,7 +125,7 @@ const Listinput = ({
       </Space.Compact>
 
       <div className="container flex gap-5 flex-wrap">
-        {watch("suspects").map((el, index) => {
+        {watch("suspects")?.map((el, index) => {
           return (
             <>
               <div className="tag flex items-center h-[40px] ">

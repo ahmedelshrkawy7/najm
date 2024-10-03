@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
 import { Button, Result } from "antd";
 import { Link } from "react-router-dom";
 import icon from "../assets/icons/success.png";
@@ -8,7 +11,7 @@ const Success = ({ report }) => {
   return !report?.id ? (
     <div className="loader"></div>
   ) : (
-    <div className="bg-[#fff]  z-[99999] top-0 left-0 w-[85vw] sm:max-w-[600px]   rounded-md">
+    <div className="bg-white  relative z-[99999] top-0 left-0 w-[85vw] sm:max-w-[600px]   rounded-md">
       <Result
         icon={
           <div className="flex justify-center">

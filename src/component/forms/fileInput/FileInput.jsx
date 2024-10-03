@@ -105,12 +105,12 @@ const FileInput = ({
           />
         </>
       )}
-      {isLoading === true && fils.length === 0 && imgs.length === 0 && (
+      {isLoading === true && fils?.length === 0 && imgs?.length === 0 && (
         <div className="flex items-center justify-center w-52 mt-8">
           <div className="loader my-4"></div>
         </div>
       )}
-      {fils.length > 0 && (
+      {fils?.length > 0 && (
         <ReportFiles setFils={setFils} fils={fils} preview={true} />
       )}
     </>

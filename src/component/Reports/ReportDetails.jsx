@@ -41,9 +41,16 @@ const ReportDetails = ({
   date,
   description,
 }) => {
+  // console.log("🚀 ~ date:", date)
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
   console.log(description);
+  console.log(
+    watch("date"),
+    "hahah",
+    new Date(watch("date")).getTime(),
+    Date.now()
+  );
   useEffect(() => {
     if (
       watch("description").trim() !== "" &&
@@ -51,9 +58,9 @@ const ReportDetails = ({
       watch("description").trim() !== "" &&
       listInputControl.length > 0
     ) {
-      if (!watch("datePickerControl")) {
+      if (!watch("date")) {
         setV(true);
-      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+      } else if (new Date(watch("date")) <= Date.now()) {
         setV(true);
       } else {
         setV(false);
@@ -62,9 +69,9 @@ const ReportDetails = ({
       watch("description").trim() !== "" &&
       watch("suspectKnown") === "0"
     ) {
-      if (!watch("datePickerControl")) {
+      if (!watch("date")) {
         setV(true);
-      } else if (watch("datePickerControl") && Date.now() >= date.getTime()) {
+      } else if (new Date(watch("date")) <= Date.now()) {
         setV(true);
       } else {
         setV(false);

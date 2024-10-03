@@ -43,6 +43,7 @@ const PreparingStudy = ({ change }) => {
   const [fils, setFils] = useState([]);
   const [imgs, setImgs] = useState([]);
   const [prevData, setPrevData] = useState({});
+  console.log("🚀 ~ PreparingStudy ~ prevData:", prevData);
 
   const [videos, setVideos] = useState([]);
   const date = new Date();
@@ -125,6 +126,63 @@ const PreparingStudy = ({ change }) => {
     console.log(getPrev());
   }, [id, queryClient]);
 
+  //   const fetchData = async () => {
+  //     // Check for cached data
+  //     const cachedData = queryClient.getQueryData(["users", ["/reports"], id]);
+
+  //     if (cachedData) {
+  //       // Use cached data
+  //       setPrevData(cachedData.data.report);
+  //       reset({
+  //         mode: "all",
+  //         defaultValues: {
+  //           description: cachedData.data.report.description || "",
+  //           address: cachedData.data.report.address || "",
+  //           date: cachedData.data.report.date || "",
+  //           suspects: cachedData.data.report.suspects || [],
+  //           processing_time: cachedData.data.report.processing_time || "",
+  //           files: cachedData.data.report.files || "",
+  //           risk_type: cachedData.data.report.risk_type || "",
+  //           risk_assessment: cachedData.data.report.risk_assessment || "",
+  //           result: cachedData.data.report.result || "",
+  //           _method: "PUT",
+  //           action: "prepare_initial_study",
+  //         },
+  //       });
+  //     } else {
+  //       // Fetch data if not found in cache
+  //       try {
+  //         const res = await queryClient.fetchQuery(
+  //           ["users", ["/reports"], id],
+  //           getData
+  //         );
+  //         setPrevData(res.data.report);
+  //         reset({
+  //           mode: "all",
+  //           defaultValues: {
+  //             description: "ffff",
+  //             address: "",
+  //             date: "",
+  //             suspects: "" || [],
+
+  //             processing_time: "",
+  //             files: "",
+  //             risk_type: "",
+  //             risk_assessment: "",
+  //             result: "",
+  //             _method: "PUT",
+  //             action: "prepare_initial_study",
+  //           },
+  //         });
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [id, queryClient]);
+
   const {
     register,
     watch,
@@ -157,14 +215,9 @@ const PreparingStudy = ({ change }) => {
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      // Invalidate and refetch
-      // queryClient.invalidateQueries("todos");
-      // setLoc(3);
       change(3);
     },
     onError: (err) => {
-      console.log(err);
-
       errorNotf(err.response.data.message);
     },
   });
@@ -187,7 +240,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
-              nameType="report_type"
+              nameType="report_classification"
               options={[
                 {
                   value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
@@ -236,7 +289,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="...النوع"
               inpTitle="نوع البلاغ"
-              nameType="risk_assessment"
+              nameType="report_type"
               options={[
                 {
                   value: "سوء أستخدام ممتلكات الشركة",
@@ -286,7 +339,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="...الدرجة"
               inpTitle="درجة المخاطر"
-              nameType="risk_type"
+              nameType="risk_assessment"
               disapled={true}
               options={[
                 {
@@ -357,6 +410,7 @@ const PreparingStudy = ({ change }) => {
               errors={errors}
               control={control}
               watch={watch}
+              prevData={prevData?.description}
             />
 
             <div className="mt-4">
@@ -374,6 +428,7 @@ const PreparingStudy = ({ change }) => {
                 resetField={resetField}
                 nameType="list"
                 getValues={getValues}
+                prevData={prevData?.description}
               />
             </div>
             <div className="flex gap-8 flex-wrap">
@@ -384,6 +439,7 @@ const PreparingStudy = ({ change }) => {
                 setValue={setValue}
                 // date={date}
                 nameType="date"
+                // prevData={prevData?.date}
               />
               <Location
                 title={"address"}
@@ -393,6 +449,7 @@ const PreparingStudy = ({ change }) => {
                 src={location}
                 inpTitle={"مكان حدوث المخالفة"}
                 inputPlaceholder={"أدخل مكان الحادث"}
+                prevData={prevData?.address}
               />
             </div>
             <div className="mt-4">
@@ -442,7 +499,7 @@ const PreparingStudy = ({ change }) => {
             inputTitle={"نتائج الدراسة الاولية"}
             inputPlaceHolder={"....النتائج"}
             setValue={setValue}
-            max={50}
+            // max={50}
           />
         </div>
         <div className="py-5     text-left">

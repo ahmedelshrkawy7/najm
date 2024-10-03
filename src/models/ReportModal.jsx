@@ -196,6 +196,7 @@ const ReportModal = ({
             setShowSvg={setShowSvg}
             close={true}
             title={"تم انشاء الدراسة بنجاح"}
+            refetch={props.refetch}
           />
         ) : (
           children
