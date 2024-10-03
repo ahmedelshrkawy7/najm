@@ -11,7 +11,7 @@ const Location = ({
   control,
   errors,
   title,
-  prevData,
+  // prevData,
 }) => {
   const inputRef = useRef(null);
   return (
@@ -30,7 +30,7 @@ const Location = ({
                 <Input
                   maxLength={100}
                   {...field}
-                  value={field.value || prevData}
+                  // value={field.value || prevData}
                   ref={(e) => {
                     inputRef.current = e;
                   }}

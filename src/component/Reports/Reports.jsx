@@ -283,7 +283,7 @@ const Reports = () => {
   useEffect(() => {
     mainContainer.current.scrollIntoView();
   }, [current]);
-
+console.log(watch('date'))
   const next = () => {
     console.log(!card.name);
 

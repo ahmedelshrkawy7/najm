@@ -21,6 +21,7 @@ import prev6 from "../assets/icons/prev6.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 const ReportInfo = ({ values }) => {
+  console.log("🚀 ~ ReportInfo ~ values:", values);
   const date = new Date(values?.date?.$d);
 
   const fullDate =
@@ -37,7 +38,6 @@ const ReportInfo = ({ values }) => {
   };
 
   console.log(values);
-
   return (
     <>
       <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
@@ -72,7 +72,7 @@ const ReportInfo = ({ values }) => {
               subTitle={values.description}
             />
           </div>
-        </pre> 
+        </pre>
         <div className="">
           {values.date && (
             <ReportsTextIcon
@@ -126,6 +126,20 @@ const ReportInfo = ({ values }) => {
               title={labelProps.listInputTitle}
             />
           )}
+        </div>
+        <div>
+          {values?.adminData &&
+            values.adminData.map((val, i) => (
+              <ReportsTextIcon
+                subTitle={
+                   !isNaN(val.res)
+                    ? val.res + " يوم عمل "
+                    : val.res
+                }
+                icon={val.icon}
+                title={val.title}
+              />
+            ))}
         </div>
       </div>
     </>

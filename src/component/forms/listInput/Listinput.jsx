@@ -26,7 +26,8 @@ const Listinput = ({
   //     setData([...values[4], { name: watch("list") }]);
   //   }
   // }, []);
-  const arrayOfValues = watch("suspects");
+  const arrayOfValues = watch("suspects") || [];
+  console.log("🚀 ~ arrayOfValues:", arrayOfValues);
   const [isBlur, setIsBlur] = useState(false);
 
   console.log(watch("list"));

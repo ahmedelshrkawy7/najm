@@ -5,6 +5,7 @@ import ReportImages from "../component/Reports/ReportImages";
 import ReportFiles from "../component/Reports/ReportFiles";
 
 import prev9 from "../assets/icons/prev9.svg";
+import prev5 from "../assets/icons/prev7.svg";
 
 import { NumberOutlined, PhoneOutlined } from "@ant-design/icons";
 
@@ -13,6 +14,7 @@ import CardWrapper from "./CardWrapper";
 import ReportInfo from "./ReportInfo";
 import { useLocation } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
+import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 
 const DispalyData = ({
   values = [],
@@ -71,6 +73,19 @@ const DispalyData = ({
               <ReportImages
                 imgs={imgs.length === 0 ? imgsServ : imgs}
                 videos={videos.length === 0 ? videosServ : videos}
+              />
+            </CardWrapper>
+          )}
+
+          {values.result && (
+            <CardWrapper
+              icon={<img src={prev5} />}
+              title="نتائج الدراسة الاولية للبلاغ"
+            >
+              <ReportsTextIcon
+                icon={prev9}
+                description={true}
+                subTitle={values.result || ""}
               />
             </CardWrapper>
           )}

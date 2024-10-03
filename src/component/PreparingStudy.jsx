@@ -70,22 +70,77 @@ const PreparingStudy = ({ change }) => {
     }
   };
 
-  // useEffect(() => {
-  //   const getPrev = async () => {
-  //     const res = await queryClient.getQueryData(["users", ["/reports"], id]);
+  useEffect(() => {
+    const getPrev = async () => {
+      const res = await queryClient.getQueryData(["users", ["/reports"], id]);
 
-  //     setPrevData(res?.data?.report);
+      setPrevData(res?.data?.report);
 
-  //     return res;
-  //   };
-  //   if (!getPrev()) {
-  //     // Data is found in the cache
+      return res;
+    };
+    if (!getPrev()) {
+      // Data is found in the cache
 
-  //     // Data is not found in cache, fetch it
-  //     queryClient
-  //       .fetchQuery(["users", ["/reports"], id], getData)
-  //       .then((res) => {
-  //         setPrevData(res?.data?.report);
+      // Data is not found in cache, fetch it
+      queryClient
+        .fetchQuery(["users", ["/reports"], id], getData)
+        .then((res) => {
+          setPrevData(res?.data?.report);
+          reset({
+            mode: "all",
+            defaultValues: {
+              description: "ffff",
+              address: "",
+              date: "",
+              suspects: "" || [],
+
+              processing_time: "",
+              files: "",
+              risk_type: "",
+              risk_assessment: "",
+              result: "",
+              _method: "PUT",
+              action: "prepare_initial_study",
+            },
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id, queryClient]);
+
+  //   const fetchData = async () => {
+  //     // Check for cached data
+  //     const cachedData = queryClient.getQueryData(["users", ["/reports"], id]);
+
+  //     if (cachedData) {
+  //       // Use cached data
+  //       setPrevData(cachedData.data.report);
+  //       reset({
+  //         mode: "all",
+  //         defaultValues: {
+  //           description: cachedData.data.report.description || "",
+  //           address: cachedData.data.report.address || "",
+  //           date: cachedData.data.report.date || "",
+  //           suspects: cachedData.data.report.suspects || [],
+  //           processing_time: cachedData.data.report.processing_time || "",
+  //           files: cachedData.data.report.files || "",
+  //           risk_type: cachedData.data.report.risk_type || "",
+  //           risk_assessment: cachedData.data.report.risk_assessment || "",
+  //           result: cachedData.data.report.result || "",
+  //           _method: "PUT",
+  //           action: "prepare_initial_study",
+  //         },
+  //       });
+  //     } else {
+  //       // Fetch data if not found in cache
+  //       try {
+  //         const res = await queryClient.fetchQuery(
+  //           ["users", ["/reports"], id],
+  //           getData
+  //         );
+  //         setPrevData(res.data.report);
   //         reset({
   //           mode: "all",
   //           defaultValues: {
@@ -103,69 +158,14 @@ const PreparingStudy = ({ change }) => {
   //             action: "prepare_initial_study",
   //           },
   //         });
-  //       })
-  //       .catch((error) => {
+  //       } catch (error) {
   //         console.error("Error fetching data:", error);
-  //       });
-  //   }
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
   // }, [id, queryClient]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // Check for cached data
-      const cachedData = queryClient.getQueryData(["users", ["/reports"], id]);
-
-      if (cachedData) {
-        // Use cached data
-        setPrevData(cachedData.data.report);
-        reset({
-          mode: "all",
-          defaultValues: {
-            description: cachedData.data.report.description || "",
-            address: cachedData.data.report.address || "",
-            date: cachedData.data.report.date || "",
-            suspects: cachedData.data.report.suspects || [],
-            processing_time: cachedData.data.report.processing_time || "",
-            files: cachedData.data.report.files || "",
-            risk_type: cachedData.data.report.risk_type || "",
-            risk_assessment: cachedData.data.report.risk_assessment || "",
-            result: cachedData.data.report.result || "",
-            _method: "PUT",
-            action: "prepare_initial_study",
-          },
-        });
-      } else {
-        // Fetch data if not found in cache
-        try {
-          const res = await queryClient.fetchQuery(
-            ["users", ["/reports"], id],
-            getData
-          );
-          setPrevData(res.data.report);
-          reset({
-            mode: "all",
-            defaultValues: {
-              description: res.data.report.description || "",
-              address: res.data.report.address || "",
-              date: res.data.report.date || "",
-              suspects: res.data.report.suspects || [],
-              processing_time: res.data.report.processing_time || "",
-              files: res.data.report.files || "",
-              risk_type: res.data.report.risk_type || "",
-              risk_assessment: res.data.report.risk_assessment || "",
-              result: res.data.report.result || "",
-              _method: "PUT",
-              action: "prepare_initial_study",
-            },
-          });
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-    };
-
-    fetchData();
-  }, [id, queryClient]);
 
   const {
     register,
@@ -184,7 +184,6 @@ const PreparingStudy = ({ change }) => {
       address: "",
       date: "",
       suspects: "" || [],
-
       processing_time: "",
       files: "",
       risk_type: "",
@@ -208,6 +207,7 @@ const PreparingStudy = ({ change }) => {
   });
 
   const onSubmit = (val) => {
+    console.log("🚀 ~ onSubmit ~ val:", val);
     mutation.mutate([`/reports/${id}`, val]);
     // setLoc(3);
   };
@@ -421,7 +421,7 @@ const PreparingStudy = ({ change }) => {
                 setValue={setValue}
                 // date={date}
                 nameType="date"
-                prevData={prevData.date}
+                // prevData={prevData?.date}
               />
               <Location
                 title={"address"}
@@ -458,11 +458,11 @@ const PreparingStudy = ({ change }) => {
               /> */}
               <div className="mt-4">
                 <FileInput
-                  fils={fils?.length ? fils : prevData.media?.files}
+                  fils={fils}
                   setFils={setFils}
-                  videos={videos?.length ? videos : prevData.media?.videos}
+                  videos={videos}
                   setVideos={setVideos}
-                  imgs={imgs?.length ? imgs : prevData.media?.images}
+                  imgs={imgs}
                   setImgs={setImgs}
                   register={register}
                   errors={errors}
@@ -481,7 +481,7 @@ const PreparingStudy = ({ change }) => {
             inputTitle={"نتائج الدراسة الاولية"}
             inputPlaceHolder={"....النتائج"}
             setValue={setValue}
-            max={50}
+            // max={50}
           />
         </div>
         <div className="py-5  w-[100%]   text-left">

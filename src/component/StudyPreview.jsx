@@ -6,6 +6,10 @@ import { Results } from "../custom hooks/Results";
 import { useLocation } from "react-router-dom";
 import useApi from "../utils/useApi";
 import { useQuery } from "react-query";
+import prev4 from "../assets/icons/prev4.svg";
+import prev3 from "../assets/icons/prev3.svg";
+import prev7 from "../assets/icons/prev7.svg";
+import prev2 from "../assets/icons/prev2.svg";
 
 const StudyPreview = () => {
   const { pathname } = useLocation();
@@ -21,7 +25,8 @@ const StudyPreview = () => {
     {
       address: data?.address,
       date: data.date,
-      description: data.report_classification,
+      description: data.description,
+      name: data.report_classification,
       id: data.id,
       media: {
         files: data.media?.files?.paths,
@@ -36,8 +41,32 @@ const StudyPreview = () => {
         email: "seo.consultant2001@gmail.com",
         phone: "1006770779",
       },
+      result:data.result,
+      adminData: [
+        {
+          title: "الادارة المعنية بدراسة البلاغ",
+          res: data.department,
+          icon: prev7,
+        },
+        {
+          title: "المدة الزمنية لمعالجة البلاغ",
+          res: data.processing_time,
+          icon: prev4,
+        },
+        {
+          title: "تقييم مخاطر البلاغ",
+          res: data.risk_assessment,
+          icon: prev3,
+        },
+        {
+          title: "نوع البلاغ",
+          res: data.report_type,
+          icon: prev2,
+        },
+      ],
     },
   ];
+
   console.log("🚀 ~ StudyPreview ~ values:", values);
   // const data = [
   //   {

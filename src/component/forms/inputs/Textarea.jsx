@@ -13,13 +13,13 @@ const Textarea = ({
   watch,
   iconLabel,
   nameType,
-  prevData,
+  // prevData,
 }) => {
   const refVal = useRef(null);
   const wrapperRef = useRef(null);
   const textAreaRef = refVal.current;
   const value = watch("description");
-  console.log(prevData);
+  // console.log(prevData);
   const handleInput = (e) => {
     if (textAreaRef.current) {
       textAreaRef.style.height = "auto";
@@ -54,7 +54,7 @@ const Textarea = ({
             <TextArea
               placeholder="اكتب نص البلاغ هنا..."
               {...field}
-              value={field.value || prevData}
+              // value={field.value || prevData}
               ref={refVal}
               onChange={(e) => {
                 // field.onChange(e.target.value.trimStart());

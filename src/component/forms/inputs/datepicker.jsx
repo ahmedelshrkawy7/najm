@@ -10,18 +10,19 @@ const Datepicker = ({
   errors,
   setValue,
   datePickerTitle,
-  prevData,
+  // prevData,
 }) => {
   const date = new Date();
   const onChange = (date, dateString) => {
     if (date) {
       console.log("Valid date selected:", dateString);
-      setValue("date", dateString || prevData);
+      setValue("date", dateString);
     } else {
       console.log("No valid date selected");
+      setValue("date", "");
     }
   };
-  console.log(prevData);
+  // console.log(prevData);
   return (
     <div className="flex flex-col self-start gap-4">
       <div>
