@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 
 import SuccessModal from "../../models/successModal";
 import ReportModal from "../../models/ReportModal";
+import ReportModel from "../../models/ReportModel";
 
 const Study = () => {
   const location = useLocation();
@@ -42,7 +43,7 @@ const Study = () => {
       <div className=" w-[90%]  py-20   mx-auto ">
         {loc === 3 && (
           <button
-            onClick={() => handleShowMenu()}
+            onClick={() => ref.current.open()}
             className={
               " bg-[#33835C] font-semibold border  w-fit text-white rounded-md  p-2 mb-4  block mr-auto"
             }
@@ -61,13 +62,13 @@ const Study = () => {
         {loc === 2 && <PreparingStudy change={change} />}
         {loc === 3 && <StudyPreview />}
       </div>
-      {showMenu && loc === 3 && (
+      {/* {showMenu && loc === 3 && (
         <div
-          ref={ref}
+          
           onClick={handleHideMenu}
           className="w-full z-[1] h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.4)]"
-        >
-          <ReportModal title="توجيه الدراسة الاولية">
+        > */}
+          <ReportModel title="توجيه الدراسة الاولية" ref={ref} currentView="default">
             <SuccessModal
               title="عند التاكيد سيتم توجيه الدراسة الاولية الى معتمد البلاغات"
               close={"تاكيد"}
@@ -78,10 +79,10 @@ const Study = () => {
             >
               تاكيد
             </button> */}
-          </ReportModal>
+          </ReportModel>
         </div>
-      )}
-    </div>
+      // )}
+    // </div>
   );
 };
 
