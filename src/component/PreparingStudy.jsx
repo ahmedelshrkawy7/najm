@@ -340,7 +340,7 @@ const PreparingStudy = ({ change }) => {
               placeholder="...الدرجة"
               inpTitle="درجة المخاطر"
               nameType="risk_assessment"
-              disapled={true}
+              // disapled={true}
               options={[
                 {
                   value: "عالى",
@@ -371,7 +371,7 @@ const PreparingStudy = ({ change }) => {
               placeholder="المدة الزمنية...."
               inpTitle="مدة معالجة البلاغ"
               nameType="processing_time"
-              disapled={true}
+              // disapled={true}
               options={[
                 {
                   value: "15  ",

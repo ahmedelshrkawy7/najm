@@ -56,7 +56,9 @@ const CardAdmin = () => {
       [
         ...new Set(data?.data?.reports?.map((report) => report.person?.email)),
       ] || [],
-    statuses: ["جديد", "مقبول", "مرفوض"],
+    // statuses: ["جديد", "مقبول", "مرفوض"],
+    statuses:
+      [...new Set(data?.data?.reports?.map((report) => report?.status))] || [],
     phoneNumbers:
       [
         ...new Set(data?.data?.reports?.map((report) => report.person?.phone)),

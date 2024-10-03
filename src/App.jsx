@@ -118,7 +118,7 @@ function AppLayout() {
 
   return (
     <>
-      <Navbar />
+      {!/(Admin|login)/gi.test(pathname) && <Navbar />}
       <Outlet />
     </>
   );

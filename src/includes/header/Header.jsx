@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { useNavigate } from "react-router-dom";
 import React from "react";
 const Header = React.forwardRef((props, ref) => {

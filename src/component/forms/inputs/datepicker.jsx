@@ -45,7 +45,7 @@ const Datepicker = ({
             {/* {date.getTime() > Date.now() && (
               <p className="text-red-500">التاريخ غير صالح</p>
             )} */}
-            {field.value && new Date(field.value).getTime() > Date.now() && (
+            {field?.value && new Date(field?.value).getTime() > Date.now() && (
               <p className="text-red-500">التاريخ غير صالح</p>
             )}
           </div>
