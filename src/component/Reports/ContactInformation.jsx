@@ -71,11 +71,11 @@ const ContactInformation = ({
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
             setValue={setValue}
-            // pattern={{
-            //   value:
-            //     /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,}/g,
-            //   message: "يجب ادخال رقم جوال صحيح",
-            // }}
+            pattern={{
+              value:
+                /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,}/g,
+              message: "يجب ادخال رقم جوال صحيح",
+            }}
           />
         </div>
       </div>

@@ -41,7 +41,7 @@ const AllAdmins = () => {
             ))}
           </div>
           <Link
-            href="/"
+            to="/managers"
             className="bg-green-700 w-fit rounded p-2 px-8 flex items-center gap-4 self-end md:mb-10 mb-20"
           >
             <div>
