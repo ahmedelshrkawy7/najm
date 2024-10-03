@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import DispalyData from "../custom hooks/DispalyData";
@@ -11,7 +12,7 @@ import prev3 from "../assets/icons/prev3.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import prev2 from "../assets/icons/prev2.svg";
 
-const StudyPreview = () => {
+const StudyPreview = ({ setLoc }) => {
   const { pathname } = useLocation();
   let id = +pathname.match(/[0-9]+/g).toString();
   console.log("🚀 ~ StudyPreview ~ id:", id);
@@ -75,7 +76,7 @@ const StudyPreview = () => {
       </div>
       <div className="py-5  w-[100%]   text-left">
         <button
-          // onClick={() => setLoc(2)}
+          onClick={() => setLoc(2)}
           className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
         >
           {" "}

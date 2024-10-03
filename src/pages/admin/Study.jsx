@@ -60,7 +60,7 @@ const Study = () => {
         </div>
 
         {loc === 2 && <PreparingStudy change={change} />}
-        {loc === 3 && <StudyPreview />}
+        {loc === 3 && <StudyPreview setLoc={setLoc} />}
       </div>
       {/* {showMenu && loc === 3 && (
         <div
@@ -71,14 +71,14 @@ const Study = () => {
           <ReportModel title="توجيه الدراسة الاولية" ref={ref} currentView="default">
             <SuccessModal
               title="عند التاكيد سيتم توجيه الدراسة الاولية الى معتمد البلاغات"
-              close={"تاكيد"}
+              // close={"تاكيد"}
             />
-            {/* <button
+            <button
               className="w-fit bg-[#33835C] text-white p-1 px-10 rounded-lg mt-0 m-auto"
               onClick={() => {}}
             >
               تاكيد
-            </button> */}
+            </button>
           </ReportModel>
         </div>
       // )}
