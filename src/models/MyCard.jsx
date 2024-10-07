@@ -8,7 +8,7 @@ const MyCard = ({ name, currentView, setCurrentView }) => {
     <>
       <div className="flex gap-4 flex-wrap h-36 mb-6 bg0-re">
         <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
-          <label className="font-medium">اسم الادارة</label>
+          <label className="font-medium">اسم القسم</label>
           <input
             type="text"
             className="border border-gray-300 p-1 rounded-md outline-none flex-1 w-full"
