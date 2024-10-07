@@ -127,25 +127,25 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
               <ReportOptionType
                 control={control}
                 name="all"
-                label="   قد یؤدي الحدث إلى تحقيق من الجهات الرقابية أو عقوبات أو غرامات
+                label="   قد يؤدي الحدث إلى تحقيق من الجهات الرقابية أو عقوبات أو غرامات
 "
               />
               <ReportOptionType
                 control={control}
                 name="all"
-                label="قد یؤدي الحدث تأثير على العلاقة مع شركات التأمین  "
+                label="قد يؤدي الحدث تأثير على العلاقة مع شركات التأمین  "
               />
               <ReportOptionType
                 control={control}
                 name="all"
-                label=" قد یؤدي الحدث تأثير ضئیل على سمعة الشركة"
+                label=" قد يؤدي الحدث تأثير ضئيل على سمعة الشركة"
               />
             </div>
           </div>
           <div>
             <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
               {" "}
-              العواقب القانونیة{" "}
+              العواقب القانونية{" "}
             </div>
             <div className="flex flex-col mt-4 gap-2">
               <ReportOptionType
@@ -156,19 +156,19 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
               <ReportOptionType
                 control={control}
                 name="all"
-                label="الحدث من شأنه أن یؤدي إلى غرامات أو عقوبات، او دعاوي جنائیة ضد الإدارات التشغيلية او شكوى الى هيئة التأمين"
+                label="الحدث من شأنه أن يؤدي إلى غرامات أو عقوبات، او دعاوي جنائية ضد الإدارات التشغيلية او شكوى الى هيئة التأمين"
               />
               <ReportOptionType
                 control={control}
                 name="all"
-                label="الحدث من شأنھ أن یؤدي إلى دعوى مدنیة، والحرمان من العمل             "
+                label="الحدث من شأنه أن يؤدي إلى دعوى مدنية، والحرمان من العمل             "
               />
             </div>
           </div>
           <div>
             <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
               {" "}
-              وجود دلیل مرفق بالبلاغ من قبل المبلغ ( دليل قد يتم إتلافه){" "}
+              وجود دليل مرفق بالبلاغ من قبل المبلغ ( دليل قد يتم إتلافه){" "}
             </div>
             <div className="flex flex-col mt-4 gap-2">
               <ReportOptionType control={control} name="all" label="نعم" />

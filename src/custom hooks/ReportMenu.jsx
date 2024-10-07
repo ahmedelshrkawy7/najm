@@ -132,6 +132,15 @@ const ReportMenu = ({
     },
   ];
 
+  // const isOptionDisabled = (id) => {
+  //   return (
+  //     status === "rejected" ||
+  //     (status === "new" && id !== 1) ||
+  //     (status === "accepted" && id === 1) ||
+  //     (status === "under_confirm" && (id === 1 || id === 2))
+  //   );
+  // };
+
   const clickModal = (children) => {
     func(children);
   };
@@ -162,7 +171,8 @@ const ReportMenu = ({
             status === "rejected" ||
             (status === "new" && opt.id !== 1) ||
             (status === "accepted" && opt.id === 1) ||
-            (status === "under_confirm" && (opt.id === 1 || opt.id === 2))
+            (status === "under_confirm" &&
+              (opt.id === 1 || opt.id === 2 || opt.id === 3))
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
           }`}
