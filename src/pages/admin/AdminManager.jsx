@@ -4,10 +4,28 @@ import React, { useState } from "react";
 import ManagerCard from "./ManagerCard";
 import MyCard from "../../models/MyCard";
 import { Radio, Select, Input } from "antd";
+import Departments from "./Departments";
+import useApi from "../../utils/useApi";
+import { useQuery } from "react-query";
 
 const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
   const { Option } = Select;
+  const { getData } = useApi();
+
+  const { data: { data = [] } = {} } = useQuery(
+    ["admin", ["/admin/departments", ""]],
+    getData
+  );
+
+  let departs = data?.map((ele) => ({
+    department: ele.name,
+  }));
+
+  const { data: { data: sections = [] } = {} } = useQuery(
+    ["admin", ["/admin/specializations", ""]],
+    getData
+  );
 
   const cardData = [
     {
@@ -51,6 +69,19 @@ const AdminManager = () => {
           setCurrentView={setCurrentView}
         />
       ),
+      data: sections,
+      columns: [
+        {
+          title: "الادارة",
+          dataIndex: "department",
+          key: "id",
+        },
+        {
+          title: "الاقسام",
+          dataIndex: "name",
+          key: "id",
+        },
+      ],
     },
     {
       icon: "../src/assets/icons/manager_3.svg",
@@ -108,20 +139,19 @@ const AdminManager = () => {
       title: "الإدارات",
       buttons: ["عرض الإدارات", "إنشاء إدارة"],
       children: (
-        <div className="flex flex-col gap-2 h-36 justify-between">
-          <div>data</div>
-          <div className="flex items-center justify-end">
-            <button
-              onClick={() => {
-                setCurrentView("success");
-              }}
-              className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
-            >
-              اضافة
-            </button>
-          </div>
-        </div>
+        <Departments
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+        />
       ),
+      data: departs,
+      columns: [
+        {
+          title: "الادارات",
+          dataIndex: "department",
+          key: "id",
+        },
+      ],
     },
     {
       icon: "../src/assets/icons/manager_1.svg",
@@ -147,8 +177,8 @@ const AdminManager = () => {
 
   return (
     <div className="w-[90%] mx-auto">
-      <div className="min-h-screen bg-[#E6E6E6] flex items-center justify-center p-4 my-20 rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="min-h-screen bg-[#E6E6E6] flex items-center justify-center p-4 my-20 rounded-lg relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {cardData.map((card, index) => (
             <ManagerCard
               key={card.title}
@@ -159,6 +189,8 @@ const AdminManager = () => {
               index={index}
               currentView={currentView}
               setCurrentView={setCurrentView}
+              data={card.data || []}
+              columns={card.columns || []}
             />
           ))}
         </div>

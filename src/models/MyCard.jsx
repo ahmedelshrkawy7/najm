@@ -1,66 +1,109 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
+import { useMutation, useQuery } from "react-query";
+import useApi from "../utils/useApi";
+import { useForm } from "react-hook-form";
+
 const MyCard = ({ name, currentView, setCurrentView }) => {
-  // console.log(name);
-  // console.log("card", currentView);
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      department_id: "",
+      // name_ar: "",
+      name_en: "",
+    },
+  });
+
+  const { getData, postData } = useApi();
+
+  const { data: { data = [] } = {} } = useQuery(
+    ["admin", ["/admin/departments", ""]],
+    getData
+  );
+
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      setCurrentView("success");
+    },
+    onError: (err) => {},
+  });
+
+  const onSubmit = (data) => {
+    console.log("Form Submitted:", data);
+    mutation.mutate([
+      `/admin/specializations`,
+      { ...data, name_en: watch("name_ar") },
+    ]);
+  };
+
   return (
     <>
-      <div className="flex gap-4 flex-wrap h-36 mb-6 bg0-re">
-        <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
-          <label className="font-medium">اسم القسم</label>
-          <input
-            type="text"
-            className="border border-gray-300 p-1 rounded-md outline-none flex-1 w-full"
-            placeholder="الادارة العامة لشئون الوافدين"
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex gap-4 flex-wrap h-36 mb-6">
+          <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
+            <label className="font-medium">اسم القسم</label>
+            <input
+              type="text"
+              className={`border ${
+                errors.name_ar ? "border-red-500" : "border-gray-300"
+              } p-1 rounded-md outline-none flex-1 w-full`}
+              placeholder="وحدة مكافحة المخدرات بالافلاج"
+              {...control.register("name_ar", {
+                required: "اسم القسم مطلوب",
+              })}
+            />
+            {errors.name_ar && (
+              <span className="text-red-500">{errors.name_ar.message}</span>
+            )}
+          </div>
+          <div className="md:w-[40%] w-full">
+            <label
+              htmlFor="select"
+              className="mb-2 text-[15px] font-medium inline-block"
+            >
+              اختر الادارة
+            </label>
+            <select
+              id="select"
+              className={`rounded-md w-full flex items-center h-[37px] border ${
+                errors.department_id ? "border-red-500" : "border-gray-300"
+              } text-gray-400 outline-none`}
+              defaultValue=""
+              {...control.register("department_id", {
+                required: "يجب اختيار إدارة",
+              })}
+            >
+              <option value="" disabled hidden>
+                اختر الإدارة
+              </option>
+              {data.map((department) => (
+                <option key={department.id} value={department.id}>
+                  {department.name}
+                </option>
+              ))}
+            </select>
+            {errors.department_id && (
+              <span className="text-red-500">
+                {errors.department_id.message}
+              </span>
+            )}
+          </div>
         </div>
-        <div className="md:w-[40%] w-full">
-          <label
-            htmlFor="select"
-            className="mb-2 text-[15px] font-medium inline-block"
+        <div className="flex items-center justify-end">
+          <button
+            type="submit"
+            className="bg-[#33835C] text-white p-2 px-10 rounded-lg"
           >
-            اختر الادارة
-          </label>
-          <select
-            id="select"
-            className="rounded-md w-full flex items-center h-[37px] border border-gray-300 text-gray-400 outline-none"
-            defaultValue=""
-          >
-            <option value="" disabled hidden>
-              الادارة العامة للشرطة الدولية
-            </option>
-            <option className="text-[16px]" value="0">
-              لا
-            </option>
-            <option className="text-[16px]" value="1">
-              نعم
-            </option>
-          </select>
+            اضافة
+          </button>
         </div>
-      </div>
-      <div className="flex items-center justify-end">
-        <button
-          onClick={
-            () => {
-              if (name) {
-                // if (props.msg === "اضافة") {
-                setCurrentView("success");
-                // } else if (typeof props.msg === "object") {
-                //   setCurrentView("edit");
-                // } else {
-                //   setCurrentView("default");
-              } else {
-                setCurrentView("default");
-              }
-            }
-            //   }}
-          }
-          className=" bg-[#33835C] text-white p-2 px-10 rounded-lg "
-        >
-          اضافة
-        </button>
-      </div>
+      </form>
     </>
   );
 };

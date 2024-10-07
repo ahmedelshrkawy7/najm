@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 
 import React, { memo, useRef, useState } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useNavigate } from "react-router-dom";
-import { columns, data } from "./data";
+// import { columns, data } from "./data";
 
 const ManagerCard = ({
   icon,
@@ -14,7 +15,10 @@ const ManagerCard = ({
   ch,
   currentView,
   setCurrentView,
+  data,
+  columns: cl,
 }) => {
+  // console.log(data, cl);
   let ref = useRef(null);
   const navigate = useNavigate();
   const [modelState, setModelState] = useState("");
@@ -27,8 +31,8 @@ const ManagerCard = ({
     } else {
       navigate("/depts", {
         state: {
-          data: data[index],
-          columns: columns[index],
+          data: data,
+          columns: cl,
         },
       });
     }
@@ -64,7 +68,7 @@ const ManagerCard = ({
               <button
                 onClick={() => handleClick(button, btnIndex)}
                 key={button}
-                className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm outline-none"
+                className="bg-[#33835C] text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-200 text-sm outline-none relative"
               >
                 {button}
               </button>

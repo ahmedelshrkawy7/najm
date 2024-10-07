@@ -12,6 +12,7 @@ const Deptview = () => {
   const {
     state: { data = [], columns = [] },
   } = useLocation();
+  console.log("🚀 ~ Deptview ~ data:", data);
   const [pagination, setPagination] = useState(
     parseInt(localStorage.getItem("pageNumber")) || 1
   );
@@ -32,6 +33,7 @@ const Deptview = () => {
       key: "actions",
       width: actionsColumnWidth,
       render: (_, record) => {
+        console.log(record);
         return (
           <div className="flex justify-center gap-4">
             <button
@@ -43,7 +45,7 @@ const Deptview = () => {
                       <input
                         className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full 
                         "
-                        defaultValue={record.id}
+                        defaultValue={record.name}
                         // cursor-not-allowed"
                         // disabled
                       />
