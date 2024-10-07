@@ -74,7 +74,7 @@ const Study = () => {
         </div>
 
         {loc === 2 && <PreparingStudy change={change} />}
-        {loc === 3 && <StudyPreview />}
+        {loc === 3 && <StudyPreview setLoc={setLoc} />}
       </div>
       {/* {showMenu && loc === 3 && (
         <div

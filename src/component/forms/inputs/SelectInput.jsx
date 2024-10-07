@@ -25,6 +25,12 @@ const SelectInput = ({
         control={control}
         name={nameType}
         // rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+        rules={{
+          required: {
+            value: true,
+            message: "هذا الحقل مطلوب",
+          },
+        }}
         render={({ field, fieldState }) => (
           <div>
             <Select
@@ -38,6 +44,9 @@ const SelectInput = ({
               // allowClear={field.value && true}
               disabled={disapled}
             />
+            {fieldState.error && (
+              <p className="text-red-500">{fieldState.error.message}</p>
+            )}
           </div>
         )}
       />

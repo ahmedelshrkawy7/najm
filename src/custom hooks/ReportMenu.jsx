@@ -31,13 +31,13 @@ const ReportMenu = ({
           refetch={refetch}
         ></ReportModal>
       ),
-      disabled: status === "accepted",
+      disabled: status === "accepted" || status === "under_confirm",
     },
     {
       id: 2,
       title: "اعداد دراسة اولية",
       path: "preparingStudy",
-      disabled: status === "new",
+      disabled: status === "new" || status === "under_confirm",
     },
     {
       id: 3,
