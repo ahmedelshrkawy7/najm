@@ -10,26 +10,20 @@ import { useQuery } from "react-query";
 
 const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
+  const [pagination, setPagination] = useState(1);
   const { Option } = Select;
   const { getData } = useApi();
-  let [pagination, setPagination] = useState(
-    localStorage.getItem("pageNumber") || 1
-  );
-  const { data = {} } = useQuery(
+
+  const { data: { data = [] } = {} } = useQuery(
     ["admin", ["/admin/departments", { page: pagination }]],
     getData,
-    {
-      refetchInterval: 0,
-    }
+    { refetchInterval: 0 }
   );
-  console.log("🚀 ~ AdminManager ~ data:", data);
-  console.log(data?.meta?.pagination.totalItems);
-  let departs = data?.data?.map((ele) => ({
+
+  let departs = data?.map((ele) => ({
     department: ele.name,
     id: ele.id,
   }));
-
-  // console.log("🚀 ~ departs ~ departs:", departs);
 
   const { data: { data: sections = [] } = {} } = useQuery(
     ["admin", ["/admin/specializations", ""]],
@@ -67,6 +61,14 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الصلاحيات",
+          dataIndex: "name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/roles",
     },
     {
       icon: "../src/assets/icons/manager_2.svg",
@@ -92,6 +94,7 @@ const AdminManager = () => {
           key: "id",
         },
       ],
+      apiKey: "/admin/specializations",
     },
     {
       icon: "../src/assets/icons/manager_3.svg",
@@ -143,6 +146,19 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الرئيسي",
+          dataIndex: "id",
+          key: "id",
+        },
+        {
+          title: "الفرعى",
+          dataIndex: "id",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/risk-types",
     },
     {
       icon: "../src/assets/icons/manager_4.svg",
@@ -155,14 +171,14 @@ const AdminManager = () => {
         />
       ),
       data: departs,
-      totalItems: data?.meta?.pagination.totalItems,
       columns: [
         {
           title: "الادارات",
-          dataIndex: "department",
+          dataIndex: "name",
           key: "id",
         },
       ],
+      apiKey: "/admin/departments",
     },
     {
       icon: "../src/assets/icons/manager_1.svg",
@@ -170,7 +186,13 @@ const AdminManager = () => {
       buttons: ["عرض المستخدمين", "إضافة مستخدم"],
       children: (
         <div className="flex flex-col gap-2 h-36 justify-between">
-          <div>data</div>
+          <div className="flex items-center mb-4 gap-2">
+            <span className="font-bold ">نوع المستخدم:</span>
+            <Radio.Group defaultValue="main">
+              <Radio value="main">دائم</Radio>
+              <Radio value="branch">مؤقت</Radio>
+            </Radio.Group>
+          </div>{" "}
           <div className="flex items-center justify-end">
             <button
               onClick={() => {
@@ -183,6 +205,24 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الادارة",
+          dataIndex: "id",
+          key: "id",
+        },
+        {
+          title: "الاقسام",
+          dataIndex: "department_name",
+          key: "id",
+        },
+        {
+          title: "المستخدمين",
+          dataIndex: "user_name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/users",
     },
   ];
 
@@ -202,8 +242,7 @@ const AdminManager = () => {
               setCurrentView={setCurrentView}
               data={card.data || []}
               columns={card.columns || []}
-              totalItems={card.totalItems || 0}
-              pagination={pagination}
+              apiKey={card?.apiKey}
             />
           ))}
         </div>

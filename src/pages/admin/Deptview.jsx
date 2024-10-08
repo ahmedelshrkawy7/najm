@@ -4,22 +4,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
+import { useQuery } from "react-query";
+import useApi from "../../utils/useApi";
 
 const Deptview = () => {
   const [modelContent, setModelContent] = useState(""); // State for model content
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
   const {
-    state: { data = [], columns = [], totalItems, pagination: pg },
+    state: { data = [], columns = [], apiKey = "" },
   } = useLocation();
-  console.log("🚀 ~ Deptview ~ state:");
-  console.log("🚀 ~ Deptview ~ totalItems:", totalItems);
+
+  const { getData } = useApi();
+
   console.log("🚀 ~ Deptview ~ data:", data);
-  const [pagination, setPagination] = useState(pg);
+  const [pagination, setPagination] = useState(1);
   const ref = useRef();
   const navigate = useNavigate();
 
-  const totalPages = Math.ceil(totalItems / 9);
+  const { data: _data, isLoading } = useQuery(
+    ["admin", [apiKey, { page: pagination }]],
+    getData,
+    { refetchInterval: 0 }
+  );
+  console.log("🚀 ~ Deptview ~ t:", _data);
+  const totalPages = Math.ceil(_data?.meta?.pagination?.totalItems / 10);
   const actionsColumnWidth = useMemo(() => {
     if (totalPages > 1) {
       return `calc(100% / ${totalPages})`;
@@ -104,22 +113,27 @@ const Deptview = () => {
       <div className="w-[90%] mx-auto mt-20">
         <Table
           columns={[...columns, ...usedColumns]}
-          dataSource={data}
+          dataSource={_data?.data}
+          loading={{
+            spinning: isLoading,
+            indicator: (
+              <diV className=" w-full h-[650px] flex justify-center items-center">
+                <div className="loader"></div>
+              </diV>
+            ),
+          }}
           pagination={
-            // totalPages > 1
-            // ?
-            {
-              current: pagination,
-              pageSize: 9,
-              total: totalItems,
-              showSizeChanger: false,
-              onChange: (pageNumber) => {
-                console.log(pageNumber);
-                setPagination(pageNumber);
-                localStorage.setItem("pageNumber", pageNumber);
-              },
-            }
-            // : false
+            totalPages > 1
+              ? {
+                  current: pagination,
+                  pageSize: 10,
+                  total: _data?.meta?.pagination?.totalItems,
+                  showSizeChanger: false,
+                  onChange: (pageNumber) => {
+                    setPagination(pageNumber);
+                  },
+                }
+              : false
           }
           className="text-center font-medium text-md"
         />

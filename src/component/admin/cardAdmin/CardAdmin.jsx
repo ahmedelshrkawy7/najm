@@ -286,10 +286,13 @@ const CardAdmin = () => {
       dataIndex: "status",
       options: [
         { value: "", label: "اختر حالة البلاغ", disabled: true },
-        ...["جديد", "مقبول", "مرفوض", "قيد التأكيد"].map((status) => ({
-          value: status,
-          label: status,
-        })),
+        // ...["جديد", "مقبول", "مرفوض", "تحت الاعتماد"].map((status) => ({
+        //   value: status,
+        //   label: status,
+        // })),
+        ...Array.from(
+          new Set(data?.data?.reports?.map((report) => report?.status))
+        ).map((value) => ({ value, label: value })),
       ],
     },
     {
@@ -477,10 +480,10 @@ const CardAdmin = () => {
   const counterValues = [
     counter.new || 0,
     counter.accepted || 0,
-    counter.under_approved || 0,
+    counter.under_confirm || 0,
     counter.confirmed || 0,
     counter.under_study || 0,
-    counter.under_confirm || 0,
+    counter.under_approved || 0,
     counter.closed || 0,
     counter.rejected || 0,
     counter.escalated || 0,
@@ -547,7 +550,7 @@ const CardAdmin = () => {
           case "مرفوض":
             bgColor = "#FF6A6F";
             break;
-          case "قيد التأكيد":
+          case "تحت الاعتماد":
             bgColor = "#E7D066";
             break;
           default:
@@ -556,7 +559,7 @@ const CardAdmin = () => {
         return (
           <button
             style={{ backgroundColor: bgColor }}
-            className="w-[115px] py-[6px] px-8 bg-[#33835C] text-white rounded-full text-[11px]
+            className="w-max py-[6px] px-8 bg-[#33835C] text-white rounded-full text-[11px]
          font-semibold"
           >
             {text}
