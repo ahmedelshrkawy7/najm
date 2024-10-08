@@ -17,6 +17,7 @@ const ManagerCard = ({
   setCurrentView,
   data,
   columns: cl,
+  apiKey,
 }) => {
   // console.log(data, cl);
   let ref = useRef(null);
@@ -33,6 +34,7 @@ const ManagerCard = ({
         state: {
           data: data,
           columns: cl,
+          apiKey,
         },
       });
     }

@@ -10,11 +10,12 @@ import { useQuery } from "react-query";
 
 const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
+  const [pagination, setPagination] = useState(1);
   const { Option } = Select;
   const { getData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/admin/departments", ""]],
+    ["admin", ["/admin/departments", { page: pagination }]],
     getData,
     { refetchInterval: 0 }
   );
@@ -23,8 +24,6 @@ const AdminManager = () => {
     department: ele.name,
     id: ele.id,
   }));
-  
-  console.log("🚀 ~ departs ~ departs:", departs);
 
   const { data: { data: sections = [] } = {} } = useQuery(
     ["admin", ["/admin/specializations", ""]],
@@ -62,6 +61,14 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الصلاحيات",
+          dataIndex: "name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/roles",
     },
     {
       icon: "../src/assets/icons/manager_2.svg",
@@ -87,6 +94,7 @@ const AdminManager = () => {
           key: "id",
         },
       ],
+      apiKey: "/admin/specializations",
     },
     {
       icon: "../src/assets/icons/manager_3.svg",
@@ -138,6 +146,19 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الرئيسي",
+          dataIndex: "id",
+          key: "id",
+        },
+        {
+          title: "الفرعى",
+          dataIndex: "id",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/risk-types",
     },
     {
       icon: "../src/assets/icons/manager_4.svg",
@@ -153,10 +174,11 @@ const AdminManager = () => {
       columns: [
         {
           title: "الادارات",
-          dataIndex: "department",
+          dataIndex: "name",
           key: "id",
         },
       ],
+      apiKey: "/admin/departments",
     },
     {
       icon: "../src/assets/icons/manager_1.svg",
@@ -177,6 +199,24 @@ const AdminManager = () => {
           </div>
         </div>
       ),
+      columns: [
+        {
+          title: "الادارة",
+          dataIndex: "id",
+          key: "id",
+        },
+        {
+          title: "الاقسام",
+          dataIndex: "department_name",
+          key: "id",
+        },
+        {
+          title: "المستخدمين",
+          dataIndex: "user_name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/users",
     },
   ];
 
@@ -196,6 +236,7 @@ const AdminManager = () => {
               setCurrentView={setCurrentView}
               data={card.data || []}
               columns={card.columns || []}
+              apiKey={card?.apiKey}
             />
           ))}
         </div>

@@ -4,21 +4,30 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
+import { useQuery } from "react-query";
+import useApi from "../../utils/useApi";
 
 const Deptview = () => {
   const [modelContent, setModelContent] = useState(""); // State for model content
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
   const {
-    state: { data = [], columns = [] },
+    state: { data = [], columns = [], apiKey = "" },
   } = useLocation();
+
+  const { getData } = useApi();
+
   console.log("🚀 ~ Deptview ~ data:", data);
-  const [pagination, setPagination] = useState(
-    parseInt(localStorage.getItem("pageNumber")) || 1
-  );
+  const [pagination, setPagination] = useState(1);
   const ref = useRef();
   const navigate = useNavigate();
 
+  const { data: _data } = useQuery(
+    ["admin", [apiKey, { page: pagination }]],
+    getData,
+    { refetchInterval: 0 }
+  );
+  console.log("🚀 ~ Deptview ~ t:", _data);
   const totalPages = Math.ceil(data.length / 9);
   const actionsColumnWidth = useMemo(() => {
     if (totalPages > 1) {
@@ -104,17 +113,16 @@ const Deptview = () => {
       <div className="w-[90%] mx-auto mt-20">
         <Table
           columns={[...columns, ...usedColumns]}
-          dataSource={data}
+          dataSource={_data?.data}
           pagination={
             totalPages > 1
               ? {
                   current: pagination,
-                  pageSize: 9,
-                  total: data.length,
+                  pageSize: 10,
+                  total: _data?.meta?.pagination?.totalItems,
                   showSizeChanger: false,
                   onChange: (pageNumber) => {
                     setPagination(pageNumber);
-                    localStorage.setItem("pageNumber", pageNumber);
                   },
                 }
               : false
