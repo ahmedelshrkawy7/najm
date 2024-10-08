@@ -35,7 +35,7 @@ const PreparingStudy = ({ change }) => {
   const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/admin/departments", ""]],
+    ["admin", ["/departments", ""]],
     getData
   );
 
@@ -398,7 +398,7 @@ const PreparingStudy = ({ change }) => {
                 value: opt.id,
                 label: (
                   <span className="text-sm" key={opt.id}>
-                    {opt.name}
+                    {opt.name_ar}
                   </span>
                 ),
               }))}

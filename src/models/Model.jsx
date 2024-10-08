@@ -14,7 +14,7 @@ const Model = forwardRef(({ children, ...props }, ref) => {
     <>
       <dialog
         ref={dialogRef}
-        className="dialog fixed top-0 min-w-full min-h-full bg-black/50 !z-[1000] !overflow-visible"
+        className="dialog fixed top-0 min-w-full min-h-full bg-black/50 !z-[2000] !overflow-visible"
         // className=" backdrop:bg-black/50"
         // open
         onClick={(e) => {

@@ -253,7 +253,3 @@ body::-webkit-scrollbar-thumb {
 .ant-select-dropdown {
   z-index: 50000 !important; /* Ensure it's above the modal */
 }
-
-span {
-  opacity: 100% !important;
-}

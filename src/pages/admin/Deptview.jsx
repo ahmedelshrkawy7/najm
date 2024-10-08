@@ -22,13 +22,13 @@ const Deptview = () => {
   const ref = useRef();
   const navigate = useNavigate();
 
-  const { data: _data } = useQuery(
+  const { data: _data, isLoading } = useQuery(
     ["admin", [apiKey, { page: pagination }]],
     getData,
     { refetchInterval: 0 }
   );
   console.log("🚀 ~ Deptview ~ t:", _data);
-  const totalPages = Math.ceil(data.length / 9);
+  const totalPages = Math.ceil(_data?.meta?.pagination?.totalItems / 10);
   const actionsColumnWidth = useMemo(() => {
     if (totalPages > 1) {
       return `calc(100% / ${totalPages})`;
@@ -114,6 +114,14 @@ const Deptview = () => {
         <Table
           columns={[...columns, ...usedColumns]}
           dataSource={_data?.data}
+          loading={{
+            spinning: isLoading,
+            indicator: (
+              <diV className=" w-full h-[650px] flex justify-center items-center">
+                <div className="loader"></div>
+              </diV>
+            ),
+          }}
           pagination={
             totalPages > 1
               ? {

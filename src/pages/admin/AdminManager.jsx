@@ -186,7 +186,13 @@ const AdminManager = () => {
       buttons: ["عرض المستخدمين", "إضافة مستخدم"],
       children: (
         <div className="flex flex-col gap-2 h-36 justify-between">
-          <div>data</div>
+          <div className="flex items-center mb-4 gap-2">
+            <span className="font-bold ">نوع المستخدم:</span>
+            <Radio.Group defaultValue="main">
+              <Radio value="main">دائم</Radio>
+              <Radio value="branch">مؤقت</Radio>
+            </Radio.Group>
+          </div>{" "}
           <div className="flex items-center justify-end">
             <button
               onClick={() => {
