@@ -1,16 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import { useForm } from "react-hook-form";
+import { errorNotf } from "../utils/notifications/Toast";
 
-const MyCard = ({ name, currentView, setCurrentView }) => {
+const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
   const {
     control,
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -20,6 +22,7 @@ const MyCard = ({ name, currentView, setCurrentView }) => {
     },
   });
 
+  const queryClient = useQueryClient();
   const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
@@ -29,9 +32,16 @@ const MyCard = ({ name, currentView, setCurrentView }) => {
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
+      reset();
       setCurrentView("success");
+      queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
+      queryClient.invalidateQueries(["admin", ["/admin/specializations", ""]]);
     },
-    onError: (err) => {},
+    onError: (err) => {
+      reset();
+      closeModal();
+      errorNotf("تم انشاء هذا القسم مسبقا");
+    },
   });
 
   const onSubmit = (data) => {
@@ -95,7 +105,7 @@ const MyCard = ({ name, currentView, setCurrentView }) => {
             )}
           </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end mt-4 sm:mt-0">
           <button
             type="submit"
             className="bg-[#33835C] text-white p-2 px-10 rounded-lg"

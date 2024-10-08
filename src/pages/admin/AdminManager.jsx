@@ -15,16 +15,21 @@ const AdminManager = () => {
 
   const { data: { data = [] } = {} } = useQuery(
     ["admin", ["/admin/departments", ""]],
-    getData
+    getData,
+    { refetchInterval: 0 }
   );
 
   let departs = data?.map((ele) => ({
     department: ele.name,
+    id: ele.id,
   }));
+  
+  console.log("🚀 ~ departs ~ departs:", departs);
 
   const { data: { data: sections = [] } = {} } = useQuery(
     ["admin", ["/admin/specializations", ""]],
-    getData
+    getData,
+    { refetchInterval: 0 }
   );
 
   const cardData = [

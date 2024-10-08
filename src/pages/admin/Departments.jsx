@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
+import { successNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
 const Departments = ({ currentView, setCurrentView }) => {
@@ -10,6 +11,7 @@ const Departments = ({ currentView, setCurrentView }) => {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "all",
@@ -18,11 +20,14 @@ const Departments = ({ currentView, setCurrentView }) => {
     },
   });
 
+  const queryClient = useQueryClient();
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
+      reset();
       setCurrentView("success");
+      queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
     },
     onError: (err) => {},
   });

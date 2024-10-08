@@ -53,7 +53,9 @@ const ManagerCard = ({
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
-        <div className="px-5 py-3">{React.cloneElement(ch)}</div>
+        <div className="px-5 py-3">
+          {React.cloneElement(ch, { closeModal: () => ref.current?.close() })}
+        </div>
       </ReportModel>
       <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
         <div className="bg-white w-full text-center py-2">
