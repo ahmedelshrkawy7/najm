@@ -628,7 +628,7 @@ const CardAdmin = () => {
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
-  console.log("🚀 ~ filteredReports ~ filteredReports:", data.data);
+  console.log("🚀 ~ filteredReports ~ filteredReports:", data.data?.reports);
 
   return (
     <>

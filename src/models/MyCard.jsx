@@ -14,7 +14,7 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
     formState: { errors },
     reset,
   } = useForm({
-    mode: "all",
+    mode: "onSubmit",
     defaultValues: {
       department_id: "",
       // name_ar: "",

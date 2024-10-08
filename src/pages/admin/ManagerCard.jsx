@@ -17,6 +17,8 @@ const ManagerCard = ({
   setCurrentView,
   data,
   columns: cl,
+  totalItems,
+  pagination,
 }) => {
   // console.log(data, cl);
   let ref = useRef(null);
@@ -33,6 +35,8 @@ const ManagerCard = ({
         state: {
           data: data,
           columns: cl,
+          totalItems: totalItems,
+          pagination,
         },
       });
     }

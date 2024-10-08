@@ -10,16 +10,16 @@ const Deptview = () => {
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
   const {
-    state: { data = [], columns = [] },
+    state: { data = [], columns = [], totalItems, pagination: pg },
   } = useLocation();
+  console.log("🚀 ~ Deptview ~ state:");
+  console.log("🚀 ~ Deptview ~ totalItems:", totalItems);
   console.log("🚀 ~ Deptview ~ data:", data);
-  const [pagination, setPagination] = useState(
-    parseInt(localStorage.getItem("pageNumber")) || 1
-  );
+  const [pagination, setPagination] = useState(pg);
   const ref = useRef();
   const navigate = useNavigate();
 
-  const totalPages = Math.ceil(data.length / 9);
+  const totalPages = Math.ceil(totalItems / 9);
   const actionsColumnWidth = useMemo(() => {
     if (totalPages > 1) {
       return `calc(100% / ${totalPages})`;
@@ -106,18 +106,20 @@ const Deptview = () => {
           columns={[...columns, ...usedColumns]}
           dataSource={data}
           pagination={
-            totalPages > 1
-              ? {
-                  current: pagination,
-                  pageSize: 9,
-                  total: data.length,
-                  showSizeChanger: false,
-                  onChange: (pageNumber) => {
-                    setPagination(pageNumber);
-                    localStorage.setItem("pageNumber", pageNumber);
-                  },
-                }
-              : false
+            // totalPages > 1
+            // ?
+            {
+              current: pagination,
+              pageSize: 9,
+              total: totalItems,
+              showSizeChanger: false,
+              onChange: (pageNumber) => {
+                console.log(pageNumber);
+                setPagination(pageNumber);
+                localStorage.setItem("pageNumber", pageNumber);
+              },
+            }
+            // : false
           }
           className="text-center font-medium text-md"
         />

@@ -12,19 +12,24 @@ const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
   const { Option } = Select;
   const { getData } = useApi();
-
-  const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/admin/departments", ""]],
-    getData,
-    { refetchInterval: 0 }
+  let [pagination, setPagination] = useState(
+    localStorage.getItem("pageNumber") || 1
   );
-
-  let departs = data?.map((ele) => ({
+  const { data = {} } = useQuery(
+    ["admin", ["/admin/departments", { page: pagination }]],
+    getData,
+    {
+      refetchInterval: 0,
+    }
+  );
+  console.log("🚀 ~ AdminManager ~ data:", data);
+  console.log(data?.meta?.pagination.totalItems);
+  let departs = data?.data?.map((ele) => ({
     department: ele.name,
     id: ele.id,
   }));
-  
-  console.log("🚀 ~ departs ~ departs:", departs);
+
+  // console.log("🚀 ~ departs ~ departs:", departs);
 
   const { data: { data: sections = [] } = {} } = useQuery(
     ["admin", ["/admin/specializations", ""]],
@@ -150,6 +155,7 @@ const AdminManager = () => {
         />
       ),
       data: departs,
+      totalItems: data?.meta?.pagination.totalItems,
       columns: [
         {
           title: "الادارات",
@@ -196,6 +202,8 @@ const AdminManager = () => {
               setCurrentView={setCurrentView}
               data={card.data || []}
               columns={card.columns || []}
+              totalItems={card.totalItems || 0}
+              pagination={pagination}
             />
           ))}
         </div>

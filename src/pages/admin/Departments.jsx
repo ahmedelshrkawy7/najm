@@ -35,7 +35,7 @@ const Departments = ({ currentView, setCurrentView }) => {
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     mutation.mutate([
-      `/admin/departments`,
+      `/admin/departments`, 
       { ...data, name_ar: watch("name_en") },
     ]);
   };
