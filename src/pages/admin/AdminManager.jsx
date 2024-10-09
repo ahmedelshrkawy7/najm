@@ -9,6 +9,7 @@ import useApi from "../../utils/useApi";
 import { useQuery } from "react-query";
 import Users from "../../models/Users";
 import Roles from "../../models/Roles";
+import RiskTypes from "../../models/RiskTypes";
 
 const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
@@ -104,60 +105,17 @@ const AdminManager = () => {
       title: "أنواع الخطر",
       buttons: ["عرض أنواع الخطر", "إضافة نوع للخطر"],
       children: (
-        <div className="flex flex-col gap-2 justify-between">
-          <div className="py-3">
-            <div className="flex items-center mb-4 gap-2">
-              <span className="font-bold ">نوع الخطر:</span>
-              <Radio.Group defaultValue="main">
-                <Radio value="main">رئيسي</Radio>
-                <Radio value="branch">فرعي</Radio>
-              </Radio.Group>
-            </div>
-
-            <div className="flex gap-4 flex-wrap lg:flex-nowrap">
-              <div className="flex flex-col w-full md:w-1/3">
-                <label className="mb-2">نوع الخطر</label>
-                <Select defaultValue="الاختلاس" className="w-full">
-                  <Option value="اختلاس">الاختلاس</Option>
-                  <Option value="احتيال">الاحتيال</Option>
-                </Select>
-              </div>
-
-              <div className="flex flex-col w-full md:w-1/3">
-                <label className="mb-2">وزن البلغ</label>
-                <Select defaultValue="A" className="w-full">
-                  <Option value="A">A</Option>
-                  <Option value="B">B</Option>
-                </Select>
-              </div>
-
-              <div className="flex flex-col w-full md:w-1/3">
-                <label className="mb-2">عدد الأيام</label>
-                <Input defaultValue="21 يوم" className="w-full" />
-              </div>
-            </div>
-          </div>{" "}
-          <div className="flex items-center justify-end">
-            <button
-              onClick={() => {
-                setCurrentView("success");
-              }}
-              className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
-            >
-              اضافة
-            </button>
-          </div>
-        </div>
+        <RiskTypes currentView={currentView} setCurrentView={setCurrentView} />
       ),
       columns: [
         {
           title: "الرئيسي",
-          dataIndex: "id",
+          dataIndex: "main",
           key: "id",
         },
         {
           title: "الفرعى",
-          dataIndex: "id",
+          dataIndex: "branch",
           key: "id",
         },
       ],

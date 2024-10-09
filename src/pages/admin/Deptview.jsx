@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Table } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
@@ -22,11 +22,13 @@ const Deptview = () => {
   const ref = useRef();
   const navigate = useNavigate();
 
-  const { data: _data, isLoading } = useQuery(
-    ["admin", [apiKey, { page: pagination }]],
-    getData,
-    { refetchInterval: 0 }
-  );
+  const {
+    data: _data,
+    isLoading,
+    refetch,
+  } = useQuery(["admin", [apiKey, { page: pagination }]], getData, {
+    refetchInterval: 0,
+  });
   console.log("🚀 ~ Deptview ~ t:", _data);
   const totalPages = Math.ceil(_data?.meta?.pagination?.totalItems / 10);
   const actionsColumnWidth = useMemo(() => {
@@ -35,6 +37,10 @@ const Deptview = () => {
     }
     return "200px";
   }, [totalPages]);
+
+  useEffect(() => {
+    refetch();
+  }, [data, refetch]);
 
   const usedColumns = [
     {
