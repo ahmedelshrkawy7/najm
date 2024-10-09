@@ -3,10 +3,10 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
-import { successNotf } from "../../utils/notifications/Toast";
+import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
-const Departments = ({ currentView, setCurrentView }) => {
+const Departments = ({ currentView, setCurrentView ,closeModal}) => {
   const {
     control,
     handleSubmit,
@@ -29,13 +29,15 @@ const Departments = ({ currentView, setCurrentView }) => {
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
     },
-    onError: (err) => {},
+    onError: (err) => {
+      closeModal();
+      errorNotf("تم انشاء الادارة مسبقا");    },
   });
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
     mutation.mutate([
-      `/admin/departments`, 
+      `/admin/departments`,
       { ...data, name_ar: watch("name_en") },
     ]);
   };

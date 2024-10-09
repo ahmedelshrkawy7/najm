@@ -74,7 +74,7 @@
 
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Radio } from "antd";
 import useApi from "../utils/useApi";
@@ -94,8 +94,8 @@ const Users = ({ currentView, setCurrentView }) => {
     getData
   );
 
-  const { data: { data: departs = [] } = {} } = useQuery(
-    ["admin", ["/admin/specializations", ""]],
+  const { data: { data: departs = [] } = {}, refetch } = useQuery(
+    ["admin", ["/specializations", ""]],
     getData
   );
   console.log("🚀 ~ Users ~ _data:", _data);
@@ -135,6 +135,10 @@ const Users = ({ currentView, setCurrentView }) => {
     // setCurrentView("success");
     mutation.mutate([`/admin/users`, data]);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, _data, departs]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-md py-2">
