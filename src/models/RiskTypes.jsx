@@ -19,6 +19,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
     ["admin", ["/admin/main-risks", ""]],
     getData
   );
+
   const {
     control,
     handleSubmit,
@@ -50,7 +51,6 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
   });
 
   const onSubmit = (data) => {
-    // setCurrentView("success");
     if (riskType === "1") {
       mutation.mutate([
         `admin/risk-types`,
@@ -67,7 +67,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col space-y-6"
       >
-        <div className="form-group flex gap-3 ">
+        <div className="form-group flex gap-3">
           <label className="block text-gray-700 font-bold mb-2">
             نوع المخاطر:
           </label>
@@ -93,7 +93,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
         </div>
 
         {riskType === "1" ? (
-          <div className="w-[40%]">
+          <div className="w-full md:w-[40%]">
             <label className="block mb-3 font-bold">اسم الخطر الرئيسي</label>
             <Controller
               name="name"
@@ -103,7 +103,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                 <Input
                   placeholder="اسم الخطر الرئيسي"
                   {...field}
-                  className="h-[41px]"
+                  className="h-[41px] w-full"
                 />
               )}
             />
@@ -113,7 +113,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="form-group">
                 <label className="block text-gray-700 font-bold mb-2">
                   وزن البلاغ:
@@ -127,9 +127,9 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                       {...field}
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
-                      {/* <option value="" disabled hidden>
+                      <option value="" disabled hidden>
                         اختر وزن البلاغ
-                      </option> */}
+                      </option>
                       {weights.map((weight) => (
                         <option key={weight.id} value={weight.id}>
                           {weight.weight}
@@ -208,9 +208,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                 <Controller
                   control={control}
                   name="num_of_days"
-                  rules={{
-                    required: "عدد الأيام مطلوب",
-                  }}
+                  rules={{ required: "عدد الأيام مطلوب" }}
                   render={({ field }) => (
                     <Input
                       {...field}

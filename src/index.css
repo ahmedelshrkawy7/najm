@@ -207,14 +207,14 @@ body::-webkit-scrollbar-thumb {
 
 /* styles.css */
 .custom-radio .ant-radio-inner {
-  border-color: #33835C; /* Change border color */
+  border-color: #33835c; /* Change border color */
   padding: 8px;
   vertical-align: middle;
 }
 
 .custom-radio .ant-radio-checked .ant-radio-inner {
-  background-color: #33835C; /* Change checked background color */
-  border-color: #33835C;
+  background-color: #33835c; /* Change checked background color */
+  border-color: #33835c;
   /* Change checked border color */
 }
 
