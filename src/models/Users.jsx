@@ -79,6 +79,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Radio } from "antd";
 import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
+import { errorNotf } from "../utils/notifications/Toast";
 
 const Users = ({ currentView, setCurrentView }) => {
   const { getData, postData } = useApi();
@@ -124,7 +125,9 @@ const Users = ({ currentView, setCurrentView }) => {
       reset();
       setCurrentView("success");
     },
-    onError: (err) => {},
+    onError: (err) => {
+      errorNotf("خطا انشاء مستخدم");
+    },
   });
 
   const onSubmit = (data) => {
@@ -142,7 +145,11 @@ const Users = ({ currentView, setCurrentView }) => {
             name="user_type"
             control={control}
             render={({ field }) => (
-              <Radio.Group {...field} defaultValue={field.value}>
+              <Radio.Group
+                {...field}
+                defaultValue={field.value}
+                className="custom-radio"
+              >
                 <Radio value="1">دائم</Radio>
                 <Radio value="0">مؤقت</Radio>
               </Radio.Group>
