@@ -7,6 +7,8 @@ import { Radio, Select, Input } from "antd";
 import Departments from "./Departments";
 import useApi from "../../utils/useApi";
 import { useQuery } from "react-query";
+import Users from "../../models/Users";
+import Roles from "../../models/Roles";
 
 const AdminManager = () => {
   const [currentView, setCurrentView] = useState("default");
@@ -37,29 +39,30 @@ const AdminManager = () => {
       title: "الصلاحيات",
       buttons: ["عرض الصلاحيات", "إضافة صلاحية"],
       children: (
-        <div className="flex flex-col gap-2 h-36 justify-between">
-          <div className="flex flex-col gap-2 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full">
-            <label htmlFor="dept_name" className="font-medium">
-              اسم الادارة
-            </label>
-            <input
-              type="text"
-              id="dept_name"
-              className="border border-gray-300 p-2 rounded-md outline-none w-full"
-              placeholder="الادارة العامة لشئون الوافدين"
-            />
-          </div>
-          <div className="flex items-center justify-end">
-            <button
-              onClick={() => {
-                setCurrentView("success");
-              }}
-              className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
-            >
-              اضافة
-            </button>
-          </div>
-        </div>
+        // <div className="flex flex-col gap-2 h-36 justify-between">
+        //   <div className="flex flex-col gap-2 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full">
+        //     <label htmlFor="dept_name" className="font-medium">
+        //       اسم الادارة
+        //     </label>
+        //     <input
+        //       type="text"
+        //       id="dept_name"
+        //       className="border border-gray-300 p-2 rounded-md outline-none w-full"
+        //       placeholder="الادارة العامة لشئون الوافدين"
+        //     />
+        //   </div>
+        //   <div className="flex items-center justify-end">
+        //     <button
+        //       onClick={() => {
+        //         setCurrentView("success");
+        //       }}
+        //       className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
+        //     >
+        //       اضافة
+        //     </button>
+        //   </div>
+        // </div>
+        <Roles currentView={currentView} setCurrentView={setCurrentView} />
       ),
       columns: [
         {
@@ -185,35 +188,36 @@ const AdminManager = () => {
       title: "المستخدمين",
       buttons: ["عرض المستخدمين", "إضافة مستخدم"],
       children: (
-        <div className="flex flex-col gap-2 h-36 justify-between">
-          <div className="flex items-center mb-4 gap-2">
-            <span className="font-bold ">نوع المستخدم:</span>
-            <Radio.Group defaultValue="main">
-              <Radio value="main">دائم</Radio>
-              <Radio value="branch">مؤقت</Radio>
-            </Radio.Group>
-          </div>{" "}
-          <div className="flex items-center justify-end">
-            <button
-              onClick={() => {
-                setCurrentView("success");
-              }}
-              className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
-            >
-              اضافة
-            </button>
-          </div>
-        </div>
+        // <div className="flex flex-col gap-2 h-36 justify-between">
+        // <div className="flex items-center mb-4 gap-2">
+        //   <span className="font-bold ">نوع المستخدم:</span>
+        //   <Radio.Group defaultValue="main">
+        //     <Radio value="main">دائم</Radio>
+        //     <Radio value="branch">مؤقت</Radio>
+        //   </Radio.Group>
+        // </div>{" "}
+        //   <div className="flex items-center justify-end">
+        // <button
+        //   onClick={() => {
+        //     setCurrentView("success");
+        //   }}
+        //   className=" bg-[#33835C] text-white p-2 px-10 rounded-lg outline-none"
+        // >
+        //   اضافة
+        // </button>
+        //   </div>
+        // </div>
+        <Users currentView={currentView} setCurrentView={setCurrentView} />
       ),
       columns: [
         {
           title: "الادارة",
-          dataIndex: "id",
+          dataIndex: "department_name",
           key: "id",
         },
         {
           title: "الاقسام",
-          dataIndex: "department_name",
+          dataIndex: "specialization_name",
           key: "id",
         },
         {
