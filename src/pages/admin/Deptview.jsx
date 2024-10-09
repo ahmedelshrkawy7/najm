@@ -6,6 +6,7 @@ import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useQuery } from "react-query";
 import useApi from "../../utils/useApi";
+import EditRow from "../../component/managersComponetns/EditRow";
 
 const Deptview = () => {
   const [modelContent, setModelContent] = useState(""); // State for model content
@@ -49,17 +50,8 @@ const Deptview = () => {
               className="text-md flex items-center gap-3 "
               onClick={() => {
                 setModelContent(
-                  (
-                    <div className="h-36 pt-6">
-                      <input
-                        className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full 
-                        "
-                        defaultValue={record.name}
-                        // cursor-not-allowed"
-                        // disabled
-                      />
-                    </div>
-                  ) || `عرض`
+                  <EditRow record={record} setCurrentView={setCurrentView} /> ||
+                    `عرض`
                 );
                 setModelTitle("عرض القسم");
                 ref.current?.open();
@@ -96,19 +88,7 @@ const Deptview = () => {
         //   </>
         // }
       >
-        <div className="px-5 py-3">
-          {modelContent}
-          <div className="py-3 pt-0 flex items-center justify-end">
-            <button
-              onClick={() => {
-                setCurrentView("success");
-              }}
-              className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
-            >
-              <EditOutlined /> {"تعديل"}
-            </button>
-          </div>
-        </div>
+        <div className="px-5 py-3">{modelContent}</div>
       </ReportModel>
       <div className="w-[90%] mx-auto mt-20">
         <Table

@@ -109,7 +109,7 @@ const Users = ({ currentView, setCurrentView }) => {
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      userType: "1",
+      user_type: "1",
       department_id: "",
       specialization_id: "",
       name: "",
@@ -122,7 +122,7 @@ const Users = ({ currentView, setCurrentView }) => {
   const mutation = useMutation(postData, {
     onSuccess: () => {
       reset();
-      //   setCurrentView("success");
+      setCurrentView("success");
     },
     onError: (err) => {},
   });
@@ -130,7 +130,7 @@ const Users = ({ currentView, setCurrentView }) => {
   const onSubmit = (data) => {
     console.log("Form Data:", data);
     // setCurrentView("success");
-    mutation.mutate([`/admin/roles`, data]);
+    mutation.mutate([`/admin/users`, data]);
   };
 
   return (
@@ -139,7 +139,7 @@ const Users = ({ currentView, setCurrentView }) => {
         <div className="flex flex-col md:flex-row items-start md:items-center mb-4 gap-2">
           <span className="font-bold ">نوع المستخدم:</span>
           <Controller
-            name="userType"
+            name="user_type"
             control={control}
             render={({ field }) => (
               <Radio.Group {...field} defaultValue={field.value}>
@@ -264,7 +264,11 @@ const Users = ({ currentView, setCurrentView }) => {
               control={control}
               rules={{ required: "يرجى إدخال كلمة المرور." }}
               render={({ field }) => (
-                <Input.Password placeholder="*******" {...field} className="h-[41px]" />
+                <Input.Password
+                  placeholder="*******"
+                  {...field}
+                  className="h-[41px]"
+                />
               )}
             />
             {errors.password && (
