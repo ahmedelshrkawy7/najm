@@ -4,8 +4,9 @@ import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import { useForm } from "react-hook-form";
+import { errorNotf } from "../utils/notifications/Toast";
 
-const Roles = ({ currentView, setCurrentView }) => {
+const Roles = ({ currentView, setCurrentView, closeModal }) => {
   const {
     control,
     handleSubmit,
@@ -27,7 +28,10 @@ const Roles = ({ currentView, setCurrentView }) => {
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/admin/roles", ""]]);
     },
-    onError: (err) => {},
+    onError: (err) => {
+      closeModal();
+      errorNotf("تم انشاء الصلاحية مسبقا");
+    },
   });
 
   const onSubmit = (data) => {

@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import { useForm } from "react-hook-form";
 import { errorNotf } from "../utils/notifications/Toast";
+import { useEffect } from "react";
 
 const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
   const {
@@ -25,8 +26,8 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
   const queryClient = useQueryClient();
   const { getData, postData } = useApi();
 
-  const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/admin/departments", ""]],
+  const { data: { data = [] } = {}, refetch } = useQuery(
+    ["admin", ["/departments", ""]],
     getData
   );
 
@@ -52,10 +53,14 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
     ]);
   };
 
+  useEffect(() => {
+    refetch();
+  }, [refetch, data]);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <div className="flex gap-4 flex-wrap h-36 mb-6">
+        <div className="flex gap-4 flex-wrap h-40 mb-6">
           <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
             <label className="font-medium">اسم القسم</label>
             <input
@@ -81,7 +86,7 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
             </label>
             <select
               id="select"
-              className={`rounded-md w-full flex items-center h-[37px] border ${
+              className={`rounded-md w-full flex items-center p-1 h-[34px] border ${
                 errors.department_id ? "border-red-500" : "border-gray-300"
               } text-gray-400 outline-none`}
               defaultValue=""
@@ -94,7 +99,7 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
               </option>
               {data.map((department) => (
                 <option key={department.id} value={department.id}>
-                  {department.name}
+                  {department.name_ar}
                 </option>
               ))}
             </select>
