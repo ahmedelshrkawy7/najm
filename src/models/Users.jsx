@@ -85,7 +85,7 @@ const Users = ({ currentView, setCurrentView }) => {
   const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/admin/roles", ""]],
+    ["admin", ["/roles", ""]],
     getData
   );
 
