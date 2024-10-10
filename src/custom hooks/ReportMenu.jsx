@@ -20,6 +20,7 @@ const ReportMenu = ({
 }) => {
   const navigate = useNavigate();
   const { handleHideMenu } = useContext(StudyContext);
+
   const optionItems = [
     {
       id: 1,
@@ -167,7 +168,7 @@ const ReportMenu = ({
                 })
               : clickModal(opt.children);
           }}
-          className={`py-[5px] px-[10px]  border border-gray-100 text-[16px] ${
+          className={`py-[5px] px-[10px] border border-gray-100 text-[16px] ${
             status === "rejected" ||
             (status === "new" && opt.id !== 1) ||
             (status === "accepted" && opt.id === 1) ||

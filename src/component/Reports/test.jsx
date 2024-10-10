@@ -39,12 +39,17 @@ const Test = () => {
   } = useQuery(["users", ["/reports"], id], getData);
 
   useEffect(() => {
+    // handleHideMenu();
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
     if (showMenu || showSvg) {
       document.documentElement.style.overflow = "hidden";
     } else {
-      document.documentElement.style.overflow = "";
+      document.documentElement.style.overflow = "auto";
     }
-  }, [showMenu, showMenu]);
+  }, [showSvg, showMenu]);
 
   console.log(showMenu);
 

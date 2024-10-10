@@ -27,7 +27,8 @@ export const InputText = ({
           control={control}
           name={name}
           rules={{
-            required: name === "user_email" && "هذا الحقل مطلوب",
+            required:
+              (name === "user_email" || name === "result") && "هذا الحقل مطلوب",
             pattern: pattern,
             validate: validate,
           }}

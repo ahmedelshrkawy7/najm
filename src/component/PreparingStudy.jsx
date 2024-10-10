@@ -195,7 +195,7 @@ const PreparingStudy = ({ change }) => {
     getValues,
     reset,
   } = useForm({
-    mode: "all",
+    mode: "onBlur",
     defaultValues: {
       description: "",
       address: "",
@@ -361,7 +361,7 @@ const PreparingStudy = ({ change }) => {
               onClick={() => {
                 setShowSvg(true);
               }}
-              className="flex   px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
+              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
             >
               <span>اداة تقييم المخاطر</span>
               <DownOutlined />

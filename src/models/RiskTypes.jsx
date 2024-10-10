@@ -6,6 +6,7 @@ import "tailwindcss/tailwind.css"; // Ensure Tailwind is imported into your proj
 import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
+import { useEffect } from "react";
 
 const RiskTypes = ({ currentView, setCurrentView }) => {
   const { getData, postData } = useApi();
@@ -26,6 +27,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
     watch,
     formState: { errors },
     reset,
+    clearErrors,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -39,6 +41,14 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
   });
 
   const riskType = watch("risk_type");
+
+  // useEffect(() => {
+  //   if (riskType === "1") {
+  //     clearErrors(["report_weight_id", "parent_id", "num_of_days"]);
+  //   } else {
+  //     clearErrors("name");
+  //   }
+  // }, [riskType, clearErrors]);
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
@@ -114,7 +124,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="form-group">
+              <div className="form-group relative mb-2">
                 <label className="block text-gray-700 font-bold mb-2">
                   وزن البلاغ:
                 </label>
@@ -139,13 +149,13 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                   )}
                 />
                 {errors.report_weight_id && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1 absolute">
                     {errors.report_weight_id.message}
                   </p>
                 )}
               </div>
 
-              <div className="form-group">
+              <div className="form-group relative mb-2">
                 <label className="block text-gray-700 font-bold mb-2">
                   اسم الخطر الرئيسي:
                 </label>
@@ -170,7 +180,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                   )}
                 />
                 {errors.parent_id && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1 absolute">
                     {errors.parent_id.message}
                   </p>
                 )}
@@ -178,7 +188,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="form-group">
+              <div className="form-group relative">
                 <label className="block text-gray-700 font-bold mb-2">
                   اسم الخطر الفرعي:
                 </label>
@@ -195,13 +205,13 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                   )}
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1 absolute">
                     {errors.name.message}
                   </p>
                 )}
               </div>
 
-              <div className="form-group">
+              <div className="form-group relative">
                 <label className="block text-gray-700 font-bold mb-2">
                   عدد الأيام:
                 </label>
@@ -217,7 +227,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
                   )}
                 />
                 {errors.num_of_days && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1 absolute">
                     {errors.num_of_days.message}
                   </p>
                 )}
