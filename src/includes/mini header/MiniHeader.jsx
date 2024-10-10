@@ -10,7 +10,7 @@ const MiniHeader = () => {
     .map((match) => ({
       id: match.id,
       title: (
-        <Link className="hover:!bg-transparent " to={match.pathname}>
+        <Link className="hover:!bg-transparent" to={match.pathname}>
           <span className="text-white">{match.handle.crumb}</span>
         </Link>
       ),

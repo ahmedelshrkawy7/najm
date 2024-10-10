@@ -158,20 +158,50 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Table, Select } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
-import { EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+import { EditOutlined, EyeOutlined, HomeFilled } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useQuery } from "react-query";
 import useApi from "../../utils/useApi";
+import { Breadcrumb } from "../../import";
 
 const Deptview = () => {
+  const matches = useMatches();
+  const breadcrumbs = matches
+    .filter((match) => match.handle && match.handle.crumb)
+    .map((match) => {
+      console.log("🚀 ~ .map ~ match:", match);
+      return {
+        id: match.id,
+        title: (
+          <Link className="hover:!bg-white" to={redirectCrumb(match.pathname)}>
+            <span className="text-black text-[16px] font-medium">
+              {match.handle.crumb}
+            </span>
+          </Link>
+        ),
+        path: match.pathname,
+      };
+    });
+
+  breadcrumbs.push({
+    title: (
+      <span className="text-black/60 text-[16px] font-medium">الاقسام</span>
+    ),
+  });
+
+  function redirectCrumb(path) {
+    return path === "/depts" ? "/managers" : path === "/" ? "/alladmins" : path;
+  }
+
+  console.log("🚀 ~ Deptview ~ breadcrumbs:", breadcrumbs);
+
   const [modelContent, setModelContent] = useState("");
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
-  const {
-    state: { data = [], columns = [], apiKey = "" },
-  } = useLocation();
+  const { state } = useLocation();
+  const { data = [], columns = [], apiKey = "" } = state || {};
 
   const { getData } = useApi();
   const [pagination, setPagination] = useState(1);
@@ -179,7 +209,7 @@ const Deptview = () => {
   const navigate = useNavigate();
 
   const {
-    data: _data,
+    data: _data = {},
     isLoading,
     refetch,
   } = useQuery(["admin", [apiKey, { page: pagination }]], getData, {
@@ -191,7 +221,7 @@ const Deptview = () => {
     return totalPages > 1 ? `calc(100% / ${totalPages})` : "200px";
   }, [totalPages]);
 
-  const SELECTS = columns.map((column) => {
+  const SELECTS = columns?.map((column) => {
     const uniqueValues = Array.from(
       new Set(
         _data?.data?.map((report) => report[column.dataIndex]).filter(Boolean)
@@ -296,12 +326,20 @@ const Deptview = () => {
         </div>
       </ReportModel>
       <div className="w-[90%] mx-auto mt-20">
+        <div className="mb-6 flex flex-col justify-center">
+          <h2 className="text-black text-xl font-bold my-1">التاسيس</h2>
+          <div className="flex gap-2 items-center my-2">
+            <HomeFilled className="self-center" />
+            <Breadcrumb separator=">" items={breadcrumbs} />
+          </div>
+        </div>
+        <div className=" items-center mb-5 gap-3 hidden sm:flex">
+          <p className="text-lg font-medium text-black/75"> ابحث هنا</p>
+          <hr className="flex-1 border-gray-300" />
+        </div>
         <div className="flex flex-wrap gap-4 mb-4">
           {SELECTS.map((sel, index) => (
-            <div
-              className="flex-1 min-w-[150px] w-full sm:w-[200px] lg:w-full"
-              key={sel.label}
-            >
+            <div className="w-full sm:w-fit" key={sel.label}>
               <label className="text-sm font-bold">{sel.label}</label>
               {/* {sel.options.length > 1 ? ( */}
               <Select
@@ -327,7 +365,10 @@ const Deptview = () => {
         </div>
         <Table
           columns={[...columns, ...usedColumns]}
-          dataSource={filteredReports}
+          dataSource={filteredReports?.map((report) => ({
+            ...report,
+            key: report.id,
+          }))}
           loading={{
             spinning: isLoading,
             indicator: (

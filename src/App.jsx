@@ -80,14 +80,6 @@ const routes = [
         ],
       },
       {
-        path: "managers",
-        element: <AdminManager />,
-      },
-      {
-        path: "depts",
-        element: <Deptview />,
-      },
-      {
         path: "allAdmins",
         element: <AllAdmins />,
       },
@@ -97,6 +89,7 @@ const routes = [
       },
       {
         path: "depts",
+        handle: { crumb: "التاسيس" },
         element: <Deptview />,
       },
       {
