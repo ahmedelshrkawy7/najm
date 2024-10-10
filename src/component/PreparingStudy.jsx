@@ -212,6 +212,7 @@ const PreparingStudy = ({ change }) => {
     },
   });
 
+  console.log("🚀 ~ errors:", errors);
   console.log(getValues());
 
   const mutation = useMutation(postData, {
@@ -357,14 +358,19 @@ const PreparingStudy = ({ change }) => {
                 },
               ]}
             />
-            <div
-              onClick={() => {
-                setShowSvg(true);
-              }}
-              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
-            >
-              <span>اداة تقييم المخاطر</span>
-              <DownOutlined />
+            <div>
+              <div
+                onClick={() => {
+                  setShowSvg(true);
+                }}
+                className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
+              >
+                <span>اداة تقييم المخاطر</span>
+                <DownOutlined />
+              </div>
+              {errors.risk_assessment && (
+                <p className="text-red-500">{errors.risk_assessment.message}</p>
+              )}
             </div>
             <SelectInput
               errors={errors}
