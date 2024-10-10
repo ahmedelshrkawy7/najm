@@ -42,6 +42,7 @@ const CardAdmin = () => {
 
   useEffect(() => {
     refetch();
+    document.documentElement.style.overflow = "";
   }, [refetch, data]);
 
   const selectOptions = {
