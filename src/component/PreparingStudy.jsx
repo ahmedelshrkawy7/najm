@@ -432,7 +432,7 @@ const PreparingStudy = ({ change }) => {
                 prevData={prevData?.description}
               />
             </div>
-            <div className="flex gap-8 flex-wrap">
+            <div className="flex gap-8 flex-wrap mt-5">
               <Datepicker
                 datePickerTitle={"تاريخ ارتكاب المخالفة"}
                 control={control}

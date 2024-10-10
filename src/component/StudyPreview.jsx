@@ -4,7 +4,7 @@ import React from "react";
 import DispalyData from "../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../custom hooks/Results";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useApi from "../utils/useApi";
 import { useQuery } from "react-query";
 import prev4 from "../assets/icons/prev4.svg";
@@ -21,7 +21,7 @@ const StudyPreview = ({ setLoc }) => {
     ["admin", ["/reports/initial-study"], id],
     getData
   );
-  console.log("🚀 ~ StudyPreview ~ data:", data);
+  const navigate = useNavigate();
   const values = {
     address: data?.address,
     date: data.date,
@@ -76,7 +76,7 @@ const StudyPreview = ({ setLoc }) => {
       </div>
       <div className="py-5  w-[100%]   text-left">
         <button
-          onClick={() => setLoc(2)}
+          onClick={() => navigate(`/dash/${id}`)}
           className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
         >
           {" "}

@@ -171,7 +171,6 @@ const ReportMenu = ({
             status === "rejected" ||
             (status === "new" && opt.id !== 1) ||
             (status === "accepted" && opt.id === 1) ||
-            opt.id === 3 ||
             (status === "under_confirm" &&
               (opt.id === 1 || opt.id === 2 || opt.id === 3))
               ? "text-gray-400 cursor-not-allowed"

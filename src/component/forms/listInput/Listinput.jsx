@@ -131,6 +131,7 @@ const Listinput = ({
               <div className="tag flex items-center h-[40px] ">
                 <h3 className="flex items-center">{el.name}</h3>
                 <button
+                  type="button"
                   className="text-[20px] w-10 text-center flex items-center justify-center"
                   onClick={() => {
                     deleteTag(index);

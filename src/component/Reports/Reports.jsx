@@ -20,6 +20,7 @@ import Error from "../../models/Error";
 import { toast } from "react-toastify";
 import { CheckOutlined } from "@ant-design/icons";
 import { icons } from "antd/es/image/PreviewGroup";
+import { errorNotf } from "../../utils/notifications/Toast";
 
 const labelProps = {
   textarea: "وصف البلاغ",
@@ -104,8 +105,6 @@ const Reports = () => {
       ? date?.getFullYear() + "-" + month + "-" + getDay
       : "";
 
-  console.log(fullDate);
-
   // const date = new Date(values[3]?.$d);
   // const month = date?.getUTCMonth() + 1;
   // const day = date?.getDate();
@@ -137,7 +136,7 @@ const Reports = () => {
   let dataObject = {
     ...restValues,
     files: allFiles,
-    date: fullDate,
+    date: watch("date"),
     report_classification_id: card.report_classification_id,
     suspects: suspects,
     user_name: userName ? userName : null,
@@ -179,7 +178,11 @@ const Reports = () => {
   const { postData } = useApi();
   const Post = useMutation(postData, {
     onSuccess: (e) => {},
-    onError: ({ message }) => {},
+    onError: ({ message }) => {
+      console.log("🚀 ~ Reports ~ message:", message);
+      setShowmodal(false);
+      errorNotf("خطأ ادخال البينات");
+    },
   });
   const [
     description,
@@ -284,7 +287,7 @@ const Reports = () => {
   useEffect(() => {
     mainContainer.current.scrollIntoView();
   }, [current]);
-console.log(watch('date'))
+  console.log(watch("date"));
   const next = () => {
     console.log(!card.name);
 

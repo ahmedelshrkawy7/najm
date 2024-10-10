@@ -67,13 +67,11 @@ const ContactInformation = ({
             errors={errors}
             control={control}
             name="user_phone"
-            max={10}
             inputTitle={"رقم الجوال"}
             inputPlaceHolder={"رقم الجوال...."}
             setValue={setValue}
             pattern={{
-              value:
-                /\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,}/g,
+              value: /^\+?[0-9]+$/,
               message: "يجب ادخال رقم جوال صحيح",
             }}
           />

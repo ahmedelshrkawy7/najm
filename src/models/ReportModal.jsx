@@ -19,6 +19,7 @@ function Ch() {
 
     formState: { errors },
   } = useForm({
+    mode: "onBlur",
     defaultValues: {
       image: "",
       reason: "",
@@ -92,7 +93,7 @@ function Ch() {
               )}
             />
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="textarea" className="font-medium text-[15px]">
               يرجى كتابة سبب الرفض
             </label>
@@ -108,8 +109,8 @@ function Ch() {
               })}
               disabled={watch("status") === "accepted"}
             ></textarea>
-            {errors.reason && (
-              <p className="text-red-500 ">{errors.reason.message}</p>
+            {errors.reason && watch("status") == "rejected" && (
+              <p className="text-red-500 absolute ">{errors.reason.message}</p>
             )}
           </div>
 

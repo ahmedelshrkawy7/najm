@@ -44,7 +44,7 @@ const SelectInput = ({
               // allowClear={field.value && true}
               disabled={disapled}
             />
-            {fieldState.error && (
+            {fieldState.error && disapled !== true && (
               <p className="text-red-500">{fieldState.error.message}</p>
             )}
           </div>

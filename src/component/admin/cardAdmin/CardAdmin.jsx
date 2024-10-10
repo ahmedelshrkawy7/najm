@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
+import { useEffect } from "react";
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -18,6 +19,7 @@ const CardAdmin = () => {
     isLoading,
     error,
     data = {},
+    refetch,
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
   });
@@ -37,6 +39,10 @@ const CardAdmin = () => {
   //     data?.data?.reports?.map((report) => report.person?.phone) || [],
   //   dates: data?.data?.reports?.map((report) => report.date) || [],
   // };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, data]);
 
   const selectOptions = {
     reportNumber:
@@ -554,7 +560,7 @@ const CardAdmin = () => {
             bgColor = "#E7D066";
             break;
           default:
-            bgColor = "#33835C";
+            bgColor = "#000";
         }
         return (
           <button

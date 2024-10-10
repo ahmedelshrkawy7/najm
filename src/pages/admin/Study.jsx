@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import PreparingStudy from "../../component/PreparingStudy";
 import ReportsHeader from "../../custom hooks/ReportsHeader";
 import StudyPreview from "../../component/StudyPreview";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import StudyContext from "../../store/StudyContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
@@ -35,7 +35,7 @@ const Study = () => {
   const queryClient = useQueryClient();
   const { getData } = useApi();
   let [currentView, setCurrentView] = useState("default");
-
+  let navigate = useNavigate();
   const change = (x) => {
     setLoc(x);
   };
@@ -44,6 +44,7 @@ const Study = () => {
       // change(3);
       successNotf("تم توجية الدراسه الأوليه للمعتمد");
       ref.current.close();
+      navigate("/dash", { replace: true });
     },
     onError: (err) => {
       errorNotf(err.response.data.message);
