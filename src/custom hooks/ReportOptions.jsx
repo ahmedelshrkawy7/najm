@@ -25,9 +25,9 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="p-5">
+      <div className="p-5 ">
         {" "}
-        <div className="flex gap-4 flex-col">
+        <div className="flex gap-4 flex-col ">
           <div>
             <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
               نوع البلاغ

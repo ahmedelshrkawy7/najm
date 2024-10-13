@@ -72,7 +72,7 @@ const StudyPreview = ({ setLoc }) => {
     <>
       <div className="bg-white">
         <DispalyData values={values} />
-        <Results />
+        {/* <Results /> */}
       </div>
       <div className="py-5  w-[100%]   text-left">
         <button
