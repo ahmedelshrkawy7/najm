@@ -39,7 +39,7 @@ const Test = () => {
   } = useQuery(["users", ["/reports"], id], getData);
 
   useEffect(() => {
-    // handleHideMenu();
+    handleHideMenu();
     refetch();
   }, [refetch]);
 
