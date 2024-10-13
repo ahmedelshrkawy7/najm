@@ -59,20 +59,6 @@ const PreparingStudy = ({ change }) => {
   }, [showSvg]);
   const queryClient = useQueryClient();
 
-  const getDanger = (percent) => {
-    console.log("🚀 ~ getDanger ~ percent:", percent);
-    if (percent <= 0.3) {
-      setValue("risk_assessment", "منخفض");
-      setValue("processing_time", 30);
-    } else if (percent <= 0.6) {
-      setValue("risk_assessment", "متوسط");
-      setValue("processing_time", 20);
-    } else {
-      setValue("risk_assessment", "عالي");
-      setValue("processing_time", 15);
-    }
-  };
-
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
@@ -193,6 +179,7 @@ const PreparingStudy = ({ change }) => {
     control,
     resetField,
     getValues,
+    clearErrors,
     reset,
   } = useForm({
     mode: "onBlur",
@@ -211,6 +198,21 @@ const PreparingStudy = ({ change }) => {
       action: "prepare_initial_study",
     },
   });
+
+  const getDanger = (percent) => {
+    console.log("🚀 ~ getDanger ~ percent:", percent);
+    if (percent <= 0.3) {
+      setValue("risk_assessment", "منخفض");
+      setValue("processing_time", 30);
+    } else if (percent <= 0.6) {
+      setValue("risk_assessment", "متوسط");
+      setValue("processing_time", 20);
+    } else {
+      setValue("risk_assessment", "عالي");
+      setValue("processing_time", 15);
+    }
+    clearErrors(["risk_assessment", "processing_time"]);
+  };
 
   console.log("🚀 ~ errors:", errors);
   console.log(getValues());
@@ -245,12 +247,8 @@ const PreparingStudy = ({ change }) => {
               nameType="report_classification"
               options={[
                 {
-                  value: "احتيال أو فساد أو رشوة او اختلاس او تزوير",
-                  label: (
-                    <span className="text-[15px] ">
-                      احتيال أو فساد أو رشوة او اختلاس او تزوير
-                    </span>
-                  ),
+                  value: "الابلاغ عن حادث",
+                  label: <span className="text-[15px] ">الابلاغ عن حادث</span>,
                 },
                 {
                   value: "غسل أموال أو تمويل إرهاب",
@@ -358,12 +356,12 @@ const PreparingStudy = ({ change }) => {
                 },
               ]}
             />
-            <div>
+            <div className="self-center">
               <div
                 onClick={() => {
                   setShowSvg(true);
                 }}
-                className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C]"
+                className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[44px]"
               >
                 <span>اداة تقييم المخاطر</span>
                 <DownOutlined />
@@ -509,7 +507,7 @@ const PreparingStudy = ({ change }) => {
             // max={50}
           />
         </div>
-        <div className="py-5     text-left">
+        <div className="py-5 text-left">
           <button
             type="submit"
             className={`bg-[#33835C] p-2 rounded-md text-white min-w-60`}
