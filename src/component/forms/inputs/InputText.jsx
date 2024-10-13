@@ -15,6 +15,7 @@ export const InputText = ({
   max,
   icon,
   validate,
+  readOnly,
 }) => {
   return (
     <div className="flex w-full md:w-auto flex-col self-start gap-4 ">
@@ -37,6 +38,7 @@ export const InputText = ({
               <Input
                 {...field}
                 maxLength={max}
+                readOnly={readOnly}
                 onChange={(e) => {
                   {
                     field.onChange(e);
@@ -52,7 +54,7 @@ export const InputText = ({
                       );
                   }
                 }}
-                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:min-w-[300px] "
+                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:min-w-[280px] "
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

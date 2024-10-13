@@ -310,11 +310,13 @@ const PreparingStudy = ({ change }) => {
                 },
               ]}
             />
+          </div>
+          <div className="self-center flex flex-wrap gap-6 my-8">
             <div
               onClick={() => {
                 setShowSvg(true);
               }}
-              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[44px]"
+              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[40px]"
             >
               <span>اداة تقييم المخاطر</span>
               <EllipsisOutlined />
@@ -322,52 +324,26 @@ const PreparingStudy = ({ change }) => {
             {errors.risk_assessment && (
               <p className="text-red-500">{errors.risk_assessment.message}</p>
             )}
-          </div>
-          <div className="self-center flex flex-wrap gap-6 my-8">
-            <SelectInput
+
+            <InputText
               errors={errors}
               control={control}
-              placeholder="...الدرجة"
-              inpTitle="درجة المخاطر"
-              nameType="risk_assessment"
-              disapled={true}
-              options={[
-                {
-                  value: "عالى",
-                  label: <span className="text-[15px] ">عالى</span>,
-                },
-                {
-                  value: "متوسط",
-                  label: <span className="text-[15px] ">متوسط</span>,
-                },
-                {
-                  value: "منخفض",
-                  label: <span className="text-[15px] ">منخفض</span>,
-                },
-              ]}
+              name="risk_assessment"
+              inputTitle="درجة المخاطر"
+              inputPlaceHolder="درجة المخاطر"
+              readOnly={true}
+              // max={50}
             />
-            <SelectInput
+            <InputText
               errors={errors}
               control={control}
-              placeholder="المدة الزمنية...."
-              inpTitle="مدة معالجة البلاغ"
-              nameType="processing_time"
-              disapled={true}
-              options={[
-                {
-                  value: "15  ",
-                  label: <span className="text-[15px] ">15 يوم عمل</span>,
-                },
-                {
-                  value: "20 ",
-                  label: <span className="text-[15px] ">20 يوم عمل</span>,
-                },
-                {
-                  value: "30",
-                  label: <span className="text-[15px] ">30 يوم عمل</span>,
-                },
-              ]}
+              name="processing_time"
+              inputTitle="عدد أيام معالجة البلاغ"
+              inputPlaceHolder="المدة الزمنية...."
+              readOnly={true}
+              // max={50}
             />
+
             <SelectInput
               errors={errors}
               control={control}
@@ -472,15 +448,22 @@ const PreparingStudy = ({ change }) => {
           </div>
         </div>
 
-        <div className="bg-white  w-[100%] p-10  mt-4 rounded-md">
-          <InputText
+        <div className="bg-white h-full  w-[100%] p-10  mt-4 rounded-md">
+          {/* <InputText
             errors={errors}
             control={control}
             name="result"
-            inputTitle={"نتائج الدراسة الاولية"}
-            inputPlaceHolder={"....النتائج"}
-            setValue={setValue}
             // max={50}
+          /> */}
+          <Textarea
+            setValue={setValue}
+            inputPlaceHolder={"....النتائج"}
+            textAreaTitle={"نتائج الدراسة الاولية"}
+            nameType="result"
+            errors={errors}
+            control={control}
+            watch={watch}
+            prevData={prevData?.description}
           />
         </div>
         <div className="py-5 text-left">

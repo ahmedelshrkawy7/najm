@@ -13,6 +13,7 @@ const Textarea = ({
   watch,
   iconLabel,
   nameType,
+  inputPlaceHolder,
   // prevData,
 }) => {
   const refVal = useRef(null);
@@ -52,7 +53,7 @@ const Textarea = ({
         render={({ field }) => (
           <>
             <TextArea
-              placeholder="اكتب نص البلاغ هنا..."
+              placeholder={inputPlaceHolder || "اكتب نص البلاغ هنا..."}
               {...field}
               // value={field.value || prevData}
               ref={refVal}

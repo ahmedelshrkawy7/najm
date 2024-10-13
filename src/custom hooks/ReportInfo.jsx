@@ -57,6 +57,16 @@ const ReportInfo = ({ values }) => {
           <span>{values?.report_classification?.name || values?.name}</span>
         </div>
       </div>
+      <div className="grid grid-cols-2">
+        {values?.adminData &&
+          values.adminData.map((val, i) => (
+            <ReportsTextIcon
+              subTitle={!isNaN(val.res) ? val.res + " يوم عمل " : val.res}
+              icon={val.icon}
+              title={val.title}
+            />
+          ))}
+      </div>
       <div className=" mt-5  mb-0 py-4 pb-0 rounded-xl">
         <div className="flex   gap-2 items-center  rounded-full">
           <div className="h-12 w-12 bg-[#33835C1A] flex items-center justify-center rounded-full">
@@ -126,20 +136,6 @@ const ReportInfo = ({ values }) => {
               title={labelProps.listInputTitle}
             />
           )}
-        </div>
-        <div>
-          {values?.adminData &&
-            values.adminData.map((val, i) => (
-              <ReportsTextIcon
-                subTitle={
-                   !isNaN(val.res)
-                    ? val.res + " يوم عمل "
-                    : val.res
-                }
-                icon={val.icon}
-                title={val.title}
-              />
-            ))}
         </div>
       </div>
     </>

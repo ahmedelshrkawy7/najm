@@ -24,7 +24,7 @@ const Location = ({
           <Controller
             control={control}
             name={title}
-            rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
+            // rules={{ required: "هذا الحق مطلوب", message: "هذا الحقل مطلوب" }}
             render={({ field, fieldState }) => (
               <div>
                 <Input
