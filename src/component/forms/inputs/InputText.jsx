@@ -17,7 +17,7 @@ export const InputText = ({
   validate,
 }) => {
   return (
-    <div className="flex  w-full md:w-auto flex-col self-start gap-4">
+    <div className="flex w-full md:w-auto flex-col self-start gap-4 ">
       <div className="flex gap-2">
         <h2> {inputTitle} </h2>
         <span className="text-red-500">{icon}</span>
@@ -52,7 +52,7 @@ export const InputText = ({
                       );
                   }
                 }}
-                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:w-[300px] "
+                className="hover:border-emerald-500   focus:border-emerald-500 w-full md:min-w-[300px] "
                 placeholder={inputPlaceHolder}
               />
               {errors[name] && (

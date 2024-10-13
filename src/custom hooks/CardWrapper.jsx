@@ -9,7 +9,7 @@ const CardWrapper = ({ title, children, icon }) => {
         </div>
         <h2 className="text-lg self-center  font-semibold">{title}</h2>
       </div>
-      <div className="border border-gray-300 rounded-lg  px-6 pb-2">
+      <div className="border border-gray-300 rounded-lg  px-6 pb-6">
         {children}
       </div>
     </>

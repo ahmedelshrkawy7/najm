@@ -5,7 +5,11 @@ import ReportDetails from "./Reports/ReportDetails";
 import { useForm } from "react-hook-form";
 import SelectInput from "./forms/inputs/SelectInput";
 import ReportsHeader from "../custom hooks/ReportsHeader";
-import { DownOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  EllipsisOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import ReportModel from "../models/ReportModal";
 import ReportOptionType from "../custom hooks/ReportOptionType";
 import ReportOptions from "../custom hooks/ReportOptions";
@@ -334,6 +338,20 @@ const PreparingStudy = ({ change }) => {
                 },
               ]}
             />
+            <div
+              onClick={() => {
+                setShowSvg(true);
+              }}
+              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[44px]"
+            >
+              <span>اداة تقييم المخاطر</span>
+              <EllipsisOutlined />
+            </div>
+            {errors.risk_assessment && (
+              <p className="text-red-500">{errors.risk_assessment.message}</p>
+            )}
+          </div>
+          <div className="self-center flex flex-wrap gap-6 my-8">
             <SelectInput
               errors={errors}
               control={control}
@@ -356,20 +374,6 @@ const PreparingStudy = ({ change }) => {
                 },
               ]}
             />
-            <div className="self-center">
-              <div
-                onClick={() => {
-                  setShowSvg(true);
-                }}
-                className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[44px]"
-              >
-                <span>اداة تقييم المخاطر</span>
-                <DownOutlined />
-              </div>
-              {errors.risk_assessment && (
-                <p className="text-red-500">{errors.risk_assessment.message}</p>
-              )}
-            </div>
             <SelectInput
               errors={errors}
               control={control}
