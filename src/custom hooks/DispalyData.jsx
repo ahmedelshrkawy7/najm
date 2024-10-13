@@ -43,10 +43,7 @@ const DispalyData = ({
         <div className=" rounded-md  flex flex-col ">
           <div className=" ">
             {location.pathname.includes("dash") && (
-              <div className="flex gap-2  items-center justify-end  rounded-full pb-3">
-                <div className="h-12 w-12 bg-[#33835C1A] text-[#33835C] flex items-center justify-center rounded-full">
-                  <NumberOutlined />
-                </div>
+              <div className="flex gap-2  items-center   rounded-full pb-3">
                 <h2 className="text-lg self-center  font-semibold">
                   رقم البلاغ {values?.id}
                 </h2>

@@ -37,6 +37,7 @@ const Login = () => {
     register,
     watch,
     formState: { errors },
+    handleSubmit,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -52,6 +53,16 @@ const Login = () => {
     return <Navigate to="/dash" />;
   }
 
+  const onSubmit = () => {
+    Post.mutate([
+      "/authentication/login",
+      {
+        email: watch("enteredEmail"),
+        password: watch("enteredPassword"),
+      },
+    ]);
+  };
+
   return (
     <>
       <div className="position bg-cover bg-no-repeat min-h-screen !max-h-screen overflow-hidden">
@@ -66,37 +77,44 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="custom overflow-hidden">
-            <div className="">
+          <div className="custom overflow-hidden justify-center">
+            {/* <div className="">
               <img
                 src="../src/assets/najm.png"
                 className="md:h-[5rem] md:w-[5rem] w-[4rem] h-[3.8rem]"
                 draggable="false"
                 alt=""
               />
-            </div>
+            </div> */}
             <h2 className="text-black lg:text-4xl md:text-3xl text-xl font-bold border-b border-[#EEEEEE] md:pb-4 pb-0 md:mb-0 mb-0">
               تسجيل الدخول
             </h2>
-            <form className="flex flex-col justify-center items-center gap-4 w-full">
+            <form
+              className="flex flex-col justify-center items-center gap-4 w-full"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className=" flex flex-col gap-2 md:w-[100%] lg:w-5/6 w-full">
                 <label className="md:text-lg text-sm mb-1">
                   البريد الالكترونى
                 </label>
                 <div className="relative flex flex-col items-center justify-center">
+                  <img
+                    src="../src/assets/icons/sms.svg"
+                    className="absolute right-4 self-center"
+                    alt=""
+                  />
                   <input
-                    type="email"
                     placeholder="ادخل البريد الالكترونى"
                     name="enteredEmail"
                     {...register("enteredEmail", {
                       required: "هذا الحقل مطلوب",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: "أدخل بريد إالكتروني صالح",
+                      },
                     })}
-                    className="border outline-[#33835C] placeholder:text-sm lg:placeholder:text-lg bg-[#EEEEEE] p-2 md:py-3 py-2 indent-1 rounded-md w-full cursor-pointer"
-                  />
-                  <img
-                    src="../src/assets/icons/sms.svg"
-                    className="absolute left-4 self-center"
-                    alt=""
+                    className="border outline-[#33835C] placeholder:text-sm lg:placeholder:text-lg bg-[#EEEEEE] pr-12 md:py-3 py-2 indent-1 rounded-md w-full cursor-pointer"
                   />
                 </div>
 
@@ -116,14 +134,14 @@ const Login = () => {
                     {...register("enteredPassword", {
                       required: "هذا الحقل مطلوب",
                     })}
-                    className="border outline-[#33835C] placeholder:text-sm lg:placeholder:text-lg bg-[#EEEEEE] p-2 md:py-3 py-2 indent-6 rounded-md w-full cursor-pointer"
+                    className="border outline-[#33835C] placeholder:text-sm lg:placeholder:text-lg bg-[#EEEEEE] pr-6 md:py-3 py-2 indent-6 rounded-md w-full cursor-pointer"
                   />
                   {/* <img
                   src="../src/assets/icons/lock.svg"
                   className="absolute left-4 self-center"
                   alt=""
                 /> */}
-                  <LockFilled className="absolute left-4 self-center text-[#33835C]" />
+                  <LockFilled className="absolute right-4 self-center text-[#33835C]" />
                   {/* <img
                   src="../src/assets/icons/eye.svg"
                  
@@ -131,7 +149,7 @@ const Login = () => {
                 /> */}
                   <div
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute w-6 right-2 cursor-pointer self-center text-[#33835C]"
+                    className="absolute w-6 left-2 cursor-pointer self-center text-[#33835C]"
                   >
                     {showPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                   </div>
@@ -160,16 +178,6 @@ const Login = () => {
                       disabled={
                         !watch("enteredEmail") && !watch("enteredPassword")
                       }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        Post.mutate([
-                          "/authentication/login",
-                          {
-                            email: watch("enteredEmail"),
-                            password: watch("enteredPassword"),
-                          },
-                        ]);
-                      }}
                     >
                       دخول
                     </button>

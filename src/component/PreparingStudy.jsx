@@ -59,6 +59,12 @@ const PreparingStudy = ({ change }) => {
   }, [showSvg]);
   const queryClient = useQueryClient();
 
+  const {
+    isLoading,
+    error,
+    data: { data: { report_classification } = {} } = {},
+  } = useQuery(["users", ["/report-classification", ""]], getData);
+
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
@@ -214,9 +220,6 @@ const PreparingStudy = ({ change }) => {
     clearErrors(["risk_assessment", "processing_time"]);
   };
 
-  console.log("🚀 ~ errors:", errors);
-  console.log(getValues());
-
   const mutation = useMutation(postData, {
     onSuccess: () => {
       change(3);
@@ -229,7 +232,6 @@ const PreparingStudy = ({ change }) => {
   const onSubmit = (val) => {
     const x = mutation.mutate([`/reports/${id}`, val]);
     // change(3);
-    console.log("🚀 ~ onSubmit ~ x:", x);
 
     // setLoc(3);
   };
@@ -245,44 +247,14 @@ const PreparingStudy = ({ change }) => {
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
               nameType="report_classification"
-              options={[
-                {
-                  value: "الابلاغ عن حادث",
-                  label: <span className="text-[15px] ">الابلاغ عن حادث</span>,
-                },
-                {
-                  value: "غسل أموال أو تمويل إرهاب",
-                  label: (
-                    <span className="text-[15px] ">
-                      غسل أموال أو تمويل إرهاب
-                    </span>
-                  ),
-                },
-                {
-                  value: "مخالفة للأنظمة والتعليمات",
-                  label: (
-                    <span className="text-[15px] ">
-                      مخالفة للأنظمة والتعليمات
-                    </span>
-                  ),
-                },
-                {
-                  value: "مخالفة لسياسة وإجراءات الشركة",
-                  label: (
-                    <span className="text-[15px] ">
-                      مخالفة لسياسة وإجراءات الشركة
-                    </span>
-                  ),
-                },
-                {
-                  value: "مخالفة لمدونة قواعد السلوك",
-                  label: (
-                    <span className="text-[15px] ">
-                      مخالفة لمدونة قواعد السلوك
-                    </span>
-                  ),
-                },
-              ]}
+              options={report_classification?.map((opt) => ({
+                value: opt.id,
+                label: (
+                  <span className="text-sm" key={opt.id}>
+                    {opt.name}
+                  </span>
+                ),
+              }))}
             />
             <SelectInput
               errors={errors}
