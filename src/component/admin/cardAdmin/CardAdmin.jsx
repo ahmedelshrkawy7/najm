@@ -566,7 +566,7 @@ const CardAdmin = () => {
         return (
           <button
             style={{ backgroundColor: bgColor }}
-            className="w-max py-[6px] px-8 bg-[#33835C] text-white rounded-full text-[11px]
+            className="w-full py-[6px] px-4 bg-[#33835C] text-white rounded-full text-[10px]
          font-semibold"
           >
             {text}
@@ -619,6 +619,7 @@ const CardAdmin = () => {
     newFilters[index] = value;
     setFilters(newFilters);
   };
+
   const filteredReports = data?.data?.reports.filter((report) => {
     return filters.every((filter, index) => {
       if (!filter) return true; // Skip if filter is empty
@@ -701,17 +702,24 @@ const CardAdmin = () => {
                 <label className="text-sm font-bold">{sel.label}</label>
                 <Select
                   value={filters[index]} // Ensure undefined for no selection
-                  onChange={(value) => handleFilterChange(index, value)}
+                  onChange={(value) => {
+                    handleFilterChange(index, value);
+                  }}
                   className="mt-2"
                   placeholder={`...${sel.label}`} // Custom placeholder
                   style={{ width: "100%" }}
                   // dropdownStyle={{ width: "150px" }}
+                  showSearch
+                  filterOption={(input, option) =>
+                    option.label.toLowerCase().includes(input.toLowerCase())
+                  }
                   popupMatchSelectWidth={false}
                   // dropdownClassName="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full" // Tailwind scrollbar styles
                   // options={sel.options.map((opt) => ({
                   //   value: opt,
                   //   label: <span className="text-sm">{opt}</span>, // Customize the label styling here
                   // }))}
+
                   options={sel.options}
                 />
               </div>
