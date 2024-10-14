@@ -10,6 +10,7 @@ import RiskTypes from "../../models/RiskTypes";
 import DeptCard from "../../component/managersComponetns/DeptCard";
 import RoleCard from "../../component/managersComponetns/RoleCard";
 import SpecCard from "../../component/managersComponetns/SpecCard";
+import RiskCard from "../../component/managersComponetns/RiskCard";
 
 const useData = () => {
   const [currentView, setCurrentView] = useState("default");
@@ -120,6 +121,7 @@ const useData = () => {
         },
       ],
       apiKey: "/admin/risk-types",
+      cardCh: <RiskCard />,
     },
     {
       icon: "../src/assets/icons/manager_4.svg",
