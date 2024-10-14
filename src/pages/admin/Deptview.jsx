@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import { useEffect, useMemo, useState } from "react";
 // import { Table } from "antd";
 // import { useLocation, useNavigate } from "react-router-dom";
@@ -156,7 +157,7 @@
 
 // export default Deptview;
 
-import { useEffect, useMemo, useState } from "react";
+import { cloneElement, useEffect, useMemo, useState } from "react";
 import { Table, Select } from "antd";
 import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
 import { EditOutlined, EyeOutlined, HomeFilled } from "@ant-design/icons";
@@ -165,6 +166,8 @@ import ReportModel from "../../models/ReportModel";
 import { useQuery } from "react-query";
 import useApi from "../../utils/useApi";
 import { Breadcrumb } from "../../import";
+import useCardData from "./useCardData";
+import EditRow from "../../component/managersComponetns/EditRow";
 
 const Deptview = () => {
   const matches = useMatches();
@@ -197,17 +200,21 @@ const Deptview = () => {
 
   console.log("🚀 ~ Deptview ~ breadcrumbs:", breadcrumbs);
 
+  let { cardData = [] } = useCardData();
+  console.log("🚀 ~ Deptview ~ cardData:", cardData);
   const [modelContent, setModelContent] = useState("");
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
   const { state } = useLocation();
-  const { data = [], columns = [], apiKey = "" } = state || {};
+  const { data = [], columns = [], apiKey = "", buttonName = "" } = state || {};
+  console.log("🚀 ~ Deptview ~ buttonName:", buttonName);
 
   const { getData } = useApi();
   const [pagination, setPagination] = useState(1);
   const ref = useRef();
   const navigate = useNavigate();
-
+  let comp = cardData?.find((comp) => comp.buttons[1] === buttonName);
+  console.log("🚀 ~ Deptview ~ comp:", comp);
   const {
     data: _data = {},
     isLoading,
@@ -275,12 +282,38 @@ const Deptview = () => {
             className="text-md flex items-center gap-3"
             onClick={() => {
               setModelContent(
-                <div className="h-36 pt-6">
-                  <input
-                    className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full"
-                    defaultValue={record.name}
-                  />
-                </div>
+                // <div className="h-36 pt-6 ">
+                //   <div className="flex flex-col gap-11">
+                //     <input
+                //       className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full"
+                //       defaultValue={record?.name}
+                //     />
+                //     <div className="py-3 pt-0 self-end">
+                //       <button
+                //         onClick={() => {
+                //           setCurrentView("success");
+                //         }}
+                //         className="bg-[#33835C] text-white p-1 px-10 rounded-lg"
+                //       >
+                //         <EditOutlined /> {"تعديل"}
+                //       </button>
+                //     </div>
+                //   </div>
+                // </div>
+                // <EditRow
+                //   currentView={currentView}
+                //   setCurrentView={setCurrentView}
+                //   refetch={refetch}
+                //   closeModal={() => ref.current?.close()}
+                //   record={record}
+                // />
+                cloneElement(comp?.cardCh, {
+                  setCurrentView,
+                  currentView,
+                  refetch,
+                  record,
+                  closeModal: () => ref.current?.close(),
+                })
               );
               setModelTitle("عرض القسم");
               ref.current?.open();
@@ -291,7 +324,22 @@ const Deptview = () => {
           <button
             className="text-md flex items-center gap-3"
             onClick={() => {
-              setModelContent("تعديل");
+              setModelContent(
+                // <EditRow
+                //   currentView={currentView}
+                //   setCurrentView={setCurrentView}
+                //   refetch={refetch}
+                //   closeModal={() => ref.current?.close()}
+                //   record={record}
+                // />
+                cloneElement(comp?.cardCh, {
+                  setCurrentView,
+                  currentView,
+                  refetch,
+                  record,
+                  closeModal: () => ref.current?.close(),
+                })
+              );
               setModelTitle("بيانات المستخدم");
               ref.current?.open();
             }}
@@ -303,6 +351,8 @@ const Deptview = () => {
     },
   ];
 
+  console.log(ref?.current);
+
   return (
     <>
       <ReportModel
@@ -313,7 +363,7 @@ const Deptview = () => {
       >
         <div className="px-5 py-3">
           {modelContent}
-          <div className="py-3 pt-0 flex items-center justify-end">
+          {/* <div className="py-3 pt-0 flex items-center justify-end">
             <button
               onClick={() => {
                 setCurrentView("success");
@@ -322,7 +372,7 @@ const Deptview = () => {
             >
               <EditOutlined /> {"تعديل"}
             </button>
-          </div>
+          </div> */}
         </div>
       </ReportModel>
       <div className="w-[90%] mx-auto mt-20">
@@ -337,31 +387,54 @@ const Deptview = () => {
           <p className="text-lg font-medium text-black/75"> ابحث هنا</p>
           <hr className="flex-1 border-gray-300" />
         </div>
-        <div className="flex flex-wrap gap-4 mb-4">
-          {SELECTS.map((sel, index) => (
-            <div className="w-full sm:w-fit" key={sel.label}>
-              <label className="text-sm font-bold">{sel.label}</label>
-              {/* {sel.options.length > 1 ? ( */}
-              <Select
-                value={filters[index]}
-                onChange={(value) => handleFilterChange(index, value)}
-                className="mt-2"
-                placeholder={`...${sel.label}`}
-                style={{ width: "100%" }}
-                options={sel.options}
-              />
-              {/* ) : ( */}
-              {/* <div className="mt-2 text-gray-500">لا توجد خيارات متاحة</div> */}
-              {/* )} */}
-            </div>
-          ))}
-          <button
-            className="bg-[#33835c] self-end p-2 py-1 w-auto text-white rounded-md"
-            onClick={() => setFilters(Array(SELECTS.length).fill(""))}
-          >
-            {/* <SearchOutlined className="font-bold text-md" /> */}
-            اعادة
-          </button>
+
+        <div className="">
+          <div className="flex flex-wrap gap-4 mb-4 items-center">
+            {SELECTS.map((sel, index) => (
+              <div className="w-full sm:w-fit" key={sel.label}>
+                <label className="text-sm font-bold">{sel.label}</label>
+                {/* {sel.options.length > 1 ? ( */}
+                <Select
+                  value={filters[index]}
+                  onChange={(value) => handleFilterChange(index, value)}
+                  className="mt-2"
+                  showSearch
+                  placeholder={`...${sel.label}`}
+                  style={{ width: "100%" }}
+                  options={sel.options}
+                />
+                {/* ) : ( */}
+                {/* <div className="mt-2 text-gray-500">لا توجد خيارات متاحة</div> */}
+                {/* )} */}
+              </div>
+            ))}
+            <button
+              className="bg-[#33835c] sm:self-end self-start p-2 py-1 w-auto text-white rounded-md outline-none h-fit"
+              onClick={() => setFilters(Array(SELECTS.length).fill(""))}
+            >
+              {/* <SearchOutlined className="font-bold text-md" /> */}
+              اعادة
+            </button>
+            <button
+              className="w-fit bg-[#33835C] outline-none text-white p-2 px-4 text-sm rounded-lg mr-auto mt-auto h-fit"
+              onClick={() => {
+                if (buttonName === comp.buttons[1]) {
+                  setModelTitle(buttonName);
+                  setModelContent(
+                    cloneElement(comp?.children, {
+                      currentView,
+                      setCurrentView,
+                      refetch,
+                      closeModal: () => ref.current?.close(),
+                    })
+                  );
+                  ref.current?.open();
+                }
+              }}
+            >
+              {buttonName}
+            </button>
+          </div>
         </div>
         <Table
           columns={[...columns, ...usedColumns]}

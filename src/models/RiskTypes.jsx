@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 import { useEffect } from "react";
 
-const RiskTypes = ({ currentView, setCurrentView }) => {
+const RiskTypes = ({ currentView, setCurrentView, refetch }) => {
   const { getData, postData } = useApi();
 
   const { data: { data: weights = [] } = {} } = useQuery(
@@ -54,6 +54,7 @@ const RiskTypes = ({ currentView, setCurrentView }) => {
     onSuccess: () => {
       setCurrentView("success");
       reset();
+      refetch();
     },
     onError: (err) => {
       errorNotf("خطا اضافة نوع خطر");

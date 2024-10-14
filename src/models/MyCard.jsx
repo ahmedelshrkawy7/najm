@@ -7,7 +7,13 @@ import { useForm } from "react-hook-form";
 import { errorNotf } from "../utils/notifications/Toast";
 import { useEffect } from "react";
 
-const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
+const MyCard = ({
+  name,
+  currentView,
+  setCurrentView,
+  closeModal,
+  refetch: _refetch,
+}) => {
   const {
     control,
     handleSubmit,
@@ -37,6 +43,7 @@ const MyCard = ({ name, currentView, setCurrentView, closeModal }) => {
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
       queryClient.invalidateQueries(["admin", ["/admin/specializations", ""]]);
+      _refetch();
     },
     onError: (err) => {
       reset();

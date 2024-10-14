@@ -35,11 +35,12 @@ const ManagerCard = ({
           data: data,
           columns: cl,
           apiKey,
+          buttonName: buttons[1],
         },
       });
     }
   };
-
+  console.log("ajhajhsjhs", buttons);
   //   const enhancedChildren = React.Children.map(ch, (child) =>
   //     React.isValidElement(child)
   //       ? React.cloneElement(child) // Modify props here if needed

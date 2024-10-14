@@ -6,7 +6,7 @@ import useApi from "../../utils/useApi";
 import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
-const EditRow = ({
+const DeptCard = ({
   record,
   currentView,
   setCurrentView,
@@ -81,4 +81,4 @@ const EditRow = ({
   );
 };
 
-export default EditRow;
+export default DeptCard;

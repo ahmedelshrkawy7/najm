@@ -6,7 +6,7 @@ import useApi from "../utils/useApi";
 import { useForm } from "react-hook-form";
 import { errorNotf } from "../utils/notifications/Toast";
 
-const Roles = ({ currentView, setCurrentView, closeModal }) => {
+const Roles = ({ currentView, setCurrentView, closeModal, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -27,6 +27,7 @@ const Roles = ({ currentView, setCurrentView, closeModal }) => {
       reset();
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/admin/roles", ""]]);
+      refetch();
     },
     onError: (err) => {
       closeModal();
