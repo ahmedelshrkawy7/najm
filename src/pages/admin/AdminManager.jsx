@@ -17,7 +17,7 @@ const AdminManager = () => {
   const { Option } = Select;
   const { getData } = useApi();
 
-  const { data: { data = [] } = {} } = useQuery(
+  const { data: { data = [] } = {}, refetch } = useQuery(
     ["admin", ["/admin/departments", { page: pagination }]],
     getData,
     { refetchInterval: 0 }
@@ -63,7 +63,11 @@ const AdminManager = () => {
         //     </button>
         //   </div>
         // </div>
-        <Roles currentView={currentView} setCurrentView={setCurrentView} />
+        <Roles
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
       ),
       columns: [
         {
@@ -83,6 +87,7 @@ const AdminManager = () => {
           name=""
           currentView={currentView}
           setCurrentView={setCurrentView}
+          refetch={refetch}
         />
       ),
       data: sections,
@@ -105,7 +110,11 @@ const AdminManager = () => {
       title: "أنواع الخطر",
       buttons: ["عرض أنواع الخطر", "إضافة نوع للخطر"],
       children: (
-        <RiskTypes currentView={currentView} setCurrentView={setCurrentView} />
+        <RiskTypes
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
       ),
       columns: [
         {
@@ -129,6 +138,7 @@ const AdminManager = () => {
         <Departments
           currentView={currentView}
           setCurrentView={setCurrentView}
+          refetch={refetch}
         />
       ),
       data: departs,
@@ -165,22 +175,26 @@ const AdminManager = () => {
         // </button>
         //   </div>
         // </div>
-        <Users currentView={currentView} setCurrentView={setCurrentView} />
+        <Users
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
       ),
       columns: [
         {
           title: "الادارة",
-          dataIndex: "department_name",
+          dataIndex: ["department", "name"],
           key: "id",
         },
         {
           title: "الاقسام",
-          dataIndex: "specialization_name",
+          dataIndex: ["specialization", "name"],
           key: "id",
         },
         {
           title: "المستخدمين",
-          dataIndex: "user_name",
+          dataIndex: "name",
           key: "id",
         },
       ],

@@ -81,7 +81,7 @@ import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 
-const Users = ({ currentView, setCurrentView, refetch: _refetch }) => {
+const Users = ({ currentView, setCurrentView }) => {
   const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
@@ -124,7 +124,7 @@ const Users = ({ currentView, setCurrentView, refetch: _refetch }) => {
     onSuccess: () => {
       reset();
       setCurrentView("success");
-      _refetch();
+      // _refetch();
     },
     onError: (err) => {
       errorNotf("خطا انشاء مستخدم");

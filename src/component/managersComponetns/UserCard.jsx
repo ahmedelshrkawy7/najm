@@ -27,19 +27,19 @@ const UserCard = ({
     ["admin", ["/roles", ""]],
     getData
   );
-  console.log("🚀 ~ roles:", roles);
+  // console.log("🚀 ~ roles:", roles);
 
   const { data: { data: _data = [] } = {} } = useQuery(
     ["admin", ["/departments", ""]],
     getData
   );
-  console.log("🚀 ~ UserCard ~ _data:", _data);
+  // console.log("🚀 ~ UserCard ~ _data:", _data);
 
   const { data: { data: departs = [] } = {} } = useQuery(
     ["admin", ["/specializations", ""]],
     getData
   );
-  console.log("🚀 ~ UserCard ~ departs:", departs);
+  // console.log("🚀 ~ UserCard ~ departs:", departs);
 
   const formFields = [
     {
@@ -98,12 +98,12 @@ const UserCard = ({
   const { handleSubmit, register, watch, setValue, reset } = useForm({
     defaultValues: {
       _method: "PUT",
-      department_id: record?.department_name,
-      specialization_id: record?.specialization_name,
-      role_id: "",
-      email: "",
-      password: "",
-      name: "",
+      department_id: record?.department_name || "",
+      specialization_id: record?.specialization_name || "",
+      role_id: record?.role[0]?.id || "",
+      email: record?.user_email || "",
+      password: record?.password || "",
+      name: record?.user_name || "",
     },
   });
 
@@ -169,7 +169,7 @@ const UserCard = ({
                 })}
                 className="w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0"
               >
-                {field?.options?.map((option, index) => (
+                {field?.options?.map((option) => (
                   <option key={option.id} value={option?.id}>
                     {option?.name_ar || option?.name}
                   </option>
