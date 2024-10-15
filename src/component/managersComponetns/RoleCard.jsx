@@ -6,7 +6,7 @@ import useApi from "../../utils/useApi";
 import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
-const EditRow = ({
+const RoleCard = ({
   record,
   currentView,
   setCurrentView,
@@ -17,8 +17,7 @@ const EditRow = ({
   const { handleSubmit, control, watch, setValue } = useForm({
     defaultValues: {
       _method: "PUT",
-      name_ar: "",
-      name_en: "",
+      name: "",
     },
   });
 
@@ -41,18 +40,13 @@ const EditRow = ({
 
   useEffect(() => {
     if (record) {
-      setValue("name_ar", record.name || "");
-      setValue("name_en", record.name || "");
+      setValue("name", record.name || "");
     }
   }, [record, setValue]);
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    mutation.mutate([
-      `/admin/departments/${record?.id}`,
-      { ...data, name_en: watch("name_ar") },
-    ]);
+    mutation.mutate([`/admin/roles/${record?.id}`, data]);
   };
 
   return (
@@ -60,8 +54,8 @@ const EditRow = ({
       <div className="h-36 pt-6">
         <input
           className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full"
-          {...control.register("name_ar", {
-            required: "اسم الادارة مطلوب",
+          {...control.register("name", {
+            required: "اسم الصلاحية مطلوب",
           })}
           // cursor-not-allowed"
           // disabled
@@ -81,4 +75,4 @@ const EditRow = ({
   );
 };
 
-export default EditRow;
+export default RoleCard;

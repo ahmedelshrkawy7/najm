@@ -6,7 +6,12 @@ import useApi from "../../utils/useApi";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
-const Departments = ({ currentView, setCurrentView ,closeModal}) => {
+const Departments = ({
+  currentView,
+  setCurrentView,
+  refetch = () => {},
+  closeModal,
+}) => {
   const {
     control,
     handleSubmit,
@@ -28,10 +33,13 @@ const Departments = ({ currentView, setCurrentView ,closeModal}) => {
       reset();
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
+      refetch();
     },
     onError: (err) => {
+      console.log("🚀 ~ err:", err);
       closeModal();
-      errorNotf("تم انشاء الادارة مسبقا");    },
+      errorNotf("تم انشاء الادارة مسبقا");
+    },
   });
 
   const onSubmit = (data) => {

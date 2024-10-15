@@ -710,9 +710,9 @@ const CardAdmin = () => {
                   style={{ width: "100%" }}
                   // dropdownStyle={{ width: "150px" }}
                   showSearch
-                  filterOption={(input, option) =>
-                    option.label.toLowerCase().includes(input.toLowerCase())
-                  }
+                  // filterOption={(input, option) =>
+                  //   option?.label?.toLowerCase().includes(input?.toLowerCase())
+                  // }
                   popupMatchSelectWidth={false}
                   // dropdownClassName="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full" // Tailwind scrollbar styles
                   // options={sel.options.map((opt) => ({

@@ -6,7 +6,7 @@ import useApi from "../../utils/useApi";
 import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
-const EditRow = ({
+const SpecCard = ({
   record,
   currentView,
   setCurrentView,
@@ -19,6 +19,7 @@ const EditRow = ({
       _method: "PUT",
       name_ar: "",
       name_en: "",
+      department_id: "",
     },
   });
 
@@ -29,7 +30,7 @@ const EditRow = ({
     onSuccess: () => {
       // reset();
       setCurrentView("success");
-      queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
+      //   queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
       refetch();
     },
     onError: (err) => {
@@ -50,8 +51,8 @@ const EditRow = ({
     console.log("Form Submitted:", data);
 
     mutation.mutate([
-      `/admin/departments/${record?.id}`,
-      { ...data, name_en: watch("name_ar") },
+      `/admin/specializations/${record?.id}`,
+      { ...data, department_id: record?.id, name_en: watch("name_ar") },
     ]);
   };
 
@@ -61,7 +62,7 @@ const EditRow = ({
         <input
           className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full"
           {...control.register("name_ar", {
-            required: "اسم الادارة مطلوب",
+            required: "اسم القسم مطلوب",
           })}
           // cursor-not-allowed"
           // disabled
@@ -81,4 +82,4 @@ const EditRow = ({
   );
 };
 
-export default EditRow;
+export default SpecCard;
