@@ -11,6 +11,7 @@ import DeptCard from "../../component/managersComponetns/DeptCard";
 import RoleCard from "../../component/managersComponetns/RoleCard";
 import SpecCard from "../../component/managersComponetns/SpecCard";
 import RiskCard from "../../component/managersComponetns/RiskCard";
+import UserCard from "../../component/managersComponetns/UserCard";
 
 const useData = () => {
   const [currentView, setCurrentView] = useState("default");
@@ -188,6 +189,7 @@ const useData = () => {
         },
       ],
       apiKey: "/admin/users",
+      cardCh: <UserCard />,
     },
   ];
   return { cardData };

@@ -222,6 +222,7 @@ const Deptview = () => {
   } = useQuery(["admin", [apiKey, { page: pagination }]], getData, {
     refetchInterval: 0,
   });
+  console.log("🚀 ~ Deptview ~ _data:", _data);
 
   const totalPages = Math.ceil(_data?.meta?.pagination?.totalItems / 10);
   const actionsColumnWidth = useMemo(() => {
@@ -360,6 +361,7 @@ const Deptview = () => {
         title={modelTitle}
         currentView={currentView}
         setCurrentView={setCurrentView}
+        refetch={refetch}
       >
         <div className="px-5 py-3">
           {modelContent}

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { EditOutlined } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
 import { AppstoreOutlined, MailOutlined } from "@ant-design/icons";
@@ -14,79 +14,96 @@ const RiskCard = ({
   refetch,
   closeModal,
 }) => {
+  console.log("🚀 ~ record:", record);
+  const { postData, getData } = useApi();
+
+  const { data: { data: weights = [] } = {} } = useQuery(
+    ["admin", ["/admin/report-weights", ""]],
+    getData
+  );
+  console.log("🚀 ~ weights:", weights);
+
+  const { data: { data: risk_types = [] } = {} } = useQuery(
+    ["admin", ["/admin/main-risks", ""]],
+    getData
+  );
+
   const data = [
-    {
-      id: 1,
-      label: "نوع الخطر:",
-      value: record?.risk_type,
-      icon: <AppstoreOutlined className="text-green-600 text-lg" />,
-    },
     {
       id: 2,
       label: "النوع:",
       value: record?.main,
       icon: <AppstoreOutlined className="text-green-600 text-lg" />,
+      name: "risk_type",
+    },
+    {
+      id: 1,
+      label: "نوع الخطر:",
+      value: record?.risk_type,
+      icon: <AppstoreOutlined className="text-green-600 text-lg" />,
+      name: "name",
     },
     {
       id: 3,
       label: "وزن البلغ:",
       value: record?.report_weight,
       icon: <AppstoreOutlined className="text-green-600 text-lg" />,
+      name: "report_weight_id",
+      isSelect: true,
     },
     {
       id: 4,
       label: "عدد الأيام:",
       value: record?.num_of_days,
       icon: <MailOutlined className="text-green-600 text-lg" />,
+      name: "num_of_days",
     },
   ];
 
-  console.log("🚀 ~ EditRow ~ record:", record);
   const { handleSubmit, control, watch, setValue } = useForm({
     defaultValues: {
       _method: "PUT",
-      name_ar: "",
-      name_en: "",
-      department_id: "",
+      num_of_days: "",
+      report_weight_id: "",
+      parent_id: "",
+      name: "",
+      risk_type: "",
     },
   });
 
   const queryClient = useQueryClient();
-  const { postData } = useApi();
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      // reset();
       setCurrentView("success");
-      //   queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
       refetch();
     },
     onError: (err) => {
       console.log("🚀 ~ err:", err);
       closeModal();
-      // errorNotf("تم انشاء الادارة مسبقا");
     },
   });
 
   useEffect(() => {
     if (record) {
-      setValue("name_ar", record.name || "");
-      setValue("name_en", record.name || "");
+      setValue("risk_type", record.risk_type || "");
+      setValue("report_weight_id", String(record.report_weight) || "");
+      setValue("num_of_days", record.num_of_days || "");
+      setValue("name", record.main || "");
     }
   }, [record, setValue]);
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    mutation.mutate([
-      `/admin/risk-types/${record?.id}`,
-      { ...data, department_id: record?.id, name_en: watch("name_ar") },
-    ]);
+    // mutation.mutate([
+    //   `/admin/risk-types/${record?.id}`,
+    //   { ...data, parent_id: record?.id },
+    // ]);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-7 p-4 py-2 bg-white">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 py-2 bg-white">
         {data.map((item) => (
           <div
             key={item.id}
@@ -95,9 +112,29 @@ const RiskCard = ({
             <div className="bg-green-100 rounded-full p-2 flex items-center justify-center">
               {item.icon}
             </div>
-            <div className="flex items-center space-x-1 rtl:space-x-reverse gap-2">
-              <p className="text-sm text-gray-500">{item.label}</p>
-              <p className="font-semibold text-black">{item.value}</p>
+            <div className="flex items-center w-full">
+              <p className="text-sm font-bold w-28">{item.label}</p>
+              {item.isSelect ? (
+                <select
+                  {...control.register(item.name)}
+                  defaultValue={
+                    record?.report_weight ? String(record.report_weight) : ""
+                  } // Set the default value
+                  className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
+                >
+                  {item.options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  {...control.register(item.name)}
+                  defaultValue={item.value}
+                  className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
+                />
+              )}
             </div>
           </div>
         ))}
