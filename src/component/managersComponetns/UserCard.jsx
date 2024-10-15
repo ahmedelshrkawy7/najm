@@ -50,6 +50,7 @@ const UserCard = ({
       type: "select",
       options: departs,
       name: "specialization_id",
+      val: record?.specialization_name,
     },
     {
       id: 2,
@@ -67,6 +68,7 @@ const UserCard = ({
       type: "select",
       options: roles,
       name: "role_id",
+      val: record?.role[0],
     },
     {
       id: 4,
@@ -76,6 +78,7 @@ const UserCard = ({
       type: "select",
       options: _data,
       name: "department_id",
+      val: record?.department_name,
     },
     {
       id: 5,
@@ -111,16 +114,16 @@ const UserCard = ({
     refetch();
   }, [refetch, record]);
 
-  useEffect(() => {
-    if (record) {
-      setValue("email", record?.user_email || "");
-      setValue("password", record?.password || "");
-      setValue("role_id", record?.role[0]?.id || "");
-      setValue("department_id", record?.department_name || "");
-      setValue("specialization_id", record?.specialization_name || "");
-      setValue("name", record?.user_name || "");
-    }
-  }, [record, setValue]);
+  // useEffect(() => {
+  //   if (record) {
+  //     setValue("email", record?.user_email || "");
+  //     setValue("password", record?.password || "");
+  //     setValue("role_id", record?.role[0]?.id || "");
+  //     setValue("department_id", record?.department_name || "");
+  //     setValue("specialization_id", record?.specialization_name || "");
+  //     setValue("name", record?.user_name || "");
+  //   }
+  // }, [record, setValue]);
 
   //   const queryClient = useQueryClient();
 
@@ -169,6 +172,9 @@ const UserCard = ({
                 })}
                 className="w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0"
               >
+                <option selected hidden>
+                  {field.val}
+                </option>
                 {field?.options?.map((option, index) => (
                   <option key={option.id} value={option?.id}>
                     {option?.name_ar || option?.name}

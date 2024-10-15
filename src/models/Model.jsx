@@ -9,6 +9,7 @@ const Model = forwardRef(({ children, ...props }, ref) => {
     open: () => dialogRef.current?.showModal(),
     close: () => dialogRef.current?.close(),
   }));
+  console.log("dialouge is opened");
 
   return (
     <>

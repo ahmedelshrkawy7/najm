@@ -201,7 +201,7 @@ const PreparingStudy = ({ change }) => {
       processing_time: "",
       files: "",
       risk_type: "",
-      report_type: "",
+      report_type: null,
       risk_assessment: "",
       result: "",
       _method: "PUT",
@@ -263,7 +263,7 @@ const PreparingStudy = ({ change }) => {
             <SelectInput
               errors={errors}
               control={control}
-              placeholder="...النوع"
+              placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
               nameType="report_type"
               options={[
@@ -347,7 +347,7 @@ const PreparingStudy = ({ change }) => {
             <SelectInput
               errors={errors}
               control={control}
-              placeholder="...الادارة"
+              placeholder="إختر الإداره المعنية"
               inpTitle="الادارة المعنية بدراسة اليلاغ"
               nameType="department_id"
               options={data.map((opt) => ({
