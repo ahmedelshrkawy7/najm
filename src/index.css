@@ -253,3 +253,18 @@ body::-webkit-scrollbar-thumb {
 .ant-select-dropdown {
   z-index: 50000 !important; /* Ensure it's above the modal */
 }
+
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+.ant-collapse-header {
+  padding-inline: 0 !important;
+}
+
+.ant-btn:hover {
+  background-color: #33835c !important; /* Set your desired hover color */
+  color: white !important; /* Maintain text color */
+  border-color: transparent !important; /* Remove border color */
+  box-shadow: none !important; /* Remove box shadow */
+}
