@@ -28,7 +28,7 @@ const RiskCard = ({
     getData
   );
 
-  const data = [
+  const _data = [
     {
       id: 2,
       label: "النوع:",
@@ -42,6 +42,9 @@ const RiskCard = ({
       value: record?.risk_type,
       icon: <AppstoreOutlined className="text-green-600 text-lg" />,
       name: "name",
+      isSelect: true,
+      options: risk_types,
+      val: record?.main,
     },
     {
       id: 3,
@@ -50,6 +53,8 @@ const RiskCard = ({
       icon: <AppstoreOutlined className="text-green-600 text-lg" />,
       name: "report_weight_id",
       isSelect: true,
+      options: weights,
+      val: record?.report_weight,
     },
     {
       id: 4,
@@ -59,6 +64,7 @@ const RiskCard = ({
       name: "num_of_days",
     },
   ];
+  console.log("🚀 ~ _data:", _data);
 
   const { handleSubmit, control, watch, setValue } = useForm({
     defaultValues: {
@@ -80,7 +86,7 @@ const RiskCard = ({
     },
     onError: (err) => {
       console.log("🚀 ~ err:", err);
-      closeModal();
+      // closeModal();
     },
   });
 
@@ -89,22 +95,29 @@ const RiskCard = ({
       setValue("risk_type", record.risk_type || "");
       setValue("report_weight_id", String(record.report_weight) || "");
       setValue("num_of_days", record.num_of_days || "");
-      setValue("name", record.main || "");
+      setValue("name", record.main || "رئييسي");
     }
   }, [record, setValue]);
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    // mutation.mutate([
-    //   `/admin/risk-types/${record?.id}`,
-    //   { ...data, parent_id: record?.id },
-    // ]);
+    mutation.mutate([
+      `/admin/risk-types/${record?.id}`,
+      {
+        ...data,
+        parent_id: record?.id,
+        report_weight_id: weights?.find(
+          (w) => w.weight === record?.report_weight
+        )?.id,
+        risk_type: "0",
+      },
+    ]);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 py-2 bg-white">
-        {data.map((item) => (
+        {_data?.map((item) => (
           <div
             key={item.id}
             className="flex items-center space-x-4 rtl:space-x-reverse gap-2"
@@ -122,9 +135,12 @@ const RiskCard = ({
                   } // Set the default value
                   className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
                 >
+                  <option selected hidden>
+                    {item.val}
+                  </option>
                   {item.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+                    <option key={option?.id} value={option?.id}>
+                      {option.weight || option.name}
                     </option>
                   ))}
                 </select>

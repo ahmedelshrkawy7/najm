@@ -280,7 +280,7 @@ const Deptview = () => {
       render: (_, record) => (
         <div className="flex justify-center gap-4">
           <button
-            className="text-md flex items-center gap-3"
+            className="text-md flex items-center gap-3 outline-none"
             onClick={() => {
               setModelContent(
                 // <div className="h-36 pt-6 ">
@@ -323,7 +323,7 @@ const Deptview = () => {
             <EyeOutlined /> {"عرض"}
           </button>
           <button
-            className="text-md flex items-center gap-3"
+            className="text-md flex items-center gap-3 outline-none"
             onClick={() => {
               setModelContent(
                 // <EditRow
