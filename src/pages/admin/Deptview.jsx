@@ -442,7 +442,7 @@ const Deptview = () => {
           columns={[...columns, ...usedColumns]}
           dataSource={filteredReports?.map((report) => ({
             ...report,
-            key: report.id,
+            key: report.id + Math.random(),
           }))}
           loading={{
             spinning: isLoading,

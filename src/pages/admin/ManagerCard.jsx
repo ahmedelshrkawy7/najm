@@ -40,7 +40,6 @@ const ManagerCard = ({
       });
     }
   };
-  console.log("ajhajhsjhs", buttons);
   //   const enhancedChildren = React.Children.map(ch, (child) =>
   //     React.isValidElement(child)
   //       ? React.cloneElement(child) // Modify props here if needed

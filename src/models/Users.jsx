@@ -81,31 +81,15 @@ import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 
-const Users = ({ currentView, setCurrentView }) => {
+const Users = ({ currentView, setCurrentView, closeModal }) => {
   const { getData, postData } = useApi();
 
-  const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/roles", ""]],
-    getData
-  );
-
-  const { data: { data: _data = [] } = {} } = useQuery(
-    ["admin", ["/departments", ""]],
-    getData
-  );
-
-  const { data: { data: departs = [] } = {}, refetch } = useQuery(
-    ["admin", ["/specializations", ""]],
-    getData
-  );
-  console.log("🚀 ~ Users ~ _data:", _data);
-
-  console.log("🚀 ~ Users ~ data:", data);
   const {
     handleSubmit,
     control,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -120,6 +104,27 @@ const Users = ({ currentView, setCurrentView }) => {
     },
   });
 
+  let id = watch("department_id") && watch("department_id");
+
+  const { data: { data = [] } = {} } = useQuery(
+    ["admin", ["/roles", ""]],
+    getData
+  );
+
+  const { data: { data: _data = [] } = {} } = useQuery(
+    ["admin", ["/departments", ""]],
+    getData
+  );
+
+  const { data: { data: departs = [] } = {}, refetch } = useQuery(
+    ["admin", ["/admin/department-specializations"], id],
+    getData,
+    { enabled: !!id }
+  );
+  console.log("🚀 ~ Users ~ _data:", _data);
+
+  console.log("🚀 ~ Users ~ data:", data);
+
   const mutation = useMutation(postData, {
     onSuccess: () => {
       reset();
@@ -127,7 +132,8 @@ const Users = ({ currentView, setCurrentView }) => {
       // _refetch();
     },
     onError: (err) => {
-      errorNotf("خطا انشاء مستخدم");
+      closeModal();
+      errorNotf(err.response.data.errors.message);
     },
   });
 
@@ -138,8 +144,10 @@ const Users = ({ currentView, setCurrentView }) => {
   };
 
   useEffect(() => {
-    refetch();
-  }, [refetch, _data, departs]);
+    if (id) {
+      refetch();
+    }
+  }, [refetch, id]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-md py-2">
