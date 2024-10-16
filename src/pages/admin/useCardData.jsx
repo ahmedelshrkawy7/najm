@@ -12,13 +12,14 @@ import RoleCard from "../../component/managersComponetns/RoleCard";
 import SpecCard from "../../component/managersComponetns/SpecCard";
 import RiskCard from "../../component/managersComponetns/RiskCard";
 import UserCard from "../../component/managersComponetns/UserCard";
+import Classifications from "../../models/Classifications";
 
 const useData = () => {
   const [currentView, setCurrentView] = useState("default");
   const { getData } = useApi();
   const [pagination, setPagination] = useState(1);
 
-  const { data: { data = [] } = {} } = useQuery(
+  const { data: { data = [] } = {}, refetch } = useQuery(
     ["admin", ["/admin/departments", { page: pagination }]],
     getData,
     { refetchInterval: 0 }
@@ -103,6 +104,28 @@ const useData = () => {
       cardCh: <SpecCard />,
     },
     {
+      icon: "../src/assets/icons/manager_4.svg",
+      title: "نوع البلاغ",
+      buttons: ["عرض البلاغات", "إنشاء بلاغ"],
+      children: (
+        <Departments
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
+      ),
+      data: departs,
+      columns: [
+        {
+          title: "نوع البلاغ",
+          dataIndex: "name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/report-types",
+      cardCh: <DeptCard type={"reortType"} />,
+    },
+    {
       icon: "../src/assets/icons/manager_3.svg",
       title: "أنواع الخطر",
       buttons: ["عرض أنواع الخطر", "إضافة نوع للخطر"],
@@ -143,7 +166,7 @@ const useData = () => {
         },
       ],
       apiKey: "/admin/departments",
-      cardCh: <DeptCard />,
+      cardCh: <DeptCard type={"departments"} />,
     },
     {
       icon: "../src/assets/icons/manager_1.svg",
@@ -174,12 +197,12 @@ const useData = () => {
       columns: [
         {
           title: "الادارة",
-          dataIndex: "department_name",
+          dataIndex: ["department", "name"],
           key: "id",
         },
         {
           title: "الاقسام",
-          dataIndex: "specialization_name",
+          dataIndex: ["specialization", "name"],
           key: "id",
         },
         {
@@ -190,6 +213,33 @@ const useData = () => {
       ],
       apiKey: "/admin/users",
       cardCh: <UserCard />,
+    },
+    {
+      icon: "../src/assets/icons/manager_1.svg",
+      title: "التصنيفات",
+      buttons: ["عرض التصنيفات", "إضافة تصنيف"],
+      children: (
+        <Classifications
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
+      ),
+      columns: [
+        {
+          title: "التصنيف",
+          dataIndex: "name",
+          key: "id",
+        },
+      ],
+      apiKey: "/admin/report-classification",
+      cardCh: (
+        <Classifications
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          refetch={refetch}
+        />
+      ),
     },
   ];
   return { cardData };

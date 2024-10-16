@@ -12,6 +12,7 @@ const DeptCard = ({
   setCurrentView,
   refetch,
   closeModal,
+  type,
 }) => {
   console.log("🚀 ~ EditRow ~ record:", record);
   const { handleSubmit, control, watch, setValue } = useForm({
@@ -48,11 +49,17 @@ const DeptCard = ({
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-
-    mutation.mutate([
-      `/admin/departments/${record?.id}`,
-      { ...data, name_en: watch("name_ar") },
-    ]);
+    if (type == "departments") {
+      mutation.mutate([
+        `/admin/departments/${record?.id}`,
+        { ...data, name_en: watch("name_ar") },
+      ]);
+    } else {
+      mutation.mutate([
+        `/admin/report-types/${record?.id}`,
+        { ...data, name_en: watch("name_ar") },
+      ]);
+    }
   };
 
   return (
@@ -71,7 +78,6 @@ const DeptCard = ({
       <div className="py-3 pt-0 flex items-center justify-end">
         <button
           type="submit"
-          onClick={() => {}}
           className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
         >
           <EditOutlined /> {"تعديل"}

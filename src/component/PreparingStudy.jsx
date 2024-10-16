@@ -68,7 +68,15 @@ const PreparingStudy = ({ change }) => {
     error,
     data: { data: { report_classification } = {} } = {},
   } = useQuery(["users", ["/report-classification", ""]], getData);
+  const { data: { data: reportType = {} } = {} } = useQuery(
+    ["users", ["/report-types", ""]],
+    getData
+  );
 
+  console.log(
+    "🚀 ~ PreparingStudy ~ report_classification:",
+    report_classification
+  );
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
@@ -266,49 +274,14 @@ const PreparingStudy = ({ change }) => {
               placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
               nameType="report_type"
-              options={[
-                {
-                  value: "سوء أستخدام ممتلكات الشركة",
-                  label: (
-                    <span className="text-[15px] ">
-                      سوء أستخدام ممتلكات الشركة
-                    </span>
-                  ),
-                },
-                {
-                  value: "سوء استخدام السلطة او اتخاذ القرار",
-                  label: (
-                    <span className="text-[15px] ">
-                      {" "}
-                      سوء استخدام السلطة او اتخاذ القرار
-                    </span>
-                  ),
-                },
-                {
-                  value: "سوء استخدام الصلاحيات الممنوحة",
-                  label: (
-                    <span className="text-[15px] ">
-                      سوء استخدام الصلاحيات الممنوحة
-                    </span>
-                  ),
-                },
-                {
-                  value: "الحصول على منافع او مكافأت غير مستحقة",
-                  label: (
-                    <span className="text-[15px] ">
-                      الحصول على منافع او مكافأت غير مستحقة
-                    </span>
-                  ),
-                },
-                {
-                  value: "الإفصاح عن معلومات سرية بطريقة غير نظامية",
-                  label: (
-                    <span className="text-[15px] ">
-                      الإفصاح عن معلومات سرية بطريقة غير نظامية
-                    </span>
-                  ),
-                },
-              ]}
+              options={reportType?.map((opt) => ({
+                value: opt.id,
+                label: (
+                  <span className="text-sm" key={opt.id}>
+                    {opt.name}
+                  </span>
+                ),
+              }))}
             />
           </div>
           <div className="self-center flex flex-wrap gap-6 my-8">

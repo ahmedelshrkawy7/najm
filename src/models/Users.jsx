@@ -84,28 +84,12 @@ import { errorNotf } from "../utils/notifications/Toast";
 const Users = ({ currentView, setCurrentView, closeModal }) => {
   const { getData, postData } = useApi();
 
-  const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/roles", ""]],
-    getData
-  );
-
-  const { data: { data: _data = [] } = {} } = useQuery(
-    ["admin", ["/departments", ""]],
-    getData
-  );
-
-  const { data: { data: departs = [] } = {}, refetch } = useQuery(
-    ["admin", ["/specializations", ""]],
-    getData
-  );
-  console.log("🚀 ~ Users ~ _data:", _data);
-
-  console.log("🚀 ~ Users ~ data:", data);
   const {
     handleSubmit,
     control,
     register,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -119,6 +103,27 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
       password: "",
     },
   });
+
+  let id = watch("department_id") && watch("department_id");
+
+  const { data: { data = [] } = {} } = useQuery(
+    ["admin", ["/roles", ""]],
+    getData
+  );
+
+  const { data: { data: _data = [] } = {} } = useQuery(
+    ["admin", ["/departments", ""]],
+    getData
+  );
+
+  const { data: { data: departs = [] } = {}, refetch } = useQuery(
+    ["admin", ["/admin/department-specializations"], id],
+    getData,
+    { enabled: !!id }
+  );
+  console.log("🚀 ~ Users ~ _data:", _data);
+
+  console.log("🚀 ~ Users ~ data:", data);
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
@@ -139,8 +144,10 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
   };
 
   useEffect(() => {
-    refetch();
-  }, [refetch, _data, departs]);
+    if (id) {
+      refetch();
+    }
+  }, [refetch, id]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-md py-2">

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -6,7 +8,10 @@ const Toast = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        toastClassName="text-sm md:text-base"
+        bodyClassName="text-sm md:text-md"
+      />
     </>
   );
 };
