@@ -160,7 +160,12 @@
 import { cloneElement, useEffect, useMemo, useState } from "react";
 import { Table, Select } from "antd";
 import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
-import { EditOutlined, EyeOutlined, HomeFilled } from "@ant-design/icons";
+import {
+  EditOutlined,
+  EyeOutlined,
+  HomeFilled,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useQuery } from "react-query";
@@ -346,6 +351,14 @@ const Deptview = () => {
             }}
           >
             <EditOutlined /> {"تعديل"}
+          </button>
+          <button
+            className="text-md flex items-center gap-3"
+            onClick={() => {
+              
+            }}
+          >
+            <DeleteOutlined className="text-red-600" />
           </button>
         </div>
       ),

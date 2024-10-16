@@ -28,6 +28,7 @@ import { StudyContextPrtovider } from "./store/StudyContext.jsx";
 import Study from "./pages/admin/Study.jsx";
 import AdminManager from "./pages/admin/AdminManager.jsx";
 import Deptview from "./pages/admin/Deptview.jsx";
+import Accreditor from "./Accreditor.jsx";
 
 const routes = [
   {
@@ -91,6 +92,11 @@ const routes = [
         path: "depts",
         handle: { crumb: "التاسيس" },
         element: <Deptview />,
+      },
+      {
+        path: "Acc",
+        handle: { crumb: "معتمد البلاغ" },
+        element: <Accreditor />,
       },
       {
         path: "*",
