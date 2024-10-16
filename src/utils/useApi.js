@@ -26,7 +26,7 @@ const useApi = () => {
     headers: {
       "Content-Type": "multipart/form-data",
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token?.token}`,
     },
     // timeout: 3000,
   });

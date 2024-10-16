@@ -60,7 +60,7 @@ const StudyPreview = ({ setLoc }) => {
       },
       {
         title: "نوع البلاغ",
-        res: data.report_type,
+        res: data.report_type?.name,
         icon: prev2,
       },
     ],

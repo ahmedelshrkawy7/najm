@@ -6,7 +6,8 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import TokenContext from "../../../store/TokenContext";
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -23,7 +24,8 @@ const CardAdmin = () => {
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
   });
-  console.log("🚀 ~ CardAdmin ~ data:", data);
+  const { token } = useContext(TokenContext);
+  console.log("🚀 ~ CardAdmin ~ token:", token);
 
   // const selectOptions = {
   //   reportNumber: data?.data?.reports?.map((report) => report.id) || [],
@@ -592,7 +594,15 @@ const CardAdmin = () => {
       width: 150,
       render: (_, record) => (
         <Space size="middle">
-          <Link to={`/dash/${record.id}`}>عرض</Link>
+          <Link
+            to={
+              token.role === "responsible User"
+                ? `/dash/${record.id}`
+                : `/dash/${record.id}/preparingStudy`
+            }
+          >
+            عرض
+          </Link>
         </Space>
       ),
     },

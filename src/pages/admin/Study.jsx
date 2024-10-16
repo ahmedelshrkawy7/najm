@@ -13,6 +13,7 @@ import SuccessModal from "../../models/successModal";
 import ReportModal from "../../models/ReportModal";
 import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
+import TokenContext from "../../store/TokenContext";
 
 const Study = () => {
   const location = useLocation();
@@ -23,6 +24,12 @@ const Study = () => {
   const { handleHideMenu, showMenu, handleShowMenu } = useContext(StudyContext);
   const [loc, setLoc] = useState(location?.state?.index);
   console.log(showMenu);
+  const { token } = useContext(TokenContext);
+  useEffect(() => {
+    if (token.role === "accreditor User") {
+      setLoc(3);
+    }
+  }, []);
   useEffect(() => {
     if (showMenu) {
       document.documentElement.style.overflow = "hidden";

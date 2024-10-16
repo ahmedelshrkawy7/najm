@@ -68,15 +68,12 @@ const PreparingStudy = ({ change }) => {
     error,
     data: { data: { report_classification } = {} } = {},
   } = useQuery(["users", ["/report-classification", ""]], getData);
-  const { data: { data: reportType = {} } = {} } = useQuery(
+  const { data: { data: reportType = [] } = {} } = useQuery(
     ["users", ["/report-types", ""]],
     getData
   );
 
-  console.log(
-    "🚀 ~ PreparingStudy ~ report_classification:",
-    report_classification
-  );
+  console.log("🚀 ~ PreparingStudy ~ reportType:", reportType);
   useEffect(() => {
     const getPrev = async () => {
       const res = await queryClient.getQueryData(["users", ["/reports"], id]);
@@ -209,7 +206,7 @@ const PreparingStudy = ({ change }) => {
       processing_time: "",
       files: "",
       risk_type: "",
-      report_type: null,
+      report_type_id: null,
       risk_assessment: "",
       result: "",
       _method: "PUT",
@@ -273,7 +270,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
-              nameType="report_type"
+              nameType="report_type_id"
               options={reportType?.map((opt) => ({
                 value: opt.id,
                 label: (
