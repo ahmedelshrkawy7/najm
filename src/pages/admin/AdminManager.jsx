@@ -72,7 +72,7 @@ const AdminManager = () => {
       columns: [
         {
           title: "الادارة",
-          dataIndex: "department",
+          dataIndex: ["department","name"],
           key: "id",
         },
         {

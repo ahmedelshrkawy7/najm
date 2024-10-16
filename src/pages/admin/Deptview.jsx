@@ -236,9 +236,20 @@ const Deptview = () => {
   }, [totalPages]);
 
   const SELECTS = columns?.map((column) => {
+    console.log("🚀 ~ SELECTS ~ column:", column);
+
     const uniqueValues = Array.from(
       new Set(
-        _data?.data?.map((report) => report[column.dataIndex]).filter(Boolean)
+        _data?.data
+          ?.map((report) => {
+            const value =
+              Array.isArray(column.dataIndex) && column.dataIndex.length > 1
+                ? report[column.dataIndex[1]] // Use the second index if dataIndex is an array
+                : report[column.dataIndex]; // Otherwise, use the string dataIndex
+
+            return value;
+          })
+          .filter(Boolean)
       )
     );
 
@@ -266,9 +277,11 @@ const Deptview = () => {
   };
 
   const filteredReports = _data?.data?.filter((report) => {
+    console.log("🚀 ~ filteredReports ~ report:", report);
     return filters.every((filter, index) => {
       if (!filter) return true;
       const selectConfig = SELECTS[index];
+      console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig);
       const reportValue = report[selectConfig.dataIndex];
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
