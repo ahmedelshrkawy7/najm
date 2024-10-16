@@ -281,8 +281,22 @@ const Deptview = () => {
     return filters.every((filter, index) => {
       if (!filter) return true;
       const selectConfig = SELECTS[index];
+      // const reportValue =
+      //   report[
+      //     typeof selectConfig.dataIndex === "object"
+      //       ? selectConfig.dataIndex[1]
+      //       : selectConfig.dataIndex
+      //   ];
+      let reportValue;
+      if (Array.isArray(selectConfig.dataIndex)) {
+        reportValue = report[selectConfig.dataIndex[1]];
+      } else {
+        reportValue = report[selectConfig.dataIndex];
+      }
+      console.log("🚀 ~ returnfilters.every ~ filter:", filter);
       console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig);
-      const reportValue = report[selectConfig.dataIndex];
+      console.log("🚀 ~ returnfilters.every ~ reportValue:", reportValue);
+
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
