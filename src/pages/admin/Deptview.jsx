@@ -164,15 +164,16 @@ import {
   EditOutlined,
   EyeOutlined,
   HomeFilled,
-  DeleteOutlined,
+  DeleteFilled,
 } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import useApi from "../../utils/useApi";
 import { Breadcrumb } from "../../import";
 import useCardData from "./useCardData";
 import EditRow from "../../component/managersComponetns/EditRow";
+import { successNotf } from "../../utils/notifications/Toast";
 
 const Deptview = () => {
   const matches = useMatches();
@@ -277,6 +278,20 @@ const Deptview = () => {
     refetch();
   }, [data, refetch]);
 
+  const { deleteData } = useApi();
+
+  let mutation = useMutation(deleteData, {
+    onSuccess: () => {
+      // setCurrentView("success");
+      // _refetch();
+      successNotf("تم الحذف بنجاح");
+      refetch();
+    },
+    onError: (err) => {
+      // errorNotf(err.response.data.errors.message);
+    },
+  });
+
   const usedColumns = [
     {
       title: "الفعاليات",
@@ -354,11 +369,9 @@ const Deptview = () => {
           </button>
           <button
             className="text-md flex items-center gap-3"
-            onClick={() => {
-              
-            }}
+            onClick={() => mutation.mutate(`${comp.apiKey}/${record?.id}`)}
           >
-            <DeleteOutlined className="text-red-600" />
+            <DeleteFilled className="text-red-600" />
           </button>
         </div>
       ),
