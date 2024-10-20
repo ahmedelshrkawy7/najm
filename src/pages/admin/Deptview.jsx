@@ -158,13 +158,14 @@
 // export default Deptview;
 
 import { cloneElement, useEffect, useMemo, useState } from "react";
-import { Table, Select } from "antd";
+import { Table, Select, Button, Input } from "antd";
 import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
 import {
   EditOutlined,
   EyeOutlined,
   HomeFilled,
   DeleteFilled,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
@@ -174,6 +175,7 @@ import { Breadcrumb } from "../../import";
 import useCardData from "./useCardData";
 import EditRow from "../../component/managersComponetns/EditRow";
 import { successNotf } from "../../utils/notifications/Toast";
+import DashModal from "../../models/DashModal";
 
 const Deptview = () => {
   const matches = useMatches();
@@ -214,9 +216,16 @@ const Deptview = () => {
   const { state } = useLocation();
   const { data = [], columns = [], apiKey = "", buttonName = "" } = state || {};
   console.log("🚀 ~ Deptview ~ buttonName:", buttonName);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
 
   const { getData } = useApi();
   const [pagination, setPagination] = useState(1);
+  // const [searchTerm, setSearchTerm] = useState("");
+
   const ref = useRef();
   const navigate = useNavigate();
   let comp = cardData?.find((comp) => comp.buttons[1] === buttonName);
@@ -360,11 +369,12 @@ const Deptview = () => {
                   currentView,
                   refetch,
                   record,
-                  closeModal: () => ref.current?.close(),
+                  closeModal: () => setModalOpen(false),
                 })
               );
               setModelTitle("عرض القسم");
-              ref.current?.open();
+              // ref.current?.open();
+              toggleModal();
             }}
           >
             <EyeOutlined /> {"عرض"}
@@ -385,11 +395,13 @@ const Deptview = () => {
                   currentView,
                   refetch,
                   record,
-                  closeModal: () => ref.current?.close(),
+                  // closeModal: () => ref.current?.close(),
+                  closeModal: () => setModalOpen(false),
                 })
               );
               setModelTitle("بيانات المستخدم");
-              ref.current?.open();
+              // ref.current?.open();
+              toggleModal();
             }}
           >
             <EditOutlined /> {"تعديل"}
@@ -409,16 +421,16 @@ const Deptview = () => {
 
   return (
     <>
-      <ReportModel
+      {/* <ReportModel
         ref={ref}
         title={modelTitle}
         currentView={currentView}
         setCurrentView={setCurrentView}
         refetch={refetch}
-      >
-        <div className="px-5 py-3">
-          {modelContent}
-          {/* <div className="py-3 pt-0 flex items-center justify-end">
+      > */}
+      {/* <div className="px-5 py-3"> */}
+      {/* {modelContent} */}
+      {/* <div className="py-3 pt-0 flex items-center justify-end">
             <button
               onClick={() => {
                 setCurrentView("success");
@@ -428,8 +440,18 @@ const Deptview = () => {
               <EditOutlined /> {"تعديل"}
             </button>
           </div> */}
-        </div>
-      </ReportModel>
+      {/* </div> */}
+      {/* </ReportModel> */}
+      <DashModal
+        title={modelTitle}
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        refetch={refetch}
+      >
+        {modelContent}
+      </DashModal>
       <div className="w-[90%] mx-auto mt-20">
         <div className="mb-6 flex flex-col justify-center">
           <h2 className="text-black text-xl font-bold my-1">التاسيس</h2>
@@ -463,6 +485,19 @@ const Deptview = () => {
                 {/* )} */}
               </div>
             ))}
+            {/* <div className="flex items-end justify-center self-end">
+              <Input
+                placeholder="ابحث هنا"
+                className="border border-gray-300 rounded-e-none w-64 h-[32px] "
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Button
+                type="primary"
+                icon={<SearchOutlined />}
+                className="bg-[#33835c]  text-white h-[32px] rounded-s-none"
+              />
+            </div> */}
             <button
               className="bg-[#33835c] sm:self-end self-start p-2 py-1 w-auto text-white rounded-md outline-none h-fit"
               onClick={() => setFilters(Array(SELECTS.length).fill(""))}
@@ -480,10 +515,12 @@ const Deptview = () => {
                       currentView,
                       setCurrentView,
                       refetch,
-                      closeModal: () => ref.current?.close(),
+                      // closeModal: () => ref.current?.close(),
+                      closeModal: () => setModalOpen(false),
                     })
                   );
-                  ref.current?.open();
+                  // ref.current?.open();
+                  toggleModal();
                 }
               }}
             >

@@ -76,10 +76,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Radio } from "antd";
+import { Input, Radio, Select } from "antd";
 import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
+import { Option } from "antd/es/mentions";
 
 const Users = ({ currentView, setCurrentView, closeModal }) => {
   const { getData, postData } = useApi();
@@ -173,7 +174,7 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <label className="block mb-2">الإدارة</label>
-            <select
+            {/* <select
               {...register("department_id", {
                 required: "يرجى اختيار الإدارة.",
               })}
@@ -187,7 +188,31 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
                   {department.name_ar}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <Controller
+              control={control}
+              name="department_id"
+              rules={{ required: "يجب اختيار إدارة" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`rounded-md w-full flex items-center h-[34px] border${
+                    errors.department_id ? "border-red-500" : "border-gray-300"
+                  }`}
+                  placeholder="اختر الإدارة"
+                  onChange={(value) => field.onChange(value)}
+                >
+                  <Option value="" disabled hidden>
+                    اختر الإدارة
+                  </Option>
+                  {_data.map((department) => (
+                    <Option key={department.id} value={department.id}>
+                      {department.name_ar}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            />
             {errors.department_id && (
               <p className="text-red-500">{errors.department_id.message}</p>
             )}
@@ -195,7 +220,7 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
 
           <div>
             <label className="block mb-2">اسم القسم</label>
-            <select
+            {/* <select
               {...register("specialization_id", {
                 required: "يرجى اختيار القسم.",
               })}
@@ -209,8 +234,34 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
                   {depart.name}
                 </option>
               ))}
-            </select>
-            {errors.specialization_id && (
+            </select> */}
+            <Controller
+              control={control}
+              name="specialization_id"
+              rules={{ required: "يرجى اختيار القسم" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`rounded-md w-full flex items-center h-[34px] border${
+                    errors.specialization_id
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                  placeholder="اختر القسم"
+                  onChange={(value) => field.onChange(value)}
+                >
+                  <Option value="" disabled hidden>
+                    اختر القسم
+                  </Option>
+                  {departs.map((depart) => (
+                    <Option key={depart.id} value={depart.id}>
+                      {depart.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            />
+            {id && errors.specialization_id && (
               <p className="text-red-500">{errors.specialization_id.message}</p>
             )}
           </div>
@@ -221,7 +272,13 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
               name="name"
               control={control}
               rules={{ required: "يرجى إدخال اسم الشخص." }}
-              render={({ field }) => <Input {...field} className="h-[41px]" />}
+              render={({ field }) => (
+                <Input
+                  placeholder="ادخل الاسم"
+                  {...field}
+                  className="h-[34px]"
+                />
+              )}
             />
             {errors.name && (
               <p className="text-red-500">{errors.name.message}</p>
@@ -230,7 +287,7 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
 
           <div>
             <label className="block mb-2">البريد الإلكتروني</label>
-            <div className="relative h-[41px]">
+            <div className="relative h-[34px]">
               <Controller
                 name="email"
                 control={control}
@@ -259,7 +316,7 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
 
           <div>
             <label className="block mb-2">الصلاحية</label>
-            <select
+            {/* <select
               {...register("role_id", { required: "يرجى اختيار الصلاحية." })}
               className="w-full border border-gray-300 rounded px-3 py-2"
             >
@@ -271,7 +328,31 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
                   {user.name}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <Controller
+              control={control}
+              name="role_id"
+              rules={{ required: "يجب اختيار الصلاحية" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`rounded-md w-full flex items-center h-[34px] border${
+                    errors.department_id ? "border-red-500" : "border-gray-300"
+                  }`}
+                  placeholder="اختر الصلاحية"
+                  onChange={(value) => field.onChange(value)}
+                >
+                  <Option value="" disabled hidden>
+                    اختر الصلاحية
+                  </Option>
+                  {data?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </Select>
+              )}
+            />
             {errors.role_id && (
               <p className="text-red-500">{errors.role_id.message}</p>
             )}
@@ -287,7 +368,7 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
                 <Input.Password
                   placeholder="*******"
                   {...field}
-                  className="h-[41px]"
+                  className="h-[34px]"
                 />
               )}
             />

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
+import { errorNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
 const SpecCard = ({
@@ -37,13 +38,14 @@ const SpecCard = ({
       console.log("🚀 ~ err:", err);
       closeModal();
       // errorNotf("تم انشاء الادارة مسبقا");
+      errorNotf(err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, ""));
     },
   });
 
   useEffect(() => {
     if (record) {
-      setValue("name_ar", record.name || "");
-      setValue("name_en", record.name || "");
+      setValue("name_ar", record?.name || "");
+      setValue("name_en", record?.name || "");
     }
   }, [record, setValue]);
 
