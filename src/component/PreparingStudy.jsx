@@ -24,7 +24,7 @@ import { InputText } from "./forms/inputs/InputText";
 import ReportModal from "../models/ReportModal";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { errorNotf } from "../utils/notifications/Toast";
 import dayjs from "dayjs";
@@ -228,10 +228,11 @@ const PreparingStudy = ({ change }) => {
     }
     clearErrors(["risk_assessment", "processing_time"]);
   };
+  const navigate = useNavigate();
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      change(3);
+      navigate(`/dash/${id}/previewStudy`);
     },
     onError: (err) => {
       errorNotf(err.response.data.message);

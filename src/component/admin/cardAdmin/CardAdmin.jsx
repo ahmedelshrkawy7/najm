@@ -594,15 +594,7 @@ const CardAdmin = () => {
       width: 150,
       render: (_, record) => (
         <Space size="middle">
-          <Link
-            to={
-              token.role === "responsible User"
-                ? `/dash/${record.id}`
-                : `/dash/${record.id}/preparingStudy`
-            }
-          >
-            عرض
-          </Link>
+          <Link to={`/dash/${record.id}`}>عرض</Link>
         </Space>
       ),
     },

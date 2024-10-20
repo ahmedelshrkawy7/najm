@@ -29,6 +29,8 @@ import Study from "./pages/admin/Study.jsx";
 import AdminManager from "./pages/admin/AdminManager.jsx";
 import Deptview from "./pages/admin/Deptview.jsx";
 import Accreditor from "./Accreditor.jsx";
+import Authorization from "./Authorization.jsx";
+import StudyPreview from "./component/StudyPreview.jsx";
 
 const routes = [
   {
@@ -67,11 +69,23 @@ const routes = [
         children: [
           {
             index: true,
-            element: <Test />,
+            element: <Authorization />,
           },
           {
             path: "preparingStudy",
-            element: <Study />,
+            element: (
+              <Study title={"معاينة الدراسة الاولية"}>
+                <PreparingStudy />
+              </Study>
+            ),
+          },
+          {
+            path: "previewStudy",
+            element: (
+              <Study title={"الدراسة الاولية"}>
+                <StudyPreview />
+              </Study>
+            ),
           },
 
           {

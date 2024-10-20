@@ -15,7 +15,7 @@ import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
 
-const Study = () => {
+const Study = ({ children, title }) => {
   const location = useLocation();
   const { postData } = useApi();
   const { id } = useParams();
@@ -76,13 +76,15 @@ const Study = () => {
         <div className="bg-white rounded-md">
           <div className="rounded-t-md overflow-hidden">
             <ReportsHeader
-              title={loc === 2 ? "الدراسة الاولية" : "معاينة الدراسة الاولية"}
+              // title={loc === 2 ? "الدراسة الاولية" : "معاينة الدراسة الاولية"}
+              title={title}
             />
           </div>
         </div>
-
+        {/* 
         {loc === 2 && <PreparingStudy change={change} />}
-        {loc === 3 && <StudyPreview setLoc={setLoc} />}
+        {loc === 3 && <StudyPreview setLoc={setLoc} />} */}
+        {children}
       </div>
       {/* {showMenu && loc === 3 && (
         <div
