@@ -91,7 +91,7 @@ const useData = () => {
       columns: [
         {
           title: "الادارة",
-          dataIndex: "department",
+          dataIndex: ["department", "name"],
           key: "id",
         },
         {
@@ -112,6 +112,7 @@ const useData = () => {
           currentView={currentView}
           setCurrentView={setCurrentView}
           refetch={refetch}
+          type={"reportType"}
         />
       ),
       data: departs,
@@ -155,6 +156,7 @@ const useData = () => {
         <Departments
           currentView={currentView}
           setCurrentView={setCurrentView}
+          type={"departments"}
         />
       ),
       data: departs,

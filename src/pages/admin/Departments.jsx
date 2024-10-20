@@ -11,6 +11,7 @@ const Departments = ({
   setCurrentView,
   refetch = () => {},
   closeModal,
+  type,
 }) => {
   const {
     control,
@@ -44,10 +45,21 @@ const Departments = ({
 
   const onSubmit = (data) => {
     console.log("Form Submitted:", data);
-    mutation.mutate([
-      `/admin/departments`,
-      { ...data, name_ar: watch("name_en") },
-    ]);
+    if (type === "reportType") {
+      console.log("نوع");
+
+      mutation.mutate([
+        `/admin/report-types`,
+        { ...data, name_ar: watch("name_en") },
+      ]);
+    } else {
+      console.log("ادارة");
+
+      mutation.mutate([
+        `/admin/departments`,
+        { ...data, name_ar: watch("name_en") },
+      ]);
+    }
   };
 
   return (

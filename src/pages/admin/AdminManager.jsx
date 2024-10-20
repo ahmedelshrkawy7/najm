@@ -117,6 +117,7 @@ const AdminManager = () => {
           currentView={currentView}
           setCurrentView={setCurrentView}
           refetch={refetch}
+          type={"departments"}
         />
       ),
       data: departs,
@@ -138,6 +139,7 @@ const AdminManager = () => {
           currentView={currentView}
           setCurrentView={setCurrentView}
           refetch={refetch}
+          type={"reportType"}
         />
       ),
       data: departs,

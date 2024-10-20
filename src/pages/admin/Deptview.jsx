@@ -164,15 +164,16 @@ import {
   EditOutlined,
   EyeOutlined,
   HomeFilled,
-  DeleteOutlined,
+  DeleteFilled,
 } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import useApi from "../../utils/useApi";
 import { Breadcrumb } from "../../import";
 import useCardData from "./useCardData";
 import EditRow from "../../component/managersComponetns/EditRow";
+import { successNotf } from "../../utils/notifications/Toast";
 
 const Deptview = () => {
   const matches = useMatches();
@@ -235,9 +236,20 @@ const Deptview = () => {
   }, [totalPages]);
 
   const SELECTS = columns?.map((column) => {
+    console.log("🚀 ~ SELECTS ~ column:", column);
+
     const uniqueValues = Array.from(
       new Set(
-        _data?.data?.map((report) => report[column.dataIndex]).filter(Boolean)
+        _data?.data
+          ?.map((report) => {
+            const value =
+              Array.isArray(column.dataIndex) && column.dataIndex.length > 1
+                ? report[column.dataIndex[1]] // Use the second index if dataIndex is an array
+                : report[column.dataIndex]; // Otherwise, use the string dataIndex
+
+            return value;
+          })
+          .filter(Boolean)
       )
     );
 
@@ -265,9 +277,11 @@ const Deptview = () => {
   };
 
   const filteredReports = _data?.data?.filter((report) => {
+    console.log("🚀 ~ filteredReports ~ report:", report);
     return filters.every((filter, index) => {
       if (!filter) return true;
       const selectConfig = SELECTS[index];
+      console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig);
       const reportValue = report[selectConfig.dataIndex];
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
@@ -276,6 +290,20 @@ const Deptview = () => {
   useEffect(() => {
     refetch();
   }, [data, refetch]);
+
+  const { deleteData } = useApi();
+
+  let mutation = useMutation(deleteData, {
+    onSuccess: () => {
+      // setCurrentView("success");
+      // _refetch();
+      successNotf("تم الحذف بنجاح");
+      refetch();
+    },
+    onError: (err) => {
+      // errorNotf(err.response.data.errors.message);
+    },
+  });
 
   const usedColumns = [
     {
@@ -354,11 +382,9 @@ const Deptview = () => {
           </button>
           <button
             className="text-md flex items-center gap-3"
-            onClick={() => {
-              
-            }}
+            onClick={() => mutation.mutate(`${comp.apiKey}/${record?.id}`)}
           >
-            <DeleteOutlined className="text-red-600" />
+            <DeleteFilled className="text-red-600" />
           </button>
         </div>
       ),
