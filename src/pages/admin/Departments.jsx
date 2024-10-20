@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
+import { message } from "antd";
 
 /* eslint-disable react/prop-types */
 const Departments = ({
@@ -12,6 +13,7 @@ const Departments = ({
   refetch = () => {},
   closeModal,
   type,
+  setMessage,
 }) => {
   const {
     control,
@@ -30,31 +32,34 @@ const Departments = ({
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       reset();
       setCurrentView("success");
+      setMessage(
+        type === "reportType"
+          ? `تم انشاء البلاغ (${data?.data?.name}) بنجاح`
+          : `تم انشاء الادارة (${data?.data?.name}) بنجاح`
+      );
       queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
       refetch();
     },
     onError: (err) => {
       console.log("🚀 ~ err:", err);
       closeModal();
-      errorNotf("تم انشاء الادارة مسبقا");
+      // errorNotf("تم انشاء الادارة مسبقا");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 
   const onSubmit = (data) => {
-    console.log("Form Submitted:", data);
     if (type === "reportType") {
-      console.log("نوع");
-
       mutation.mutate([
         `/admin/report-types`,
         { ...data, name_ar: watch("name_en") },
       ]);
     } else {
-      console.log("ادارة");
-
       mutation.mutate([
         `/admin/departments`,
         { ...data, name_ar: watch("name_en") },
@@ -66,13 +71,15 @@ const Departments = ({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-2 h-36 justify-between">
         <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
-          <label className="font-medium">اسم الادارة</label>
+          <label className="font-medium">
+            {type === "reportType" ? "اسم البلاغ" : "اسم الادارة"}
+          </label>
           <input
             type="text"
             className={`border ${
               errors.name_en ? "border-red-500" : "border-gray-300"
             } p-1 rounded-md outline-none flex-1 w-full`}
-            placeholder="وحدة مكافحة المخدرات بالافلاج"
+            placeholder={type === "reportType" ? "اسم البلاغ" : "اسم الادارة"}
             {...control.register("name_en", {
               required: "اسم الادارة مطلوب",
             })}
@@ -80,7 +87,7 @@ const Departments = ({
           {errors.name_en && (
             <span className="text-red-500">{errors.name_en.message}</span>
           )}
-        </div>{" "}
+        </div>
         <div className="flex items-center justify-end">
           <button
             onClick={() => {

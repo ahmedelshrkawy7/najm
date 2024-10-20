@@ -173,7 +173,6 @@ import { useMutation, useQuery } from "react-query";
 import useApi from "../../utils/useApi";
 import { Breadcrumb } from "../../import";
 import useCardData from "./useCardData";
-import EditRow from "../../component/managersComponetns/EditRow";
 import { successNotf } from "../../utils/notifications/Toast";
 import DashModal from "../../models/DashModal";
 
@@ -206,17 +205,13 @@ const Deptview = () => {
     return path === "/depts" ? "/managers" : path === "/" ? "/alladmins" : path;
   }
 
-  console.log("🚀 ~ Deptview ~ breadcrumbs:", breadcrumbs);
-
   let { cardData = [] } = useCardData();
-  console.log("🚀 ~ Deptview ~ cardData:", cardData);
   const [modelContent, setModelContent] = useState("");
   const [modelTitle, setModelTitle] = useState("");
   const [currentView, setCurrentView] = useState("default");
+  const [isModalOpen, setModalOpen] = useState(false);
   const { state } = useLocation();
   const { data = [], columns = [], apiKey = "", buttonName = "" } = state || {};
-  console.log("🚀 ~ Deptview ~ buttonName:", buttonName);
-  const [isModalOpen, setModalOpen] = useState(false);
 
   const toggleModal = () => {
     setModalOpen(!isModalOpen);
@@ -229,7 +224,6 @@ const Deptview = () => {
   const ref = useRef();
   const navigate = useNavigate();
   let comp = cardData?.find((comp) => comp.buttons[1] === buttonName);
-  console.log("🚀 ~ Deptview ~ comp:", comp);
   const {
     data: _data = {},
     isLoading,
@@ -237,7 +231,6 @@ const Deptview = () => {
   } = useQuery(["admin", [apiKey, { page: pagination }]], getData, {
     refetchInterval: 0,
   });
-  console.log("🚀 ~ Deptview ~ _data:", _data);
 
   const totalPages = Math.ceil(_data?.meta?.pagination?.totalItems / 10);
   const actionsColumnWidth = useMemo(() => {
@@ -245,17 +238,14 @@ const Deptview = () => {
   }, [totalPages]);
 
   const SELECTS = columns?.map((column) => {
-    console.log("🚀 ~ SELECTS ~ column:", column);
-
     const uniqueValues = Array.from(
       new Set(
         _data?.data
           ?.map((report) => {
             const value =
               Array.isArray(column.dataIndex) && column.dataIndex.length > 1
-                ? report[column.dataIndex[1]] // Use the second index if dataIndex is an array
-                : report[column.dataIndex]; // Otherwise, use the string dataIndex
-
+                ? report[column.dataIndex[1]]
+                : report[column.dataIndex];
             return value;
           })
           .filter(Boolean)
@@ -286,10 +276,10 @@ const Deptview = () => {
   };
 
   const filteredReports = _data?.data?.filter((report) => {
-    console.log("🚀 ~ filteredReports ~ report:", report);
     return filters.every((filter, index) => {
       if (!filter) return true;
       const selectConfig = SELECTS[index];
+      // console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig)
       // const reportValue =
       //   report[
       //     typeof selectConfig.dataIndex === "object"
@@ -298,13 +288,10 @@ const Deptview = () => {
       //   ];
       let reportValue;
       if (Array.isArray(selectConfig.dataIndex)) {
-        reportValue = report[selectConfig.dataIndex[1]];
+        reportValue = report[selectConfig.dataIndex[0]];
       } else {
         reportValue = report[selectConfig.dataIndex];
       }
-      console.log("🚀 ~ returnfilters.every ~ filter:", filter);
-      console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig);
-      console.log("🚀 ~ returnfilters.every ~ reportValue:", reportValue);
 
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
@@ -315,6 +302,7 @@ const Deptview = () => {
   }, [data, refetch]);
 
   const { deleteData } = useApi();
+  const [message, setMessage] = useState("");
 
   let mutation = useMutation(deleteData, {
     onSuccess: () => {
@@ -339,42 +327,18 @@ const Deptview = () => {
             className="text-md flex items-center gap-3 outline-none"
             onClick={() => {
               setModelContent(
-                // <div className="h-36 pt-6 ">
-                //   <div className="flex flex-col gap-11">
-                //     <input
-                //       className="bg-[#E6E6E6] px-2 py-2 rounded-lg border border-gray-300 sm:w-1/2 md:w-[40%] lg:w-1/2 w-full"
-                //       defaultValue={record?.name}
-                //     />
-                //     <div className="py-3 pt-0 self-end">
-                //       <button
-                //         onClick={() => {
-                //           setCurrentView("success");
-                //         }}
-                //         className="bg-[#33835C] text-white p-1 px-10 rounded-lg"
-                //       >
-                //         <EditOutlined /> {"تعديل"}
-                //       </button>
-                //     </div>
-                //   </div>
-                // </div>
-                // <EditRow
-                //   currentView={currentView}
-                //   setCurrentView={setCurrentView}
-                //   refetch={refetch}
-                //   closeModal={() => ref.current?.close()}
-                //   record={record}
-                // />
                 cloneElement(comp?.cardCh, {
-                  setCurrentView,
                   currentView,
+                  setCurrentView,
                   refetch,
                   record,
                   closeModal: () => setModalOpen(false),
+                  setMessage,
                 })
               );
               setModelTitle("عرض القسم");
               // ref.current?.open();
-              toggleModal();
+              setModalOpen(true);
             }}
           >
             <EyeOutlined /> {"عرض"}
@@ -383,25 +347,19 @@ const Deptview = () => {
             className="text-md flex items-center gap-3 outline-none"
             onClick={() => {
               setModelContent(
-                // <EditRow
-                //   currentView={currentView}
-                //   setCurrentView={setCurrentView}
-                //   refetch={refetch}
-                //   closeModal={() => ref.current?.close()}
-                //   record={record}
-                // />
                 cloneElement(comp?.cardCh, {
-                  setCurrentView,
                   currentView,
+                  setCurrentView,
                   refetch,
                   record,
                   // closeModal: () => ref.current?.close(),
                   closeModal: () => setModalOpen(false),
+                  setMessage,
                 })
               );
               setModelTitle("بيانات المستخدم");
               // ref.current?.open();
-              toggleModal();
+              setModalOpen(true);
             }}
           >
             <EditOutlined /> {"تعديل"}
@@ -418,7 +376,6 @@ const Deptview = () => {
   ];
 
   console.log(ref?.current);
-
   return (
     <>
       {/* <ReportModel
@@ -445,10 +402,11 @@ const Deptview = () => {
       <DashModal
         title={modelTitle}
         isOpen={isModalOpen}
-        onClose={toggleModal}
+        onClose={() => setModalOpen(false)}
         currentView={currentView}
         setCurrentView={setCurrentView}
         refetch={refetch}
+        message={message}
       >
         {modelContent}
       </DashModal>
@@ -464,7 +422,6 @@ const Deptview = () => {
           <p className="text-lg font-medium text-black/75"> ابحث هنا</p>
           <hr className="flex-1 border-gray-300" />
         </div>
-
         <div className="">
           <div className="flex flex-wrap gap-4 mb-4 items-center">
             {SELECTS.map((sel, index) => (
@@ -508,6 +465,7 @@ const Deptview = () => {
             <button
               className="w-fit bg-[#33835C] outline-none text-white p-2 px-4 text-sm rounded-lg mr-auto mt-auto h-fit"
               onClick={() => {
+                setCurrentView("default");
                 if (buttonName === comp.buttons[1]) {
                   setModelTitle(buttonName);
                   setModelContent(
@@ -517,10 +475,11 @@ const Deptview = () => {
                       refetch,
                       // closeModal: () => ref.current?.close(),
                       closeModal: () => setModalOpen(false),
+                      setMessage,
                     })
                   );
                   // ref.current?.open();
-                  toggleModal();
+                  setModalOpen(true);
                 }
               }}
             >

@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { EditOutlined } from "@ant-design/icons";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
 import { AppstoreOutlined, MailOutlined } from "@ant-design/icons";
+import { Select } from "antd";
+import { Option } from "antd/es/mentions";
 
 /* eslint-disable react/prop-types */
 const RiskCard = ({
@@ -13,6 +15,7 @@ const RiskCard = ({
   setCurrentView,
   refetch,
   closeModal,
+  setMessage,
 }) => {
   console.log("🚀 ~ record:", record);
   const { postData, getData } = useApi();
@@ -80,8 +83,14 @@ const RiskCard = ({
   const queryClient = useQueryClient();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       setCurrentView("success");
+      setCurrentView("success");
+      setMessage(
+        `تم تعديل الخطر ${
+          data?.data?.branch ? "(" + data?.data?.branch + ")" : ""
+        } بنجاح`
+      );
       refetch();
     },
     onError: (err) => {
@@ -106,7 +115,6 @@ const RiskCard = ({
       {
         ...data,
         parent_id: record?.id,
-
         risk_type: "0",
       },
     ]);
@@ -114,10 +122,9 @@ const RiskCard = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 py-2 bg-white">
+      <div className="grid grid-cols-1 sm:grid-cols-2 py-2 bg-white gap-y-6">
         {_data?.map((item) => {
           console.log(item);
-
           return (
             <div
               key={item.id}
@@ -129,27 +136,54 @@ const RiskCard = ({
               <div className="flex items-center w-full">
                 <p className="text-sm font-bold w-28">{item.label}</p>
                 {item.isSelect ? (
-                  <select
+                  // <select
+                  // {...control.register(item.name)}
+                  // defaultValue={
+                  //   record?.report_weight ? String(record.report_weight) : ""
+                  // } // Set the default value
+                  // className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
+                  // >
+                  //   <option selected hidden>
+                  //     {item.val}
+                  //   </option>
+                  // {item.options.map((option) => (
+                  //   <option key={option?.id} value={option?.id}>
+                  //     {option.weight || option.name}
+                  //   </option>
+                  // ))}
+                  // </select>
+                  <Controller
+                    control={control}
                     {...control.register(item.name)}
-                    defaultValue={
-                      record?.report_weight ? String(record.report_weight) : ""
-                    } // Set the default value
-                    className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
-                  >
-                    <option selected hidden>
-                      {item.val}
-                    </option>
-                    {item.options.map((option) => (
-                      <option key={option?.id} value={option?.id}>
-                        {option.weight || option.name}
-                      </option>
-                    ))}
-                  </select>
+                    rules={{ required: "يجب اختيار إدارة" }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        defaultValue={
+                          record?.report_weight
+                            ? String(record.report_weight)
+                            : ""
+                        }
+                        className="h-[34px] rounded-lg text-black text-xs w-full"
+                        placeholder="اختر الإدارة"
+                        onChange={(value) => field.onChange(value)}
+                      >
+                        <Option value="" disabled>
+                          اختر
+                        </Option>
+                        {item.options.map((option) => (
+                          <Option key={option?.id} value={option?.id}>
+                            {option.weight || option.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    )}
+                  />
                 ) : (
                   <input
                     {...control.register(item.name)}
                     defaultValue={item.value}
-                    className="border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full h-8"
+                    className="h-[34px] border border-gray-300 rounded-lg px-2 py-1 text-black text-xs w-full"
                   />
                 )}
               </div>

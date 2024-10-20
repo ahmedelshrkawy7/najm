@@ -9,10 +9,11 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import useApi from "../../utils/useApi";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { errorNotf } from "../../utils/notifications/Toast";
+import { Select } from "antd";
 
 const UserCard = ({
   record,
@@ -20,26 +21,26 @@ const UserCard = ({
   setCurrentView,
   refetch,
   closeModal,
+  setMessage,
 }) => {
+  const { Option } = Select;
+
   const { getData, postData } = useApi();
 
   const { data: { data: roles = [] } = {} } = useQuery(
     ["admin", ["/roles", ""]],
     getData
   );
-  // console.log("🚀 ~ roles:", roles);
 
   const { data: { data: _data = [] } = {} } = useQuery(
     ["admin", ["/departments", ""]],
     getData
   );
-  // console.log("🚀 ~ UserCard ~ _data:", _data);
 
   const { data: { data: departs = [] } = {} } = useQuery(
     ["admin", ["/specializations", ""]],
     getData
   );
-  // console.log("🚀 ~ UserCard ~ departs:", departs);
 
   const formFields = [
     {
@@ -98,7 +99,7 @@ const UserCard = ({
     },
   ];
 
-  const { handleSubmit, register, watch, setValue, reset } = useForm({
+  const { handleSubmit, register, setValue } = useForm({
     defaultValues: {
       _method: "PUT",
       department_id: record?.department.id || "",
@@ -109,7 +110,6 @@ const UserCard = ({
       name: record?.name || "",
     },
   });
-  console.log("🚀 ~ record:", record);
 
   useEffect(() => {
     refetch();
@@ -126,29 +126,26 @@ const UserCard = ({
     }
   }, [record, setValue]);
 
-  //   const queryClient = useQueryClient();
-
   const mutation = useMutation(postData, {
-    onSuccess: () => {
-      // reset();
+    onSuccess: ({ data }) => {
       setCurrentView("success");
-      //   queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
+      setMessage(`تم تعديل المستخدم (${data?.data?.name}) بنجاح`);
+
       refetch();
     },
     onError: (err) => {
-      console.log("🚀 ~ err:", err);
       closeModal();
-      errorNotf(err.response.data.errors.message);
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 
   const onSubmit = (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", { ...data, user_type: "1" });
     mutation.mutate([
       `/admin/users/${record?.id}`,
       {
         ...data,
-        // role_id: roles?.find((role) => role.name === watch("role_id"))?.id,
         user_type: "1",
       },
     ]);
@@ -159,37 +156,34 @@ const UserCard = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white rounded-lg">
         {formFields.map((field) => {
           return (
-            <div
-              key={field.id}
-              className="flex items-center space-x-2 py-2 gap-2"
-            >
-              {field.icon}
-              <label className="font-bold text-sm  whitespace-nowrap">
-                {field.label}:
+            <div key={field.id} className="flex flex-col py-2 gap-2">
+              <label className="flex items-center font-bold text-sm whitespace-nowrap gap-2">
+                {field.icon}
+                <span className="">{field.label}:</span>
               </label>
               {field.type === "select" ? (
-                <select
+                <Select
                   {...register(field.name, {
-                    required: "اسم القسم مطلوب",
+                    required: "هذا الحقل مطلوب",
                   })}
-                  className="w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0"
+                  defaultValue={field.val}
+                  className="h-[34px] w-full border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-0"
+                  placeholder={field.placeholder}
+                  onChange={(value) => setValue(field.name, value)}
                 >
-                  <option selected hidden>
-                    {field?.val ? field.val : ""}
-                  </option>
-                  {field?.options?.map((option, index) => (
-                    <option key={option.id} value={option?.id}>
+                  {field?.options?.map((option) => (
+                    <Option key={option.id} value={option?.id}>
                       {option?.name_ar || option?.name}
-                    </option>
+                    </Option>
                   ))}
-                </select>
+                </Select>
               ) : (
                 <input
                   type={field.type}
                   {...register(field.name, {
-                    required: "اسم القسم مطلوب",
+                    required: "هذا الحقل مطلوب",
                   })}
-                  className="w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0 placeholder:text-sm"
+                  className="h-[34px] w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0 placeholder:text-sm"
                   placeholder={field.placeholder}
                 />
               )}

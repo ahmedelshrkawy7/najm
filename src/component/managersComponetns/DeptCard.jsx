@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
+import { errorNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
 const DeptCard = ({
@@ -13,6 +14,7 @@ const DeptCard = ({
   refetch,
   closeModal,
   type,
+  setMessage,
 }) => {
   console.log("🚀 ~ EditRow ~ record:", record);
   const { handleSubmit, control, watch, setValue } = useForm({
@@ -27,9 +29,16 @@ const DeptCard = ({
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      console.log("🚀 ~ data:", data);
       // reset();
       setCurrentView("success");
+      setMessage(
+        type === "reportType"
+          ? `تم تعديل البلاغ (${data?.data?.name}) بنجاح`
+          : `تم تعديل الادارة (${data?.data?.name}) بنجاح`
+      );
+
       queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
       refetch();
     },
@@ -37,6 +46,9 @@ const DeptCard = ({
       console.log("🚀 ~ err:", err);
       closeModal();
       // errorNotf("تم انشاء الادارة مسبقا");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 

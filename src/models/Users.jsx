@@ -82,7 +82,13 @@ import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 import { Option } from "antd/es/mentions";
 
-const Users = ({ currentView, setCurrentView, closeModal }) => {
+const Users = ({
+  currentView,
+  setCurrentView,
+  closeModal,
+  setMessage,
+  refetch: rf,
+}) => {
   const { getData, postData } = useApi();
 
   const {
@@ -127,13 +133,19 @@ const Users = ({ currentView, setCurrentView, closeModal }) => {
   console.log("🚀 ~ Users ~ data:", data);
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      console.log("🚀 ~ Users ~ data:", data);
       reset();
       setCurrentView("success");
-      // _refetch();
+      setMessage(`تم انشاء المستخدم (${data?.data?.name}) بنجاح`);
+      rf();
     },
     onError: (err) => {
-      errorNotf(err.response.data.errors.message);
+      // errorNotf(err.response.data.errors.message);
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
+
       closeModal();
     },
   });
