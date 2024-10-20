@@ -5,6 +5,7 @@
 import React, { memo, useRef, useState } from "react";
 import ReportModel from "../../models/ReportModel";
 import { useNavigate } from "react-router-dom";
+import DashModal from "../../models/DashModal";
 // import { columns, data } from "./data";
 
 const ManagerCard = ({
@@ -23,12 +24,17 @@ const ManagerCard = ({
   let ref = useRef(null);
   const navigate = useNavigate();
   const [modelState, setModelState] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
   let handleClick = (button, btnIndex) => {
     if (btnIndex === 1) {
       // document.documentElement.style.overflow = "hidden";
       setModelState(button);
-      ref.current?.open();
+      // ref.current?.open();
+      toggleModal();
     } else {
       navigate("/depts", {
         state: {
@@ -48,7 +54,7 @@ const ManagerCard = ({
 
   return (
     <>
-      <ReportModel
+      {/* <ReportModel
         ref={ref}
         title={modelState}
         // msg={"اضافة"}
@@ -58,7 +64,16 @@ const ManagerCard = ({
         <div className="px-5 py-3">
           {React.cloneElement(ch, { closeModal: () => ref.current?.close() })}
         </div>
-      </ReportModel>
+      </ReportModel> */}
+      <DashModal
+        title={modelState}
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        {React.cloneElement(ch, { closeModal: () => toggleModal() })}
+      </DashModal>
       <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
         <div className="bg-white w-full text-center py-2">
           <div className="mx-auto mt-2 w-14 h-14 rounded-full bg-[#EBF3EF] flex items-center justify-center">

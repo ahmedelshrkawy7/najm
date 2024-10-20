@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useForm, Controller } from "react-hook-form";
-import { Radio, Input } from "antd";
+import { Radio, Input, Select } from "antd";
 import "tailwindcss/tailwind.css"; // Ensure Tailwind is imported into your project
 import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 import { useEffect } from "react";
+import { Option } from "antd/es/mentions";
 
 const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
   const { getData, postData } = useApi();
@@ -105,7 +106,7 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
         </div>
 
         {riskType === "1" ? (
-          <div className="w-full md:w-[40%]">
+          <div className="w-full md:w-[45%]">
             <label className="block mb-3 font-bold">اسم الخطر الرئيسي</label>
             <Controller
               name="name"
@@ -115,7 +116,7 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
                 <Input
                   placeholder="اسم الخطر الرئيسي"
                   {...field}
-                  className="h-[41px] w-full"
+                  className="h-[34px] w-full"
                 />
               )}
             />
@@ -135,19 +136,38 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
                   name="report_weight_id"
                   rules={{ required: "وزن البلاغ مطلوب" }}
                   render={({ field }) => (
-                    <select
+                    // <select
+                    //   {...field}
+                    //   className="w-full p-2 border border-gray-300 rounded-md"
+                    // >
+                    //   <option value="" disabled hidden>
+                    //     اختر وزن البلاغ
+                    //   </option>
+                    //   {weights.map((weight) => (
+                    //     <option key={weight.id} value={weight.id}>
+                    //       {weight.weight}
+                    //     </option>
+                    //   ))}
+                    // </select>
+                    <Select
                       {...field}
-                      className="w-full p-2 border border-gray-300 rounded-md"
+                      className={`rounded-md w-full flex items-center h-[34px] border${
+                        errors.report_weight_id
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="اختر الإدارة"
+                      onChange={(value) => field.onChange(value)}
                     >
-                      <option value="" disabled hidden>
-                        اختر وزن البلاغ
-                      </option>
+                      <Option value="" disabled>
+                        اختر
+                      </Option>
                       {weights.map((weight) => (
-                        <option key={weight.id} value={weight.id}>
+                        <Option key={weight.id} value={weight.id}>
                           {weight.weight}
-                        </option>
+                        </Option>
                       ))}
-                    </select>
+                    </Select>
                   )}
                 />
                 {errors.report_weight_id && (
@@ -166,19 +186,38 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
                   name="parent_id"
                   rules={{ required: "اسم الخطر الرئيسي مطلوب" }}
                   render={({ field }) => (
-                    <select
+                    // <select
+                    //   {...field}
+                    //   className="w-full p-2 border border-gray-300 rounded-md"
+                    // >
+                    //   <option value="" disabled hidden>
+                    // اختر اسم الخطر
+                    //   </option>
+                    //   {risk_types.map((risk) => (
+                    //     <option key={risk.id} value={risk.id}>
+                    //       {risk.name}
+                    //     </option>
+                    //   ))}
+                    // </select>
+                    <Select
                       {...field}
-                      className="w-full p-2 border border-gray-300 rounded-md"
+                      className={`rounded-md w-full flex items-center h-[34px] border${
+                        errors.report_weight_id
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="اختر الإدارة"
+                      onChange={(value) => field.onChange(value)}
                     >
-                      <option value="" disabled hidden>
+                      <Option value="" disabled>
                         اختر اسم الخطر
-                      </option>
+                      </Option>
                       {risk_types.map((risk) => (
-                        <option key={risk.id} value={risk.id}>
+                        <Option key={risk.id} value={risk.id}>
                           {risk.name}
-                        </option>
+                        </Option>
                       ))}
-                    </select>
+                    </Select>
                   )}
                 />
                 {errors.parent_id && (
@@ -202,7 +241,7 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
                     <Input
                       {...field}
                       placeholder="اسم الخطر الفرعي"
-                      className="w-full p-2 border border-gray-300 rounded-md"
+                      className="w-full p-2 border border-gray-300 rounded-md h-[34px]"
                     />
                   )}
                 />
@@ -224,7 +263,7 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
                   render={({ field }) => (
                     <Input
                       {...field}
-                      className="w-full p-2 border border-gray-300 rounded-md"
+                      className="w-full p-2 border border-gray-300 rounded-md h-[34px]"
                     />
                   )}
                 />
