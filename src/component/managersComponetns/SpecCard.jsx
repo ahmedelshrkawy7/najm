@@ -13,6 +13,7 @@ const SpecCard = ({
   setCurrentView,
   refetch,
   closeModal,
+  setMessage,
 }) => {
   console.log("🚀 ~ EditRow ~ record:", record);
   const { handleSubmit, control, watch, setValue } = useForm({
@@ -28,9 +29,11 @@ const SpecCard = ({
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       // reset();
       setCurrentView("success");
+      setMessage(`تم انشاء القسم (${data?.data?.name}) بنجاح`);
+
       //   queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
       refetch();
     },
@@ -38,7 +41,9 @@ const SpecCard = ({
       console.log("🚀 ~ err:", err);
       closeModal();
       // errorNotf("تم انشاء الادارة مسبقا");
-      errorNotf(err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, ""));
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 

@@ -29,13 +29,16 @@ const ManagerCard = ({
   const toggleModal = () => {
     setModalOpen(!isModalOpen);
   };
+
   let handleClick = (button, btnIndex) => {
     if (btnIndex === 1) {
       // document.documentElement.style.overflow = "hidden";
       setModelState(button);
       // ref.current?.open();
-      toggleModal();
+      // toggleModal();
+      setModalOpen(true);
     } else {
+      setCurrentView("default");
       navigate("/depts", {
         state: {
           data: data,
@@ -51,7 +54,7 @@ const ManagerCard = ({
   //       ? React.cloneElement(child) // Modify props here if needed
   //       : child
   //   );
-
+  let [message, setMessage] = useState("");
   return (
     <>
       {/* <ReportModel
@@ -65,14 +68,19 @@ const ManagerCard = ({
           {React.cloneElement(ch, { closeModal: () => ref.current?.close() })}
         </div>
       </ReportModel> */}
+
       <DashModal
         title={modelState}
         isOpen={isModalOpen}
-        onClose={toggleModal}
+        onClose={() => setModalOpen(false)}
         currentView={currentView}
         setCurrentView={setCurrentView}
+        message={message}
       >
-        {React.cloneElement(ch, { closeModal: () => toggleModal() })}
+        {React.cloneElement(ch, {
+          closeModal: () => setModalOpen(false),
+          setMessage,
+        })}
       </DashModal>
       <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
         <div className="bg-white w-full text-center py-2">

@@ -9,7 +9,13 @@ import { errorNotf } from "../utils/notifications/Toast";
 import { useEffect } from "react";
 import { Option } from "antd/es/mentions";
 
-const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
+const RiskTypes = ({
+  currentView,
+  setCurrentView,
+  closeModal,
+  setMessage,
+  refetch,
+}) => {
   const { getData, postData } = useApi();
 
   const { data: { data: weights = [] } = {} } = useQuery(
@@ -52,14 +58,23 @@ const RiskTypes = ({ currentView, setCurrentView, closeModal, refetch }) => {
   // }, [riskType, clearErrors]);
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       setCurrentView("success");
+              setMessage(
+                `تم انشاء الخطر ${
+                  data?.data?.branch ? "(" + data?.data?.branch + ")" : ""
+                } بنجاح`
+              );
+
       reset();
       refetch();
     },
     onError: (err) => {
       closeModal();
-      errorNotf("خطا اضافة نوع خطر");
+      // errorNotf("خطا اضافة نوع خطر");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 

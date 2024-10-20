@@ -13,6 +13,7 @@ const Classifications = ({
   currentView,
   setCurrentView,
   closeModal,
+  setMessage,
   refetch,
 }) => {
   console.log("🚀 ~ record:", record);
@@ -48,8 +49,9 @@ const Classifications = ({
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       setCurrentView("success");
+      setMessage(`تم انشاء التصنيف (${data?.data?.name}) بنجاح`);
       refetch();
     },
     onError: (err) => {

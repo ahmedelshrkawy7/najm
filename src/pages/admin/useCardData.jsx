@@ -244,7 +244,7 @@ const useData = () => {
       ),
     },
   ];
-  return { cardData };
+  return { cardData, refetch, currentView, setCurrentView };
 };
 
 export default useData;

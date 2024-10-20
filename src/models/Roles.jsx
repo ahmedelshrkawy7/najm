@@ -6,7 +6,13 @@ import useApi from "../utils/useApi";
 import { useForm } from "react-hook-form";
 import { errorNotf } from "../utils/notifications/Toast";
 
-const Roles = ({ currentView, setCurrentView, closeModal, refetch }) => {
+const Roles = ({
+  currentView,
+  setCurrentView,
+  closeModal,
+  setMessage,
+  refetch,
+}) => {
   const {
     control,
     handleSubmit,
@@ -23,20 +29,24 @@ const Roles = ({ currentView, setCurrentView, closeModal, refetch }) => {
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       reset();
       setCurrentView("success");
+      setMessage(`تم انشاء الصلاحية (${data?.data?.name}) بنجاح`);
+
       queryClient.invalidateQueries(["admin", ["/admin/roles", ""]]);
       refetch();
     },
     onError: (err) => {
       closeModal();
-      errorNotf("تم انشاء الصلاحية مسبقا");
+      // errorNotf("تم انشاء الصلاحية مسبقا");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 
   const onSubmit = (data) => {
-    console.log("Form Submitted:", data);
     mutation.mutate([`/admin/roles`, data]);
   };
 
@@ -50,7 +60,7 @@ const Roles = ({ currentView, setCurrentView, closeModal, refetch }) => {
             className={`border ${
               errors.name ? "border-red-500" : "border-gray-300"
             } p-1 rounded-md outline-none flex-1 w-full`}
-            placeholder="مدقق البلاغات"
+            placeholder="اسم الصلاحية"
             {...control.register("name", {
               required: "اسم الصلاحية مطلوب",
             })}

@@ -15,6 +15,7 @@ const MyCard = ({
   setCurrentView,
   closeModal,
   refetch: _refetch,
+  setMessage,
 }) => {
   const {
     control,
@@ -40,9 +41,11 @@ const MyCard = ({
   );
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       reset();
       setCurrentView("success");
+      setMessage(`تم انشاء القسم (${data?.data?.name}) بنجاح`);
+
       queryClient.invalidateQueries(["admin", ["/admin/departments", ""]]);
       queryClient.invalidateQueries(["admin", ["/admin/specializations", ""]]);
       _refetch();
@@ -50,7 +53,10 @@ const MyCard = ({
     onError: (err) => {
       reset();
       closeModal();
-      errorNotf("تم انشاء هذا القسم مسبقا");
+      // errorNotf("تم انشاء هذا القسم مسبقا");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 
@@ -77,7 +83,7 @@ const MyCard = ({
               className={`border ${
                 errors.name_ar ? "border-red-500" : "border-gray-300"
               } p-1 rounded-md outline-none flex-1 w-full`}
-              placeholder="وحدة مكافحة المخدرات بالافلاج"
+              placeholder="اسم القسم"
               {...control.register("name_ar", {
                 required: "اسم القسم مطلوب",
               })}
@@ -119,9 +125,7 @@ const MyCard = ({
             )}
           </div> */}
           <div className="flex flex-col gap-2 md:w-[40%] w-full h-fit">
-            <label className="font-medium">
-              اختر الادارة
-            </label>
+            <label className="font-medium">اختر الادارة</label>
             <Controller
               control={control}
               name="department_id"
@@ -136,7 +140,7 @@ const MyCard = ({
                   onChange={(value) => field.onChange(value)}
                 >
                   <Option value="" disabled>
-                    اختر
+                    اختر الادارة
                   </Option>
                   {data.map((department) => (
                     <Option key={department.id} value={department.id}>

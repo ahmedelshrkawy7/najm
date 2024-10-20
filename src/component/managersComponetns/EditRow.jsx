@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
+import { errorNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
 const EditRow = ({
@@ -36,6 +37,10 @@ const EditRow = ({
       console.log("🚀 ~ err:", err);
       closeModal();
       // errorNotf("تم انشاء الادارة مسبقا");
+            errorNotf(
+              err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+            );
+
     },
   });
 

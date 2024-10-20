@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 import { useEffect } from "react";
+import { errorNotf } from "../../utils/notifications/Toast";
 
 /* eslint-disable react/prop-types */
 const RoleCard = ({
@@ -12,6 +13,7 @@ const RoleCard = ({
   setCurrentView,
   refetch,
   closeModal,
+  setMessage,
 }) => {
   console.log("🚀 ~ EditRow ~ record:", record);
   const { handleSubmit, control, watch, setValue } = useForm({
@@ -25,9 +27,10 @@ const RoleCard = ({
   const { postData } = useApi();
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       // reset();
       setCurrentView("success");
+      setMessage(`تم تعديل الصلاحية (${data?.data?.name}) بنجاح`);
       queryClient.invalidateQueries(["admin", ["/admin/departments"]]);
       refetch();
     },
@@ -35,6 +38,9 @@ const RoleCard = ({
       console.log("🚀 ~ err:", err);
       closeModal();
       // errorNotf("تم انشاء الادارة مسبقا");
+      errorNotf(
+        err.response.data.errors.message.replace(/[a-zA-Z0-9()]+/g, "")
+      );
     },
   });
 
