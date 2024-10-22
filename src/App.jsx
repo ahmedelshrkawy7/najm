@@ -74,7 +74,7 @@ const routes = [
           {
             path: "preparingStudy",
             element: (
-              <Study title={"معاينة الدراسة الاولية"}>
+              <Study title={"معاينة الدراسة الاولية"} >
                 <PreparingStudy />
               </Study>
             ),
@@ -82,7 +82,7 @@ const routes = [
           {
             path: "previewStudy",
             element: (
-              <Study title={"الدراسة الاولية"}>
+              <Study title={"الدراسة الاولية"} role="responsible">
                 <StudyPreview />
               </Study>
             ),

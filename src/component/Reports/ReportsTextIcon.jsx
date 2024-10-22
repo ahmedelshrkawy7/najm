@@ -10,7 +10,7 @@ const ReportsTextIcon = ({
 }) => {
   return (
     <div
-      className={`flex mb-4 flex-col   ${
+      className={`flex mb-4 flex-col w-full  ${
         description === true && "flex-col !items-start"
       } ${row && "!flex-row items-center"}  mt-4 gap-2`}
     >
