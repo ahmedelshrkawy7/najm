@@ -9,12 +9,13 @@ import {
   CheckCircleOutlined,
   HomeFilled,
 } from "@ant-design/icons";
-import { Link, useMatches } from "react-router-dom";
+import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
 
 const { Panel } = Collapse;
 
 const Accreditor = () => {
   const matches = useMatches();
+  console.log("🚀 ~ Accreditor ~ matches:", matches);
   const breadcrumbs = matches
     .filter((match) => match.handle && match.handle.crumb)
     .map((match) => {
@@ -43,36 +44,39 @@ const Accreditor = () => {
   function redirectCrumb(path) {
     return path === "/depts" ? "/managers" : path === "/" ? "/alladmins" : path;
   }
+
+  let navigate = useNavigate();
+  let location = useLocation();
+  let id = location.search.split("=")[1];
   return (
     <div className="max-w-6xl mx-auto mt-24 mb-6 p-4">
-        <div className="flex gap-2 items-center mb-6">
-          <HomeFilled className="self-center" />
-          <Breadcrumb separator=">" items={breadcrumbs} />
-        </div>
-        <div className="flex justify-between mb-4">
-          {/* Report Number Field */}
-          <div className="flex items-center">
-            <div className="border border-light rounded-lg shadow-sm p-2">
-              <label className="font-semibold text-sm text-[#33835c]">
-                رقم البلاغ: <span className="text-black">24552</span>
-              </label>
-            </div>
+      <div className="flex gap-2 items-center mb-6">
+        <HomeFilled className="self-center" />
+        <Breadcrumb separator=">" items={breadcrumbs} />
+      </div>
+      <div className="flex justify-between mb-4">
+        {/* Report Number Field */}
+        <div className="flex items-center">
+          <div className="border border-light rounded-lg shadow-sm p-2">
+            <label className="font-semibold text-sm text-[#33835c]">
+              رقم البلاغ: <span className="text-black">24552</span>
+            </label>
           </div>
+        </div>
 
-          {/* Send Notes Button */}
-          <div className="self-center">
-            <Button
-              className="rounded-lg bg-[#33835c] text-white border-none py-5"
-              onClick={() => {
-                console.log("hi");
-              }}
-            >
-              إرسال ملاحظات
-            </Button>
-          </div>
+        {/* Send Notes Button */}
+        <div className="self-center">
+          <Button
+            className="rounded-lg bg-[#33835c] text-white border-none py-5"
+            onClick={() => {
+              console.log("hi");
+            }}
+          >
+            إرسال ملاحظات
+          </Button>
         </div>
+      </div>
       <div className="bg-white rounded-lg shadow-md">
-
         {/* Header */}
         <div className="bg-[#33835c] p-4 text-white text-lg font-bold rounded-t-lg">
           إضافة ملاحظات على الدراسة الأولية
@@ -256,7 +260,9 @@ const Accreditor = () => {
       </div>
       <div className="py-5  w-[100%]   text-left">
         <button
-          onClick={() => {}}
+          onClick={() => {
+            navigate(`/dash/${id}`);
+          }}
           className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
         >
           {" "}

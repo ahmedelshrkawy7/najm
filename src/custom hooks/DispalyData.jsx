@@ -44,7 +44,7 @@ const DispalyData = ({
           <div className=" ">
             {location.pathname.includes("dash") && (
               <div className="flex gap-2  items-center   rounded-full pb-3">
-                <h2 className="text-lg self-center  font-semibold">
+                <h2 className="text-lg self-center  font-semibold mr-auto">
                   رقم البلاغ {values?.id}
                 </h2>
               </div>
