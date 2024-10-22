@@ -166,6 +166,8 @@ import {
   HomeFilled,
   DeleteFilled,
   SearchOutlined,
+  EyeFilled,
+  EditFilled,
 } from "@ant-design/icons";
 import { useRef } from "react";
 import ReportModel from "../../models/ReportModel";
@@ -181,7 +183,6 @@ const Deptview = () => {
   const breadcrumbs = matches
     .filter((match) => match.handle && match.handle.crumb)
     .map((match) => {
-      console.log("🚀 ~ .map ~ match:", match);
       return {
         id: match.id,
         title: (
@@ -211,6 +212,7 @@ const Deptview = () => {
   const [currentView, setCurrentView] = useState("default");
   const [isModalOpen, setModalOpen] = useState(false);
   const { state } = useLocation();
+  const ref = useRef();
   const { data = [], columns = [], apiKey = "", buttonName = "" } = state || {};
 
   const toggleModal = () => {
@@ -221,7 +223,6 @@ const Deptview = () => {
   const [pagination, setPagination] = useState(1);
   // const [searchTerm, setSearchTerm] = useState("");
 
-  const ref = useRef();
   const navigate = useNavigate();
   let comp = cardData?.find((comp) => comp.buttons[1] === buttonName);
   const {
@@ -242,10 +243,9 @@ const Deptview = () => {
       new Set(
         _data?.data
           ?.map((report) => {
-            const value =
-              Array.isArray(column.dataIndex) && column.dataIndex.length > 1
-                ? report[column.dataIndex[1]]
-                : report[column.dataIndex];
+            const value = Array.isArray(column.dataIndex)
+              ? column.dataIndex.reduce((acc, key) => acc?.[key], report)
+              : report[column.dataIndex];
             return value;
           })
           .filter(Boolean)
@@ -271,28 +271,28 @@ const Deptview = () => {
 
   const handleFilterChange = (index, value) => {
     const newFilters = [...filters];
-    newFilters[index] = value;
+    newFilters[index] = value !== undefined ? value : "";
     setFilters(newFilters);
   };
 
   const filteredReports = _data?.data?.filter((report) => {
     return filters.every((filter, index) => {
       if (!filter) return true;
+
       const selectConfig = SELECTS[index];
-      // console.log("🚀 ~ returnfilters.every ~ selectConfig:", selectConfig)
-      // const reportValue =
-      //   report[
-      //     typeof selectConfig.dataIndex === "object"
-      //       ? selectConfig.dataIndex[1]
-      //       : selectConfig.dataIndex
-      //   ];
       let reportValue;
+
+      // Check if dataIndex is an array for multi-level access
       if (Array.isArray(selectConfig.dataIndex)) {
-        reportValue = report[selectConfig.dataIndex[0]];
+        reportValue = selectConfig.dataIndex.reduce(
+          (acc, key) => acc?.[key],
+          report
+        );
       } else {
         reportValue = report[selectConfig.dataIndex];
       }
 
+      // Compare the reportValue with the filter
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
@@ -320,7 +320,8 @@ const Deptview = () => {
     {
       title: "الفعاليات",
       key: "actions",
-      width: actionsColumnWidth,
+      // width: actionsColumnWidth,
+      // width:"fit-content",
       render: (_, record) => (
         <div className="flex justify-center gap-4">
           <button
@@ -341,7 +342,7 @@ const Deptview = () => {
               setModalOpen(true);
             }}
           >
-            <EyeOutlined /> {"عرض"}
+            <EyeFilled /> {"عرض"}
           </button>
           <button
             className="text-md flex items-center gap-3 outline-none"
@@ -362,7 +363,7 @@ const Deptview = () => {
               setModalOpen(true);
             }}
           >
-            <EditOutlined /> {"تعديل"}
+            <EditFilled /> {"تعديل"}
           </button>
           <button
             className="text-md flex items-center gap-3"
@@ -375,7 +376,6 @@ const Deptview = () => {
     },
   ];
 
-  console.log(ref?.current);
   return (
     <>
       {/* <ReportModel
@@ -436,6 +436,7 @@ const Deptview = () => {
                   placeholder={`...${sel.label}`}
                   style={{ width: "100%" }}
                   options={sel.options}
+                  allowClear
                 />
                 {/* ) : ( */}
                 {/* <div className="mt-2 text-gray-500">لا توجد خيارات متاحة</div> */}
