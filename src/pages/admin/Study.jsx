@@ -8,13 +8,14 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import StudyContext from "../../store/StudyContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import SuccessModal from "../../models/successModal";
 import ReportModal from "../../models/ReportModal";
 import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
+import ResubmitModal from "../../models/ResubmitModal";
 
 const Study = ({ children, title, role, name }) => {
   console.log("🚀 ~ Study ~ name:", name);
@@ -22,6 +23,23 @@ const Study = ({ children, title, role, name }) => {
   const location = useLocation();
   const { postData, getData } = useApi();
   const { id } = useParams();
+  const {
+    control,
+    handleSubmit,
+    register,
+    watch,
+    setValue,
+
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      reason: "",
+      notes: "",
+      action: "resubmit_report_for_review",
+      _method: "put",
+    },
+  });
 
   const { data: { data: { report } = {} } = {} } = useQuery(
     ["users", ["/reports"], id],
@@ -74,6 +92,10 @@ const Study = ({ children, title, role, name }) => {
       // setCurrentView("error");
     },
   });
+
+  const onSubmit = (data) => {
+    mutation.mutate([`/reports/${id}`, data]);
+  };
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
@@ -97,11 +119,22 @@ const Study = ({ children, title, role, name }) => {
               <div className="flex gap-3 flex-wrap">
                 <button
                   onClick={() => {
+                    if (report?.status === "rejected") {
+                      console.log("ggasaghs");
+                      ref.current?.open();
+                      return;
+                    }
                     navigate(`/acc?id=${id}`);
                   }}
-                  className={`bg-black/65 !text-white text-sm font-bold p-2 rounded-md `}
+                  className={`${
+                    report?.status === "rejected"
+                      ? "bg-[#33835c]"
+                      : "bg-black/65"
+                  } !text-white text-sm font-bold p-2 rounded-md `}
                 >
-                  اضافة ملاحظات
+                  {report?.status === "rejected"
+                    ? "اعادة البلاغ للدراسة"
+                    : "اضافة ملاحظات"}
                 </button>
                 <button
                   onClick={() => {
@@ -152,48 +185,57 @@ const Study = ({ children, title, role, name }) => {
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
-        <SuccessModal
-          title={
-            role === "responsible"
-              ? "عند التاكيد سيتم توجيه الدراسة الاولية الى معتمد البلاغات"
-              : report?.status === "rejected"
-              ? "عند التاكيد سيتم رفض البلاغ"
-              : "عند التاكيد سيتم اعتماد الدراسة الاولية"
-          }
-          close={"تاكيد"}
-          confirm={() => {
-            if (role === "responsible") {
-              mutation.mutate([
-                `/reports/${id}`,
-                {
-                  action: "directing_initial_study",
-                  _method: "PUT",
-                },
-              ]);
-            } else if (role === "accreditor") {
-              if (report?.status === "rejected") {
-                mutation.mutate([
-                  `/reports/${id}`,
-                  {
-                    action: "confirm_rejection",
-                    _method: "PUT",
-                  },
-                ]);
-              } else {
-                mutation.mutate([
-                  `/reports/${id}`,
-                  {
-                    action: "approve_the_preliminary_study",
-                    status: "accepted",
-                    _method: "PUT",
-                  },
-                ]);
-              }
-            } else {
-              console.log("waiting");
+        {report?.status === "rejected" ? (
+          <ResubmitModal
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            register={register}
+            errors={errors}
+          />
+        ) : (
+          <SuccessModal
+            title={
+              role === "responsible"
+                ? "عند التاكيد سيتم توجيه الدراسة الاولية الى معتمد البلاغات"
+                : report?.status === "rejected"
+                ? "عند التاكيد سيتم رفض البلاغ"
+                : "عند التاكيد سيتم اعتماد الدراسة الاولية"
             }
-          }}
-        />
+            close={"تاكيد"}
+            confirm={() => {
+              if (role === "responsible") {
+                mutation.mutate([
+                  `/reports/${id}`,
+                  {
+                    action: "directing_initial_study",
+                    _method: "PUT",
+                  },
+                ]);
+              } else if (role === "accreditor") {
+                if (report?.status === "rejected") {
+                  mutation.mutate([
+                    `/reports/${id}`,
+                    {
+                      action: "confirm_rejection",
+                      _method: "PUT",
+                    },
+                  ]);
+                } else {
+                  mutation.mutate([
+                    `/reports/${id}`,
+                    {
+                      action: "approve_the_preliminary_study",
+                      status: "accepted",
+                      _method: "PUT",
+                    },
+                  ]);
+                }
+              } else {
+                console.log("waiting");
+              }
+            }}
+          />
+        )}
         {/* <button
               className="w-fit bg-[#33835C] text-white p-1 px-10 rounded-lg mt-0 m-auto"
               onClick={() => {}}
