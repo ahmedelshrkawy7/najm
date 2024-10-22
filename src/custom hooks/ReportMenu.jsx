@@ -43,7 +43,7 @@ const ReportMenu = ({
     {
       id: 3,
       title: "توجيه الدراسة الاولية للاعتماد",
-      path: "preparingStudy",
+      path: "previewStudy",
       disabled: false,
     },
     {

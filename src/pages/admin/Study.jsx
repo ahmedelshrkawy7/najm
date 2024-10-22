@@ -65,7 +65,7 @@ const Study = ({ children, title, role }) => {
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
-        {role?.includes("responsible") ? (
+        {role !== "responsible" ? (
           <button
             onClick={() => ref.current.open()}
             className={

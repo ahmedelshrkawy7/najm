@@ -74,7 +74,7 @@ const routes = [
           {
             path: "preparingStudy",
             element: (
-              <Study title={"معاينة الدراسة الاولية"}>
+              <Study title={"معاينة الدراسة الاولية"} role="responsible">
                 <PreparingStudy />
               </Study>
             ),
