@@ -16,7 +16,8 @@ import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
 
-const Study = ({ children, title, role }) => {
+const Study = ({ children, title, role, name }) => {
+  console.log("🚀 ~ Study ~ name:", name);
   console.log("🚀 ~ Study ~ role:", role);
   const location = useLocation();
   const { postData, getData } = useApi();
@@ -76,7 +77,7 @@ const Study = ({ children, title, role }) => {
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
-        {role?.includes("responsible") ? (
+        {role === "responsible" && name !== "prepare" ? (
           <button
             onClick={() => ref.current.open()}
             className={
@@ -86,35 +87,39 @@ const Study = ({ children, title, role }) => {
             توجيه الدراسة الاولية
           </button>
         ) : (
-          <div className="flex justify-between items-center flex-wrap">
-            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-              <p className="font-semibold text-sm text-[#33835c]">
-                رقم البلاغ: <span className="text-black/65">{id}</span>
-              </p>
+          name === "accreditor" && (
+            <div className="flex justify-between items-center flex-wrap">
+              <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+                <p className="font-semibold text-sm text-[#33835c]">
+                  رقم البلاغ: <span className="text-black/65">{id}</span>
+                </p>
+              </div>
+              <div className="flex gap-3 flex-wrap">
+                <button
+                  onClick={() => {
+                    navigate(`/acc?id=${id}`);
+                  }}
+                  className={`bg-black/65 !text-white text-sm font-bold p-2 rounded-md `}
+                >
+                  اضافة ملاحظات
+                </button>
+                <button
+                  onClick={() => {
+                    ref.current?.open();
+                  }}
+                  className={`${
+                    report?.status === "rejected"
+                      ? "bg-red-500"
+                      : "bg-[#33835C]"
+                  } !text-white text-sm font-bold p-2 rounded-md `}
+                >
+                  {report?.status === "rejected"
+                    ? "تاكيد رفض البلاغ"
+                    : "اعتماد الدراسة الاولية"}
+                </button>
+              </div>
             </div>
-            <div className="flex gap-3 flex-wrap">
-              <button
-                onClick={() => {
-                  navigate(`/acc?id=${id}`);
-                }}
-                className={`bg-black/65 !text-white text-sm font-bold p-2 rounded-md `}
-              >
-                اضافة ملاحظات
-              </button>
-              <button
-                onClick={() => {
-                  ref.current?.open();
-                }}
-                className={`${
-                  report?.status === "rejected" ? "bg-red-500" : "bg-[#33835C]"
-                } !text-white text-sm font-bold p-2 rounded-md `}
-              >
-                {report?.status === "rejected"
-                  ? "تاكيد رفض البلاغ"
-                  : "اعتماد الدراسة الاولية"}
-              </button>
-            </div>
-          </div>
+          )
         )}
         <div className="bg-white rounded-md mt-4">
           <div className="rounded-t-md overflow-hidden">
