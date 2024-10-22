@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import PreparingStudy from "../../component/PreparingStudy";
@@ -15,7 +16,8 @@ import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
 
-const Study = ({ children, title }) => {
+const Study = ({ children, title, role }) => {
+  console.log("🚀 ~ Study ~ role:", role);
   const location = useLocation();
   const { postData } = useApi();
   const { id } = useParams();
@@ -63,7 +65,7 @@ const Study = ({ children, title }) => {
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
-        {loc === 3 && (
+        {role?.includes("responsible") ? (
           <button
             onClick={() => ref.current.open()}
             className={
@@ -72,8 +74,32 @@ const Study = ({ children, title }) => {
           >
             توجيه الدراسة الاولية
           </button>
+        ) : (
+          <div className="flex justify-between items-center flex-wrap">
+            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+              <p className="font-semibold text-sm text-[#33835c]">
+                رقم البلاغ: <span className="text-black/65">{id}</span>
+              </p>
+            </div>
+            <div className="flex gap-3 flex-wrap">
+              <button
+                onClick={() => {
+                  navigate(`/acc?id=${id}`);
+                }}
+                className={`bg-black/65 !text-white text-sm font-bold p-2 rounded-md `}
+              >
+                اضافة ملاحظات
+              </button>
+              <button
+                onClick={() => {}}
+                className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
+              >
+                اعتماد الدراسة الاولية
+              </button>
+            </div>
+          </div>
         )}
-        <div className="bg-white rounded-md">
+        <div className="bg-white rounded-md mt-4">
           <div className="rounded-t-md overflow-hidden">
             <ReportsHeader
               // title={loc === 2 ? "الدراسة الاولية" : "معاينة الدراسة الاولية"}

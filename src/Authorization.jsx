@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import Test from "./component/Reports/test";
 import Accreditor from "./pages/accreditor/Accreditor";
@@ -9,8 +10,8 @@ const Authorization = () => {
   if (role === "responsible") return <Test />;
   else if (role === "accreditor")
     return (
-      <Study title="تفاصيل البلاغ">
-        <Accreditor />
+      <Study title="تفاصيل البلاغ" role={role}>
+        <Accreditor role={role} />
       </Study>
     );
   else if (role === "") return <div>f</div>;
