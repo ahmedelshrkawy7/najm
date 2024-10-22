@@ -6,14 +6,15 @@ import { ReportsPreview } from "./import";
 
 const Authorization = () => {
   const role = JSON.parse(localStorage.getItem("token")).role;
-  if (role === "responsible User") return <Test />;
-  else if (role === "accreditor User")
+  if (role === "responsible") return <Test />;
+  else if (role === "accreditor")
     return (
       <Study title="تفاصيل البلاغ">
         <Accreditor />
       </Study>
     );
   else if (role === "") return <div>f</div>;
+  else return <div> no role</div>;
 };
 
 export default Authorization;
