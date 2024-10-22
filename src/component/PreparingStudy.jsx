@@ -92,7 +92,7 @@ const PreparingStudy = ({ change }) => {
             address: res?.data?.report?.address,
             suspects: res?.data?.report?.suspects || [],
             report_classification_id:
-              res?.data?.report?.report_classification?.name,
+              res?.data?.report?.report_classification?.id,
             date: res?.data?.report?.date,
             processing_time: "",
             files: "",
