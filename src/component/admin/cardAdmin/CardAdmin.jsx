@@ -472,32 +472,37 @@ const CardAdmin = () => {
     },
   ];
 
+  const role = JSON.parse(localStorage.getItem("token")).role;
+  console.log("🚀 ~ role:", role);
+
+  const filteredCards =
+    role === "accreditor"
+      ? cards.filter(
+          (card) =>
+            card.title === "بلاغات مرفوضة" ||
+            card.title === "بلاغات تحت الاعتماد"
+        )
+      : cards;
+
   let { data: { counter = {} } = {} } = data;
   console.log("🚀 ~ CardAdmin ~ counter:", counter);
-  // let counter = {
-  //   new: 75,
-  //   accepted: 0,
-  //   rejected: 0,
-  //   under_confirm: 1,
-  //   confirmed: 2,
-  //   under_approved: 0,
-  //   under_study: 0,
-  //   closed: 0,
-  //   escalated: 0,
-  //   all: 78,
-  // };
-  const counterValues = [
-    counter.new || 0,
-    counter.accepted || 0,
-    counter.under_confirm || 0,
-    counter.confirmed || 0,
-    counter.under_study || 0,
-    counter.under_approved || 0,
-    counter.closed || 0,
-    counter.rejected || 0,
-    counter.escalated || 0,
-    counter.all || 0,
-  ];
+  let counterValues;
+  if (role === "accreditor") {
+    counterValues = [counter.under_confirm || 0, counter.rejected || 0];
+  } else {
+    counterValues = [
+      counter.new || 0,
+      counter.accepted || 0,
+      counter.under_confirm || 0,
+      counter.confirmed || 0,
+      counter.under_study || 0,
+      counter.under_approved || 0,
+      counter.closed || 0,
+      counter.rejected || 0,
+      counter.escalated || 0,
+      counter.all || 0,
+    ];
+  }
 
   console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
 
@@ -647,32 +652,37 @@ const CardAdmin = () => {
     <>
       <div className="w-[90%] mx-auto">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
-          {cards?.map((card, i) => (
-            <div
-              key={Math.random() * 10}
-              className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 `}
-              style={{ backgroundColor: card.bgColor }}
-            >
-              <div className="space-y-2">
-                <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
-                <h2 className="text-4xl text-[#fff] font-bold text-center">
-                  {/* {data?.meta?.reports?.totalItems} */}
-                  {counterValues[i]}
-                </h2>
-              </div>
-              <div style={{ backgroundColor: card.bgColor }}>
-                <div
-                  className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
-                    i === 3 || i === 0 || i === 6 || i === 1
-                      ? "bg-white/100"
-                      : "bg-white/5"
-                  }`}
-                >
-                  {card.icon}
+          {filteredCards?.map((card, i) => {
+            console.log("🚀 ~ {cards?.map ~ card:", card);
+            return (
+              <div
+                key={Math.random() * 10}
+                className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 `}
+                style={{ backgroundColor: card.bgColor }}
+              >
+                <div className="space-y-2">
+                  <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
+                  <h2 className="text-4xl text-[#fff] font-bold text-center">
+                    {/* {data?.meta?.reports?.totalItems} */}
+                    {counterValues[i]}
+                  </h2>
+                </div>
+                <div style={{ backgroundColor: card.bgColor }}>
+                  <div
+                    className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
+                      role === "accreditor"
+                        ? ""
+                        : i === 3 || i === 0 || i === 6 || i === 1
+                        ? "bg-white/100"
+                        : "bg-white/5"
+                    }`}
+                  >
+                    {card.icon}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-6">
