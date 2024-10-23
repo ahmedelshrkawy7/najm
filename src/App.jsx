@@ -31,6 +31,7 @@ import Deptview from "./pages/admin/Deptview.jsx";
 import Accreditor from "./Accreditor.jsx";
 import Authorization from "./Authorization.jsx";
 import StudyPreview from "./component/StudyPreview.jsx";
+import EditStudy from "./component/EditStudy.jsx";
 
 const routes = [
   {
@@ -70,6 +71,18 @@ const routes = [
           {
             index: true,
             element: <Authorization />,
+          },
+          {
+            path: "editStudy",
+            element: (
+              <Study
+                title={"اعداد الدراسة الاولية"}
+                role={"responsible"}
+                name="prepare"
+              >
+                <EditStudy />
+              </Study>
+            ),
           },
           {
             path: "preparingStudy",

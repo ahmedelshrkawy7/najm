@@ -4,7 +4,7 @@ import React from "react";
 import DispalyData from "../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../custom hooks/Results";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useApi from "../utils/useApi";
 import { useQuery } from "react-query";
 import prev4 from "../assets/icons/prev4.svg";
@@ -14,7 +14,8 @@ import prev2 from "../assets/icons/prev2.svg";
 
 const StudyPreview = ({ setLoc }) => {
   const { pathname } = useLocation();
-  let id = +pathname.match(/[0-9]+/g).toString();
+  const { id } = useParams();
+
   console.log("🚀 ~ StudyPreview ~ id:", id);
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
@@ -26,7 +27,7 @@ const StudyPreview = ({ setLoc }) => {
     address: data?.address,
     date: data.date,
     description: data.description,
-    name: data.report_classification,
+    name: data?.report_classification?.name,
     id: data.id,
     media: {
       files: data.media?.files?.paths,
@@ -45,7 +46,7 @@ const StudyPreview = ({ setLoc }) => {
     adminData: [
       {
         title: "الادارة المعنية بدراسة البلاغ",
-        res: data.department,
+        res: data?.department?.name,
         icon: prev7,
       },
       {

@@ -49,7 +49,7 @@ const ReportMenu = ({
     {
       id: 4,
       title: "التعديل على الدراسة الاولية",
-      path: "preparingStudy",
+      path: "editStudy",
       disabled: status === "new",
     },
     {
@@ -158,7 +158,10 @@ const ReportMenu = ({
         <li
           onClick={() => {
             if (opt.disabled) return;
-            if (status === "rejected") {
+            if (
+              status === "rejected" ||
+              status === "rejected_from_responsible"
+            ) {
               opt.disabled = true;
               return;
             }
@@ -171,6 +174,7 @@ const ReportMenu = ({
           }}
           className={`py-[5px] px-[10px] border border-gray-100 text-[16px] ${
             status === "rejected" ||
+            status === "rejected_from_responsible" ||
             (status === "new" && opt.id !== 1) ||
             (status === "accepted" && opt.id === 1) ||
             (status === "under_confirm" &&

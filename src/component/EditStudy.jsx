@@ -35,7 +35,7 @@ import dayjs from "dayjs";
 // department_id
 // result
 
-const PreparingStudy = ({ change }) => {
+const EditStudy = ({ change }) => {
   const { getData, postData } = useApi();
 
   const { data: { data = [] } = {} } = useQuery(
@@ -72,61 +72,75 @@ const PreparingStudy = ({ change }) => {
     ["users", ["/report-types", ""]],
     getData
   );
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+    resetField,
+    getValues,
+    clearErrors,
+    reset,
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      description: "",
+      address: "",
+      date: "",
+      suspects: "" || [],
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      report_type_id: null,
+      report_classification_id: "",
+      risk_assessment: "",
+      result: "",
+      _method: "PUT",
+      action: "prepare_initial_study",
+    },
+  });
 
-  console.log("🚀 ~ PreparingStudy ~ reportType:", reportType);
+  const {
+    data: res,
+    error: _error,
+    isLoading: _loading,
+  } = useQuery(["admin", ["/reports/initial-study"], `${id}`], getData);
+
   useEffect(() => {
-    const getPrev = async () => {
-      const res = await queryClient.getQueryData(["users", ["/reports"], id]);
+    if (res) {
+      console.log("🚀 ~ useEffect ~ res:", res);
+      reset({
+        description: res?.data?.description,
+        address: res?.data?.address,
+        suspects: res?.data?.suspects || [],
+        report_classification_id: res?.data?.report_classification?.id,
+        date: res?.data?.date,
+        processing_time: res?.data?.processing_time,
+        files: "",
+        report_type_id: res?.data?.report_type.id,
+        risk_assessment: res?.data?.risk_assessment,
+        department_id: res?.data?.department?.id,
+        result: res?.data?.result,
+        _method: "PUT",
+        action: "amend_initial_study",
+      });
+      setVideos(res?.data?.media?.videos?.paths);
+      setImgs(res?.data?.media?.images?.paths);
+      setFils(res?.data?.media?.files?.paths);
+    }
+  }, [res, reset]);
 
-      // setPrevData(res?.data?.report);
+  // Optionally handle loading state
+  //   if (_loading) {
+  //     return <div>Loading...</div>;
+  //   }
 
-      // Data is found in the cache
-
-      // Data is not found in cache, fetch it
-      queryClient
-        .fetchQuery(["users", ["/reports"], id], getData)
-        .then((res) => {
-          console.log(dayjs(res?.data?.report?.date));
-          reset({
-            description: res?.data?.report?.description,
-            address: res?.data?.report?.address,
-            suspects: res?.data?.report?.suspects || [],
-            report_classification:
-              res?.data?.report?.report_classification?.name,
-            date: res?.data?.report?.date,
-            processing_time: "",
-            files: "",
-            risk_type: "",
-            risk_assessment: "",
-            result: "",
-            _method: "PUT",
-            action: "prepare_initial_study",
-          });
-          setVideos(res?.data?.report?.media?.videos);
-          setImgs(res?.data?.report?.media?.images);
-          setFils(res?.data?.report?.media?.files);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-      // } else {
-      //   reset({
-      //     description: "mmm",
-      //     address: "fff",
-      //     date: "",
-      //     suspects: "" || [],
-
-      //     processing_time: "",
-      //     files: "",
-      //     risk_type: "",
-      //     risk_assessment: "",
-      //     result: "",
-      //     _method: "PUT",
-      //     action: "prepare_initial_study",
-      //   });
-    };
-    console.log(getPrev());
-  }, [id, queryClient]);
+  // Optionally handle error state (in case you want to show it in the UI)
+  if (_error) {
+    return <div>Error occurred: {error.message}</div>;
+  }
 
   //   const fetchData = async () => {
   //     // Check for cached data
@@ -185,35 +199,6 @@ const PreparingStudy = ({ change }) => {
   //   fetchData();
   // }, [id, queryClient]);
 
-  const {
-    register,
-    watch,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    control,
-    resetField,
-    getValues,
-    clearErrors,
-    reset,
-  } = useForm({
-    mode: "onBlur",
-    defaultValues: {
-      description: "",
-      address: "",
-      date: "",
-      suspects: "" || [],
-      processing_time: "",
-      files: "",
-      risk_type: "",
-      report_type_id: null,
-      risk_assessment: "",
-      result: "",
-      _method: "PUT",
-      action: "prepare_initial_study",
-    },
-  });
-
   const getDanger = (percent) => {
     console.log("🚀 ~ getDanger ~ percent:", percent);
     if (percent <= 0.3) {
@@ -233,6 +218,7 @@ const PreparingStudy = ({ change }) => {
   const mutation = useMutation(postData, {
     onSuccess: () => {
       navigate(`/dash/${id}/previewStudy`);
+      queryClient.invalidateQueries(["admin", ["/reports/initial-study"], id]);
     },
     onError: (err) => {
       errorNotf(err.response.data.message);
@@ -256,7 +242,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
-              nameType="report_classification"
+              nameType="report_classification_id"
               options={report_classification?.map((opt) => ({
                 value: opt.id,
                 label: (
@@ -448,7 +434,7 @@ const PreparingStudy = ({ change }) => {
                 size="default"
               />
             ) : (
-              "معاينة الدراسة الاولية"
+              "تعديل الدراسة الاولية"
             )}
           </button>
         </div>
@@ -465,4 +451,4 @@ const PreparingStudy = ({ change }) => {
   );
 };
 
-export default PreparingStudy;
+export default EditStudy;
