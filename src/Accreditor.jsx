@@ -9,7 +9,14 @@ import {
   CheckCircleOutlined,
   HomeFilled,
 } from "@ant-design/icons";
-import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useMatches,
+  useNavigate,
+} from "react-router-dom";
 
 const { Panel } = Collapse;
 
@@ -48,6 +55,9 @@ const Accreditor = () => {
   let navigate = useNavigate();
   let location = useLocation();
   let id = location.search.split("=")[1];
+  if (!id) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="max-w-6xl mx-auto mt-24 mb-6 p-4">
       <div className="flex gap-2 items-center mb-6">
@@ -59,7 +69,7 @@ const Accreditor = () => {
         <div className="flex items-center">
           <div className="border border-light rounded-lg shadow-sm p-2">
             <label className="font-semibold text-sm text-[#33835c]">
-              رقم البلاغ: <span className="text-black">24552</span>
+              رقم البلاغ: <span className="text-black">{id}</span>
             </label>
           </div>
         </div>

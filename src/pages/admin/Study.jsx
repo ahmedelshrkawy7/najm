@@ -18,8 +18,7 @@ import TokenContext from "../../store/TokenContext";
 import ResubmitModal from "../../models/ResubmitModal";
 
 const Study = ({ children, title, role, name }) => {
-  console.log("🚀 ~ Study ~ name:", name);
-  console.log("🚀 ~ Study ~ role:", role);
+  let [reSubmit, setReSubmit] = useState(false);
   const location = useLocation();
   const { postData, getData } = useApi();
   const { id } = useParams();
@@ -93,6 +92,16 @@ const Study = ({ children, title, role, name }) => {
     },
   });
 
+  const openModal = (type) => {
+    if (type === "resubmit") {
+      setReSubmit(true);
+      ref.current.open();
+    } else {
+      setReSubmit(false);
+      ref.current.open();
+    }
+  };
+
   const onSubmit = (data) => {
     mutation.mutate([`/reports/${id}`, data]);
   };
@@ -120,11 +129,11 @@ const Study = ({ children, title, role, name }) => {
                 <button
                   onClick={() => {
                     if (report?.status === "rejected") {
-                      console.log("ggasaghs");
-                      ref.current?.open();
-                      return;
+                      // ref.current?.open();
+                      openModal("resubmit");
+                    } else {
+                      navigate(`/acc?id=${id}`);
                     }
-                    navigate(`/acc?id=${id}`);
                   }}
                   className={`${
                     report?.status === "rejected"
@@ -138,7 +147,8 @@ const Study = ({ children, title, role, name }) => {
                 </button>
                 <button
                   onClick={() => {
-                    ref.current?.open();
+                    //   ref.current?.open();
+                    openModal("approve");
                   }}
                   className={`${
                     report?.status === "rejected"
@@ -185,7 +195,7 @@ const Study = ({ children, title, role, name }) => {
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
-        {report?.status === "rejected" ? (
+        {report?.status === "rejected" && reSubmit ? (
           <ResubmitModal
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}

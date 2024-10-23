@@ -44,17 +44,18 @@ const ReportMenu = ({
       id: 3,
       title: "توجيه الدراسة الاولية للاعتماد",
       path: "previewStudy",
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 4,
       title: "التعديل على الدراسة الاولية",
-      disabled: false,
+      path: "preparingStudy",
+      disabled: status === "new",
     },
     {
       id: 5,
       title: "اسناد البلاغ",
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 6,
@@ -64,7 +65,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 7,
@@ -74,12 +75,12 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 8,
       title: "استلام البلاغ",
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 9,
@@ -89,7 +90,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 10,
@@ -99,7 +100,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 11,
@@ -109,7 +110,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 12,
@@ -119,7 +120,7 @@ const ReportMenu = ({
           <ReportLock />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
     {
       id: 13,
@@ -129,7 +130,7 @@ const ReportMenu = ({
           <ReportEscalation />
         </ReportModal>
       ),
-      disabled: false,
+      disabled: status === "new",
     },
   ];
 

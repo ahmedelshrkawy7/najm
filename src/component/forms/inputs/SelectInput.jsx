@@ -39,7 +39,7 @@ const SelectInput = ({
               suffixIcon={<DownOutlined className="text-[16px]" />}
               defaultValue={field.value}
               // value={field.value || undefined}
-              className="w-[70vw] flex items-center h-[40px] sm:w-[280px]"
+              className="w-[70vw] flex items-center h-[40px] sm:w-[280px] relative"
               options={options}
               // allowClear={field.value && true}
               disabled={disapled}
