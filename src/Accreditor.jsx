@@ -9,16 +9,26 @@ import {
   CheckCircleOutlined,
   HomeFilled,
 } from "@ant-design/icons";
-import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useMatches,
+  useNavigate,
+} from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import useApi from "./utils/useApi";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 const { Panel } = Collapse;
 
 const Accreditor = () => {
   const matches = useMatches();
-  const { postData } = useApi();
+  let navigate = useNavigate();
+  let location = useLocation();
+  let id = location.search.split("=")[1];
+
+  const { postData, getData } = useApi();
   const Post = useMutation(postData, {
     onSuccess: () => {},
     onError: ({ message }) => {
@@ -26,6 +36,13 @@ const Accreditor = () => {
     },
   });
   console.log("🚀 ~ Accreditor ~ matches:", matches);
+
+  const { data: { data = {} } = {} } = useQuery(
+    ["admin", ["/reports/initial-study"], id],
+    getData
+  );
+
+  console.log("🚀 ~ Accreditor ~ data:", data);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       action: "add_notes_to_the_preliminary_study",
@@ -36,6 +53,11 @@ const Accreditor = () => {
       category_notes: "",
     },
   });
+
+  if (!id) {
+    return <Navigate to={"/"} replace />;
+  }
+
   const breadcrumbs = matches
     .filter((match) => match.handle && match.handle.crumb)
     .map((match) => {
@@ -62,7 +84,7 @@ const Accreditor = () => {
   });
 
   function redirectCrumb(path) {
-    return path === "/depts" ? "/managers" : path === "/" ? "/alladmins" : path;
+    return path === "/acc" ? `/dash/${id}` : path === "/" ? "/dash" : path;
   }
 
   const onSubmit = (val) => {
@@ -70,9 +92,6 @@ const Accreditor = () => {
     Post.mutate([`/reports/${id}`, val]);
   };
 
-  let navigate = useNavigate();
-  let location = useLocation();
-  let id = location.search.split("=")[1];
   return (
     <div className="max-w-6xl mx-auto mt-24 mb-6 p-4">
       <div className="flex gap-2 items-center mb-6">
@@ -85,7 +104,7 @@ const Accreditor = () => {
           <div className="flex items-center">
             <div className="border border-light rounded-lg shadow-sm p-2">
               <label className="font-semibold text-sm text-[#33835c]">
-                رقم البلاغ: <span className="text-black">24552</span>
+                رقم البلاغ: <span className="text-black">{id}</span>
               </label>
             </div>
           </div>
@@ -134,7 +153,9 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       تصنيف البلاغ:
                     </label>
-                    <span className="text-sm">مخالفة لمدونة قواعد السلوك</span>
+                    <span className="text-sm">
+                      {data?.report_classification}
+                    </span>
                   </div>
 
                   {/* Notes Input */}
@@ -170,9 +191,7 @@ const Accreditor = () => {
                       <WarningOutlined />
                     </div>
                     <label className="font-semibold text-sm">نوع البلاغ:</label>
-                    <span className="text-sm">
-                      مخالفة للأنظمة والتعليمات والإجراءات المتبعة
-                    </span>
+                    <span className="text-sm">{data?.report_type?.name} </span>
                   </div>
 
                   {/* Notes Input */}
@@ -210,7 +229,7 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       تقييم مخاطر البلاغ:
                     </label>
-                    <span className="text-xs">متوسط</span>
+                    <span className="text-xs">{data?.risk_assessment}</span>
                     <Button className="w-fit flex justify-center items-center rounded-lg bg-[#33835c] text-white border-none px-7">
                       <DownOutlined /> اداة تقييم المخاطر
                     </Button>
@@ -251,7 +270,7 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       الإدارة المعنية بدراسة البلاغ:
                     </label>
-                    <span className="text-sm">رأس المال البشري</span>
+                    <span className="text-sm">{data?.department}</span>
                   </div>
 
                   {/* Notes Input */}
@@ -289,9 +308,7 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       نتائج الدراسة الأولية للبلاغ:
                     </label>
-                    <span className="text-sm">
-                      تم إحالة البلاغ إلى إدارة رأس المال البشري
-                    </span>
+                    <span className="text-sm">{data?.result} </span>
                   </div>
 
                   {/* Notes Input */}
