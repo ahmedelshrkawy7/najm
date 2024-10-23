@@ -19,6 +19,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import useApi from "./utils/useApi";
 import { useMutation, useQuery } from "react-query";
+import { errorNotf, successNotf } from "./utils/notifications/Toast";
 
 const { Panel } = Collapse;
 
@@ -30,9 +31,13 @@ const Accreditor = () => {
 
   const { postData, getData } = useApi();
   const Post = useMutation(postData, {
-    onSuccess: () => {},
+    onSuccess: ({ data }) => {
+      navigate(`/dash/${id}`);
+      successNotf(data.message);
+    },
     onError: ({ message }) => {
       console.log("🚀 ~ Reports ~ message:", message);
+      errorNotf(message);
     },
   });
   console.log("🚀 ~ Accreditor ~ matches:", matches);

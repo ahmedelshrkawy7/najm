@@ -24,6 +24,7 @@ const CardAdmin = () => {
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
   });
+  console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);
   console.log("🚀 ~ CardAdmin ~ token:", token);
 
