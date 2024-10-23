@@ -32,25 +32,42 @@ const ReportMenu = ({
           refetch={refetch}
         ></ReportModal>
       ),
-      disabled: status === "accepted" || status === "under_confirm",
+      disabled:
+        status === "accepted" ||
+        status === "under_confirm" ||
+        status === "prepare_initial_study" ||
+        status === "under_process" ||
+        status === "confirmed" ||
+        status === "resubmit_study_from_accreditor",
     },
     {
       id: 2,
       title: "اعداد دراسة اولية",
       path: "preparingStudy",
-      disabled: status === "new" || status === "under_confirm",
+      disabled:
+        status === "new" ||
+        status === "under_confirm" ||
+        status === "prepare_initial_study" ||
+        status === "under_process" ||
+        status === "confirmed",
     },
     {
       id: 3,
       title: "توجيه الدراسة الاولية للاعتماد",
       path: "previewStudy",
-      disabled: status === "new",
+      disabled:
+        status === "new" ||
+        status === "under_confirm" ||
+        status === "confirmed",
     },
     {
       id: 4,
       title: "التعديل على الدراسة الاولية",
       path: "editStudy",
-      disabled: status === "new",
+      disabled:
+        status === "new" ||
+        status === "under_confirm" ||
+        status === "confirmed",
     },
     {
       id: 5,
@@ -177,8 +194,12 @@ const ReportMenu = ({
             status === "rejected_from_responsible" ||
             (status === "new" && opt.id !== 1) ||
             (status === "accepted" && opt.id === 1) ||
-            (status === "under_confirm" &&
-              (opt.id === 1 || opt.id === 2 || opt.id === 3))
+            (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
+            ((status === "prepare_initial_study" ||
+              status === "under_process") &&
+              (opt.id === 1 || opt.id === 2)) ||
+            ((status === "under_confirm" || status === "confirmed") &&
+              (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4))
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
           }`}

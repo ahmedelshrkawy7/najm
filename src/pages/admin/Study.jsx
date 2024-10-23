@@ -126,7 +126,8 @@ const Study = ({ children, title, role, name }) => {
                 </p>
               </div>
               {report?.status !== "rejected" &&
-                report?.status !== "resubmit_study_from_accreditor" && (
+                report?.status !== "resubmit_study_from_accreditor" &&
+                report?.status !== "under_process" && (
                   <div className="flex gap-3 flex-wrap">
                     <button
                       onClick={() => {

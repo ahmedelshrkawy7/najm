@@ -370,25 +370,6 @@ const CardAdmin = () => {
 
   console.log(data?.data?.reports[0]);
 
-  // escalated
-  // :
-  // 0
-  // rejected
-  // :
-  // 11
-  // rejected_from_responsible
-  // :
-  // 3
-  // resubmit_study_from_accreditor
-  // :
-  // 8
-  // under_confirm
-  // :
-  // 5
-  // under_process
-  // :
-  // 1
-
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -410,16 +391,16 @@ const CardAdmin = () => {
       ),
       bgColor: "#6de487",
     },
-    {
-      title: "بلاغات تحت الاعتماد",
-      icon: (
-        <img
-          src="../src/assets/icons/rotate.png"
-          className="p-2 rounded-full"
-        />
-      ),
-      bgColor: "#E7D066",
-    },
+    // {
+    //   title: "بلاغات تحت الاعتماد",
+    //   icon: (
+    //     <img
+    //       src="../src/assets/icons/rotate.png"
+    //       className="p-2 rounded-full"
+    //     />
+    //   ),
+    //   bgColor: "#E7D066",
+    // },
     {
       title: "بلاغات معتمدة",
       icon: (
@@ -491,24 +472,44 @@ const CardAdmin = () => {
       bgColor: "#5F5F5F",
     },
     {
-      title: "تصعيد",
+      title: "مرفوض من المسئول",
       icon: (
         <img
           src="../src/assets/icons/edit_report.png"
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#5F5F5F",
+      bgColor: "green",
     },
     {
-      title: "اجمالى البلاغات المستلمة",
+      title: "بلاغات جارى اعتمادها",
       icon: (
         <img
           src="../src/assets/icons/edit_report.png"
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#5F5F5F",
+      bgColor: "blue",
+    },
+    {
+      title: "بلاغات جارى معالجتها",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#4096ff",
+    },
+    {
+      title: "معاد للدراسة من المعتمد",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
     },
   ];
 
@@ -520,20 +521,48 @@ const CardAdmin = () => {
       ? cards.filter(
           (card) =>
             card.title === "بلاغات مرفوضة" ||
-            card.title === "بلاغات تحت الاعتماد"
+            card.title === "مرفوض من المسئول" ||
+            card.title === "بلاغات جارى معالجتها" ||
+            card.title === "بلاغات جارى اعتمادها" ||
+            card.title === "معاد للدراسة من المعتمد"
         )
       : cards;
 
   let { data: { counter = {} } = {} } = data;
   console.log("🚀 ~ CardAdmin ~ counter:", counter);
+
+  // escalated
+  // :
+  // 0
+  // rejected
+  // :
+  // 11
+  // rejected_from_responsible
+  // :
+  // 3
+  // resubmit_study_from_accreditor
+  // :
+  // 8
+  // under_confirm
+  // :
+  // 5
+  // under_process
+  // :
+  // 1
   let counterValues;
   if (role === "accreditor") {
-    counterValues = [counter.under_confirm || 0, counter.rejected || 0];
+    counterValues = [
+      counter.rejected || 0,
+      counter.rejected_from_responsible || 0,
+      counter.under_confirm || 0,
+      counter.under_process || 0,
+      counter.resubmit_study_from_accreditor || 0,
+    ];
   } else {
     counterValues = [
       counter.new || 0,
       counter.accepted || 0,
-      counter.under_confirm || 0,
+      // counter.under_confirm || 0,
       counter.confirmed || 0,
       counter.under_study || 0,
       counter.under_approved || 0,
@@ -541,6 +570,10 @@ const CardAdmin = () => {
       counter.rejected || 0,
       counter.escalated || 0,
       counter.all || 0,
+      counter.rejected_from_responsible||0,
+      counter.under_confirm || 0,
+      counter.under_process || 0,
+      counter.resubmit_study_from_accreditor || 0,
     ];
   }
 
@@ -727,7 +760,7 @@ const CardAdmin = () => {
                     className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
                       role === "accreditor"
                         ? ""
-                        : i === 3 || i === 0 || i === 6 || i === 1
+                        :  i === 0 || i === 5 || i === 1 || i===2
                         ? "bg-white/100"
                         : "bg-white/5"
                     }`}
