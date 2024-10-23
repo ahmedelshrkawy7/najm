@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Collapse, Input, Button, Breadcrumb } from "antd";
 import {
   EditOutlined,
@@ -8,6 +9,7 @@ import {
   DownOutlined,
   CheckCircleOutlined,
   HomeFilled,
+  FormOutlined,
 } from "@ant-design/icons";
 import {
   Link,
@@ -40,7 +42,6 @@ const Accreditor = () => {
       errorNotf(message);
     },
   });
-  console.log("🚀 ~ Accreditor ~ matches:", matches);
 
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
@@ -48,7 +49,11 @@ const Accreditor = () => {
   );
 
   console.log("🚀 ~ Accreditor ~ data:", data);
-  const { handleSubmit, control } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       action: "add_notes_to_the_preliminary_study",
       _method: "PUT",
@@ -98,7 +103,7 @@ const Accreditor = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-24 mb-6 p-4">
+    <div className="w-[90%] mx-auto mt-24 mb-6 p-4">
       <div className="flex gap-2 items-center mb-6">
         <HomeFilled className="self-center" />
         <Breadcrumb separator=">" items={breadcrumbs} />
@@ -115,14 +120,6 @@ const Accreditor = () => {
           </div>
 
           {/* Send Notes Button */}
-          <div className="self-center">
-            <button
-              className="rounded-lg bg-[#33835c] text-white border-none p-2 "
-              type="submit"
-            >
-              إرسال ملاحظات
-            </button>
-          </div>
         </div>
         <div className="bg-white rounded-lg shadow-md">
           {/* Header */}
@@ -145,7 +142,7 @@ const Accreditor = () => {
               {/* Form Fields */}
               <div className="space-y-6 bg-[#E6E6E6]">
                 {/* First Field (تصنيف البلاغ) */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   {/* Label and Value */}
                   <div className="flex items-center gap-2">
                     {/* Circle Icon */}
@@ -159,34 +156,43 @@ const Accreditor = () => {
                       تصنيف البلاغ:
                     </label>
                     <span className="text-sm">
-                      {data?.report_classification}
+                      {data?.report_classification?.name}
                     </span>
                   </div>
 
                   {/* Notes Input */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center">
-                      <span className="w-3 h-3 bg-[#33835c] rounded-full mr-5"></span>
-                      <label className="font-semibold text-sm pr-2">
+                      {/* <span className="w-3 h-3 bg-[#33835c] rounded-full mr-2"></span> */}
+                      <FormOutlined className="text-[#33835c] mr-0" />
+                      <label className="font-semibold text-sm pr-2 mt-1">
                         الملاحظات:
                       </label>
                     </div>
                     <Controller
                       name="category_notes"
                       control={control}
+                      rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
-                        <Input
+                        <Input.TextArea
                           {...field}
                           placeholder="اكتب الملاحظة هنا..."
                           className="rounded-lg h-10 flex-1"
+                          rows={4}
+                          style={{ resize: "none" }}
                         />
                       )}
                     />
+                    {errors?.category_notes && (
+                      <span className="text-red-500 text-sm">
+                        {errors?.category_notes?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Second Field (نوع البلاغ) */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   {/* Label and Value */}
                   <div className="flex items-center gap-2">
                     <div
@@ -199,30 +205,39 @@ const Accreditor = () => {
                     <span className="text-sm">{data?.report_type?.name} </span>
                   </div>
 
-                  {/* Notes Input */}
-                  <div className="flex items-center gap-4">
+                  {/* Notes Input.TextArea */}
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center">
-                      <span className="w-3 h-3 bg-[#33835c] rounded-full mr-5"></span>
-                      <label className="font-semibold text-sm pr-2">
+                      {/* <span className="w-3 h-3 bg-[#33835c] rounded-full mr-2"></span> */}
+                      <FormOutlined className="text-[#33835c] mr-0" />
+                      <label className="font-semibold text-sm pr-2 mt-1">
                         الملاحظات:
                       </label>
                     </div>
                     <Controller
                       name="risk_type_note"
                       control={control}
+                      rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
-                        <Input
+                        <Input.TextArea
                           {...field}
                           placeholder="اكتب الملاحظة هنا..."
                           className="rounded-lg h-10 flex-1"
+                          rows={4}
+                          style={{ resize: "none" }}
                         />
                       )}
                     />
+                    {errors?.risk_type_note && (
+                      <span className="text-red-500 text-sm">
+                        {errors?.risk_type_note?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Third Field (تقييم مخاطر البلاغ) */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   {/* Label and Button */}
                   <div className="flex items-center gap-2 pb-2">
                     <div
@@ -234,36 +249,45 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       تقييم مخاطر البلاغ:
                     </label>
-                    <span className="text-xs">{data?.risk_assessment}</span>
-                    <Button className="w-fit flex justify-center items-center rounded-lg bg-[#33835c] text-white border-none px-7">
+                    <span className="text-sm">{data?.risk_assessment}</span>
+                    {/* <Button className="w-fit flex justify-center items-center rounded-lg bg-[#33835c] text-white border-none px-7">
                       <DownOutlined /> اداة تقييم المخاطر
-                    </Button>
+                    </Button> */}
                   </div>
 
-                  {/* Notes Input */}
-                  <div className="flex items-center gap-4">
+                  {/* Notes Input.TextArea */}
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center">
-                      <span className="w-3 h-3 bg-[#33835c] rounded-full mr-5"></span>
-                      <label className="font-semibold text-sm pr-2">
+                      {/* <span className="w-3 h-3 bg-[#33835c] rounded-full mr-2"></span> */}
+                      <FormOutlined className="text-[#33835c] mr-0" />
+                      <label className="font-semibold text-sm pr-2 mt-1">
                         الملاحظات:
                       </label>
                     </div>
                     <Controller
                       name="risk_assessment_note"
                       control={control}
+                      rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
-                        <Input
+                        <Input.TextArea
                           {...field}
                           placeholder="اكتب الملاحظة هنا..."
                           className="rounded-lg h-10 flex-1"
+                          rows={4}
+                          style={{ resize: "none" }}
                         />
                       )}
                     />
+                    {errors?.risk_assessment_note && (
+                      <span className="text-red-500 text-sm">
+                        {errors?.risk_assessment_note?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Fourth Field (الإدارة المعنية بدراسة البلاغ) */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   {/* Label and Value */}
                   <div className="flex items-center gap-2">
                     <div
@@ -275,35 +299,44 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       الإدارة المعنية بدراسة البلاغ:
                     </label>
-                    <span className="text-sm">{data?.department}</span>
+                    <span className="text-sm">{data?.department?.name}</span>
                   </div>
 
-                  {/* Notes Input */}
-                  <div className="flex items-center gap-4">
+                  {/* Notes Input.TextArea */}
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center">
-                      <span className="w-3 h-3 bg-[#33835c] rounded-full mr-5"></span>
-                      <label className="font-semibold text-sm pr-2">
+                      {/* <span className="w-3 h-3 bg-[#33835c] rounded-full mr-2"></span> */}
+                      <FormOutlined className="text-[#33835c] mr-0" />
+                      <label className="font-semibold text-sm pr-2 mt-1">
                         الملاحظات:
                       </label>
                     </div>
                     <Controller
                       name="department_note"
                       control={control}
+                      rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
-                        <Input
+                        <Input.TextArea
                           {...field}
                           placeholder="اكتب الملاحظة هنا..."
                           className="rounded-lg h-10 flex-1"
+                          rows={4}
+                          style={{ resize: "none" }}
                         />
                       )}
                     />
+                    {errors?.department_note && (
+                      <span className="text-red-500 text-sm">
+                        {errors?.department_note?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Fifth Field (نتائج الدراسة الأولية للبلاغ) */}
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-3">
                   {/* Label and Value */}
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <div
                       className="text-white rounded-full h-8 w-8 flex justify-center items-center text-xs"
                       style={{ backgroundColor: "#33835c" }}
@@ -313,47 +346,60 @@ const Accreditor = () => {
                     <label className="font-semibold text-sm">
                       نتائج الدراسة الأولية للبلاغ:
                     </label>
-                    <span className="text-sm">{data?.result} </span>
+                    <span className="text-sm text-justify">{data?.result}</span>
                   </div>
 
-                  {/* Notes Input */}
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center">
-                      <span className="w-3 h-3 bg-[#33835c] rounded-full mr-5"></span>
-                      <label className="font-semibold text-sm pr-2">
+                  {/* Notes Input.TextArea */}
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-center flex-wrap">
+                      {/* <span className="w-3 h-3 bg-[#33835c] rounded-full mr-2"></span> */}
+                      <FormOutlined className="text-[#33835c] mr-0" />
+                      <label className="font-semibold text-sm pr-2 mt-1">
                         الملاحظات:
                       </label>
                     </div>
                     <Controller
                       name="primary_study_note"
                       control={control}
+                      rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
-                        <Input
+                        <Input.TextArea
                           {...field}
-                          placeholder="اكتب الملاحظة هنا..."
-                          className="rounded-lg h-10 flex-1"
+                          placeholder="اكتب الملاحظة هنا."
+                          className="rounded-lg flex-1"
+                          rows={4}
+                          style={{ resize: "none" }}
                         />
                       )}
                     />
+                    {errors?.primary_study_note && (
+                      <span className="text-red-500 text-sm">
+                        {errors?.primary_study_note?.message}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
             </Panel>
           </Collapse>
         </div>
+        <div className="py-5  w-[100%]   text-left">
+          <button
+            onClick={() => {
+              navigate(`/dash/${id}`);
+            }}
+            className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
+          >
+            {"رجوع"}
+          </button>
+          <button
+            className="rounded-lg bg-[#33835c] text-white border-2 p-2 mr-4"
+            type="submit"
+          >
+            إرسال ملاحظات
+          </button>
+        </div>
       </form>
-
-      <div className="py-5  w-[100%]   text-left">
-        <button
-          onClick={() => {
-            navigate(`/dash/${id}`);
-          }}
-          className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
-        >
-          {" "}
-          {"رجوع"}
-        </button>
-      </div>
     </div>
   );
 };

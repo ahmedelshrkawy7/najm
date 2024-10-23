@@ -370,6 +370,25 @@ const CardAdmin = () => {
 
   console.log(data?.data?.reports[0]);
 
+  // escalated
+  // :
+  // 0
+  // rejected
+  // :
+  // 11
+  // rejected_from_responsible
+  // :
+  // 3
+  // resubmit_study_from_accreditor
+  // :
+  // 8
+  // under_confirm
+  // :
+  // 5
+  // under_process
+  // :
+  // 1
+
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -471,6 +490,26 @@ const CardAdmin = () => {
       ),
       bgColor: "#5F5F5F",
     },
+    {
+      title: "تصعيد",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#5F5F5F",
+    },
+    {
+      title: "اجمالى البلاغات المستلمة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#5F5F5F",
+    },
   ];
 
   const role = JSON.parse(localStorage.getItem("token")).role;
@@ -524,7 +563,7 @@ const CardAdmin = () => {
   const columns = [
     {
       title: "رقم البلاغ",
-      dataIndex: "id",
+      dataIndex: "number",
       key: "id",
       width: 150,
       render: (text) => <p>{text}</p>,
@@ -553,7 +592,7 @@ const CardAdmin = () => {
       dataIndex: "status",
       key: "status",
       width: 150,
-      render: (text) => {
+      render: (text, el) => {
         let bgColor;
         switch (text) {
           case "جديد":
@@ -568,6 +607,18 @@ const CardAdmin = () => {
           case "تحت الاعتماد":
             bgColor = "#E7D066";
             break;
+          case "مرفوض من المسئول":
+            bgColor = "green";
+            break;
+          case "جارى اعتمادها":
+            bgColor = "blue";
+            break;
+          case "جارى معالجتها":
+            bgColor = "#4096ff";
+            break;
+          case "بلاغات تحت الاعتماد":
+            bgColor = "white";
+            break;
           default:
             bgColor = "#000";
         }
@@ -575,8 +626,11 @@ const CardAdmin = () => {
           <button
             style={{ backgroundColor: bgColor }}
             className="w-full py-[6px] px-4 bg-[#33835C] text-white rounded-full text-[10px]
-         font-semibold"
+         font-semibold relative"
           >
+            {el.has_notes && (
+              <span className="bg-red-700 inline-block w-2 h-2 rounded-full absolute top-2 right-2"></span>
+            )}
             {text}
           </button>
         );
@@ -658,7 +712,7 @@ const CardAdmin = () => {
             return (
               <div
                 key={Math.random() * 10}
-                className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 `}
+                className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-end items-center gap-6 `}
                 style={{ backgroundColor: card.bgColor }}
               >
                 <div className="space-y-2">

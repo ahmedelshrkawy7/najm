@@ -24,7 +24,6 @@ const Accreditor = ({ setLoc, role }) => {
     getData
   );
 
-  // console.log("🚀 ~ Accreditor ~ report:", report);
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
     getData
@@ -33,12 +32,15 @@ const Accreditor = ({ setLoc, role }) => {
   const navigate = useNavigate();
 
   let values;
-  if (report?.status === "rejected") {
+  if (
+    report?.status === "rejected" ||
+    report?.status === "resubmit_study_from_accreditor"
+  ) {
     values = {
       address: report?.address,
       date: report.date,
       description: report.description,
-      name: report?.report_classification.name,
+      name: report?.report_classification?.name,
       id: data.id,
       media: {
         files: report.media?.files,
@@ -53,13 +55,19 @@ const Accreditor = ({ setLoc, role }) => {
         email: report?.user?.email,
         phone: report?.user?.phone,
       },
+      notes: {
+        notes: report?.notes?.notes,
+        reason: report?.notes?.reason,
+        date: report?.notes?.date,
+        creator: report?.notes?.creator,
+      },
     };
   } else {
     values = {
       address: data?.address,
       date: data.date,
       description: data.description,
-      name: data.report_classification,
+      name: data.report_classification?.name,
       id: data.id,
       media: {
         files: data.media?.files?.paths,
@@ -78,7 +86,7 @@ const Accreditor = ({ setLoc, role }) => {
       adminData: [
         {
           title: "الادارة المعنية بدراسة البلاغ",
-          res: data.department,
+          res: data.department?.name,
           icon: prev7,
         },
         {

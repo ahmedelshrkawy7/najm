@@ -105,7 +105,6 @@ const Test = () => {
               onClick={() => navigate("reportsDate")}
               className="bg-[#000000CC] p-[10px] rounded-md text-white"
             >
-              {" "}
               تاريخ سير البلاغ{" "}
             </button>
           </div>

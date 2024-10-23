@@ -7,7 +7,14 @@ import ReportFiles from "../component/Reports/ReportFiles";
 import prev9 from "../assets/icons/prev9.svg";
 import prev5 from "../assets/icons/prev7.svg";
 
-import { NumberOutlined, PhoneOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  FileTextOutlined,
+  NumberOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
 
 import ContactInformation from "./ContactInformation";
 import CardWrapper from "./CardWrapper";
@@ -34,6 +41,28 @@ const DispalyData = ({
     return el?.file_type?.includes("video");
   });
   console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
+  const items = [
+    {
+      icon: <FileTextOutlined />,
+      label: "الملاحظات:",
+      result: values?.notes?.notes,
+    },
+    {
+      icon: <WarningOutlined />,
+      label: "السبب:",
+      result: values?.notes?.reason,
+    },
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.notes?.creator,
+    },
+    {
+      icon: <EditOutlined />,
+      label: "التاريخ:",
+      result: values?.notes?.date,
+    },
+  ];
   return (
     <>
       {!location.pathname.includes("dash") && (
@@ -72,6 +101,15 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
+          <CardWrapper
+            icon={<PhoneOutlined className="text-green-700" />}
+            title="معلومات الاتصال"
+          >
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
+              <ContactInformation values={values} />
+            </div>
+          </CardWrapper>
+
           {values.result && (
             <CardWrapper
               icon={<img src={prev5} />}
@@ -85,14 +123,19 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
-          <CardWrapper
-            icon={<PhoneOutlined className="text-green-700" />}
-            title="معلومات الاتصال"
-          >
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
-              <ContactInformation values={values} />
+          {values?.notes && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper icon={<img src={prev5} />} title="الملاحظات">
+                {items.map((item, index) => (
+                  <div key={index} className="flex items-center p-2 gap-2">
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <span>{item.result}</span>
+                  </div>
+                ))}
+              </CardWrapper>
             </div>
-          </CardWrapper>
+          )}
         </div>
       </div>
     </>
