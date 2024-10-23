@@ -128,7 +128,10 @@ const Study = ({ children, title, role, name }) => {
               <div className="flex gap-3 flex-wrap">
                 <button
                   onClick={() => {
-                    if (report?.status === "rejected") {
+                    if (
+                      report?.status === "rejected" ||
+                      report?.status === "rejected_from_responsible"
+                    ) {
                       // ref.current?.open();
                       openModal("resubmit");
                     } else {
@@ -136,12 +139,14 @@ const Study = ({ children, title, role, name }) => {
                     }
                   }}
                   className={`${
-                    report?.status === "rejected"
+                    report?.status === "rejected" ||
+                    report?.status === "rejected_from_responsible"
                       ? "bg-[#33835c]"
                       : "bg-black/65"
                   } !text-white text-sm font-bold p-2 rounded-md `}
                 >
-                  {report?.status === "rejected"
+                  {report?.status === "rejected" ||
+                  report?.status === "rejected_from_responsible"
                     ? "اعادة البلاغ للدراسة"
                     : "اضافة ملاحظات"}
                 </button>
@@ -151,12 +156,14 @@ const Study = ({ children, title, role, name }) => {
                     openModal("approve");
                   }}
                   className={`${
-                    report?.status === "rejected"
+                    report?.status === "rejected" ||
+                    report?.status === "rejected_from_responsible"
                       ? "bg-red-500"
                       : "bg-[#33835C]"
                   } !text-white text-sm font-bold p-2 rounded-md `}
                 >
-                  {report?.status === "rejected"
+                  {report?.status === "rejected" ||
+                  report?.status === "rejected_from_responsible"
                     ? "تاكيد رفض البلاغ"
                     : "اعتماد الدراسة الاولية"}
                 </button>
@@ -187,7 +194,8 @@ const Study = ({ children, title, role, name }) => {
         title={
           role === "responsible"
             ? "توجيه الدراسة الاولية"
-            : report?.status === "rejected"
+            : report?.status === "rejected" ||
+              report?.status === "rejected_from_responsible"
             ? "تاكيد رفض البلاغ"
             : "اعتماد الدراسة الاولية"
         }
@@ -195,7 +203,9 @@ const Study = ({ children, title, role, name }) => {
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
-        {report?.status === "rejected" && reSubmit ? (
+        {(report?.status === "rejected" ||
+          report?.status === "rejected_from_responsible") &&
+        reSubmit ? (
           <ResubmitModal
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
@@ -207,7 +217,8 @@ const Study = ({ children, title, role, name }) => {
             title={
               role === "responsible"
                 ? "عند التاكيد سيتم توجيه الدراسة الاولية الى معتمد البلاغات"
-                : report?.status === "rejected"
+                : report?.status === "rejected" ||
+                  report?.status === "rejected_from_responsible"
                 ? "عند التاكيد سيتم رفض البلاغ"
                 : "عند التاكيد سيتم اعتماد الدراسة الاولية"
             }
@@ -222,7 +233,10 @@ const Study = ({ children, title, role, name }) => {
                   },
                 ]);
               } else if (role === "accreditor") {
-                if (report?.status === "rejected") {
+                if (
+                  report?.status === "rejected" ||
+                  report?.status === "rejected_from_responsible"
+                ) {
                   mutation.mutate([
                     `/reports/${id}`,
                     {

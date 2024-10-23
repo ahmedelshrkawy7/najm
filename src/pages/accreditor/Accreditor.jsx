@@ -33,7 +33,10 @@ const Accreditor = ({ setLoc, role }) => {
   const navigate = useNavigate();
 
   let values;
-  if (report?.status === "rejected") {
+  if (
+    report?.status === "rejected" ||
+    report?.status === "resubmit_study_from_accreditor"
+  ) {
     values = {
       address: report?.address,
       date: report.date,
@@ -52,6 +55,12 @@ const Accreditor = ({ setLoc, role }) => {
         name: report?.user?.name,
         email: report?.user?.email,
         phone: report?.user?.phone,
+      },
+      notes: {
+        notes: report?.notes?.notes,
+        reason: report?.notes?.reason,
+        date: report?.notes?.date,
+        creator: report?.notes?.creator,
       },
     };
   } else {

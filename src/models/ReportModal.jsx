@@ -61,7 +61,11 @@ function Ch() {
       // setCurrentView("success");
       console.log(currentView);
     } else {
-      mutation.mutate([`/reports/${id}`, data]);
+      mutation.mutate([
+        `/reports/${id}`,
+        { ...data, status: "rejected_from_responsible" },
+      ]);
+      console.log(data);
     }
   };
 
