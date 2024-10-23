@@ -24,6 +24,7 @@ const CardAdmin = () => {
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
   });
+  console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);
   console.log("🚀 ~ CardAdmin ~ token:", token);
 
@@ -523,7 +524,7 @@ const CardAdmin = () => {
   const columns = [
     {
       title: "رقم البلاغ",
-      dataIndex: "id",
+      dataIndex: "number",
       key: "id",
       width: 150,
       render: (text) => <p>{text}</p>,
@@ -657,7 +658,7 @@ const CardAdmin = () => {
             return (
               <div
                 key={Math.random() * 10}
-                className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-between items-center gap-6 `}
+                className={`text-white mb-4 rounded-lg p-3 flex flex-row-reverse justify-end items-center gap-6 `}
                 style={{ backgroundColor: card.bgColor }}
               >
                 <div className="space-y-2">

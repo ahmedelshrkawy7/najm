@@ -43,13 +43,13 @@ const Test = () => {
     refetch();
   }, [refetch]);
 
-  useEffect(() => {
-    if (showMenu || showSvg) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "auto";
-    }
-  }, [showSvg, showMenu]);
+  // useEffect(() => {
+  //   if (showMenu || showSvg) {
+  //     document.documentElement.style.overflow = "hidden";
+  //   } else {
+  //     document.documentElement.style.overflow = "auto";
+  //   }
+  // }, [showSvg, showMenu]);
 
   console.log(showMenu);
 

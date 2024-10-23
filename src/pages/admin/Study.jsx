@@ -53,7 +53,7 @@ const Study = ({ children, title, role, name }) => {
   console.log(showMenu);
   const { token } = useContext(TokenContext);
   useEffect(() => {
-    if (token.role === "accreditor User") {
+    if (token?.role === "accreditor User") {
       setLoc(3);
     }
   }, []);

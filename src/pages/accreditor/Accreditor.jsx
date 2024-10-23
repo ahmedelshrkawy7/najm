@@ -38,7 +38,7 @@ const Accreditor = ({ setLoc, role }) => {
       address: report?.address,
       date: report.date,
       description: report.description,
-      name: report?.report_classification.name,
+      name: report?.report_classification?.name,
       id: data.id,
       media: {
         files: report.media?.files,
@@ -59,7 +59,7 @@ const Accreditor = ({ setLoc, role }) => {
       address: data?.address,
       date: data.date,
       description: data.description,
-      name: data.report_classification,
+      name: data.report_classification?.name,
       id: data.id,
       media: {
         files: data.media?.files?.paths,
@@ -78,7 +78,7 @@ const Accreditor = ({ setLoc, role }) => {
       adminData: [
         {
           title: "الادارة المعنية بدراسة البلاغ",
-          res: data.department,
+          res: data.department?.name,
           icon: prev7,
         },
         {

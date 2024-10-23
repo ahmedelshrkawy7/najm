@@ -91,8 +91,8 @@ const PreparingStudy = ({ change }) => {
             description: res?.data?.report?.description,
             address: res?.data?.report?.address,
             suspects: res?.data?.report?.suspects || [],
-            report_classification:
-              res?.data?.report?.report_classification?.name,
+            report_classification_id:
+              res?.data?.report?.report_classification?.id,
             date: res?.data?.report?.date,
             processing_time: "",
             files: "",
@@ -207,6 +207,7 @@ const PreparingStudy = ({ change }) => {
       files: "",
       risk_type: "",
       report_type_id: null,
+      report_classification_id: "",
       risk_assessment: "",
       result: "",
       _method: "PUT",
@@ -256,7 +257,7 @@ const PreparingStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
-              nameType="report_classification"
+              nameType="report_classification_id"
               options={report_classification?.map((opt) => ({
                 value: opt.id,
                 label: (

@@ -47,14 +47,14 @@ const ReportInfo = ({ values }) => {
           </div>
           <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
         </div>
-        <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-10 px-8 gap-2   rounded-lg text-white">
+        <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-10 px-8 gap-0   rounded-lg text-white">
           <div className="bg-white rounded-full flex p-2 justify-center items-center w-8 h-8">
             <img
               className="w-full h-full"
               src="../../src/assets/icons/money-3.svg"
             />
           </div>
-          <span>{values?.report_classification?.name || values?.name}</span>
+          <span className="mr-2">{values?.report_classification?.name || values?.name}</span>
         </div>
       </div>
       <div className="grid grid-cols-2">

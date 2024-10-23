@@ -72,6 +72,15 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
+          <CardWrapper
+            icon={<PhoneOutlined className="text-green-700" />}
+            title="معلومات الاتصال"
+          >
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
+              <ContactInformation values={values} />
+            </div>
+          </CardWrapper>
+
           {values.result && (
             <CardWrapper
               icon={<img src={prev5} />}
@@ -84,15 +93,6 @@ const DispalyData = ({
               />
             </CardWrapper>
           )}
-
-          <CardWrapper
-            icon={<PhoneOutlined className="text-green-700" />}
-            title="معلومات الاتصال"
-          >
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
-              <ContactInformation values={values} />
-            </div>
-          </CardWrapper>
         </div>
       </div>
     </>
