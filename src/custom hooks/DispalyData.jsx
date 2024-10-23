@@ -22,6 +22,7 @@ import ReportInfo from "./ReportInfo";
 import { useLocation } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
+import AccreditorCard from "../AccreditorCard";
 
 const DispalyData = ({
   values = [],
@@ -31,7 +32,6 @@ const DispalyData = ({
   videos = [],
 }) => {
   console.log("🚀 ~ values:", values);
-  console.log(values);
 
   const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
@@ -123,18 +123,36 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
-          {values?.notes && (
-            <div className="my-4 py-1 rounded-md">
-              <CardWrapper icon={<img src={prev5} />} title="الملاحظات">
-                {items.map((item, index) => (
-                  <div key={index} className="flex items-center p-2 gap-2">
-                    <div className="text-[#33835c]">{item.icon}</div>
-                    <span className="font-semibold">{item.label}</span>
-                    <span>{item.result}</span>
-                  </div>
-                ))}
-              </CardWrapper>
-            </div>
+          {values?.notes &&
+            values?.status !== "rejected" &&
+            values?.status !== "under_process" &&
+            values?.status !== "under_confirm" && (
+              <div className="my-4 py-1 rounded-md">
+                <CardWrapper
+                  icon={<img src={prev5} />}
+                  title="ملاحظات اعادة الدراسة"
+                >
+                  {items.map((item, index) => (
+                    <div key={index} className="flex items-center p-2 gap-2">
+                      <div className="text-[#33835c]">{item.icon}</div>
+                      <span className="font-semibold">{item.label}</span>
+                      <span>{item?.result}</span>
+                    </div>
+                  ))}
+                </CardWrapper>
+              </div>
+            )}
+          {values.notes && values?.status === "under_process" && (
+            <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
+              <AccreditorCard
+                notes={
+                  JSON.parse(localStorage.getItem("token"))?.role ===
+                  "accreditor"
+                    ? values?.notes
+                    : values?.notes?.notes
+                }
+              />
+            </CardWrapper>
           )}
         </div>
       </div>

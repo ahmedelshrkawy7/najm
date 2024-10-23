@@ -11,6 +11,7 @@ import prev3 from "../../assets/icons/prev3.svg";
 import prev7 from "../../assets/icons/prev7.svg";
 import prev2 from "../../assets/icons/prev2.svg";
 import useApi from "../../utils/useApi";
+import AccreditorCard from "../../AccreditorCard";
 
 const Accreditor = ({ setLoc, role }) => {
   // console.log("🚀 ~ Accreditor ~ role:", role);
@@ -23,18 +24,25 @@ const Accreditor = ({ setLoc, role }) => {
     ["users", ["/reports"], id],
     getData
   );
+  console.log("🚀 ~ Accreditor ~ report:", report);
 
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
     getData
   );
-  console.log("🚀 ~ Accreditor ~ data:", data);
+  const { data: { data: _data = {} } = {} } = useQuery(
+    ["admin", ["/reports"], id],
+    getData
+  );
+  console.log("🚀 ~ Accreditor ~ _data:", _data);
   const navigate = useNavigate();
 
   let values;
+
   if (
-    report?.status === "rejected" ||
-    report?.status === "resubmit_study_from_accreditor"
+    (role === "accreditor" && report?.status === "rejected") ||
+    report?.status === "resubmit_study_from_accreditor" ||
+    report?.status === "rejected_from_responsible"
   ) {
     values = {
       address: report?.address,
@@ -42,6 +50,7 @@ const Accreditor = ({ setLoc, role }) => {
       description: report.description,
       name: report?.report_classification?.name,
       id: data.id,
+      status: report?.status,
       media: {
         files: report.media?.files,
         images: report.media?.images,
@@ -69,6 +78,7 @@ const Accreditor = ({ setLoc, role }) => {
       description: data.description,
       name: data.report_classification?.name,
       id: data.id,
+      status: data?.status,
       media: {
         files: data.media?.files?.paths,
         images: data.media?.images?.paths,
@@ -105,8 +115,20 @@ const Accreditor = ({ setLoc, role }) => {
           icon: prev2,
         },
       ],
+      notes: {
+        category_notes: _data?.report?.notes?.notes?.category_notes,
+        risk_type_note: _data?.report?.notes?.notes?.risk_type_note,
+        risk_assessment_note: _data?.report?.notes?.notes?.risk_assessment_note,
+        department_note: _data?.report?.notes?.notes?.department_note,
+        primary_study_note: _data?.report?.notes?.notes?.primary_study_note,
+        date: _data?.report?.notes?.date,
+        creator: _data?.report?.notes?.creator,
+      },
     };
   }
+
+  console.log("🚀 ~ Accreditor ~ values:", values);
+  console.log("🚀 ~ Accreditor ~ data:", data);
 
   return (
     <>
