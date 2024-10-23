@@ -59,7 +59,7 @@ const Accreditor = () => {
     return <Navigate to="/" replace />;
   }
   return (
-    <div className="max-w-6xl mx-auto mt-24 mb-6 p-4">
+    <div className="w-[90%] max-w-6xl mx-auto mt-24 mb-6 p-4">
       <div className="flex gap-2 items-center mb-6">
         <HomeFilled className="self-center" />
         <Breadcrumb separator=">" items={breadcrumbs} />
