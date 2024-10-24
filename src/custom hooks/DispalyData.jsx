@@ -70,7 +70,7 @@ const DispalyData = ({
       result: values?.notes?.date,
     },
   ];
-  console.log("🚀 ~ items:", items);
+  console.log("🚀 ~ items2:", items);
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
