@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import DispalyData from "../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../custom hooks/Results";
@@ -67,6 +67,10 @@ const StudyPreview = ({ setLoc }) => {
   };
 
   console.log("🚀 ~ StudyPreview ~ values:", values);
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   return (
     <>

@@ -21,7 +21,7 @@ const Accreditor = ({ setLoc, role }) => {
   const { getData } = useApi();
 
   const { data: { data: { report } = {} } = {} } = useQuery(
-    ["users", ["/reports"], id],
+    ["admin", ["/reports"], id],
     getData
   );
   console.log("🚀 ~ Accreditor ~ report:", report);
@@ -30,6 +30,7 @@ const Accreditor = ({ setLoc, role }) => {
     ["admin", ["/reports/initial-study"], id],
     getData
   );
+  console.log("🚀 ~ Accreditor ~ data:", data);
   const { data: { data: _data = {} } = {} } = useQuery(
     ["admin", ["/reports"], id],
     getData
@@ -40,7 +41,7 @@ const Accreditor = ({ setLoc, role }) => {
   let values;
 
   if (
-    (role === "accreditor" && report?.status === "rejected") ||
+    report?.status === "rejected" ||
     report?.status === "resubmit_study_from_accreditor" ||
     report?.status === "rejected_from_responsible"
   ) {
@@ -49,7 +50,7 @@ const Accreditor = ({ setLoc, role }) => {
       date: report.date,
       description: report.description,
       name: report?.report_classification?.name,
-      id: data.id,
+      id: report?.id,
       status: report?.status,
       media: {
         files: report.media?.files,
@@ -74,10 +75,10 @@ const Accreditor = ({ setLoc, role }) => {
   } else {
     values = {
       address: data?.address,
-      date: data.date,
-      description: data.description,
-      name: data.report_classification?.name,
-      id: data.id,
+      date: data?.date,
+      description: data?.description,
+      name: data?.report_classification?.name,
+      id: data?.id,
       status: data?.status,
       media: {
         files: data.media?.files?.paths,
@@ -116,13 +117,14 @@ const Accreditor = ({ setLoc, role }) => {
         },
       ],
       notes: {
-        category_notes: _data?.report?.notes?.notes?.category_notes,
-        risk_type_note: _data?.report?.notes?.notes?.risk_type_note,
-        risk_assessment_note: _data?.report?.notes?.notes?.risk_assessment_note,
-        department_note: _data?.report?.notes?.notes?.department_note,
-        primary_study_note: _data?.report?.notes?.notes?.primary_study_note,
-        date: _data?.report?.notes?.date,
-        creator: _data?.report?.notes?.creator,
+        // category_notes: _data?.report?.notes?.notes?.category_notes,
+        // risk_type_note: _data?.report?.notes?.notes?.risk_type_note,
+        // risk_assessment_note: _data?.report?.notes?.notes?.risk_assessment_note,
+        // department_note: _data?.report?.notes?.notes?.department_note,
+        // primary_study_note: _data?.report?.notes?.notes?.primary_study_note,
+        // date: _data?.report?.notes?.date,
+        // creator: _data?.report?.notes?.creator,
+        notes: _data?.report?.notes?.notes,
       },
     };
   }

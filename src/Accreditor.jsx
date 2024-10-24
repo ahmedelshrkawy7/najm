@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import useApi from "./utils/useApi";
-import { useMutation, useQuery } from "react-query";
+import { QueryClient, useMutation, useQuery } from "react-query";
 import { errorNotf, successNotf } from "./utils/notifications/Toast";
 
 const { Panel } = Collapse;
@@ -31,6 +31,7 @@ const Accreditor = () => {
   let location = useLocation();
   let id = location.search.split("=")[1];
 
+  let queryClient = new QueryClient();
   const { postData, getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
@@ -38,11 +39,13 @@ const Accreditor = () => {
   );
   const Post = useMutation(postData, {
     onSuccess: ({ data }) => {
+      queryClient.invalidateQueries(["admin", ["/reports"], id]);
+      // queryClient.invalidateQueries(["users", ["/reports"], id]);
       navigate(`/dash/${id}`);
       successNotf(data.message);
     },
     onError: ({ message }) => {
-      console.log("🚀 ~ Reports ~ message:", message);
+      // console.log("🚀 ~ Reports ~ message:", message);
       errorNotf(message);
     },
   });
@@ -63,8 +66,8 @@ const Accreditor = () => {
     },
   });
 
-  if (!id) {
-    return <Navigate to={"/"} replace />;
+  if (!id || data?.status === "under_process") {
+    return <Navigate to={"/dash"} replace />;
   }
 
   const breadcrumbs = matches

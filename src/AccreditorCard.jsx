@@ -42,7 +42,7 @@ const AccreditorCard = ({ notes }) => {
               <WarningOutlined />
             </div>
             <label className="font-semibold text-sm">نوع البلاغ:</label>
-            <span className="text-sm">{notes?.risk_type_note|| "لا يوجد"}</span>
+            <span className="text-sm">{notes?.risk_type_note}</span>
           </div>
         </div>
 

@@ -61,9 +61,10 @@ const ReportInfo = ({ values }) => {
       </div>
       <div className="grid grid-cols-2">
         {values?.adminData &&
+          values?.status==='' &&
           values?.status !== "new" &&
           values?.status !== "rejected" &&
-          // values?.status !== "accepted" &&
+          values?.status !== "accepted" &&
           values?.status !== "rejected_from_responsible" &&
           values.adminData.map((val, i) => (
             <ReportsTextIcon

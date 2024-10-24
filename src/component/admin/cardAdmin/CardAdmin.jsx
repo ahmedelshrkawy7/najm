@@ -389,7 +389,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full h-[61%] w-[61%] bg-[#6de487]"
         />
       ),
-      bgColor: "#6de487",
+      bgColor: "#306e3c",
     },
     // {
     //   title: "بلاغات تحت الاعتماد",
@@ -419,7 +419,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#EB974B",
+      bgColor: "#a3efc0",
     },
     {
       title: "بلاغات تحت الموافقة",
@@ -429,7 +429,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#9DC3E6",
+      bgColor: "#0a3969",
     },
     {
       title: "بلاغات مقفلة",
@@ -629,10 +629,10 @@ const CardAdmin = () => {
         let bgColor;
         switch (text) {
           case "جديد":
-            bgColor = "#33835C";
+            bgColor = "#4CAF50";
             break;
           case "مقبول":
-            bgColor = "#9DC3E6";
+            bgColor = "#306e3c";
             break;
           case "مرفوض":
             bgColor = "#FF6A6F";
@@ -654,6 +654,9 @@ const CardAdmin = () => {
             break;
           case "للتصعيد":
             bgColor = "#df5f5f";
+            break;
+          case "دراسة أولية":
+            bgColor = "#a3efc0";
             break;
           default:
             bgColor = "#000";

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useEffect } from "react";
 import ReportImages from "../component/Reports/ReportImages";
 import ReportFiles from "../component/Reports/ReportFiles";
 
@@ -107,6 +107,7 @@ const DispalyData = ({
     console.log("hhhhhhhhhhhhhhhh");
   }
   console.log(values);
+
   return (
     <>
       {!location.pathname.includes("dash") && (
@@ -189,14 +190,17 @@ const DispalyData = ({
             )}
           {values.notes && values?.status === "under_process" && (
             <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
-              <AccreditorCard
-                notes={
-                  JSON.parse(localStorage.getItem("token"))?.role ===
-                  "accreditor"
-                    ? values?.notes
-                    : values?.notes?.notes
-                }
-              />
+              {values?.notes?.notes?.map((notes, i) => (
+                <AccreditorCard
+                  key={i}
+                  notes={
+                    JSON.parse(localStorage.getItem("token"))?.role ===
+                    "accreditor"
+                      ? notes
+                      : notes
+                  }
+                />
+              ))}
             </CardWrapper>
           )}
         </div>

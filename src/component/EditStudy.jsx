@@ -108,6 +108,8 @@ const EditStudy = ({ change }) => {
     isLoading: _loading,
   } = useQuery(["admin", ["/reports/initial-study"], `${id}`], getData);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (res) {
       console.log("🚀 ~ useEffect ~ res:", res);
@@ -132,6 +134,16 @@ const EditStudy = ({ change }) => {
     }
   }, [res, reset]);
 
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      navigate(`/dash/${id}/previewStudy`);
+      queryClient.invalidateQueries(["admin", ["/reports/initial-study"], id]);
+    },
+    onError: (err) => {
+      errorNotf(err.response.data.message);
+    },
+  });
+
   // Optionally handle loading state
   //   if (_loading) {
   //     return <div>Loading...</div>;
@@ -139,7 +151,7 @@ const EditStudy = ({ change }) => {
 
   // Optionally handle error state (in case you want to show it in the UI)
   if (_error) {
-    return <div>Error occurred: {error.message}</div>;
+    return <div>Error occurred: {error?.message}</div>;
   }
 
   //   const fetchData = async () => {
@@ -213,17 +225,6 @@ const EditStudy = ({ change }) => {
     }
     clearErrors(["risk_assessment", "processing_time"]);
   };
-  const navigate = useNavigate();
-
-  const mutation = useMutation(postData, {
-    onSuccess: () => {
-      navigate(`/dash/${id}/previewStudy`);
-      queryClient.invalidateQueries(["admin", ["/reports/initial-study"], id]);
-    },
-    onError: (err) => {
-      errorNotf(err.response.data.message);
-    },
-  });
 
   const onSubmit = (val) => {
     const x = mutation.mutate([`/reports/${id}`, val]);
