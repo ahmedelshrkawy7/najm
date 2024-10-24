@@ -16,7 +16,6 @@ const StudyPreview = ({ setLoc }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  console.log("🚀 ~ StudyPreview ~ id:", id);
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
@@ -80,7 +79,6 @@ const StudyPreview = ({ setLoc }) => {
           onClick={() => navigate(`/dash/${id}`)}
           className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
         >
-          {" "}
           {"رجوع"}
         </button>
       </div>

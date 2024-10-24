@@ -32,6 +32,10 @@ const Accreditor = () => {
   let id = location.search.split("=")[1];
 
   const { postData, getData } = useApi();
+  const { data: { data = {} } = {} } = useQuery(
+    ["admin", ["/reports/initial-study"], id],
+    getData
+  );
   const Post = useMutation(postData, {
     onSuccess: ({ data }) => {
       navigate(`/dash/${id}`);
@@ -42,11 +46,6 @@ const Accreditor = () => {
       errorNotf(message);
     },
   });
-
-  const { data: { data = {} } = {} } = useQuery(
-    ["admin", ["/reports/initial-study"], id],
-    getData
-  );
 
   console.log("🚀 ~ Accreditor ~ data:", data);
   const {

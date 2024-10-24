@@ -54,16 +54,23 @@ const ReportInfo = ({ values }) => {
               src="../../src/assets/icons/money-3.svg"
             />
           </div>
-          <span className="mr-2">{values?.report_classification?.name || values?.name}</span>
+          <span className="mr-2">
+            {values?.report_classification?.name || values?.name}
+          </span>
         </div>
       </div>
       <div className="grid grid-cols-2">
         {values?.adminData &&
+          values?.status !== "new" &&
+          values?.status !== "rejected" &&
+          // values?.status !== "accepted" &&
+          values?.status !== "rejected_from_responsible" &&
           values.adminData.map((val, i) => (
             <ReportsTextIcon
               subTitle={!isNaN(val.res) ? val.res + " يوم عمل " : val.res}
               icon={val.icon}
               title={val.title}
+              key={i}
             />
           ))}
       </div>
@@ -115,12 +122,13 @@ const ReportInfo = ({ values }) => {
           />
           {(values?.suspectKnown === "1" || values?.suspectKnown === true) && (
             <ReportsTextIcon
+              key={Math.random()}
               bottom={true}
               subTitle={
                 values.suspects ? (
                   <div className="flex max-h-[260px] scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full  overflow-x-scroll gap-2 flex-wrap">
-                    {values.suspects?.map((val) => (
-                      <div className="tag flex items-center">
+                    {values.suspects?.map((val, i) => (
+                      <div className="tag flex items-center" key={i}>
                         <h3 className="flex items-center">{val.name}</h3>
                         <button className="cursor-default">
                           <UserOutlined />
