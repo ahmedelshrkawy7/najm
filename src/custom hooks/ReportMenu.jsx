@@ -58,6 +58,7 @@ const ReportMenu = ({
       disabled:
         status === "new" ||
         status === "under_confirm" ||
+        status === "under_process" ||
         status === "confirmed",
     },
     {
@@ -197,7 +198,7 @@ const ReportMenu = ({
             (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
             ((status === "prepare_initial_study" ||
               status === "under_process") &&
-              (opt.id === 1 || opt.id === 2)) ||
+              (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
             ((status === "under_confirm" || status === "confirmed") &&
               (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4))
               ? "text-gray-400 cursor-not-allowed"
