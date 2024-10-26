@@ -38,6 +38,8 @@ const ReportInfo = ({ values }) => {
   };
 
   console.log(values);
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
+  console.log("🚀 ~ ReportInfo ~ role:", role);
   return (
     <>
       <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">
@@ -61,7 +63,7 @@ const ReportInfo = ({ values }) => {
       </div>
       <div className="grid grid-cols-2">
         {values?.adminData &&
-          values?.status==='' &&
+          values?.status &&
           values?.status !== "new" &&
           values?.status !== "rejected" &&
           values?.status !== "accepted" &&
@@ -95,7 +97,7 @@ const ReportInfo = ({ values }) => {
           {values.date && (
             <ReportsTextIcon
               subTitle={
-                values.date === "NaN/NaN/NaN"
+               ( values.date === "NaN/NaN/NaN")
                   ? "لا يوجد"
                   : (fDate && fullDate) || values?.date
               }

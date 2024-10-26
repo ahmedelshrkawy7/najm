@@ -700,18 +700,18 @@ const CardAdmin = () => {
   ];
   console.log(data);
   // let _reports = data?.data?.reports
-  //   ?.map((report) => {
-  //     if (report.date === "") {
-  //       report.date = "لا يوجد";
-  //     }
-  //     if (report.user.name.trim() === "") {
-  //       report.user.name = "لا يوجد";
-  //     }
-  //     if (report.user.phone.trim() === "") {
-  //       report.user.phone = "لا يوجد";
-  //     }
-  //     return report;
-  //   })
+  // ?.map((report) => {
+  //   if (report.date === "") {
+  //     report.date = "لا يوجد";
+  //   }
+  //   if (report.user.name.trim() === "") {
+  //     report.user.name = "لا يوجد";
+  //   }
+  //   if (report.user.phone.trim() === "") {
+  //     report.user.phone = "لا يوجد";
+  //   }
+  //   return report;
+  // })
   //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const [filters, setFilters] = useState(Array(SELECTS.length).fill("")); // State for selected filters
@@ -740,6 +740,7 @@ const CardAdmin = () => {
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
+
   console.log("🚀 ~ filteredReports ~ filteredReports:", data);
 
   return (

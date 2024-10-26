@@ -59,7 +59,7 @@ const useApi = () => {
     }
   };
   const getData = async ({ queryKey }) => {
-    console.log(queryKey);
+    console.log("🚀 ~ getData ~ queryKey:", queryKey)
     // setLoader(true);
     let [, [url, param], id = ""] = queryKey;
     console.log("🚀 ~ getData ~ param:", param);
