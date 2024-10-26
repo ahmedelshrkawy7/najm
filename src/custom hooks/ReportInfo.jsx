@@ -93,11 +93,11 @@ const ReportInfo = ({ values }) => {
             />
           </div>
         </pre>
-        <div className="">
-          {values.date && (
+        <div className="my-5">
+          {values.date !== undefined && (
             <ReportsTextIcon
               subTitle={
-               ( values.date === "NaN/NaN/NaN")
+                values.date === "NaN/NaN/NaN" || values.date === ""
                   ? "لا يوجد"
                   : (fDate && fullDate) || values?.date
               }
