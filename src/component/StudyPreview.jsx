@@ -15,6 +15,7 @@ import prev2 from "../assets/icons/prev2.svg";
 const StudyPreview = ({ setLoc }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
+  console.log("🚀 ~ StudyPreview ~ id:", id);
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
@@ -28,6 +29,7 @@ const StudyPreview = ({ setLoc }) => {
     description: data.description,
     name: data?.report_classification?.name,
     id: data.id,
+    status: data?.status,
     media: {
       files: data.media?.files?.paths,
       images: data.media?.images?.paths,

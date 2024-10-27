@@ -30,7 +30,8 @@ const Accreditor = ({ setLoc, role }) => {
     ["admin", ["/reports/initial-study"], id],
     getData
   );
-  console.log("🚀 ~ Accreditor ~ data:", data);
+
+  console.log("ffffffffffffffffff", data);
   const { data: { data: _data = {} } = {} } = useQuery(
     ["admin", ["/reports"], id],
     getData
@@ -124,13 +125,15 @@ const Accreditor = ({ setLoc, role }) => {
         // primary_study_note: _data?.report?.notes?.notes?.primary_study_note,
         // date: _data?.report?.notes?.date,
         // creator: _data?.report?.notes?.creator,
-        notes: _data?.report?.notes?.notes,
+        // notes: _data?.report?.notes?.notes,
+        notes: data?.notes?.notes,
       },
     };
   }
 
   console.log("🚀 ~ Accreditor ~ values:", values);
   console.log("🚀 ~ Accreditor ~ data:", data);
+  console.log("🚀 ~ Accreditor ~ report:", report);
 
   return (
     <>

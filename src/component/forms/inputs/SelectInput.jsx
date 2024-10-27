@@ -41,6 +41,7 @@ const SelectInput = ({
               // value={field.value || undefined}
               className="w-[70vw] flex items-center h-[40px] sm:w-[280px] relative"
               options={options}
+              // dropdownMatchSelectWidth={false}
               // allowClear={field.value && true}
               disabled={disapled}
             />

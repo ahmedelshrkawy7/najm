@@ -38,7 +38,7 @@ const DispalyData = ({
   videos = [],
   id,
 }) => {
-  console.log("🚀 ~ values:", values);
+  console.log("🚀 ~ values:fffffffff", values);
 
   const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
@@ -104,9 +104,14 @@ const DispalyData = ({
     ];
     values.result = data?.result;
   } else {
-    console.log("hhhhhhhhhhhhhhhh");
+    console.log("contains ...");
   }
-  console.log(values);
+
+  if (!values.notes) {
+    values.notes = data?.notes;
+  } else {
+    console.log("contains vals");
+  }
 
   return (
     <>
@@ -194,10 +199,11 @@ const DispalyData = ({
                 <AccreditorCard
                   key={i}
                   notes={
-                    JSON.parse(localStorage.getItem("token"))?.role ===
-                    "accreditor"
-                      ? notes
-                      : notes
+                    // JSON.parse(localStorage.getItem("token"))?.role ===
+                    // "accreditor"
+                    //   ? notes
+                    //   : notes
+                    notes
                   }
                 />
               ))}

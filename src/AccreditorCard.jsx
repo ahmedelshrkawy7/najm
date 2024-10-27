@@ -19,7 +19,7 @@ const AccreditorCard = ({ notes }) => {
 
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">
-      <div className="space-y-6 bg-[#E6E6E6] p-4">
+      <div className="space-y-6 bg-red-100/65 p-4 rounded-lg">
         <div className="flex flex-col space-y-3">
           <div className="flex items-center gap-2 flex-wrap">
             <div
