@@ -99,6 +99,8 @@ const EditStudy = ({ change }) => {
       result: "",
       _method: "PUT",
       action: "prepare_initial_study",
+      delete_file_paths: [],
+      delete_suspects: [],
     },
   });
 
@@ -127,6 +129,8 @@ const EditStudy = ({ change }) => {
         result: res?.data?.result,
         _method: "PUT",
         action: "amend_initial_study",
+        delete_file_paths: [],
+        delete_suspects: [],
       });
       setVideos(res?.data?.media?.videos?.paths);
       setImgs(res?.data?.media?.images?.paths);
@@ -398,8 +402,10 @@ const EditStudy = ({ change }) => {
                   imgs={imgs}
                   setImgs={setImgs}
                   register={register}
+                  setValue={setValue}
                   errors={errors}
                   control={control}
+                  watch={watch}
                 />
               </div>
             </div>

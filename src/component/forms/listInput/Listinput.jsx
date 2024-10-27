@@ -42,10 +42,11 @@ const Listinput = ({
   }
   const disabled = watch("list") !== "";
   console.log(disabled);
-  function deleteTag(index) {
+  function deleteTag(index, el) {
     const data1 = watch("suspects");
     data1.splice(index, 1);
     setValue("suspects", data1);
+    setValue("delete_suspects", [...watch("delete_suspects"), el.id]);
     setData(data1);
   }
   const inputRef = useRef();
@@ -134,7 +135,7 @@ const Listinput = ({
                   type="button"
                   className="text-[20px] w-10 text-center flex items-center justify-center"
                   onClick={() => {
-                    deleteTag(index);
+                    deleteTag(index, el);
                   }}
                 >
                   <span className="text-[22px] font-semibold">&times;</span>

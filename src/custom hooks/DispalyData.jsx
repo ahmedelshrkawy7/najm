@@ -19,7 +19,7 @@ import {
 import ContactInformation from "./ContactInformation";
 import CardWrapper from "./CardWrapper";
 import ReportInfo from "./ReportInfo";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 import AccreditorCard from "../AccreditorCard";
@@ -36,9 +36,8 @@ const DispalyData = ({
   imgs = [],
   title,
   videos = [],
-  id,
 }) => {
-  console.log("🚀 ~ values:fffffffff", values);
+  const { id: _id } = useParams();
 
   const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
@@ -48,6 +47,28 @@ const DispalyData = ({
     return el?.file_type?.includes("video");
   });
   console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
+  const restudyNotes = [
+    {
+      icon: <FileTextOutlined />,
+      label: "الملاحظات:",
+      result: values?.restudyNotes?.notes,
+    },
+    {
+      icon: <WarningOutlined />,
+      label: "السبب:",
+      result: values?.restudyNotes?.reason,
+    },
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.restudyNotes?.creator,
+    },
+    {
+      icon: <EditOutlined />,
+      label: "التاريخ:",
+      result: values?.restudyNotes?.date,
+    },
+  ];
   const items = [
     {
       icon: <FileTextOutlined />,
@@ -70,11 +91,23 @@ const DispalyData = ({
       result: values?.notes?.date,
     },
   ];
+  const reason = [
+    {
+      icon: <FileTextOutlined />,
+      label: "المنشئ:",
+      result: values?.reason?.creator,
+    },
+    {
+      icon: <WarningOutlined />,
+      label: "سبب الرفض:",
+      result: values?.reason?.content,
+    },
+  ];
   console.log("🚀 ~ items2:", items);
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
-    ["admin", ["/reports/initial-study"], id],
+    ["admin", ["/reports/initial-study"], _id],
     getData
   );
   console.log("🚀 ~ data:", data);
@@ -173,7 +206,7 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
-          {values?.notes &&
+          {values?.notes?.length &&
             values?.status !== "rejected" &&
             values?.status !== "under_process" &&
             values?.status !== "under_confirm" &&
@@ -193,6 +226,35 @@ const DispalyData = ({
                 </CardWrapper>
               </div>
             )}
+          {values?.reason && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper icon={<img src={prev5} />} title="اسباب الرفض">
+                {reason.map((item, index) => (
+                  <div key={index} className="flex items-center p-2 gap-2">
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <span>{item?.result}</span>
+                  </div>
+                ))}
+              </CardWrapper>
+            </div>
+          )}
+          {values?.restudyNotes && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper
+                icon={<img src={prev5} />}
+                title="سبب اعاده البلاغ للدراسه"
+              >
+                {restudyNotes.map((item, index) => (
+                  <div key={index} className="flex items-center p-2 gap-2">
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <span>{item?.result}</span>
+                  </div>
+                ))}
+              </CardWrapper>
+            </div>
+          )}
           {values.notes && values?.status === "under_process" && (
             <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
               {values?.notes?.notes?.map((notes, i) => (

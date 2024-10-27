@@ -67,6 +67,7 @@ const ReportInfo = ({ values }) => {
           values?.status !== "new" &&
           values?.status !== "rejected" &&
           values?.status !== "accepted" &&
+          values?.status !== "resubmit_study_from_accreditor" &&
           values?.status !== "rejected_from_responsible" &&
           values.adminData.map((val, i) => (
             <ReportsTextIcon

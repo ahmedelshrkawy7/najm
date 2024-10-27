@@ -10,7 +10,15 @@ import {
   CloseOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
-const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
+const ReportImages = ({
+  imgs,
+  setImgs,
+  preview,
+  videos,
+  setVideos,
+  setValue,
+  watch,
+}) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
   // let photos = imgs?.filter((el) => {
   //   return el?.file_type?.includes("image") || el?.type?.includes("image");
@@ -19,15 +27,18 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
   //   return el?.file_type?.includes("video") || el?.type?.includes("video");
   // });
   console.log(videos);
-  const handleDeleteImages = (id) => {
+  const handleDeleteImages = (id, path) => {
     const images = [...imgs];
+    console.log("🚀 ~ handleDeleteImages ~ images:", images);
     images.splice(id, 1);
     setImgs(images);
+    setValue("delete_file_paths", [...watch("delete_file_paths"), path]);
   };
-  const handleDeleteVideos = (id) => {
+  const handleDeleteVideos = (id, path) => {
     const images = [...videos];
     images.splice(id, 1);
     setVideos(images);
+    setValue("delete_file_paths", [...watch("delete_file_paths"), path]);
   };
 
   const myImage = useRef();
@@ -46,7 +57,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
     }
   }
 
-  console.log(imgs, videos);
+  console.log(imgs, "ffffffffffffffffffffffffffffffffffffffffffdddd");
   return (
     <>
       {!!imgs?.length > 0 && (
@@ -73,7 +84,7 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                 <div className=" relative h-full w-[220px]  ">
                   {preview && (
                     <div
-                      onClick={() => handleDeleteImages(index)}
+                      onClick={() => handleDeleteImages(index, img.file_path)}
                       className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                     >
                       <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -178,7 +189,9 @@ const ReportImages = ({ imgs, setImgs, preview, videos, setVideos }) => {
                     <>
                       {preview && (
                         <div
-                          onClick={() => handleDeleteVideos(index)}
+                          onClick={() =>
+                            handleDeleteVideos(index, img.file_path)
+                          }
                           className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                         >
                           <span className=" font-bold  -mt-[3px] text-[20px] ">

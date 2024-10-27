@@ -18,6 +18,8 @@ const FileInput = ({
   setVideos,
   register,
   control,
+  setValue,
+  watch,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
@@ -102,6 +104,8 @@ const FileInput = ({
             setImgs={setImgs}
             imgs={imgs}
             preview={true}
+            setValue={setValue}
+            watch={watch}
           />
         </>
       )}
@@ -111,7 +115,13 @@ const FileInput = ({
         </div>
       )}
       {fils?.length > 0 && (
-        <ReportFiles setFils={setFils} fils={fils} preview={true} />
+        <ReportFiles
+          setFils={setFils}
+          fils={fils}
+          preview={true}
+          setValue={setValue}
+          watch={watch}
+        />
       )}
     </>
   );

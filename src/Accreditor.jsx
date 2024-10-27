@@ -33,14 +33,15 @@ const Accreditor = () => {
 
   let queryClient = new QueryClient();
   const { postData, getData } = useApi();
-  const { data: { data = {} } = {} } = useQuery(
+  const { data: { data = {} } = {}, refetch } = useQuery(
     ["admin", ["/reports/initial-study"], id],
     getData
   );
   const Post = useMutation(postData, {
     onSuccess: ({ data }) => {
-      queryClient.invalidateQueries(["admin", ["/reports"], id]);
-      // queryClient.invalidateQueries(["users", ["/reports"], id]);
+      // queryClient.invalidateQueries(["admin", ["/reports/initial-study"], id]);
+      // // queryClient.invalidateQueries(["users", ["/reports"], id]);
+      refetch();
       navigate(`/dash/${id}`);
       successNotf(data.message);
     },
@@ -66,7 +67,7 @@ const Accreditor = () => {
     },
   });
 
-  if (!id || data?.status === "under_process") {
+  if (!id) {
     return <Navigate to={"/dash"} replace />;
   }
 

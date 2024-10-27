@@ -4,7 +4,7 @@ import React from "react";
 import DispalyData from "../../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../../custom hooks/Results";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import prev4 from "../../assets/icons/prev4.svg";
 import prev3 from "../../assets/icons/prev3.svg";
@@ -16,7 +16,8 @@ import AccreditorCard from "../../AccreditorCard";
 const Accreditor = ({ setLoc, role }) => {
   // console.log("🚀 ~ Accreditor ~ role:", role);
   const { pathname } = useLocation();
-  let id = +pathname.match(/[0-9]+/g).toString();
+  // let id = +pathname.match(/[0-9]+/g).toString();
+  const { id } = useParams();
   // console.log("🚀 ~ StudyPreview ~ id:", id);
   const { getData } = useApi();
 
@@ -24,7 +25,10 @@ const Accreditor = ({ setLoc, role }) => {
     ["admin", ["/reports"], id],
     getData
   );
-  console.log("🚀 ~ Accreditor ~ report:", report);
+  console.log(
+    "🚀 ~ Accreditorffffeagggggggggggggggggggggggg ~ report:",
+    report
+  );
 
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
@@ -32,11 +36,11 @@ const Accreditor = ({ setLoc, role }) => {
   );
 
   console.log("ffffffffffffffffff", data);
-  const { data: { data: _data = {} } = {} } = useQuery(
-    ["admin", ["/reports"], id],
-    getData
-  );
-  console.log("🚀 ~ Accreditor ~ _data:", _data);
+  // const { data: { data: _data = {} } = {} } = useQuery(
+  //   ["admin", ["/reports"], id],
+  //   getData
+  // );
+  // console.log("🚀 ~ Accreditor ~ _data:", _data);
   const navigate = useNavigate();
 
   let values;
@@ -72,6 +76,8 @@ const Accreditor = ({ setLoc, role }) => {
         date: report?.notes?.date,
         creator: report?.notes?.creator,
       },
+      reason: report?.reason,
+      restudyNotes: report?.notes,
     };
   } else {
     values = {

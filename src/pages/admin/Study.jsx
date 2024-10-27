@@ -40,7 +40,7 @@ const Study = ({ children, title, role, name }) => {
     },
   });
 
-  const { data: { data: { report } = {} } = {} } = useQuery(
+  const { data: { data: { report } = {} } = {}, refetch } = useQuery(
     ["users", ["/reports"], id],
     getData
   );
@@ -73,6 +73,7 @@ const Study = ({ children, title, role, name }) => {
   const change = (x) => {
     setLoc(x);
   };
+
   const mutation = useMutation(postData, {
     onSuccess: () => {
       // change(3);
@@ -81,6 +82,7 @@ const Study = ({ children, title, role, name }) => {
           ? "تم توجية الدراسه الأوليه للمعتمد"
           : "تم اعتماد الدراسة الاولية بنجاح"
       );
+      refetch();
       ref.current.close();
       navigate("/dash", { replace: true });
     },
@@ -126,8 +128,8 @@ const Study = ({ children, title, role, name }) => {
                 </p>
               </div>
               {report?.status !== "rejected" &&
-                report?.status !== "resubmit_study_from_accreditor" &&
-                report?.status !== "under_process" && (
+                report?.status !== "resubmit_study_from_accreditor" && (
+                  // report?.status !== "under_process" &&
                   <div className="flex gap-3 flex-wrap">
                     <button
                       onClick={() => {
