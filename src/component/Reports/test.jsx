@@ -87,7 +87,7 @@ const Test = () => {
                 onClick={handleShowMenu}
                 className="bg-[#33835C]   p-4 py-2 rounded-md text-white"
               >
-                اتخاذ اجراء{" "}
+                اتخاذ اجراء
               </button>
 
               {showMenu && (
@@ -106,13 +106,13 @@ const Test = () => {
               onClick={() => navigate("reportsDate")}
               className="bg-[#000000CC] p-[10px] rounded-md text-white"
             >
-              تاريخ سير البلاغ{" "}
+              تاريخ سير البلاغ
             </button>
           </div>
           <div className="border overflow-hidden mt-4  pb-0 rounded-md border-gray-300">
             <ReportsHeader title="بيانات البلاغ" />
             <div className="p-1 sm:p-6">
-              <DispalyData title="بيانات البلاغ" values={report} />
+              <DispalyData title="بيانات البلاغ" values={report} id={id} />
             </div>
           </div>
         </div>

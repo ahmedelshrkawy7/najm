@@ -389,7 +389,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full h-[61%] w-[61%] bg-[#6de487]"
         />
       ),
-      bgColor: "#6de487",
+      bgColor: "#306e3c",
     },
     // {
     //   title: "بلاغات تحت الاعتماد",
@@ -412,14 +412,14 @@ const CardAdmin = () => {
       bgColor: "#9DC3E6",
     },
     {
-      title: "بلاغات مسندة تحت الدراسة",
+      title: "بلاغات دراسة اولية",
       icon: (
         <img
           src="../src/assets/icons/rotate.png"
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#EB974B",
+      bgColor: "#a3efc0",
     },
     {
       title: "بلاغات تحت الموافقة",
@@ -429,7 +429,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#9DC3E6",
+      bgColor: "#0a3969",
     },
     {
       title: "بلاغات مقفلة",
@@ -479,7 +479,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "green",
+      bgColor: "#8d0000",
     },
     {
       title: "بلاغات جارى اعتمادها",
@@ -564,13 +564,13 @@ const CardAdmin = () => {
       counter.accepted || 0,
       // counter.under_confirm || 0,
       counter.confirmed || 0,
-      counter.under_study || 0,
+      counter.prepare_initial_study || 0,
       counter.under_approved || 0,
       counter.closed || 0,
       counter.rejected || 0,
       counter.escalated || 0,
       counter.all || 0,
-      counter.rejected_from_responsible||0,
+      counter.rejected_from_responsible || 0,
       counter.under_confirm || 0,
       counter.under_process || 0,
       counter.resubmit_study_from_accreditor || 0,
@@ -629,10 +629,10 @@ const CardAdmin = () => {
         let bgColor;
         switch (text) {
           case "جديد":
-            bgColor = "#33835C";
+            bgColor = "#4CAF50";
             break;
           case "مقبول":
-            bgColor = "#9DC3E6";
+            bgColor = "#306e3c";
             break;
           case "مرفوض":
             bgColor = "#FF6A6F";
@@ -641,7 +641,7 @@ const CardAdmin = () => {
             bgColor = "#E7D066";
             break;
           case "مرفوض من المسئول":
-            bgColor = "green";
+            bgColor = "#8d0000";
             break;
           case "جارى اعتمادها":
             bgColor = "blue";
@@ -651,6 +651,12 @@ const CardAdmin = () => {
             break;
           case "بلاغات تحت الاعتماد":
             bgColor = "white";
+            break;
+          case "للتصعيد":
+            bgColor = "#df5f5f";
+            break;
+          case "دراسة أولية":
+            bgColor = "#a3efc0";
             break;
           default:
             bgColor = "#000";
@@ -734,7 +740,7 @@ const CardAdmin = () => {
       return reportValue ? reportValue.toString() === filter.toString() : false;
     });
   });
-  console.log("🚀 ~ filteredReports ~ filteredReports:", data.data?.reports);
+  console.log("🚀 ~ filteredReports ~ filteredReports:", data);
 
   return (
     <>
@@ -760,7 +766,7 @@ const CardAdmin = () => {
                     className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
                       role === "accreditor"
                         ? ""
-                        :  i === 0 || i === 5 || i === 1 || i===2
+                        : i === 0 || i === 5 || i === 1 || i === 2
                         ? "bg-white/100"
                         : "bg-white/5"
                     }`}

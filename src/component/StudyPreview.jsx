@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import DispalyData from "../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../custom hooks/Results";
@@ -16,7 +16,6 @@ const StudyPreview = ({ setLoc }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  console.log("🚀 ~ StudyPreview ~ id:", id);
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
@@ -69,6 +68,10 @@ const StudyPreview = ({ setLoc }) => {
 
   console.log("🚀 ~ StudyPreview ~ values:", values);
 
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
+
   return (
     <>
       <div className="bg-white">
@@ -80,7 +83,6 @@ const StudyPreview = ({ setLoc }) => {
           onClick={() => navigate(`/dash/${id}`)}
           className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
         >
-          {" "}
           {"رجوع"}
         </button>
       </div>
