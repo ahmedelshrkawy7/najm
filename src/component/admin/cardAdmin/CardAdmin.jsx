@@ -664,7 +664,7 @@ const CardAdmin = () => {
         return (
           <button
             style={{ backgroundColor: bgColor }}
-            className="w-full py-[6px] px-4 bg-[#33835C] text-white rounded-full text-[10px]
+            className="w-max min-w-full py-[6px] px-4 bg-[#33835C] text-white rounded-full text-[10px]
          font-semibold relative"
           >
             {el.has_notes && (
@@ -714,7 +714,10 @@ const CardAdmin = () => {
   // })
   //   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const [filters, setFilters] = useState(Array(SELECTS.length).fill("")); // State for selected filters
+  const [filters, setFilters] = useState(Array(SELECTS.length).fill(""));
+  const anyFiltersApplied = filters.some((filter) => filter !== "");
+  console.log("🚀 ~ anyFiltersApplied:", anyFiltersApplied);
+
   const handleFilterChange = (index, value) => {
     const newFilters = [...filters];
     newFilters[index] = value;
@@ -757,7 +760,7 @@ const CardAdmin = () => {
               >
                 <div className="space-y-2">
                   <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
-                  <h2 className="text-4xl text-[#fff] font-bold text-center">
+                  <h2 className="text-4xl text-[#fff] font-bold text-right">
                     {/* {data?.meta?.reports?.totalItems} */}
                     {counterValues[i]}
                   </h2>
@@ -849,19 +852,23 @@ const CardAdmin = () => {
                 </diV>
               ),
             }}
-            pagination={{
-              current: pagination,
-              pageSize: 15,
-              total: data?.meta?.reports?.totalItems,
-              showSizeChanger: false,
-              onChange: (pageNumber) => {
-                setPagination(pageNumber);
-                localStorage.setItem("pageNumber", pageNumber);
-                setFilters(Array(SELECTS.length).fill("")); // Reset filters on page change
-              },
+            pagination={
+              !anyFiltersApplied
+                ? {
+                    current: pagination,
+                    pageSize: 15,
+                    total: data?.meta?.reports?.totalItems,
+                    showSizeChanger: false,
+                    onChange: (pageNumber) => {
+                      setPagination(pageNumber);
+                      localStorage.setItem("pageNumber", pageNumber);
+                      setFilters(Array(SELECTS.length).fill("")); // Reset filters on page change
+                    },
 
-              // defaultPageSize: _reports.length
-            }}
+                    // defaultPageSize: _reports.length
+                  }
+                : false
+            }
             dataSource={filteredReports}
           />
         </div>

@@ -10,6 +10,7 @@ import prev5 from "../assets/icons/prev7.svg";
 import {
   EditOutlined,
   FileTextOutlined,
+  HistoryOutlined,
   NumberOutlined,
   PhoneOutlined,
   TeamOutlined,
@@ -19,7 +20,7 @@ import {
 import ContactInformation from "./ContactInformation";
 import CardWrapper from "./CardWrapper";
 import ReportInfo from "./ReportInfo";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ReportsHeader from "./ReportsHeader";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
 import AccreditorCard from "../AccreditorCard";
@@ -36,9 +37,8 @@ const DispalyData = ({
   imgs = [],
   title,
   videos = [],
-  id,
 }) => {
-  console.log("🚀 ~ values:fffffffff", values);
+  const { id: _id } = useParams();
 
   const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
@@ -48,7 +48,39 @@ const DispalyData = ({
     return el?.file_type?.includes("video");
   });
   console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
+  const restudyNotes = [
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.restudyNotes?.creator,
+    },
+    {
+      icon: <HistoryOutlined />,
+      label: "التاريخ:",
+      result: values?.restudyNotes?.date,
+    },
+    {
+      icon: <WarningOutlined />,
+      label: "السبب:",
+      result: values?.restudyNotes?.reason,
+    },
+    {
+      icon: <FileTextOutlined />,
+      label: "الملاحظات:",
+      result: values?.restudyNotes?.notes,
+    },
+  ];
   const items = [
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.notes?.creator,
+    },
+    {
+      icon: <HistoryOutlined />,
+      label: "التاريخ:",
+      result: values?.notes?.date,
+    },
     {
       icon: <FileTextOutlined />,
       label: "الملاحظات:",
@@ -59,22 +91,24 @@ const DispalyData = ({
       label: "السبب:",
       result: values?.notes?.reason,
     },
+  ];
+  const reason = [
     {
-      icon: <TeamOutlined />,
+      icon: <FileTextOutlined />,
       label: "المنشئ:",
-      result: values?.notes?.creator,
+      result: values?.reason?.creator,
     },
     {
-      icon: <EditOutlined />,
-      label: "التاريخ:",
-      result: values?.notes?.date,
+      icon: <WarningOutlined />,
+      label: "سبب الرفض:",
+      result: values?.reason?.content,
     },
   ];
   console.log("🚀 ~ items2:", items);
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
-    ["admin", ["/reports/initial-study"], id],
+    ["admin", ["/reports/initial-study"], _id],
     getData
   );
   console.log("🚀 ~ data:", data);
@@ -173,7 +207,7 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
-          {values?.notes &&
+          {values?.notes?.length &&
             values?.status !== "rejected" &&
             values?.status !== "under_process" &&
             values?.status !== "under_confirm" &&
@@ -193,7 +227,39 @@ const DispalyData = ({
                 </CardWrapper>
               </div>
             )}
-          {values.notes && values?.status === "under_process" && (
+          {values?.reason && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper icon={<img src={prev5} />} title="اسباب الرفض">
+                {reason.map((item, index) => (
+                  <div key={index} className="flex items-center p-2 gap-2">
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <span>{item?.result}</span>
+                  </div>
+                ))}
+              </CardWrapper>
+            </div>
+          )}
+          {values?.restudyNotes && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper
+                icon={<img src={prev5} />}
+                title="سبب اعادة البلاغ للدراسة"
+              >
+                {restudyNotes.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center p-2 gap-2 flex-wrap"
+                  >
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <div>{item?.result}</div>
+                  </div>
+                ))}
+              </CardWrapper>
+            </div>
+          )}
+          {/* {values.notes && values?.status === "under_process" && (
             <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
               {values?.notes?.notes?.map((notes, i) => (
                 <AccreditorCard
@@ -208,7 +274,19 @@ const DispalyData = ({
                 />
               ))}
             </CardWrapper>
-          )}
+          )} */}
+          {values?.notes && values?.status === "under_process" ? (
+            Array.isArray(values?.notes?.notes) &&
+            values?.notes?.notes?.length > 0 ? (
+              <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
+                {values.notes.notes.map((notes, i) => (
+                  <AccreditorCard key={i} notes={notes} />
+                ))}
+              </CardWrapper>
+            ) : (
+              ""
+            )
+          ) : null}
         </div>
       </div>
     </>

@@ -16,7 +16,9 @@ export const InputText = ({
   icon,
   validate,
   readOnly,
+  required,
 }) => {
+  console.log("🚀 ~ errors:", errors);
   return (
     <div className="flex w-full md:w-auto flex-col self-start gap-4 ">
       <div className="flex gap-2">
@@ -29,7 +31,10 @@ export const InputText = ({
           name={name}
           rules={{
             required:
-              (name === "user_email" || name === "result") && "هذا الحقل مطلوب",
+              (name === "user_email" ||
+                name === "result" ||
+                name == "risk_assessment") &&
+              "هذا الحقل مطلوب",
             pattern: pattern,
             validate: validate,
           }}

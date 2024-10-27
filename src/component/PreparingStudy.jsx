@@ -89,11 +89,16 @@ const PreparingStudy = ({ change }) => {
           console.log(dayjs(res?.data?.report?.date));
           reset({
             description: res?.data?.report?.description,
-            address: res?.data?.report?.address,
+            address:
+              res?.data?.report?.address === "غير موجود"
+                ? ""
+                : res?.data?.report?.address,
             suspects: res?.data?.report?.suspects || [],
             report_classification:
               res?.data?.report?.report_classification?.name,
-            date: res?.data?.report?.date,
+            date: isNaN(new Date(res?.data?.report?.date))
+              ? ""
+              : res?.data?.report?.date,
             processing_time: "",
             files: "",
             risk_type: "",
@@ -101,6 +106,8 @@ const PreparingStudy = ({ change }) => {
             result: "",
             _method: "PUT",
             action: "prepare_initial_study",
+            delete_file_paths: [],
+            delete_suspects: [],
           });
           setVideos(res?.data?.report?.media?.videos);
           setImgs(res?.data?.report?.media?.images);
@@ -283,18 +290,20 @@ const PreparingStudy = ({ change }) => {
             />
           </div>
           <div className="self-center flex flex-wrap gap-6 my-8">
-            <div
-              onClick={() => {
-                setShowSvg(true);
-              }}
-              className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[40px]"
-            >
-              <span>اداة تقييم المخاطر</span>
-              <EllipsisOutlined />
+            <div>
+              <div
+                onClick={() => {
+                  setShowSvg(true);
+                }}
+                className="flex px-8 py-2 mt-10 gap-4  text-white rounded-md cursor-pointer items-center bg-[#33835C] h-[40px]"
+              >
+                <span>اداة تقييم المخاطر</span>
+                <EllipsisOutlined />
+              </div>
+              {errors.risk_assessment && (
+                <p className="text-red-500">{errors.risk_assessment.message}</p>
+              )}
             </div>
-            {errors.risk_assessment && (
-              <p className="text-red-500">{errors.risk_assessment.message}</p>
-            )}
 
             <InputText
               errors={errors}
@@ -303,6 +312,7 @@ const PreparingStudy = ({ change }) => {
               inputTitle="درجة المخاطر"
               inputPlaceHolder="درجة المخاطر"
               readOnly={true}
+              required={true}
               // max={50}
             />
             <InputText
@@ -413,6 +423,8 @@ const PreparingStudy = ({ change }) => {
                   register={register}
                   errors={errors}
                   control={control}
+                  watch={watch}
+                  setValue={setValue}
                 />
               </div>
             </div>

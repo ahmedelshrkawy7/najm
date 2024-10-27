@@ -13,7 +13,7 @@ const Datepicker = ({
   datePickerTitle,
   // prevData,
 }) => {
-  const date = new Date();
+  // const date = new Date();
   // const onChange = (date, dateString) => {
   //   if (date) {
   //     console.log("Valid date selected:", dateString);
