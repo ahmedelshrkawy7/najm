@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import icon from "../assets/icons/success.png";
 
 const Success = ({ report }) => {
+  console.log("🚀 ~ Success ~ report:", report)
   const date = new Date(report?.date).getFullYear();
   const dateX = report?.date ? "-" + String(date).substring(2, 4) : "";
   return !report?.id ? (
@@ -22,7 +23,8 @@ const Success = ({ report }) => {
         title={
           <h1 className="font-bold">
             {report?.id &&
-              ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.id}${dateX}-WB`}
+              // ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.id}${dateX}-WB`}
+            ` شكرًا لتعاونكم تم تأكيد البلاغ رقم ${report?.number}`}
           </h1>
         }
         subTitle={
