@@ -68,6 +68,7 @@ const ReportInfo = ({ values }) => {
           values?.status !== "rejected" &&
           values?.status !== "accepted" &&
           values?.status !== "rejected_from_responsible" &&
+          values?.status !== "resubmit_study_from_accreditor" &&
           values.adminData.map((val, i) => (
             <ReportsTextIcon
               subTitle={!isNaN(val.res) ? val.res + " يوم عمل " : val.res}
