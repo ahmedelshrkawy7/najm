@@ -101,7 +101,6 @@ const Accreditor = () => {
   }
 
   const onSubmit = (val) => {
-    console.log(val, "dddddddd");
     Post.mutate([`/reports/${id}`, val]);
   };
 

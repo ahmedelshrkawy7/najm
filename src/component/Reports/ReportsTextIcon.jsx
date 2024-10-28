@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 /* eslint-disable no-unused-vars */
 const ReportsTextIcon = ({
   icon,
@@ -16,9 +17,11 @@ const ReportsTextIcon = ({
     >
       <div className="flex items-center gap-2">
         {!description && (
-          <div className="w-12 rounded-full  !min-w-[50px] h-12 bg-[#33835C1A] flex items-center justify-center">
-            <img src={icon} />
-          </div>
+          <>
+            <div className="w-12 rounded-full  !min-w-[50px] h-12 bg-[#33835C1A] flex items-center justify-center">
+              <img src={icon} />
+            </div>
+          </>
         )}
         <span className="font-medium ">{title}</span>
       </div>

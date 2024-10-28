@@ -16,6 +16,7 @@ import ReportModel from "../../models/ReportModel";
 import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
 import ResubmitModal from "../../models/ResubmitModal";
+import { EditOutlined } from "@ant-design/icons";
 
 const Study = ({ children, title, role, name }) => {
   let [reSubmit, setReSubmit] = useState(false);
@@ -41,9 +42,10 @@ const Study = ({ children, title, role, name }) => {
   });
 
   const { data: { data: { report } = {} } = {}, refetch } = useQuery(
-    ["users", ["/reports"], id],
+    ["admin", ["/reports"], id],
     getData
   );
+
   console.log("🚀 ~ Study ~ report:", report);
 
   let ref = useRef();
@@ -111,20 +113,44 @@ const Study = ({ children, title, role, name }) => {
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
         {role === "responsible" && name !== "prepare" ? (
-          <button
-            onClick={() => ref.current.open()}
-            className={
-              " bg-[#33835C] font-semibold border  w-fit text-white rounded-md  p-2 mb-4  block mr-auto"
-            }
-          >
-            توجيه الدراسة الاولية
-          </button>
+          <div className="flex justify-between items-center mb-4 gap-4">
+            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+              <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                رقم البلاغ:{" "}
+                <span className="text-black/65 text-xl ms-2">
+                  {report?.number}
+                </span>
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                className={
+                  " bg-[#33835C] font-semibold border  w-fit text-white rounded-md  p-2   "
+                }
+                onClick={() => navigate(`/dash/${id}/editStudy`)}
+              >
+                تعديل
+                <EditOutlined className=" text-white mr-3 text-xl cursor-pointer" />{" "}
+              </button>
+              <button
+                onClick={() => ref.current.open()}
+                className={
+                  " bg-[#33835C] font-semibold border  w-fit text-white rounded-md  p-2   "
+                }
+              >
+                توجيه الدراسة الاولية
+              </button>
+            </div>
+          </div>
         ) : (
           name === "accreditor" && (
             <div className="flex justify-between items-center flex-wrap">
               <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-                <p className="font-semibold text-sm text-[#33835c]">
-                  رقم البلاغ: <span className="text-black/65">{id}</span>
+                <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                  رقم البلاغ:{" "}
+                  <span className="text-black/65 text-xl ms-2">
+                    {report?.number}
+                  </span>
                 </p>
               </div>
               {report?.status !== "rejected" &&

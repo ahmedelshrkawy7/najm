@@ -110,33 +110,30 @@ const EditStudy = ({ change }) => {
     isLoading: _loading,
   } = useQuery(["admin", ["/reports/initial-study"], `${id}`], getData);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    if (res) {
-      console.log("🚀 ~ useEffect ~ res:", res);
-      reset({
-        description: res?.data?.description,
-        address: res?.data?.address,
-        suspects: res?.data?.suspects || [],
-        report_classification_id: res?.data?.report_classification?.id,
-        date: res?.data?.date,
-        processing_time: res?.data?.processing_time,
-        files: "",
-        report_type_id: res?.data?.report_type.id,
-        risk_assessment: res?.data?.risk_assessment,
-        department_id: res?.data?.department?.id,
-        result: res?.data?.result,
-        _method: "PUT",
-        action: "amend_initial_study",
-        delete_file_paths: [],
-        delete_suspects: [],
-      });
-      setVideos(res?.data?.media?.videos?.paths);
-      setImgs(res?.data?.media?.images?.paths);
-      setFils(res?.data?.media?.files?.paths);
-    }
-  }, [res, reset]);
+    reset({
+      description: res?.data?.description,
+      address: res?.data?.address,
+      suspects: res?.data?.suspects || [],
+      report_classification_id: res?.data?.report_classification?.id,
+      date: res?.data?.date,
+      processing_time: res?.data?.processing_time,
+      files: "",
+      report_type_id: res?.data?.report_type.id,
+      risk_assessment: res?.data?.risk_assessment,
+      department_id: res?.data?.department?.id,
+      result: res?.data?.result,
+      _method: "PUT",
+      action: "amend_initial_study",
+      delete_file_paths: [],
+      delete_suspects: [],
+    });
+    setVideos(res?.data?.media?.videos?.paths);
+    setImgs(res?.data?.media?.images?.paths);
+    setFils(res?.data?.media?.files?.paths);
+  }, [reset, res]);
+
+  const navigate = useNavigate();
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
@@ -247,6 +244,7 @@ const EditStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
+              note={res?.data?.notes?.notes[0].category_notes}
               nameType="report_classification_id"
               options={report_classification?.map((opt) => ({
                 value: opt.id,
@@ -263,6 +261,7 @@ const EditStudy = ({ change }) => {
               placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
               nameType="report_type_id"
+              note={res?.data?.notes?.notes[0].department_note}
               options={reportType?.map((opt) => ({
                 value: opt.id,
                 label: (

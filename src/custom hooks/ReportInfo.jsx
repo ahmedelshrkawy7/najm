@@ -20,8 +20,11 @@ import prev5 from "../assets/icons/prev5.svg";
 import prev6 from "../assets/icons/prev6.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import ReportsTextIcon from "../component/Reports/ReportsTextIcon";
+import { Button, Tooltip } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 const ReportInfo = ({ values }) => {
-  console.log("🚀 ~ ReportInfo ~ values:", values);
+  const note = values?.notes?.notes?.[0];
+
   const date = new Date(values?.date?.$d);
 
   const fullDate =
@@ -37,7 +40,6 @@ const ReportInfo = ({ values }) => {
     locationTitle: "مكان حدوث المخالفة",
   };
 
-  console.log(values);
   let role = JSON.parse(localStorage.getItem("token"))?.role;
   console.log("🚀 ~ ReportInfo ~ role:", role);
   return (
@@ -48,6 +50,11 @@ const ReportInfo = ({ values }) => {
             <img src="../../../src/assets/icons/export.svg" />
           </div>
           <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
+          <Tooltip title={note?.category_notes}>
+            <ExclamationCircleOutlined
+              style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+            />
+          </Tooltip>
         </div>
         <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-10 px-8 gap-0   rounded-lg text-white">
           <div className="bg-white rounded-full flex p-2 justify-center items-center w-8 h-8">
@@ -84,6 +91,11 @@ const ReportInfo = ({ values }) => {
             <ContainerOutlined className="text-[#33835C]" />
           </div>
           <h2 className="text-lg self-center  font-semibold">تفاصيل البلاغ</h2>
+          <Tooltip title={note?.risk_type_note}>
+            <ExclamationCircleOutlined
+              style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+            />
+          </Tooltip>
         </div>
         <pre>
           <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px] mr-9 ">
