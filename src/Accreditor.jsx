@@ -22,6 +22,7 @@ import { Controller, useForm } from "react-hook-form";
 import useApi from "./utils/useApi";
 import { QueryClient, useMutation, useQuery } from "react-query";
 import { errorNotf, successNotf } from "./utils/notifications/Toast";
+import { useEffect } from "react";
 
 const { Panel } = Collapse;
 
@@ -38,10 +39,7 @@ const Accreditor = () => {
     ["admin", ["/reports/initial-study"], id],
     getData
   );
-  console.log(
-    "🚀 ~ Accreditor ~ dattttttttttttttttttttttttttttttttttttttttttttta:",
-    data
-  );
+
   const Post = useMutation(postData, {
     onSuccess: ({ data }) => {
       // queryClient.invalidateQueries(["admin", ["/reports/initial-study"], id]);
@@ -55,22 +53,35 @@ const Accreditor = () => {
       errorNotf(message);
     },
   });
-
-  console.log("🚀 ~ Accreditor ~ data:", data);
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       action: "add_notes_to_the_preliminary_study",
       _method: "PUT",
-      primary_study_note: "",
-      risk_assessment_note: "",
-      risk_type_note: "",
-      category_notes: "",
+      primary_study_note: data?.notes?.notes?.primary_study_note,
+      risk_assessment_note: data?.notes?.notes?.risk_assessment_note,
+      risk_type_note: data?.notes?.notes?.risk_type_note,
+      category_notes: data?.notes?.notes?.category_notes,
+      department_note: data?.notes?.notes?.department_note,
     },
   });
+  useEffect(() => {
+    reset({
+      primary_study_note: data?.notes?.notes?.primary_study_note,
+      risk_assessment_note: data?.notes?.notes?.risk_assessment_note,
+      risk_type_note: data?.notes?.notes?.risk_type_note,
+      category_notes: data?.notes?.notes?.category_notes,
+      department_note: data?.notes?.notes?.department_note,
+      action: "add_notes_to_the_preliminary_study",
+      _method: "PUT",
+    });
+  }, [reset, data]);
+
+  console.log("🚀 ~ Accredinnnnnnnnnnnnnnnnntor ~ data:", data);
 
   if (!id) {
     return <Navigate to={"/dash"} replace />;

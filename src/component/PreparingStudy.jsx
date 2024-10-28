@@ -51,6 +51,7 @@ const PreparingStudy = ({ change }) => {
   console.log("🚀 ~ PreparingStudy ~ prevData:", prevData);
 
   const [videos, setVideos] = useState([]);
+  const [media, setMedia] = useState([]);
   const date = new Date();
   const { id } = useParams();
 
@@ -128,6 +129,7 @@ const PreparingStudy = ({ change }) => {
       delete_file_paths: [],
       delete_suspects: [],
     });
+
     setVideos(res?.data?.report?.media?.videos);
     setImgs(res?.data?.report?.media?.images);
     setFils(res?.data?.report?.media?.files);

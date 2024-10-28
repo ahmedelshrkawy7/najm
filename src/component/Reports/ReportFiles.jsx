@@ -110,7 +110,7 @@ const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
               style={{ backgroundColor: getBackgroundColor(file) }}
               onClick={() => {
                 window.open(
-                  file?.file_url || URL?.createObjectURL(file),
+                  file?.file_path || URL?.createObjectURL(file),
                   "_blank"
                 );
               }}
