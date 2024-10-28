@@ -10,6 +10,9 @@ import {
   CloseOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
+import { useMutation, useQuery } from "react-query";
+import useApi from "../../utils/useApi";
+import { useForm } from "react-hook-form";
 const ReportImages = ({
   imgs,
   setImgs,
@@ -29,10 +32,10 @@ const ReportImages = ({
   console.log(videos);
   const handleDeleteImages = (id, path) => {
     const images = [...imgs];
-    console.log("🚀 ~ handleDeleteImages ~ images:", images);
     images.splice(id, 1);
     setImgs(images);
     setValue("delete_file_paths", [...watch("delete_file_paths"), path]);
+    // setValue("files", [...images, ...videos]);
   };
   const handleDeleteVideos = (id, path) => {
     const images = [...videos];
@@ -58,6 +61,30 @@ const ReportImages = ({
   }
 
   console.log(imgs, "ffffffffffffffffffffffffffffffffffffffffffdddd");
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onSubmit",
+    defaultValues: {
+      path: "",
+    },
+  });
+  const { postData } = useApi();
+
+  const mutation = useMutation(postData, {
+    onSuccess: ({ data }) => {},
+    onError: (err) => {},
+  });
+
+  const onSubmit = (data) => {
+    console.log("Form Submitted:", data);
+    mutation.mutate([`/download-files`, []]);
+  };
+
   return (
     <>
       {!!imgs?.length > 0 && (
@@ -84,7 +111,7 @@ const ReportImages = ({
                 <div className=" relative h-full w-[220px]  ">
                   {preview && (
                     <div
-                      onClick={() => handleDeleteImages(index, img.file_path)}
+                      onClick={() => handleDeleteImages(index, img.id)}
                       className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                     >
                       <span className=" font-bold  -mt-[3px] text-[20px] ">
@@ -189,9 +216,7 @@ const ReportImages = ({
                     <>
                       {preview && (
                         <div
-                          onClick={() =>
-                            handleDeleteVideos(index, img.file_path)
-                          }
+                          onClick={() => handleDeleteVideos(index, img.id)}
                           className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700 "
                         >
                           <span className=" font-bold  -mt-[3px] text-[20px] ">

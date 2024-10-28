@@ -59,6 +59,7 @@ const ReportMenu = ({
         status === "new" ||
         status === "under_confirm" ||
         status === "under_process" ||
+        status === "accepted" ||
         status === "confirmed",
     },
     {
@@ -68,12 +69,13 @@ const ReportMenu = ({
       disabled:
         status === "new" ||
         status === "under_confirm" ||
+        status === "accepted" ||
         status === "confirmed",
     },
     {
       id: 5,
       title: "اسناد البلاغ",
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 6,
@@ -83,7 +85,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 7,
@@ -93,12 +95,12 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 8,
       title: "استلام البلاغ",
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 9,
@@ -108,7 +110,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 10,
@@ -118,7 +120,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 11,
@@ -128,7 +130,7 @@ const ReportMenu = ({
           <ReportInfo />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 12,
@@ -138,7 +140,7 @@ const ReportMenu = ({
           <ReportLock />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
     {
       id: 13,
@@ -148,7 +150,7 @@ const ReportMenu = ({
           <ReportEscalation />
         </ReportModal>
       ),
-      disabled: status === "new",
+      disabled: status === "accepted" || status === "new",
     },
   ];
 
@@ -194,11 +196,12 @@ const ReportMenu = ({
             status === "rejected" ||
             status === "rejected_from_responsible" ||
             (status === "new" && opt.id !== 1) ||
-            (status === "accepted" && opt.id === 1) ||
+            (status === "accepted" && opt.id !== 2) ||
             (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
-            ((status === "prepare_initial_study" ||
-              status === "under_process") &&
+            (status === "under_process" &&
               (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
+            (status === "prepare_initial_study" &&
+              (opt.id === 1 || opt.id === 2)) ||
             ((status === "under_confirm" || status === "confirmed") &&
               (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4))
               ? "text-gray-400 cursor-not-allowed"

@@ -10,6 +10,7 @@ import prev5 from "../assets/icons/prev7.svg";
 import {
   EditOutlined,
   FileTextOutlined,
+  HistoryOutlined,
   NumberOutlined,
   PhoneOutlined,
   TeamOutlined,
@@ -50,9 +51,14 @@ const DispalyData = ({
   console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
   const restudyNotes = [
     {
-      icon: <FileTextOutlined />,
-      label: "الملاحظات:",
-      result: values?.restudyNotes?.notes,
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.restudyNotes?.creator,
+    },
+    {
+      icon: <HistoryOutlined />,
+      label: "التاريخ:",
+      result: values?.restudyNotes?.date,
     },
     {
       icon: <WarningOutlined />,
@@ -60,17 +66,22 @@ const DispalyData = ({
       result: values?.restudyNotes?.reason,
     },
     {
-      icon: <TeamOutlined />,
-      label: "المنشئ:",
-      result: values?.restudyNotes?.creator,
-    },
-    {
-      icon: <EditOutlined />,
-      label: "التاريخ:",
-      result: values?.restudyNotes?.date,
+      icon: <FileTextOutlined />,
+      label: "الملاحظات:",
+      result: values?.restudyNotes?.notes,
     },
   ];
   const items = [
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.notes?.creator,
+    },
+    {
+      icon: <HistoryOutlined />,
+      label: "التاريخ:",
+      result: values?.notes?.date,
+    },
     {
       icon: <FileTextOutlined />,
       label: "الملاحظات:",
@@ -80,16 +91,6 @@ const DispalyData = ({
       icon: <WarningOutlined />,
       label: "السبب:",
       result: values?.notes?.reason,
-    },
-    {
-      icon: <TeamOutlined />,
-      label: "المنشئ:",
-      result: values?.notes?.creator,
-    },
-    {
-      icon: <EditOutlined />,
-      label: "التاريخ:",
-      result: values?.notes?.date,
     },
   ];
   const reason = [
@@ -247,25 +248,25 @@ const DispalyData = ({
             <div className="my-4 py-1 rounded-md">
               <CardWrapper
                 icon={<img src={prev5} />}
-                title="سبب اعاده البلاغ للدراسه"
+                title="سبب اعادة البلاغ للدراسة"
               >
                 {restudyNotes.map((item, index) => (
-                  <div key={index} className="flex items-center p-2 gap-2">
+                  <div
+                    key={index}
+                    className="flex items-center p-2 gap-2 flex-wrap"
+                  >
                     <div className="text-[#33835c]">{item.icon}</div>
                     <span className="font-semibold">{item.label}</span>
-                    <span>{item?.result}</span>
+                    <div>{item?.result}</div>
                   </div>
                 ))}
               </CardWrapper>
             </div>
           )} */}
           {values?.notes && values?.status === "under_process" ? (
-            Array.isArray(values?.notes?.notes) &&
-            values?.notes?.notes?.length > 0 ? (
+            values?.notes?.notes ? (
               <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
-                {values.notes.notes.map((notes, i) => (
-                  <AccreditorCard key={i} notes={notes} />
-                ))}
+                <AccreditorCard notes={values?.notes?.notes} />
               </CardWrapper>
             ) : (
               ""

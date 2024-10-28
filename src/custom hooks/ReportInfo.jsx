@@ -50,11 +50,11 @@ const ReportInfo = ({ values }) => {
             <img src="../../../src/assets/icons/export.svg" />
           </div>
           <h2 className="text-lg self-center  font-semibold">تصنيف البلاغ</h2>
-          <Tooltip title={note?.category_notes}>
+          {/* <Tooltip title={note?.category_notes}>
             <ExclamationCircleOutlined
               style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
             />
-          </Tooltip>
+          </Tooltip> */}
         </div>
         <div className="self-start  -ml-1 mr-14 flex items-center bg-[#33835C] p-10 px-8 gap-0   rounded-lg text-white">
           <div className="bg-white rounded-full flex p-2 justify-center items-center w-8 h-8">
@@ -76,6 +76,7 @@ const ReportInfo = ({ values }) => {
           values?.status !== "accepted" &&
           values?.status !== "resubmit_study_from_accreditor" &&
           values?.status !== "rejected_from_responsible" &&
+          values?.status !== "resubmit_study_from_accreditor" &&
           values.adminData.map((val, i) => (
             <ReportsTextIcon
               subTitle={!isNaN(val.res) ? val.res + " يوم عمل " : val.res}
@@ -91,11 +92,11 @@ const ReportInfo = ({ values }) => {
             <ContainerOutlined className="text-[#33835C]" />
           </div>
           <h2 className="text-lg self-center  font-semibold">تفاصيل البلاغ</h2>
-          <Tooltip title={note?.risk_type_note}>
+          {/* <Tooltip title={note?.risk_type_note}>
             <ExclamationCircleOutlined
               style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
             />
-          </Tooltip>
+          </Tooltip> */}
         </div>
         <pre>
           <div className="border border-gray-200 text-wrap rounded-xl pb-3 mt-4 pl-[42px] mr-9 ">

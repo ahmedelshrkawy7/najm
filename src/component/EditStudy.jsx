@@ -28,6 +28,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { errorNotf } from "../utils/notifications/Toast";
 import dayjs from "dayjs";
+import { Tooltip } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 //   risk_assessment
 // report_type
@@ -118,7 +120,7 @@ const EditStudy = ({ change }) => {
       report_classification_id: res?.data?.report_classification?.id,
       date: res?.data?.date,
       processing_time: res?.data?.processing_time,
-      files: "",
+      files: [],
       report_type_id: res?.data?.report_type.id,
       risk_assessment: res?.data?.risk_assessment,
       department_id: res?.data?.department?.id,
@@ -244,7 +246,7 @@ const EditStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
-              note={res?.data?.notes?.notes[0].category_notes}
+              note={res?.data?.notes?.notes?.category_notes}
               nameType="report_classification_id"
               options={report_classification?.map((opt) => ({
                 value: opt.id,
@@ -261,7 +263,7 @@ const EditStudy = ({ change }) => {
               placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
               nameType="report_type_id"
-              note={res?.data?.notes?.notes[0].department_note}
+              note={res?.data?.notes?.notes?.risk_type_note}
               options={reportType?.map((opt) => ({
                 value: opt.id,
                 label: (
@@ -273,6 +275,16 @@ const EditStudy = ({ change }) => {
             />
           </div>
           <div className="self-center flex flex-wrap gap-6 my-8">
+            {res?.data?.notes?.notes?.risk_assessment_note && (
+              <Tooltip
+                title={res?.data?.notes?.notes?.risk_assessment_note}
+                className="absolute"
+              >
+                <ExclamationCircleOutlined
+                  style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+                />
+              </Tooltip>
+            )}
             <div
               onClick={() => {
                 setShowSvg(true);
@@ -311,6 +323,7 @@ const EditStudy = ({ change }) => {
               placeholder="إختر الإداره المعنية"
               inpTitle="الادارة المعنية بدراسة اليلاغ"
               nameType="department_id"
+              note={res?.data?.notes?.notes?.department_note}
               options={data.map((opt) => ({
                 value: opt.id,
                 label: (
@@ -426,6 +439,7 @@ const EditStudy = ({ change }) => {
             errors={errors}
             control={control}
             watch={watch}
+            note={res?.data?.notes?.notes?.primary_study_note}
             prevData={prevData?.description}
           />
         </div>

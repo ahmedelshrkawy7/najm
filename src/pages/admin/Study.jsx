@@ -112,16 +112,16 @@ const Study = ({ children, title, role, name }) => {
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
-        {role === "responsible" && name !== "prepare" ? (
-          <div className="flex justify-between items-center mb-4 gap-4">
-            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-              <p className="font-semibold text-sm text-[#33835c] flex items-center">
-                رقم البلاغ:{" "}
-                <span className="text-black/65 text-xl ms-2">
-                  {report?.number}
-                </span>
-              </p>
-            </div>
+        <div className="flex justify-between items-center mb-4 gap-4">
+          <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+            <p className="font-semibold text-sm text-[#33835c] flex items-center">
+              رقم البلاغ:{" "}
+              <span className="text-black/65 text-xl ms-2">
+                {report?.number}
+              </span>
+            </p>
+          </div>
+          {role === "responsible" && name !== "prepare" ? (
             <div className="flex gap-3">
               <button
                 className={
@@ -141,68 +141,68 @@ const Study = ({ children, title, role, name }) => {
                 توجيه الدراسة الاولية
               </button>
             </div>
-          </div>
-        ) : (
-          name === "accreditor" && (
-            <div className="flex justify-between items-center flex-wrap">
-              <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-                <p className="font-semibold text-sm text-[#33835c] flex items-center">
-                  رقم البلاغ:{" "}
-                  <span className="text-black/65 text-xl ms-2">
-                    {report?.number}
-                  </span>
-                </p>
-              </div>
-              {report?.status !== "rejected" &&
-                report?.status !== "resubmit_study_from_accreditor" && (
-                  // report?.status !== "under_process" &&
-                  <div className="flex gap-3 flex-wrap">
-                    <button
-                      onClick={() => {
-                        if (
+          ) : (
+            name === "accreditor" && (
+              <div className="flex justify-between items-center flex-wrap">
+                {/* <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+                  <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                    رقم البلاغ:{" "}
+                    <span className="text-black/65 text-xl ms-2">
+                      {report?.number}
+                    </span>
+                  </p>
+                </div> */}
+                {report?.status !== "rejected" &&
+                  report?.status !== "resubmit_study_from_accreditor" && (
+                    // report?.status !== "under_process" &&
+                    <div className="flex gap-3 flex-wrap">
+                      <button
+                        onClick={() => {
+                          if (
+                            report?.status === "rejected" ||
+                            report?.status === "rejected_from_responsible"
+                          ) {
+                            // ref.current?.open();
+                            openModal("resubmit");
+                          } else {
+                            navigate(`/acc?id=${id}`, { state: report.number });
+                          }
+                        }}
+                        className={`${
                           report?.status === "rejected" ||
                           report?.status === "rejected_from_responsible"
-                        ) {
-                          // ref.current?.open();
-                          openModal("resubmit");
-                        } else {
-                          navigate(`/acc?id=${id}`);
-                        }
-                      }}
-                      className={`${
-                        report?.status === "rejected" ||
+                            ? "bg-[#33835c]"
+                            : "bg-black/65"
+                        } !text-white text-sm font-bold p-2 rounded-md `}
+                      >
+                        {report?.status === "rejected" ||
                         report?.status === "rejected_from_responsible"
-                          ? "bg-[#33835c]"
-                          : "bg-black/65"
-                      } !text-white text-sm font-bold p-2 rounded-md `}
-                    >
-                      {report?.status === "rejected" ||
-                      report?.status === "rejected_from_responsible"
-                        ? "اعادة البلاغ للدراسة"
-                        : "اضافة ملاحظات"}
-                    </button>
-                    <button
-                      onClick={() => {
-                        //   ref.current?.open();
-                        openModal("approve");
-                      }}
-                      className={`${
-                        report?.status === "rejected" ||
+                          ? "اعادة البلاغ للدراسة"
+                          : "اضافة ملاحظات"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          //   ref.current?.open();
+                          openModal("approve");
+                        }}
+                        className={`${
+                          report?.status === "rejected" ||
+                          report?.status === "rejected_from_responsible"
+                            ? "bg-red-500"
+                            : "bg-[#33835C]"
+                        } !text-white text-sm font-bold p-2 rounded-md `}
+                      >
+                        {report?.status === "rejected" ||
                         report?.status === "rejected_from_responsible"
-                          ? "bg-red-500"
-                          : "bg-[#33835C]"
-                      } !text-white text-sm font-bold p-2 rounded-md `}
-                    >
-                      {report?.status === "rejected" ||
-                      report?.status === "rejected_from_responsible"
-                        ? "تاكيد رفض البلاغ"
-                        : "اعتماد الدراسة الاولية"}
-                    </button>
-                  </div>
-                )}
-            </div>
-          )
-        )}
+                          ? "تاكيد رفض البلاغ"
+                          : "اعتماد الدراسة الاولية"}
+                      </button>
+                    </div>
+                  )}
+              </div>
+            )
+          )}
+        </div>
         <div className="bg-white rounded-md mt-4">
           <div className="rounded-t-md overflow-hidden">
             <ReportsHeader
@@ -281,7 +281,7 @@ const Study = ({ children, title, role, name }) => {
                     `/reports/${id}`,
                     {
                       action: "approve_the_preliminary_study",
-                      status: "accepted",
+                      // status: "accepted",
                       _method: "PUT",
                     },
                   ]);

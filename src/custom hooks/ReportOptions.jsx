@@ -37,7 +37,7 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
       <div className="p-5 ">
         {" "}
         <div className="flex gap-4 flex-col ">
-          {data?.map((el, index) => {
+          {data?.[0]?.map((el, index) => {
             console.log(el);
 
             return (

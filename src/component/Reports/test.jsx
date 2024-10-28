@@ -119,7 +119,14 @@ const Test = () => {
           <div className="border overflow-hidden mt-4  pb-0 rounded-md border-gray-300">
             <ReportsHeader title="بيانات البلاغ" />
             <div className="p-1 sm:p-6">
-              <DispalyData title="بيانات البلاغ" values={report} />
+              <DispalyData
+                title="بيانات البلاغ"
+                values={{
+                  ...report,
+                  reason: report?.reason,
+                  restudyNotes: report?.notes,
+                }}
+              />
             </div>
           </div>
         </div>

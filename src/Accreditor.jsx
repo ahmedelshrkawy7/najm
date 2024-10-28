@@ -29,6 +29,7 @@ const Accreditor = () => {
   const matches = useMatches();
   let navigate = useNavigate();
   let location = useLocation();
+  console.log("🚀 ~ Accreditor ~ locavvvvvvvvvvvvvvvvvvvvtion:", location);
   let id = location.search.split("=")[1];
 
   let queryClient = new QueryClient();
@@ -36,6 +37,10 @@ const Accreditor = () => {
   const { data: { data = {} } = {}, refetch } = useQuery(
     ["admin", ["/reports/initial-study"], id],
     getData
+  );
+  console.log(
+    "🚀 ~ Accreditor ~ dattttttttttttttttttttttttttttttttttttttttttttta:",
+    data
   );
   const Post = useMutation(postData, {
     onSuccess: ({ data }) => {
@@ -116,7 +121,8 @@ const Accreditor = () => {
           <div className="flex items-center">
             <div className="border border-light rounded-lg shadow-sm p-2">
               <label className="font-semibold text-sm text-[#33835c]">
-                رقم البلاغ: <span className="text-black">{id}</span>
+                رقم البلاغ:{" "}
+                <span className="text-black">{location?.state || id}</span>
               </label>
             </div>
           </div>

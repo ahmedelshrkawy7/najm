@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
 import ReportsTextIcon from "../../Reports/ReportsTextIcon";
@@ -21,6 +21,10 @@ const FileInput = ({
   setValue,
   watch,
 }) => {
+  console.log(
+    "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
+    videos
+  );
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
@@ -55,6 +59,8 @@ const FileInput = ({
   };
 
   console.log(imgs, videos);
+  console.log(watch("files"));
+  // useEffect(() => {}, [watch("files")]);
 
   return (
     <>
@@ -75,7 +81,11 @@ const FileInput = ({
         control={control}
         render={({ field: { onChange, value } }) => {
           const handleChange = (e) => {
-            onChange([...value, ...e.target.files]);
+            const newFiles = Array.from(e.target.files).map((file) => ({
+              file, // Store the original file object
+              id: Math.random().toString(36).substr(2, 9), // Generate a unique ID
+            }));
+            onChange([...value, ...newFiles]); // Add new files to existing value array
             handleChangeFile(e);
           };
 
