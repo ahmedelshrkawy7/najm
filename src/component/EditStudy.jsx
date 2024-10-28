@@ -214,7 +214,6 @@ const EditStudy = ({ change }) => {
 
   //   fetchData();
   // }, [id, queryClient]);
-
   const getDanger = (percent) => {
     console.log("🚀 ~ getDanger ~ percent:", percent);
     if (percent <= 0.3) {
@@ -236,6 +235,8 @@ const EditStudy = ({ change }) => {
 
     // setLoc(3);
   };
+
+  console.log(getValues('suspects'), "ooooooooooooooooooooooo");
 
   return (
     <>
