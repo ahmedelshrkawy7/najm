@@ -4,6 +4,8 @@ import { Select } from "antd";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { DownOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 const SelectInput = ({
   inpTitle,
   errors,
@@ -13,12 +15,20 @@ const SelectInput = ({
   options,
   placeholder,
   disapled,
+  note,
 }) => {
   return (
     <div className="flex flex-col self-start gap-4">
       <div className="flex gap-2">
         <h2>{inpTitle}</h2>
         <span className="text-red-500">{iconLabel}</span>
+        {note && (
+          <Tooltip title={note}>
+            <ExclamationCircleOutlined
+              style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+            />
+          </Tooltip>
+        )}
       </div>
 
       <Controller

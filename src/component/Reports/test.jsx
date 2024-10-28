@@ -37,7 +37,6 @@ const Test = () => {
     refetch,
     data: { data: { report } = {} } = {},
   } = useQuery(["users", ["/reports"], id], getData);
-  console.log("🚀 ~ Test ~ report:", report);
 
   useEffect(() => {
     handleHideMenu();
@@ -80,9 +79,17 @@ const Test = () => {
     <>
       <div className="mt-20 pr-4">
         <div className="w-[95%] rounded-md mx-auto">
-          <h2 className="text-[24px]">مسؤول البلاغات</h2>
-          <div className="flex gap-4 items-center justify-end w-full  text-left ">
-            <div className="relative">
+          <h2 className="text-[24px] mb-4">مسؤول البلاغات</h2>
+          <div className="flex gap-4 items-center justify-between w-full  text-left ">
+            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+              <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                رقم البلاغ:{" "}
+                <span className="text-black/65 text-xl ms-2">
+                  {report?.number}
+                </span>
+              </p>
+            </div>
+            <div className="relative flex gap-3">
               <button
                 onClick={handleShowMenu}
                 className="bg-[#33835C]   p-4 py-2 rounded-md text-white"
@@ -101,13 +108,13 @@ const Test = () => {
                   />
                 </div>
               )}
+              <button
+                onClick={() => navigate("reportsDate")}
+                className="bg-[#000000CC] p-[10px] rounded-md text-white"
+              >
+                تاريخ سير البلاغ
+              </button>
             </div>
-            <button
-              onClick={() => navigate("reportsDate")}
-              className="bg-[#000000CC] p-[10px] rounded-md text-white"
-            >
-              تاريخ سير البلاغ
-            </button>
           </div>
           <div className="border overflow-hidden mt-4  pb-0 rounded-md border-gray-300">
             <ReportsHeader title="بيانات البلاغ" />

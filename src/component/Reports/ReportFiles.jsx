@@ -4,11 +4,12 @@ import React from "react";
 import ReportsTextIcon from "./ReportsTextIcon";
 import prev7 from "../../assets/icons/prev7.svg";
 
-const ReportFiles = ({ fils, setFils, preview }) => {
-  const handleDeleteFiles = (id) => {
+const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
+  const handleDeleteFiles = (id, path) => {
     const files = [...fils];
     files.splice(id, 1);
     setFils(files);
+    setValue("delete_file_paths", [...watch("delete_file_paths"), path]);
   };
 
   const backgroundColors = {
@@ -92,7 +93,8 @@ const ReportFiles = ({ fils, setFils, preview }) => {
           <div className="relative cursor-pointer" key={file.id}>
             {preview && (
               <span
-                onClick={() => handleDeleteFiles(index)}
+                onClick={() => handleDeleteFiles(index, file.id)}
+                // className="absolute cursor-pointer w-5 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
                 className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700"
               >
                 <span className="-mt-[3px] text-[20px] font-bold">&times;</span>

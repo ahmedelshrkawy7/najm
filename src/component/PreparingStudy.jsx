@@ -74,66 +74,64 @@ const PreparingStudy = ({ change }) => {
   );
 
   console.log("🚀 ~ PreparingStudy ~ reportType:", reportType);
+  const { data: res } = useQuery(["users", ["/reports"], id], getData, {
+    onSuccess: (res) => {},
+  });
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+    resetField,
+    getValues,
+    clearErrors,
+    reset,
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      description: "",
+      address: "",
+      date: "",
+      suspects: "" || [],
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      report_type_id: null,
+      risk_assessment: "",
+      result: "",
+      _method: "PUT",
+      action: "prepare_initial_study",
+    },
+  });
+
   useEffect(() => {
-    const getPrev = async () => {
-      const res = await queryClient.getQueryData(["users", ["/reports"], id]);
-
-      // setPrevData(res?.data?.report);
-
-      // Data is found in the cache
-
-      // Data is not found in cache, fetch it
-      queryClient
-        .fetchQuery(["users", ["/reports"], id], getData)
-        .then((res) => {
-          console.log(dayjs(res?.data?.report?.date));
-          reset({
-            description: res?.data?.report?.description,
-            address:
-              res?.data?.report?.address === "غير موجود"
-                ? ""
-                : res?.data?.report?.address,
-            suspects: res?.data?.report?.suspects || [],
-            report_classification:
-              res?.data?.report?.report_classification?.name,
-            date: isNaN(new Date(res?.data?.report?.date))
-              ? ""
-              : res?.data?.report?.date,
-            processing_time: "",
-            files: "",
-            risk_type: "",
-            risk_assessment: "",
-            result: "",
-            _method: "PUT",
-            action: "prepare_initial_study",
-            delete_file_paths: [],
-            delete_suspects: [],
-          });
-          setVideos(res?.data?.report?.media?.videos);
-          setImgs(res?.data?.report?.media?.images);
-          setFils(res?.data?.report?.media?.files);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-      // } else {
-      //   reset({
-      //     description: "mmm",
-      //     address: "fff",
-      //     date: "",
-      //     suspects: "" || [],
-
-      //     processing_time: "",
-      //     files: "",
-      //     risk_type: "",
-      //     risk_assessment: "",
-      //     result: "",
-      //     _method: "PUT",
-      //     action: "prepare_initial_study",
-      //   });
-    };
-    console.log(getPrev());
-  }, [id, queryClient]);
+    reset({
+      description: res?.data?.report?.description,
+      address:
+        res?.data?.report?.address === "غير موجود"
+          ? ""
+          : res?.data?.report?.address,
+      suspects: res?.data?.report?.suspects || [],
+      report_classification: res?.data?.report?.report_classification?.name,
+      date: isNaN(new Date(res?.data?.report?.date))
+        ? ""
+        : res?.data?.report?.date,
+      processing_time: "",
+      files: "",
+      risk_type: "",
+      risk_assessment: "",
+      result: "",
+      _method: "PUT",
+      action: "prepare_initial_study",
+      delete_file_paths: [],
+      delete_suspects: [],
+    });
+    setVideos(res?.data?.report?.media?.videos);
+    setImgs(res?.data?.report?.media?.images);
+    setFils(res?.data?.report?.media?.files);
+  }, [reset, res]);
 
   //   const fetchData = async () => {
   //     // Check for cached data
@@ -192,35 +190,6 @@ const PreparingStudy = ({ change }) => {
   //   fetchData();
   // }, [id, queryClient]);
 
-  const {
-    register,
-    watch,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    control,
-    resetField,
-    getValues,
-    clearErrors,
-    reset,
-  } = useForm({
-    mode: "onBlur",
-    defaultValues: {
-      description: "",
-      address: "",
-      date: "",
-      suspects: "" || [],
-      processing_time: "",
-      files: "",
-      risk_type: "",
-      report_type_id: null,
-      risk_assessment: "",
-      result: "",
-      _method: "PUT",
-      action: "prepare_initial_study",
-    },
-  });
-
   const getDanger = (percent) => {
     console.log("🚀 ~ getDanger ~ percent:", percent);
     if (percent <= 0.3) {
@@ -264,6 +233,7 @@ const PreparingStudy = ({ change }) => {
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
               nameType="report_classification"
+              note=""
               options={report_classification?.map((opt) => ({
                 value: opt.id,
                 label: (

@@ -23,6 +23,8 @@ const CardAdmin = () => {
     refetch,
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
     keepPreviousData: true,
+    staleTime: 0,
+    refetchInterval: 5000,
   });
   console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);
@@ -668,7 +670,7 @@ const CardAdmin = () => {
          font-semibold relative"
           >
             {el.has_notes && (
-              <span className="bg-red-700 inline-block w-2 h-2 rounded-full absolute top-2 right-2"></span>
+              <span className="bg-red-700 inline-block w-2 h-2 rounded-full absolute -top-1 -right-1"></span>
             )}
             {text}
           </button>

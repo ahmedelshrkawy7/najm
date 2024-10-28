@@ -30,6 +30,7 @@ import prev3 from "../assets/icons/prev3.svg";
 import prev4 from "../assets/icons/prev4.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import { useQuery } from "react-query";
+import { Button, Tooltip } from "antd";
 
 const DispalyData = ({
   values = [],
@@ -147,6 +148,8 @@ const DispalyData = ({
     console.log("contains vals");
   }
 
+  const note = values?.notes?.notes?.[0];
+
   return (
     <>
       {!location.pathname.includes("dash") && (
@@ -155,13 +158,13 @@ const DispalyData = ({
       <div className="p-1 sm:p-6">
         <div className=" rounded-md  flex flex-col ">
           <div className=" ">
-            {location.pathname.includes("dash") && (
+            {/* {location.pathname.includes("dash") && (
               <div className="flex gap-2  items-center   rounded-full pb-3">
                 <h2 className="text-lg self-center  font-semibold mr-auto">
-                  رقم البلاغ {values?.id}
+                  رقم البلاغ {values?.number}
                 </h2>
               </div>
-            )}
+            )} */}
             <ReportInfo values={values} />
           </div>
 
@@ -198,6 +201,7 @@ const DispalyData = ({
             <CardWrapper
               icon={<img src={prev5} />}
               title="نتائج الدراسة الاولية للبلاغ"
+              note={note?.primary_study_note}
             >
               <ReportsTextIcon
                 icon={prev9}
@@ -207,7 +211,7 @@ const DispalyData = ({
             </CardWrapper>
           )}
 
-          {values?.notes?.length &&
+          {values?.notes &&
             values?.status !== "rejected" &&
             values?.status !== "under_process" &&
             values?.status !== "under_confirm" &&
@@ -240,7 +244,7 @@ const DispalyData = ({
               </CardWrapper>
             </div>
           )}
-          {values?.restudyNotes && (
+          {/* {values?.restudyNotes && (
             <div className="my-4 py-1 rounded-md">
               <CardWrapper
                 icon={<img src={prev5} />}
@@ -258,30 +262,11 @@ const DispalyData = ({
                 ))}
               </CardWrapper>
             </div>
-          )}
-          {/* {values.notes && values?.status === "under_process" && (
-            <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
-              {values?.notes?.notes?.map((notes, i) => (
-                <AccreditorCard
-                  key={i}
-                  notes={
-                    // JSON.parse(localStorage.getItem("token"))?.role ===
-                    // "accreditor"
-                    //   ? notes
-                    //   : notes
-                    notes
-                  }
-                />
-              ))}
-            </CardWrapper>
           )} */}
           {values?.notes && values?.status === "under_process" ? (
-            Array.isArray(values?.notes?.notes) &&
-            values?.notes?.notes?.length > 0 ? (
+            values?.notes?.notes ? (
               <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
-                {values.notes.notes.map((notes, i) => (
-                  <AccreditorCard key={i} notes={notes} />
-                ))}
+                <AccreditorCard notes={values?.notes?.notes} />
               </CardWrapper>
             ) : (
               ""

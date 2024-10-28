@@ -44,6 +44,7 @@ const StudyPreview = ({ setLoc }) => {
       phone: data.user_phone,
     },
     result: data.result,
+    notes: data?.notes?.notes?.[0],
     adminData: [
       {
         title: "الادارة المعنية بدراسة البلاغ",

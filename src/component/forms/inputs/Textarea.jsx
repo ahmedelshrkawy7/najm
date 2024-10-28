@@ -4,6 +4,8 @@ import { Input } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 const { TextArea } = Input;
+import { Tooltip } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Textarea = ({
   register,
@@ -14,6 +16,7 @@ const Textarea = ({
   iconLabel,
   nameType,
   inputPlaceHolder,
+  note,
   // prevData,
 }) => {
   const refVal = useRef(null);
@@ -33,6 +36,13 @@ const Textarea = ({
       <div className="flex">
         <h2 className=" ">{textAreaTitle}</h2>
         <span className="text-red-500">{iconLabel}</span>
+        {note && (
+          <Tooltip title={note}>
+            <ExclamationCircleOutlined
+              style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+            />
+          </Tooltip>
+        )}
       </div>
       {/* <textarea
         ref={ref}

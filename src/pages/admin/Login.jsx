@@ -14,7 +14,7 @@ const Login = () => {
   const Post = useMutation(postData, {
     onSuccess: (e) => {
       if (e.status === 200) {
-        login({ token: e.data.data.token, role: e.data.data.user.name });
+        login({ token: e.data.data.token, role: e.data.data.user.role.name });
         successNotf("تم تسجيل الدخول بنجاح");
       }
     },

@@ -28,6 +28,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { errorNotf } from "../utils/notifications/Toast";
 import dayjs from "dayjs";
+import { Tooltip } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 //   risk_assessment
 // report_type
@@ -110,33 +112,30 @@ const EditStudy = ({ change }) => {
     isLoading: _loading,
   } = useQuery(["admin", ["/reports/initial-study"], `${id}`], getData);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    if (res) {
-      console.log("🚀 ~ useEffect ~ res:", res);
-      reset({
-        description: res?.data?.description,
-        address: res?.data?.address,
-        suspects: res?.data?.suspects || [],
-        report_classification_id: res?.data?.report_classification?.id,
-        date: res?.data?.date,
-        processing_time: res?.data?.processing_time,
-        files: "",
-        report_type_id: res?.data?.report_type.id,
-        risk_assessment: res?.data?.risk_assessment,
-        department_id: res?.data?.department?.id,
-        result: res?.data?.result,
-        _method: "PUT",
-        action: "amend_initial_study",
-        delete_file_paths: [],
-        delete_suspects: [],
-      });
-      setVideos(res?.data?.media?.videos?.paths);
-      setImgs(res?.data?.media?.images?.paths);
-      setFils(res?.data?.media?.files?.paths);
-    }
-  }, [res, reset]);
+    reset({
+      description: res?.data?.description,
+      address: res?.data?.address,
+      suspects: res?.data?.suspects || [],
+      report_classification_id: res?.data?.report_classification?.id,
+      date: res?.data?.date,
+      processing_time: res?.data?.processing_time,
+      files: [],
+      report_type_id: res?.data?.report_type.id,
+      risk_assessment: res?.data?.risk_assessment,
+      department_id: res?.data?.department?.id,
+      result: res?.data?.result,
+      _method: "PUT",
+      action: "amend_initial_study",
+      delete_file_paths: [],
+      delete_suspects: [],
+    });
+    setVideos(res?.data?.media?.videos?.paths);
+    setImgs(res?.data?.media?.images?.paths);
+    setFils(res?.data?.media?.files?.paths);
+  }, [reset, res]);
+
+  const navigate = useNavigate();
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
@@ -248,6 +247,7 @@ const EditStudy = ({ change }) => {
               control={control}
               placeholder="...التصنيف"
               inpTitle="تصنيف البلاغ"
+              note={res?.data?.notes?.notes?.category_notes}
               nameType="report_classification_id"
               options={report_classification?.map((opt) => ({
                 value: opt.id,
@@ -264,6 +264,7 @@ const EditStudy = ({ change }) => {
               placeholder="اختر نوع البلاغ"
               inpTitle="نوع البلاغ"
               nameType="report_type_id"
+              note={res?.data?.notes?.notes?.risk_type_note}
               options={reportType?.map((opt) => ({
                 value: opt.id,
                 label: (
@@ -275,6 +276,16 @@ const EditStudy = ({ change }) => {
             />
           </div>
           <div className="self-center flex flex-wrap gap-6 my-8">
+            {res?.data?.notes?.notes?.risk_assessment_note && (
+              <Tooltip
+                title={res?.data?.notes?.notes?.risk_assessment_note}
+                className="absolute"
+              >
+                <ExclamationCircleOutlined
+                  style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+                />
+              </Tooltip>
+            )}
             <div
               onClick={() => {
                 setShowSvg(true);
@@ -313,6 +324,7 @@ const EditStudy = ({ change }) => {
               placeholder="إختر الإداره المعنية"
               inpTitle="الادارة المعنية بدراسة اليلاغ"
               nameType="department_id"
+              note={res?.data?.notes?.notes?.department_note}
               options={data.map((opt) => ({
                 value: opt.id,
                 label: (
@@ -428,6 +440,7 @@ const EditStudy = ({ change }) => {
             errors={errors}
             control={control}
             watch={watch}
+            note={res?.data?.notes?.notes?.primary_study_note}
             prevData={prevData?.description}
           />
         </div>
