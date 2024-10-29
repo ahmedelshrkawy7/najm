@@ -12,11 +12,13 @@ const UsableReport = ({
   control = () => {},
   name,
   title,
+  notes,
+  errors,
 }) => {
   console.log(title);
   return (
     <>
-      {title !== "طلب مستجدات" ? (
+      {!title ? (
         <div>
           <label
             htmlFor="select"
@@ -56,17 +58,17 @@ const UsableReport = ({
           >
             {selectTitle}
           </label>
-          <Controller
-            name="myInput"
+          {/* <Controller
+            name=""
             control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                disabled
-                value={title}
-                className="w-[50%] sm:w-1/3 lg:w-[220px] flex items-center h-[37px] "
-              />
-            )}
+            render={({ field }) => ( */}
+          <Input
+            // {...field}
+            disabled
+            value={title}
+            className="w-[50%] sm:w-1/3 lg:w-[220px] flex items-center h-[37px] "
+            //   />
+            // )}
           />
         </>
       )}
@@ -76,10 +78,17 @@ const UsableReport = ({
             {textAreaLabel}
           </label>
           <textarea
+            {...control.register(notes, {
+              required: "هذا الحقل مطلوب",
+            })}
             id="textarea"
+            name={notes}
             className="mt-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
             placeholder="اكتب هنا"
           ></textarea>
+          {errors?.[notes] && (
+            <span className="text-red-500">{errors[notes].message}</span>
+          )}
         </div>
       )}
     </>
