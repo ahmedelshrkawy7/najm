@@ -42,8 +42,10 @@ const Navbar = () => {
                 onClick={() => {
                   if (/(dash)/gi.test(pathname)) {
                     logout();
+                    localStorage.setItem("pageNumber", 1);
                     return navigate("/admin/login");
                   }
+
                   navigate("/allAdmins");
                 }}
                 // to="/allAdmins"

@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { CloudUploadOutlined } from "@ant-design/icons";
 import UsableReport from "./UsableReport";
 import { useForm } from "react-hook-form";
 
-const ReportInfo = () => {
+const ReportInfo = ({title}) => {
   const {
     control,
     handleSubmit,
@@ -20,6 +21,7 @@ const ReportInfo = () => {
         control={control}
         data={[]}
         name=""
+        title={title}
       />
       <div>
         <label

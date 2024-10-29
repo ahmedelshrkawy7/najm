@@ -87,7 +87,11 @@ const ReportMenu = ({
         title: "اسناد البلاغ",
         disabled: status === "new" || status === "assign_to_study",
         children: (
-          <ReportModal title="اسناد البلاغ" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اسناد البلاغ"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportAssign />
           </ReportModal>
         ),
@@ -97,7 +101,7 @@ const ReportMenu = ({
         title: "طلب مستجدات",
         children: (
           <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="طلب مستجدات" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
