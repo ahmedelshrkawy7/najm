@@ -30,7 +30,7 @@ const Textarea = ({
       textAreaRef.style.height = e.target.scrollHeight + "px";
     }
   };
-  console.log(errors, watch("desription"));
+  // console.log(errors, watch("desription"));
   return (
     <div ref={wrapperRef} className="flex flex-col gap-4">
       <div className="flex">

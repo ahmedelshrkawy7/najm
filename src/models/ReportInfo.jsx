@@ -1,12 +1,25 @@
+/* eslint-disable no-unused-vars */
 import { CloudUploadOutlined } from "@ant-design/icons";
 import UsableReport from "./UsableReport";
+import { useForm } from "react-hook-form";
 
 const ReportInfo = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {},
+  });
   return (
     <div className="px-5 py-3 flex flex-col gap-2">
       <UsableReport
         selectTitle={"نوع الاجراء"}
         textAreaLabel={"يرجى كتابة سبب الرفض"}
+        control={control}
+        data={[]}
+        name=""
       />
       <div>
         <label

@@ -235,7 +235,7 @@ const EditStudy = ({ change }) => {
     // setLoc(3);
   };
 
-  console.log(getValues('suspects'), "ooooooooooooooooooooooo");
+  console.log(getValues("suspects"), "ooooooooooooooooooooooo");
 
   return (
     <>
