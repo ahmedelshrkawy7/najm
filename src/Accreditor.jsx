@@ -83,6 +83,18 @@ const Accreditor = () => {
 
   console.log("🚀 ~ Accredinnnnnnnnnnnnnnnnntor ~ data:", data);
 
+  useEffect(() => {
+    reset({
+      action: "add_notes_to_the_preliminary_study",
+      _method: "PUT",
+      primary_study_note: data?.notes?.notes?.primary_study_note,
+      risk_assessment_note: data?.notes?.notes?.risk_assessment_note,
+      risk_type_note: data?.notes?.notes?.risk_type_note,
+      category_notes: data?.notes?.notes?.category_notes,
+      department_note: data?.notes?.notes?.department_note,
+    });
+  }, [reset, data]);
+
   if (!id) {
     return <Navigate to={"/dash"} replace />;
   }

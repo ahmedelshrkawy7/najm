@@ -2,7 +2,11 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 
-const UsableReport = ({ selectTitle = "", textAreaLabel = "" }) => {
+const UsableReport = ({
+  selectTitle = "",
+  textAreaLabel = "",
+  placeholder,
+}) => {
   return (
     <>
       <div>
@@ -14,7 +18,7 @@ const UsableReport = ({ selectTitle = "", textAreaLabel = "" }) => {
         </label>
         <Select
           id="select"
-          placeholder="النوع .."
+          placeholder={placeholder || "النوع .."}
           className="w-[50%] sm:w-1/3 flex items-center h-[37px] "
           suffixIcon={<DownOutlined className="text-[13px]" />}
           options={[
@@ -29,16 +33,18 @@ const UsableReport = ({ selectTitle = "", textAreaLabel = "" }) => {
           ]}
         />
       </div>
-      <div>
-        <label htmlFor="textarea" className="font-medium text-[15px]">
-          {textAreaLabel}
-        </label>
-        <textarea
-          id="textarea"
-          className="mt-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
-          placeholder="اكتب هنا"
-        ></textarea>
-      </div>
+      {textAreaLabel && (
+        <div>
+          <label htmlFor="textarea" className="font-medium text-[15px]">
+            {textAreaLabel}
+          </label>
+          <textarea
+            id="textarea"
+            className="mt-2 border border-gray-300 p-2 rounded-md w-full resize-none h-24 outline-none placeholder:text-sm"
+            placeholder="اكتب هنا"
+          ></textarea>
+        </div>
+      )}
     </>
   );
 };

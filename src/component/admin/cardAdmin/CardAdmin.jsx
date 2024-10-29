@@ -22,7 +22,9 @@ const CardAdmin = () => {
     data = {},
     refetch,
   } = useQuery(["reports", ["/reports", { page: pagination }]], getData, {
-    keepPreviousData: true,
+    // keepPreviousData: true,
+    // staleTime: 0,
+    // refetchInterval: 5000,
   });
   console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);

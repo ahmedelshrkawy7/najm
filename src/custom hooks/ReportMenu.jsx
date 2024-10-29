@@ -9,6 +9,7 @@ import ReportInfo from "../models/ReportInfo";
 import ReportLock from "../models/ReportLock";
 import StudyContext from "../store/StudyContext";
 import ReportModal from "../models/ReportModal";
+import ReportAssign from "../models/ReportAssign";
 
 const ReportMenu = ({
   setShowMenu,
@@ -75,7 +76,12 @@ const ReportMenu = ({
     {
       id: 5,
       title: "اسناد البلاغ",
-      disabled: status === "accepted" || status === "new",
+      disabled: status === "new",
+      children: (
+        <ReportModal title="اسناد البلاغ" setShowSvg={setShowSvg}>
+          <ReportAssign />
+        </ReportModal>
+      ),
     },
     {
       id: 6,

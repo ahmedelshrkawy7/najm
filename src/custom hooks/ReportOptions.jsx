@@ -34,8 +34,7 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="p-5 ">
-        {" "}
+      <div className="p-5  ">
         <div className="flex gap-4 flex-col ">
           {data?.[0]?.map((el, index) => {
             console.log(el);

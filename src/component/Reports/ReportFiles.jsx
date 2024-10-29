@@ -94,7 +94,8 @@ const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
             {preview && (
               <span
                 onClick={() => handleDeleteFiles(index, file.id)}
-                className="absolute cursor-pointer w-5 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
+                // className="absolute cursor-pointer w-5 p-2 h-1 -left-2 -top-1 text-center  bg-[#33835C]  text-white rounded-full flex items-center justify-center z-50"
+                className="absolute cursor-pointer w-5 h-5 -left-2 -top-1  text-white rounded-full flex items-center justify-center z-50 bg-green-700"
               >
                 <span className="-mt-[3px] text-[20px] font-bold">&times;</span>
               </span>
