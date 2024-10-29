@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 import { DownOutlined } from "@ant-design/icons";
 import { Select } from "antd";
+import { Option } from "antd/es/mentions";
+import { Controller } from "react-hook-form";
 
 const UsableReport = ({
   selectTitle = "",
   textAreaLabel = "",
   placeholder,
+  data = [],
+  control = () => {},
+  name,
 }) => {
   return (
     <>
@@ -16,21 +21,28 @@ const UsableReport = ({
         >
           {selectTitle}
         </label>
-        <Select
-          id="select"
-          placeholder={placeholder || "النوع .."}
-          className="w-[50%] sm:w-1/3 flex items-center h-[37px] "
-          suffixIcon={<DownOutlined className="text-[13px]" />}
-          options={[
-            {
-              value: "0",
-              label: <span className="text-[13px]">لا</span>,
-            },
-            {
-              value: "1",
-              label: <span className="text-[13px]">نعم</span>,
-            },
-          ]}
+        <Controller
+          control={control}
+          name={name}
+          rules={{ required: "يجب اختيار إدارة" }}
+          render={({ field }) => (
+            <Select
+              id="select"
+              {...field}
+              placeholder={placeholder || "النوع .."}
+              className="w-[50%] sm:w-1/3 flex items-center h-[37px] "
+              suffixIcon={<DownOutlined className="text-[13px]" />}
+            >
+              <Option value="" disabled>
+                اختر الادارة
+              </Option>
+              {data.map((opt) => (
+                <Option key={opt.id} value={opt.id}>
+                  {opt.name_ar}
+                </Option>
+              ))}
+            </Select>
+          )}
         />
       </div>
       {textAreaLabel && (

@@ -528,6 +528,8 @@ const CardAdmin = () => {
             card.title === "بلاغات جارى اعتمادها" ||
             card.title === "معاد للدراسة من المعتمد"
         )
+      : role === "department"
+      ? []
       : cards;
 
   let { data: { counter = {} } = {} } = data;
@@ -559,6 +561,12 @@ const CardAdmin = () => {
       counter.under_confirm || 0,
       counter.under_process || 0,
       counter.resubmit_study_from_accreditor || 0,
+    ];
+  } else if (role === "department") {
+    counterValues = [
+      // counter.new || 0,
+      // counter.assign_to_study || 0,
+      // counter.all || 0,
     ];
   } else {
     counterValues = [
@@ -645,10 +653,10 @@ const CardAdmin = () => {
           case "مرفوض من المسئول":
             bgColor = "#8d0000";
             break;
-          case "جارى اعتمادها":
+          case "دراسة جارى اعتمادها":
             bgColor = "blue";
             break;
-          case "جارى معالجتها":
+          case "دراسة جارى معالجتها ":
             bgColor = "#4096ff";
             break;
           case "بلاغات تحت الاعتماد":
@@ -659,6 +667,9 @@ const CardAdmin = () => {
             break;
           case "دراسة أولية":
             bgColor = "#a3efc0";
+            break;
+          case "مسند للدراسة":
+            bgColor = "#f7b756";
             break;
           default:
             bgColor = "#000";

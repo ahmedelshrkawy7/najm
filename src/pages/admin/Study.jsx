@@ -17,6 +17,8 @@ import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 import TokenContext from "../../store/TokenContext";
 import ResubmitModal from "../../models/ResubmitModal";
 import { EditOutlined } from "@ant-design/icons";
+import ReportMenu from "../../custom hooks/ReportMenu";
+import Modal from "../../custom hooks/UI/Modal";
 
 const Study = ({ children, title, role, name }) => {
   let [reSubmit, setReSubmit] = useState(false);
@@ -51,6 +53,10 @@ const Study = ({ children, title, role, name }) => {
   let ref = useRef();
   console.log("🚀 ~ Study ~ location:", location);
   const { handleHideMenu, showMenu, handleShowMenu } = useContext(StudyContext);
+  const wrapperRef = useRef(null);
+
+  const [showSvg, setShowSvg] = useState(false);
+  const [ch, setCh] = useState("");
   const [loc, setLoc] = useState(location?.state?.index);
   console.log(showMenu);
   const { token } = useContext(TokenContext);
@@ -202,6 +208,44 @@ const Study = ({ children, title, role, name }) => {
               </div>
             )
           )}
+          {role === "department" ? (
+            <div className="flex justify-between items-center flex-wrap">
+              <div className="flex gap-3 flex-wrap relative">
+                <button
+                  type="button"
+                  onClick={handleShowMenu}
+                  className={`bg-black/65 !text-white text-sm font-bold p-2 rounded-md `}
+                >
+                  اتخاذ اجراء
+                </button>
+                {showMenu && (
+                  <div className="absolute !z-[9000]  w-[250px] sm:h-fit h-[325px] overflow-auto top-[120%]  left-0 bg-white rounded-lg scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full ">
+                    <ReportMenu
+                      setShowSvg={setShowSvg}
+                      func={setCh}
+                      showModal={showMenu}
+                      status={report?.status}
+                      refetch={refetch}
+                    />
+                  </div>
+                )}
+                <button
+                  onClick={() => navigate("reportsDate")}
+                  type="button"
+                  className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
+                >
+                  تاريخ سير البلاغ
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => {}}
+              className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
+            >
+              استلام البلاغ
+            </button>
+          )}
         </div>
         <div className="bg-white rounded-md mt-4">
           <div className="rounded-t-md overflow-hidden">
@@ -299,6 +343,15 @@ const Study = ({ children, title, role, name }) => {
               تاكيد
             </button> */}
       </ReportModel>
+      {showMenu && (
+        <div
+          ref={wrapperRef}
+          onClick={handleHideMenu}
+          className="w-full z-[500] h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.4)]"
+        ></div>
+      )}
+
+      {ch && showSvg && <Modal>{ch}</Modal>}
     </div>
     // )}
     // </div>

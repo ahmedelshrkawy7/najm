@@ -22,143 +22,186 @@ const ReportMenu = ({
   const navigate = useNavigate();
   const { handleHideMenu } = useContext(StudyContext);
 
-  const optionItems = [
-    {
-      id: 1,
-      title: "استلام البلاغ",
-      children: (
-        <ReportModal
-          title="استلام البلاغ"
-          setShowSvg={setShowSvg}
-          refetch={refetch}
-        ></ReportModal>
-      ),
-      disabled:
-        status === "accepted" ||
-        status === "under_confirm" ||
-        status === "prepare_initial_study" ||
-        status === "under_process" ||
-        status === "confirmed" ||
-        status === "resubmit_study_from_accreditor",
-    },
-    {
-      id: 2,
-      title: "اعداد دراسة اولية",
-      path: "preparingStudy",
-      disabled:
-        status === "new" ||
-        status === "under_confirm" ||
-        status === "prepare_initial_study" ||
-        status === "under_process" ||
-        status === "confirmed",
-    },
-    {
-      id: 3,
-      title: "توجيه الدراسة الاولية للاعتماد",
-      path: "previewStudy",
-      disabled:
-        status === "new" ||
-        status === "under_confirm" ||
-        status === "under_process" ||
-        status === "accepted" ||
-        status === "confirmed",
-    },
-    {
-      id: 4,
-      title: "التعديل على الدراسة الاولية",
-      path: "editStudy",
-      disabled:
-        status === "new" ||
-        status === "under_confirm" ||
-        status === "accepted" ||
-        status === "confirmed",
-    },
-    {
-      id: 5,
-      title: "اسناد البلاغ",
-      disabled: status === "new",
-      children: (
-        <ReportModal title="اسناد البلاغ" setShowSvg={setShowSvg}>
-          <ReportAssign />
-        </ReportModal>
-      ),
-    },
-    {
-      id: 6,
-      title: "طلب مستجدات",
-      children: (
-        <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
-          <ReportInfo />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 7,
-      title: "اضافة مستجدات",
-      children: (
-        <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
-          <ReportInfo />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 8,
-      title: "استلام البلاغ",
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 9,
-      title: "طلب معلومات",
-      children: (
-        <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-          <ReportInfo />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 10,
-      title: "اضافة معلومات",
-      children: (
-        <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-          <ReportInfo />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 11,
-      title: "اضافة ملاحظات",
-      children: (
-        <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
-          <ReportInfo />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 12,
-      title: "اقفال البلاغ",
-      children: (
-        <ReportModal title="اتخاذ اجراء" setShowSvg={setShowSvg}>
-          <ReportLock />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-    {
-      id: 13,
-      title: "تصعيد البلاغ",
-      children: (
-        <ReportModal setShowSvg={setShowSvg}>
-          <ReportEscalation />
-        </ReportModal>
-      ),
-      disabled: status === "accepted" || status === "new",
-    },
-  ];
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
+
+  let optionItems;
+
+  if (role === "responsible") {
+    optionItems = [
+      {
+        id: 1,
+        title: "استلام البلاغ",
+        children: (
+          <ReportModal
+            title="استلام البلاغ"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          ></ReportModal>
+        ),
+        disabled:
+          status === "accepted" ||
+          status === "under_confirm" ||
+          status === "prepare_initial_study" ||
+          status === "under_process" ||
+          status === "confirmed" ||
+          status === "resubmit_study_from_accreditor" ||
+          status === "assign_to_study",
+      },
+      {
+        id: 2,
+        title: "اعداد دراسة اولية",
+        path: "preparingStudy",
+        disabled:
+          status === "new" ||
+          status === "under_confirm" ||
+          status === "prepare_initial_study" ||
+          status === "under_process" ||
+          status === "confirmed" ||
+          status === "assign_to_study",
+      },
+      {
+        id: 3,
+        title: "توجيه الدراسة الاولية للاعتماد",
+        path: "previewStudy",
+        disabled:
+          status === "new" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "accepted" ||
+          status === "confirmed" ||
+          status === "assign_to_study",
+      },
+      {
+        id: 4,
+        title: "التعديل على الدراسة الاولية",
+        path: "editStudy",
+        disabled:
+          status === "new" ||
+          status === "under_confirm" ||
+          status === "accepted" ||
+          status === "confirmed" ||
+          status === "assign_to_study",
+      },
+      {
+        id: 5,
+        title: "اسناد البلاغ",
+        disabled: status === "new" || status === "assign_to_study",
+        children: (
+          <ReportModal title="اسناد البلاغ" setShowSvg={setShowSvg}>
+            <ReportAssign />
+          </ReportModal>
+        ),
+      },
+      {
+        id: 6,
+        title: "طلب مستجدات",
+        children: (
+          <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 7,
+        title: "اضافة مستجدات",
+        children: (
+          <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 8,
+        title: "استلام البلاغ",
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 9,
+        title: "طلب معلومات",
+        children: (
+          <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 10,
+        title: "اضافة معلومات",
+        children: (
+          <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 11,
+        title: "اضافة ملاحظات",
+        children: (
+          <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 12,
+        title: "اقفال البلاغ",
+        children: (
+          <ReportModal title="اتخاذ اجراء" setShowSvg={setShowSvg}>
+            <ReportLock />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 13,
+        title: "تصعيد البلاغ",
+        children: (
+          <ReportModal setShowSvg={setShowSvg}>
+            <ReportEscalation />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+    ];
+  } else {
+    optionItems = [
+      {
+        id: 9,
+        title: "طلب معلومات",
+        children: (
+          <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 10,
+        title: "اضافة معلومات",
+        children: (
+          <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 11,
+        title: "اضافة ملاحظات",
+        children: (
+          <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
+            <ReportInfo />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+    ];
+  }
 
   // const isOptionDisabled = (id) => {
   //   return (
@@ -209,7 +252,13 @@ const ReportMenu = ({
             (status === "prepare_initial_study" &&
               (opt.id === 1 || opt.id === 2)) ||
             ((status === "under_confirm" || status === "confirmed") &&
-              (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4))
+              (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4)) ||
+            (status === "assign_to_study" &&
+              (opt.id === 1 ||
+                opt.id === 2 ||
+                opt.id === 3 ||
+                opt.id === 4 ||
+                opt.id === 5))
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
           }`}

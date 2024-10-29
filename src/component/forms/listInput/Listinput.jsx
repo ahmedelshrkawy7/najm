@@ -128,7 +128,7 @@ const Listinput = ({
       <div className="container flex gap-5 flex-wrap">
         {watch("suspects")?.map((el, index) => {
           return (
-            <>
+            <div key={index}>
               <div className="tag flex items-center h-[40px] ">
                 <h3 className="flex items-center">{el.name}</h3>
                 <button
@@ -141,7 +141,7 @@ const Listinput = ({
                   <span className="text-[22px] font-semibold">&times;</span>
                 </button>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

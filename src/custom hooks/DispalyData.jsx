@@ -39,7 +39,7 @@ const DispalyData = ({
   title,
   videos = [],
 }) => {
-  const { id: _id } = useParams();
+  const { id } = useParams();
 
   const location = useLocation();
   let imgsServ = values?.media?.images?.filter((el) => {
@@ -109,7 +109,7 @@ const DispalyData = ({
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
-    ["admin", ["/reports/initial-study"], _id],
+    ["admin", ["/reports/initial-study"], id],
     getData
   );
   console.log("🚀 ~ data:", data);
@@ -215,7 +215,8 @@ const DispalyData = ({
             values?.status !== "rejected" &&
             values?.status !== "under_process" &&
             values?.status !== "under_confirm" &&
-            values?.status !== "rejected_from_responsible" && (
+            values?.status !== "rejected_from_responsible" &&
+            values?.status !== "assign_to_study" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}

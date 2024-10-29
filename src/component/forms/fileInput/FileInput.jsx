@@ -21,10 +21,10 @@ const FileInput = ({
   setValue,
   watch,
 }) => {
-  console.log(
-    "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
-    videos
-  );
+  // console.log(
+  //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
+  //   videos
+  // );
   const [isLoading, setIsLoading] = useState(false);
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
@@ -58,7 +58,7 @@ const FileInput = ({
     e.target.value = "";
   };
 
-  console.log(imgs, videos);
+  // console.log(imgs, videos);
   // console.log(watch("files"));
   // useEffect(() => {}, [watch("files")]);
 
