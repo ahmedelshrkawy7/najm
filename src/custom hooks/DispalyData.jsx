@@ -219,7 +219,8 @@ const DispalyData = ({
             values?.status !== "rejected_from_responsible" &&
             values?.status !== "assign_to_study" &&
             values?.status !== "request_updates_from_department" &&
-            values?.status !== "request_information_from_department" && (
+            values?.status !== "request_information_from_department" &&
+            values?.status !== "request_updates_from_responsible" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}

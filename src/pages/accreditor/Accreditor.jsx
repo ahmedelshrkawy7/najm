@@ -130,6 +130,7 @@ const Accreditor = ({ setLoc, role }) => {
         // notes: _data?.report?.notes?.notes,
         notes: data?.notes?.notes,
       },
+      actions: report?.results_and_actions_taken,
     };
   }
 

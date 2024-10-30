@@ -128,13 +128,12 @@ const ReportMenu = ({
         ),
         disabled: status === "accepted" || status === "new",
       },
-
       {
         id: 9,
         title: "طلب معلومات",
         children: (
           <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo title="إضافه مستجدات" action="request_updates" />
+            <ReportInfo title="طلب معلومات" action="request_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -144,7 +143,7 @@ const ReportMenu = ({
         title: "اضافة معلومات",
         children: (
           <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo title="إضافه مستجدات" action="add_information" />
+            <ReportInfo title="اضافة معلومات" action="add_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -154,7 +153,7 @@ const ReportMenu = ({
         title: "اضافة ملاحظات",
         children: (
           <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="اضافة ملاحظات" action={"add_notes"} />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -186,8 +185,12 @@ const ReportMenu = ({
         id: 9,
         title: "طلب معلومات",
         children: (
-          <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+          <ReportModal
+            title="طلب معلومات"
+            setShowSvg={setShowSvg}
+            action="request_updates"
+          >
+            <ReportInfo title="طلب معلومات" action="request_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -196,8 +199,12 @@ const ReportMenu = ({
         id: 10,
         title: "اضافة معلومات",
         children: (
-          <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+          <ReportModal
+            title="اضافة معلومات"
+            setShowSvg={setShowSvg}
+            action="add_information"
+          >
+            <ReportInfo title="اضافة معلومات" action="add_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -206,8 +213,12 @@ const ReportMenu = ({
         id: 11,
         title: "اضافة ملاحظات",
         children: (
-          <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+          <ReportModal
+            title="اضافة ملاحظات"
+            setShowSvg={setShowSvg}
+            action={"add_notes"}
+          >
+            <ReportInfo title="اضافة ملاحظات" action={"add_notes"} />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
