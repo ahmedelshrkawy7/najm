@@ -276,7 +276,7 @@ const DispalyData = ({
             )
           ) : null}
 
-          <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
+          <CardWrapper icon={<img src={prev5} />} title=" الاجراءات المتخذة">
             {values?.actions?.map((action, i) => {
               return <AccreditorCard notes={action} key={i} />;
             })}
