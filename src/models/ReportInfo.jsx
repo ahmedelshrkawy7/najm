@@ -5,7 +5,7 @@ import { CloudUploadOutlined } from "@ant-design/icons";
 import UsableReport from "./UsableReport";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
@@ -36,9 +36,11 @@ const ReportInfo = ({ title, action }) => {
   const { postData } = useApi();
 
   let { id } = useParams();
+  const queryClient = useQueryClient();
   const mutation = useMutation(postData, {
     onSuccess: () => {
       setCurrentView("success");
+      queryClient.invalidateQueries(["admin", ["/reports"], id]);
       // successNotf("تم اسناد البلاغ للادارة بنجاح");
     },
     onError: (err) => {

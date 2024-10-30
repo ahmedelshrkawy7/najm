@@ -128,13 +128,12 @@ const ReportMenu = ({
         ),
         disabled: status === "accepted" || status === "new",
       },
-
       {
         id: 9,
         title: "طلب معلومات",
         children: (
           <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo title="إضافه مستجدات" action="request_updates" />
+            <ReportInfo title="طلب معلومات" action="request_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -144,7 +143,7 @@ const ReportMenu = ({
         title: "اضافة معلومات",
         children: (
           <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo title="إضافه مستجدات" action="add_information" />
+            <ReportInfo title="اضافة معلومات" action="add_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",

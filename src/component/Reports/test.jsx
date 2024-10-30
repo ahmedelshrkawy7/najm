@@ -81,13 +81,22 @@ const Test = () => {
         <div className="w-[95%] rounded-md mx-auto">
           <h2 className="text-[24px] mb-4">مسؤول البلاغات</h2>
           <div className="flex gap-4 items-center justify-between w-full  text-left ">
-            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-              <p className="font-semibold text-sm text-[#33835c] flex items-center">
-                رقم البلاغ:{" "}
-                <span className="text-black/65 text-xl ms-2">
-                  {report?.number}
-                </span>
-              </p>
+            <div className=" flex gap-3">
+              <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+                <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                  رقم البلاغ:{" "}
+                  <span className="text-black/65 text-xl ms-2">
+                    {report?.number}
+                  </span>
+                </p>
+              </div>
+              <div className="border border-light rounded-lg shadow-sm p-2 bg-[#33835c]">
+                <p className="font-semibold text-sm text-white flex items-center">
+                  <span className="text-white text-xl ms-2">
+                    {report?.status}
+                  </span>
+                </p>
+              </div>
             </div>
             <div className="relative flex gap-3">
               <button

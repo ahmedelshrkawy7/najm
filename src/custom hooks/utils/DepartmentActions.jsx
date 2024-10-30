@@ -90,7 +90,7 @@ const DepartmentActions = ({ notes }) => {
               </div>
               <label className="font-semibold text-sm">
                 الصور والفيديوهات (
-                {notes?.media?.images.length + notes?.media?.videos.length})
+                {notes?.media?.images?.length + notes?.media?.videos?.length})
               </label>
             </div>
             <ReportImages
@@ -110,16 +110,16 @@ const DepartmentActions = ({ notes }) => {
                 <FileOutlined />
               </div>
               <label className="font-semibold text-sm">
-                المستندات المرفقة ({notes?.media?.files.length})
+                المستندات المرفقة ({notes?.media?.files?.length})
               </label>
             </div>
             <div className="mt-4">
               <ReportFiles fils={notes?.media?.files} hasLabel={false} />
             </div>
           </div>
-          {notes?.replies.length > 0 && (
+          {notes?.replies?.length > 0 && (
             <>
-              {notes.replies.map((replies) => (
+              {notes?.replies.map((replies) => (
                 <DepartmentReplies key={replies.id} replies={replies} />
               ))}
             </>

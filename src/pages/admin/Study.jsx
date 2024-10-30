@@ -119,13 +119,23 @@ const Study = ({ children, title, role, name }) => {
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
         <div className="flex justify-between items-center mb-4 gap-4">
-          <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
-            <p className="font-semibold text-sm text-[#33835c] flex items-center">
-              رقم البلاغ:{" "}
-              <span className="text-black/65 text-xl ms-2">
-                {report?.number}
-              </span>
-            </p>
+          <div className="flex gap-3">
+            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+              <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                رقم البلاغ:{" "}
+                <span className="text-black/65 text-xl ms-2">
+                  {report?.number}
+                </span>
+              </p>
+            </div>
+            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+              <p className="font-semibold text-sm text-[#33835c] flex items-center">
+                الحالة
+                <span className="text-black/65 text-xl ms-2">
+                  {report?.status}
+                </span>
+              </p>
+            </div>
           </div>
           {role === "responsible" && name !== "prepare" ? (
             <div className="flex gap-3">
