@@ -88,7 +88,8 @@ const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
           </div>
         </div>
       )}
-      <div className="flex flex-wrap gap-10 mt-8">
+      {/* <div className="flex flex-wrap gap-10 mt-8"> */}
+      <div className="flex flex-wrap gap-10 mt-0">
         {fils?.map((file, index) => (
           <div className="relative cursor-pointer" key={file.id + index}>
             {preview && (

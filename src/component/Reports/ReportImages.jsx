@@ -104,7 +104,7 @@ const ReportImages = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap mt-4  gap-6">
+          <div className="flex flex-wrap mt-4 gap-6">
             {imgs.map((img, index) => (
               <div key={Math.random()}>
                 {!img && <p>Loading</p>}
