@@ -147,8 +147,8 @@ const ReportImages = ({
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[60]">
                         <a
                           href={
-                            img.file_url
-                              ? img?.file_url
+                            img?.file_path
+                              ? `https://backend.najm-dev.alexondev.net/api/download-file?path=${img.file_path}`
                               : URL.createObjectURL(new Blob([img]))
                           }
                           download={`image-${img?.file_name || img?.name}`}
@@ -246,8 +246,8 @@ const ReportImages = ({
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">
                         <a
                           href={
-                            img?.file_url
-                              ? img?.file_url
+                            img?.file_path
+                              ? `https://backend.najm-dev.alexondev.net/api/download-file?path=${img.file_path}`
                               : URL.createObjectURL(new Blob([img]))
                           }
                           download={`image-${img?.file_name || img?.name}`}

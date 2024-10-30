@@ -101,7 +101,7 @@ const ReportMenu = ({
         title: "طلب مستجدات",
         children: (
           <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
-            <ReportInfo title="طلب مستجدات" />
+            <ReportInfo title="طلب مستجدات" action={"request_updates"} />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -111,7 +111,7 @@ const ReportMenu = ({
         title: "اضافة مستجدات",
         children: (
           <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="إضافه مستجدات" action="add_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -126,7 +126,7 @@ const ReportMenu = ({
         title: "طلب معلومات",
         children: (
           <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="إضافه مستجدات" action="request_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -136,7 +136,7 @@ const ReportMenu = ({
         title: "اضافة معلومات",
         children: (
           <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="إضافه مستجدات" action="add_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",

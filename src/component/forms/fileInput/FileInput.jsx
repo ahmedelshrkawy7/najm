@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
 import ReportsTextIcon from "../../Reports/ReportsTextIcon";
@@ -57,6 +57,7 @@ const FileInput = ({
 
     e.target.value = "";
   };
+  // setValue("files", [...imgs, ...videos, ...fils]);
 
   // console.log(imgs, videos);
   // console.log(watch("files"));
@@ -81,8 +82,7 @@ const FileInput = ({
         control={control}
         render={({ field: { onChange, value } }) => {
           const handleChange = (e) => {
-           
-            onChange([...value, ...e.target.files]); // Add new files to existing value array
+            onChange([...value, ...e.target.files]);
             handleChangeFile(e);
           };
 

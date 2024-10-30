@@ -125,6 +125,7 @@ const Test = () => {
                   ...report,
                   reason: report?.reason,
                   restudyNotes: report?.notes,
+                  actions: report?.results_and_actions_taken,
                 }}
               />
             </div>
