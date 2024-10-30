@@ -5,16 +5,41 @@ import {
   WarningOutlined,
   TeamOutlined,
   FileOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import ReportImages from "../../component/Reports/ReportImages";
 import ReportFiles from "../../component/Reports/ReportFiles";
 import DepartmentReplies from "./DepartmentReplies";
+import { useRef, useState } from "react";
+import ReportModel from "../../models/ReportModel";
+import ReportInfo from "../../models/ReportInfo";
 
 const DepartmentActions = ({ notes }) => {
   // console.log("🚀 ~ DepartmentActions ~ notes:", notes);
+  const [currentView, setCurrentView] = useState("default");
+  let ref = useRef();
+
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">
-      <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg">
+      <ReportModel
+        ref={ref}
+        title="إضافه مستجدات"
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        <ReportInfo title="إضافه مستجدات" action="add_updates" />
+      </ReportModel>
+
+      <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg relative">
+        <button
+          className="bg-[#33835C] p-[6px] rounded-md text-white absolute left-3 top-3 flex items-center gap-1"
+          onClick={() => {
+            ref.current?.open();
+          }}
+        >
+          <PlusOutlined />
+          <span>اضافة مستجدات</span>
+        </button>
         <div className="flex flex-col space-y-3">
           <div className="flex items-center gap-2 flex-wrap">
             <div

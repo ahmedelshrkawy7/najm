@@ -47,7 +47,8 @@ const ReportMenu = ({
           status === "resubmit_study_from_accreditor" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
-          status === "request_updates_from_responsible",
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department",
       },
       {
         id: 2,
@@ -61,7 +62,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
-          status === "request_updates_from_responsible",
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department",
       },
       {
         id: 3,
@@ -75,7 +77,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
-          status === "request_updates_from_responsible",
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department",
       },
       {
         id: 4,
@@ -88,7 +91,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
-          status === "request_updates_from_responsible",
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department",
       },
       {
         id: 5,
@@ -97,7 +101,8 @@ const ReportMenu = ({
           status === "new" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
-          status === "request_updates_from_responsible",
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -269,7 +274,8 @@ const ReportMenu = ({
             status === "rejected_from_responsible" ||
             (status === "new" && opt.id !== 1) ||
             ((status === "request_updates_from_department" ||
-              status === "request_updates_from_responsible") &&
+              status === "request_updates_from_responsible" ||
+              status === "add_notes_from_department") &&
               (opt.id === 1 ||
                 opt.id === 2 ||
                 opt.id === 3 ||

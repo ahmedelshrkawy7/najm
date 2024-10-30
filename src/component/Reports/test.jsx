@@ -121,6 +121,7 @@ const Test = () => {
             <div className="p-1 sm:p-6">
               <DispalyData
                 title="بيانات البلاغ"
+                setShowSvg={setShowSvg}
                 values={{
                   ...report,
                   reason: report?.reason,

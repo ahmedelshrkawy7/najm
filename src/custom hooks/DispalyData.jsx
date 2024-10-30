@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ReportImages from "../component/Reports/ReportImages";
 import ReportFiles from "../component/Reports/ReportFiles";
 
@@ -13,6 +13,7 @@ import {
   HistoryOutlined,
   NumberOutlined,
   PhoneOutlined,
+  PlusOutlined,
   TeamOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
@@ -32,6 +33,8 @@ import prev7 from "../assets/icons/prev7.svg";
 import { useQuery } from "react-query";
 import { Button, Tooltip } from "antd";
 import DepartmentActions from "./utils/DepartmentActions";
+import ReportModal from "../models/ReportModal";
+import StudyContext from "../store/StudyContext";
 
 const DispalyData = ({
   values = [],
@@ -39,6 +42,7 @@ const DispalyData = ({
   imgs = [],
   title,
   videos = [],
+  setShowSvg,
 }) => {
   const { id } = useParams();
 
@@ -220,14 +224,18 @@ const DispalyData = ({
             values?.status !== "assign_to_study" &&
             values?.status !== "request_updates_from_department" &&
             values?.status !== "request_information_from_department" &&
-            values?.status !== "request_updates_from_responsible" && (
+            values?.status !== "request_updates_from_responsible" &&
+            values?.status !== "add_notes_from_department" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}
                   title="ملاحظات اعادة الدراسة"
                 >
                   {items.map((item, index) => (
-                    <div key={index} className="flex items-center p-2 gap-2">
+                    <div
+                      key={index}
+                      className="flex items-center flex-wrap p-2 gap-2"
+                    >
                       <div className="text-[#33835c]">{item.icon}</div>
                       <span className="font-semibold">{item.label}</span>
                       <span>{item?.result}</span>
