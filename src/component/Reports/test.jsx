@@ -41,7 +41,7 @@ const Test = () => {
   useEffect(() => {
     refetch();
     handleHideMenu();
-  }, [refetch]);
+  }, [refetch, id]);
 
   // useEffect(() => {
   //   if (showMenu || showSvg) {
