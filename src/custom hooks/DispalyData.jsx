@@ -31,6 +31,7 @@ import prev4 from "../assets/icons/prev4.svg";
 import prev7 from "../assets/icons/prev7.svg";
 import { useQuery } from "react-query";
 import { Button, Tooltip } from "antd";
+import DepartmentActions from "./utils/DepartmentActions";
 
 const DispalyData = ({
   values = [],
@@ -217,7 +218,8 @@ const DispalyData = ({
             values?.status !== "under_confirm" &&
             values?.status !== "rejected_from_responsible" &&
             values?.status !== "assign_to_study" &&
-            values?.status !== "request_updates_from_department" && (
+            values?.status !== "request_updates_from_department" &&
+            values?.status !== "request_information_from_department" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}
@@ -276,11 +278,13 @@ const DispalyData = ({
             )
           ) : null}
 
-          <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
-            {values?.actions?.map((action, i) => {
-              return <AccreditorCard notes={action} key={i} />;
-            })}
-          </CardWrapper>
+          {values?.actions?.length > 0 && (
+            <CardWrapper icon={<img src={prev5} />} title=" الاجراءات المتخذة">
+              {values?.actions?.map((action, i) => {
+                return <DepartmentActions notes={action} key={i} />;
+              })}
+            </CardWrapper>
+          )}
         </div>
       </div>
     </>

@@ -4,7 +4,7 @@ import React from "react";
 import ReportsTextIcon from "./ReportsTextIcon";
 import prev7 from "../../assets/icons/prev7.svg";
 
-const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
+const ReportFiles = ({ fils, setFils, preview, watch, setValue, hasLabel }) => {
   const handleDeleteFiles = (id, path) => {
     const files = [...fils];
     files.splice(id, 1);
@@ -73,20 +73,24 @@ const ReportFiles = ({ fils, setFils, preview, watch, setValue }) => {
   return (
     <>
       {!!fils?.length && (
-        <div
-          className={`flex mb-4 flex-col  
+        <>
+          {hasLabel && (
+            <div
+              className={`flex mb-4 flex-col  
        mt-4 gap-2`}
-        >
-          <div className="flex items-center gap-2 ">
-            <div className=" rounded-full   h-12  flex items-center justify-center">
-              <img src={prev7} />
-            </div>
+            >
+              <div className="flex items-center gap-2 ">
+                <div className=" rounded-full   h-12  flex items-center justify-center">
+                  <img src={prev7} />
+                </div>
 
-            <span className="font-medium !min-w-[100px]">
-              الملفات ( {fils.length} )
-            </span>
-          </div>
-        </div>
+                <span className="font-medium !min-w-[100px]">
+                  الملفات ( {fils.length} )
+                </span>
+              </div>
+            </div>
+          )}
+        </>
       )}
       {/* <div className="flex flex-wrap gap-10 mt-8"> */}
       <div className="flex flex-wrap gap-10 mt-0">
