@@ -246,6 +246,7 @@ const DispalyData = ({
               </CardWrapper>
             </div>
           )}
+
           {/* {values?.restudyNotes && (
             <div className="my-4 py-1 rounded-md">
               <CardWrapper
@@ -274,6 +275,12 @@ const DispalyData = ({
               ""
             )
           ) : null}
+
+          <CardWrapper icon={<img src={prev5} />} title="ملاحظات المعالجة">
+            {values?.actions?.map((action, i) => {
+              return <AccreditorCard notes={action} key={i} />;
+            })}
+          </CardWrapper>
         </div>
       </div>
     </>

@@ -8,22 +8,29 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import useApi from "../utils/useApi";
 import SuccessModal from "./successModal";
+import FileInput from "../component/forms/fileInput/FileInput";
 
-const ReportInfo = ({ title }) => {
+const ReportInfo = ({ title, action }) => {
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
+    watch,
+    register,
   } = useForm({
     mode: "onBlur",
     defaultValues: {
       _method: "PUT",
-      action: "request_updates",
+      action: action,
       notes: "",
       files: [],
     },
   });
+
+  const [fils, setFils] = useState([]);
+  const [imgs, setImgs] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   const [currentView, setCurrentView] = useState("default");
   const { postData } = useApi();
@@ -66,7 +73,7 @@ const ReportInfo = ({ title }) => {
               errors={errors}
             />
             <div>
-              <label
+              {/* <label
                 htmlFor="fileInput"
                 className="mb-2 text-[15px] font-medium inline-block"
               >
@@ -88,7 +95,20 @@ const ReportInfo = ({ title }) => {
                   className="hidden"
                   onChange={handleFileChange}
                 />
-              </div>
+              </div> */}
+              <FileInput
+                fils={fils}
+                setFils={setFils}
+                videos={videos}
+                setVideos={setVideos}
+                imgs={imgs}
+                setImgs={setImgs}
+                register={register}
+                errors={errors}
+                control={control}
+                watch={watch}
+                setValue={setValue}
+              />
             </div>
 
             <div className="py-3 pt-0 flex items-center justify-end">
