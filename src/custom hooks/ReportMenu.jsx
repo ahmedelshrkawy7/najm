@@ -45,7 +45,9 @@ const ReportMenu = ({
           status === "under_process" ||
           status === "confirmed" ||
           status === "resubmit_study_from_accreditor" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible",
       },
       {
         id: 2,
@@ -57,7 +59,9 @@ const ReportMenu = ({
           status === "prepare_initial_study" ||
           status === "under_process" ||
           status === "confirmed" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible",
       },
       {
         id: 3,
@@ -69,7 +73,9 @@ const ReportMenu = ({
           status === "under_process" ||
           status === "accepted" ||
           status === "confirmed" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible",
       },
       {
         id: 4,
@@ -80,12 +86,18 @@ const ReportMenu = ({
           status === "under_confirm" ||
           status === "accepted" ||
           status === "confirmed" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible",
       },
       {
         id: 5,
         title: "اسناد البلاغ",
-        disabled: status === "new" || status === "assign_to_study",
+        disabled:
+          status === "new" ||
+          status === "assign_to_study" ||
+          status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -116,11 +128,7 @@ const ReportMenu = ({
         ),
         disabled: status === "accepted" || status === "new",
       },
-      {
-        id: 8,
-        title: "استلام البلاغ",
-        disabled: status === "accepted" || status === "new",
-      },
+
       {
         id: 9,
         title: "طلب معلومات",
@@ -146,7 +154,7 @@ const ReportMenu = ({
         title: "اضافة ملاحظات",
         children: (
           <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo action={"add_notes"} />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -179,7 +187,7 @@ const ReportMenu = ({
         title: "طلب معلومات",
         children: (
           <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="طلب معلومات " action="request_updates" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -189,7 +197,7 @@ const ReportMenu = ({
         title: "اضافة معلومات",
         children: (
           <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo title="إضافه معلومات" action="add_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -199,7 +207,20 @@ const ReportMenu = ({
         title: "اضافة ملاحظات",
         children: (
           <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
-            <ReportInfo />
+            <ReportInfo action={"add_notes"} />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 11,
+        title: " إشعار بالنتيجه النهائية",
+        children: (
+          <ReportModal title=" إشعار بالنتيجه النهائية" setShowSvg={setShowSvg}>
+            <ReportInfo
+              title=" إشعار بالنتيجه النهائية"
+              action={"notify_the_final_result"}
+            />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -249,6 +270,13 @@ const ReportMenu = ({
             status === "rejected" ||
             status === "rejected_from_responsible" ||
             (status === "new" && opt.id !== 1) ||
+            ((status === "request_updates_from_department" ||
+              status === "request_updates_from_responsible") &&
+              (opt.id === 1 ||
+                opt.id === 2 ||
+                opt.id === 3 ||
+                opt.id === 4 ||
+                opt.id === 5)) ||
             (status === "accepted" && opt.id !== 2) ||
             (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
             (status === "under_process" &&

@@ -20,6 +20,7 @@ const FileInput = ({
   control,
   setValue,
   watch,
+  wannaPreview=true
 }) => {
   // console.log(
   //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
@@ -128,6 +129,7 @@ const FileInput = ({
           preview={true}
           setValue={setValue}
           watch={watch}
+          hasLabel={true}
         />
       )}
     </>

@@ -21,6 +21,7 @@ const ReportImages = ({
   setVideos,
   setValue,
   watch,
+  hasLabel = true,
 }) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
   // let photos = imgs?.filter((el) => {
@@ -89,22 +90,24 @@ const ReportImages = ({
     <>
       {!!imgs?.length > 0 && (
         <>
-          <div
-            className={`flex mb-4 flex-col  
+          {hasLabel && (
+            <div
+              className={`flex mb-4 flex-col  
        mt-4 gap-1`}
-          >
-            <div className="flex items-center gap-4 ">
-              <div className=" rounded-full   h-12  flex items-center justify-center">
-                <img src={prev6} />
+            >
+              <div className="flex items-center gap-4 ">
+                <div className=" rounded-full   h-12  flex items-center justify-center">
+                  <img src={prev6} />
+                </div>
+
+                <span className="font-medium !min-w-[100px]">
+                  الصور ( {imgs.length} )
+                </span>
               </div>
-
-              <span className="font-medium !min-w-[100px]">
-                الصور ( {imgs.length} )
-              </span>
             </div>
-          </div>
+          )}
 
-          <div className="flex flex-wrap mt-4  gap-6">
+          <div className="flex flex-wrap mt-4 gap-6">
             {imgs.map((img, index) => (
               <div key={Math.random()}>
                 {!img && <p>Loading</p>}
@@ -196,15 +199,17 @@ const ReportImages = ({
       )}
       {!!videos?.length > 0 && (
         <>
-          <div className="flex items-center gap-2 ">
-            <div className=" rounded-full   h-12  flex items-center justify-center">
-              <img src={prev6} />
-            </div>
+          {hasLabel && (
+            <div className="flex items-center gap-2 ">
+              <div className=" rounded-full   h-12  flex items-center justify-center">
+                <img src={prev6} />
+              </div>
 
-            <span className="font-medium !min-w-[100px]">
-              الفيديو ( {videos.length} )
-            </span>
-          </div>
+              <span className="font-medium !min-w-[100px]">
+                الفيديو ( {videos.length} )
+              </span>
+            </div>
+          )}
 
           <div className="flex flex-wrap mt-4  gap-6">
             {videos.map((img, index) => {
