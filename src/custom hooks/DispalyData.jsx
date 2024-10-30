@@ -225,7 +225,10 @@ const DispalyData = ({
             values?.status !== "request_updates_from_department" &&
             values?.status !== "request_information_from_department" &&
             values?.status !== "request_updates_from_responsible" &&
-            values?.status !== "add_notes_from_department" && (
+            values?.status !== "add_notes_from_department" &&
+            values?.status !== "add_updates_from_department" &&
+            values?.status !== "final_result_from_department" &&
+            values?.status !== "closed" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}

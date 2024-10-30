@@ -48,7 +48,8 @@ const ReportMenu = ({
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
-          status === "add_notes_from_department",
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department",
       },
       {
         id: 2,
@@ -63,7 +64,8 @@ const ReportMenu = ({
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
-          status === "add_notes_from_department",
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department",
       },
       {
         id: 3,
@@ -78,7 +80,8 @@ const ReportMenu = ({
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
-          status === "add_notes_from_department",
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department",
       },
       {
         id: 4,
@@ -92,7 +95,8 @@ const ReportMenu = ({
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
-          status === "add_notes_from_department",
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department",
       },
       {
         id: 5,
@@ -102,7 +106,8 @@ const ReportMenu = ({
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
-          status === "add_notes_from_department",
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -138,7 +143,7 @@ const ReportMenu = ({
         title: "طلب معلومات",
         children: (
           <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
-            <ReportInfo title="طلب معلومات" action="request_updates" />
+            <ReportInfo title="طلب معلومات" action="request_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -193,9 +198,9 @@ const ReportMenu = ({
           <ReportModal
             title="طلب معلومات"
             setShowSvg={setShowSvg}
-            action="request_updates"
+            action="request_information"
           >
-            <ReportInfo title="طلب معلومات" action="request_updates" />
+            <ReportInfo title="طلب معلومات" action="request_information" />
           </ReportModal>
         ),
         disabled: status === "accepted" || status === "new",
@@ -275,7 +280,8 @@ const ReportMenu = ({
             (status === "new" && opt.id !== 1) ||
             ((status === "request_updates_from_department" ||
               status === "request_updates_from_responsible" ||
-              status === "add_notes_from_department") &&
+              status === "add_notes_from_department" ||
+              status === "add_updates_from_department") &&
               (opt.id === 1 ||
                 opt.id === 2 ||
                 opt.id === 3 ||

@@ -408,7 +408,7 @@ const Deptview = () => {
         refetch={refetch}
         message={message}
       >
-        {modelContent}
+        <div className="p-5">{modelContent}</div>
       </DashModal>
       <div className="w-[90%] mx-auto mt-20">
         <div className="mb-6 flex flex-col justify-center">

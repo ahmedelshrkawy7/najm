@@ -518,19 +518,39 @@ const CardAdmin = () => {
   const role = JSON.parse(localStorage.getItem("token")).role;
   console.log("🚀 ~ role:", role);
 
-  const filteredCards =
-    role === "accreditor"
-      ? cards.filter(
-          (card) =>
-            card.title === "بلاغات مرفوضة" ||
-            card.title === "مرفوض من المسئول" ||
-            card.title === "بلاغات جارى معالجتها" ||
-            card.title === "بلاغات جارى اعتمادها" ||
-            card.title === "معاد للدراسة من المعتمد"
-        )
-      : role === "department"
-      ? []
-      : cards;
+  // const filteredCards =
+  //   role === "accreditor"
+  //     ? cards.filter(
+  //         (card) =>
+  //           card.title === "بلاغات مرفوضة" ||
+  //           card.title === "مرفوض من المسئول" ||
+  //           card.title === "بلاغات جارى معالجتها" ||
+  //           card.title === "بلاغات جارى اعتمادها" ||
+  //           card.title === "معاد للدراسة من المعتمد"
+  //       )
+  //     : role === "department"
+  //     ? cards.filter((card) => card.title === "اجمالى البلاغات المستلمة")
+  //     : cards;
+
+  const filterCardsByRole = (cards, role) => {
+    const roleFilters = {
+      accreditor: [
+        "بلاغات مرفوضة",
+        "مرفوض من المسئول",
+        "بلاغات جارى معالجتها",
+        "بلاغات جارى اعتمادها",
+        "معاد للدراسة من المعتمد",
+      ],
+      department: ["اجمالى البلاغات المستلمة"],
+    };
+
+    if (role in roleFilters) {
+      return cards.filter((card) => roleFilters[role].includes(card.title));
+    }
+    return cards;
+  };
+
+  const filteredCards = filterCardsByRole(cards, role);
 
   let { data: { counter = {} } = {} } = data;
   console.log("🚀 ~ CardAdmin ~ counter:", counter);
@@ -566,7 +586,7 @@ const CardAdmin = () => {
     counterValues = [
       // counter.new || 0,
       // counter.assign_to_study || 0,
-      // counter.all || 0,
+      counter.all || 0,
     ];
   } else {
     counterValues = [

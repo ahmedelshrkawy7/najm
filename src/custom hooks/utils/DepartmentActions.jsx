@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
   EditOutlined,
@@ -13,32 +14,76 @@ import DepartmentReplies from "./DepartmentReplies";
 import { useRef, useState } from "react";
 import ReportModel from "../../models/ReportModel";
 import ReportInfo from "../../models/ReportInfo";
+import DashModal from "../../models/DashModal";
 
 const DepartmentActions = ({ notes }) => {
-  // console.log("🚀 ~ DepartmentActions ~ notes:", notes);
+  console.log("🚀 ~ DepartmentActions ~ type:", notes?.type);
+  console.log("🚀 ~ DepartmentActions ~ notes:", notes);
   const [currentView, setCurrentView] = useState("default");
   let ref = useRef();
 
+  let selectAction = (type = "") => {
+    let action = "";
+
+    switch (type) {
+      case "إضافة المستجدات":
+      case "إضافة مستجدات":
+        action = "add_updates";
+        break;
+      case "طلب مستجدات":
+        action = "request_updates";
+        break;
+      case "اضافة معلومات":
+        action = "add_information";
+        break;
+      case "إضافة ملاحظات":
+        action = "add_notes";
+        break;
+      case "طلب معلومات":
+        action = "request_information";
+        break;
+      default:
+        action = "unknown_action";
+    }
+
+    return action;
+  };
+
+  const action = notes?.type && selectAction(notes?.type);
+  console.log("🚀 ~ DepartmentActions ~ action:", action);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">
-      <ReportModel
+      {/* <ReportModel
         ref={ref}
-        title="إضافه مستجدات"
+        title={notes?.type}
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
-        <ReportInfo title="إضافه مستجدات" action="add_updates" />
-      </ReportModel>
+        <ReportInfo title={notes?.type || ""} action={action} />
+      </ReportModel> */}
+
+      <DashModal
+        title={notes?.type}
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        <ReportInfo title={notes?.type || ""} action={action} key={notes?.id} />
+      </DashModal>
 
       <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg relative">
         <button
           className="bg-[#33835C] p-[6px] rounded-md text-white absolute left-3 top-3 flex items-center gap-1"
           onClick={() => {
-            ref.current?.open();
+            // ref.current?.open();
+            setModalOpen(true);
           }}
         >
           <PlusOutlined />
-          <span>اضافة مستجدات</span>
+          <span>{notes?.type}</span>
         </button>
         <div className="flex flex-col space-y-3">
           <div className="flex items-center gap-2 flex-wrap">

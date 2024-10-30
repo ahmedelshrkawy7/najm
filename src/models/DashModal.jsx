@@ -69,14 +69,14 @@ const DashModal = ({ children = defaultCh, ...props }) => {
           )) ||
             ""}
         </div>
-        <div className="p-5">
+        {/* <div className="p-5"> */}
           {props?.currentView === "success" || props?.currentView === "edit" ? (
             <SuccessModel message={props.message} />
           ) : (
             children
           )}
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
