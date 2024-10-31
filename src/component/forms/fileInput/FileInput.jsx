@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import exportSvg from "../../../assets/icons/export.svg";
 import { Controller } from "react-hook-form";
 import ReportsTextIcon from "../../Reports/ReportsTextIcon";
@@ -20,7 +20,7 @@ const FileInput = ({
   control,
   setValue,
   watch,
-  wannaPreview=true
+  canViewImages,
 }) => {
   // console.log(
   //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
@@ -38,6 +38,7 @@ const FileInput = ({
 
     console.log(allVideos);
     console.log(e.target.files);
+
     let allFiles = [...e.target.files]
       .map((file) => {
         if (file.name.endsWith(".rar")) {
@@ -58,6 +59,12 @@ const FileInput = ({
 
     e.target.value = "";
   };
+  useEffect(() => {
+    let allFiles = [...imgs, ...fils, ...videos].filter((el) => {
+      return !("id" in el);
+    });
+    setValue("files", allFiles);
+  }, [imgs, fils, videos, setValue]);
   // setValue("files", [...imgs, ...videos, ...fils]);
 
   // console.log(imgs, videos);
@@ -114,6 +121,7 @@ const FileInput = ({
             preview={true}
             setValue={setValue}
             watch={watch}
+            canViewImages={true}
           />
         </>
       )}

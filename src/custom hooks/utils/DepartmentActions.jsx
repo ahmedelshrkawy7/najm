@@ -34,7 +34,7 @@ const DepartmentActions = ({ notes }) => {
         action = "add_updates";
         break;
       case "طلب مستجدات":
-        action = "request_updates";
+        action = "add_updates";
         button = "إضافه مستجدات";
 
         break;
@@ -57,10 +57,11 @@ const DepartmentActions = ({ notes }) => {
 
     return action;
   };
-  const showButton = (received) => {
-    if (received == "الإدارة المختصة" && token.role == "department") {
+  const showButton = ({ received_by, type }) => {
+    if (type.includes("إضافة")) return false;
+    if (received_by == "الإدارة المختصة" && token.role == "department") {
       return true;
-    } else if (received == "المسئول" && token.role == "responsible") {
+    } else if (received_by == "المسئول" && token.role == "responsible") {
       return true;
     }
     return false;
@@ -69,6 +70,8 @@ const DepartmentActions = ({ notes }) => {
   const action = notes?.type && selectAction(notes?.type);
   console.log("🚀 ~ DepartmentActions ~ action:", action);
   const [isModalOpen, setModalOpen] = useState(false);
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
+  console.log("🚀 ~ DepartmentActions ~ role:", role);
 
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">
@@ -97,7 +100,7 @@ const DepartmentActions = ({ notes }) => {
       </DashModal>
 
       <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg relative">
-        {showButton(notes?.received_by) && (
+        {showButton(notes) && (
           <button
             className="bg-[#33835C] p-[6px] rounded-md text-white absolute left-3 top-3 flex items-center gap-1"
             onClick={() => {

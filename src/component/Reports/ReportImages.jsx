@@ -22,6 +22,7 @@ const ReportImages = ({
   setValue,
   watch,
   hasLabel = true,
+  canViewImages,
 }) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
   // let photos = imgs?.filter((el) => {

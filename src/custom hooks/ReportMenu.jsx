@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ReportEscalation from "../models/ReportEscalation";
 import ReportInfo from "../models/ReportInfo";
@@ -10,6 +10,10 @@ import ReportLock from "../models/ReportLock";
 import StudyContext from "../store/StudyContext";
 import ReportModal from "../models/ReportModal";
 import ReportAssign from "../models/ReportAssign";
+import SuccessModal from "../models/successModal";
+import { errorNotf, successNotf } from "../utils/notifications/Toast";
+import { useMutation } from "react-query";
+import useApi from "../utils/useApi";
 
 const ReportMenu = ({
   setShowMenu,
@@ -23,6 +27,30 @@ const ReportMenu = ({
   const { handleHideMenu } = useContext(StudyContext);
 
   let role = JSON.parse(localStorage.getItem("token"))?.role;
+  const { postData } = useApi();
+  const { id } = useParams();
+  const mutation = useMutation(postData, {
+    onSuccess: () => {
+      // change(3);
+      successNotf(
+        role === "responsible"
+          ? "تم توجية الدراسه الأوليه للمعتمد"
+          : "تم اعتماد الدراسة الاولية بنجاح"
+      );
+      refetch();
+      // ref.current.close();
+      setShowSvg(false);
+
+      // navigate("/dash", { replace: true });
+    },
+    onError: (err) => {
+      errorNotf(err.response.data.message);
+      // ref.current.close();
+      setShowSvg(false);
+
+      // setCurrentView("error");
+    },
+  });
 
   let optionItems;
 
@@ -188,6 +216,28 @@ const ReportMenu = ({
         ),
         disabled: status === "accepted" || status === "new",
       },
+      {
+        id: 14,
+        title: "تأكيد إشعار",
+        children: (
+          <ReportModal title={"تأكيد إشعار"} setShowSvg={setShowSvg}>
+            <SuccessModal
+              title={" تأكيد إشعار النتيجة النهائية"}
+              close={"تأكيد"}
+              confirm={() => {
+                mutation.mutate([
+                  `/reports/${id}`,
+                  {
+                    action: "confirm_the_final_result",
+                    _method: "PUT",
+                  },
+                ]);
+              }}
+            />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
     ];
   } else {
     optionItems = [
@@ -226,7 +276,27 @@ const ReportMenu = ({
         disabled: status === "accepted" || status === "new",
       },
       {
-        id: 11,
+        id: 12,
+        title: "طلب مستجدات",
+        children: (
+          <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
+            <ReportInfo action={"request_updates"} title="طلب مستجدات" />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 13,
+        title: "اضافة مستجدات",
+        children: (
+          <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
+            <ReportInfo action={"add_updates"} title="اضافة مستجدات" />
+          </ReportModal>
+        ),
+        disabled: status === "accepted" || status === "new",
+      },
+      {
+        id: 14,
         title: " إشعار بالنتيجه النهائية",
         children: (
           <ReportModal title=" إشعار بالنتيجه النهائية" setShowSvg={setShowSvg}>

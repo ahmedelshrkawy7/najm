@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { CloudUploadOutlined } from "@ant-design/icons";
+import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import UsableReport from "./UsableReport";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "react-query";
 import useApi from "../utils/useApi";
 import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
+import { Spin } from "antd";
 
 const ReportInfo = ({ title, action, _id }) => {
   const {
@@ -119,7 +120,16 @@ const ReportInfo = ({ title, action, _id }) => {
                 type="submit"
                 className=" bg-[#33835C] text-white p-1 px-10 rounded-lg "
               >
-                تاكيد
+                {mutation.isLoading ? (
+                  <Spin
+                    indicator={
+                      <LoadingOutlined spin style={{ color: "white" }} />
+                    }
+                    size="default"
+                  />
+                ) : (
+                  "تاكيد"
+                )}
               </button>
             </div>
           </div>
