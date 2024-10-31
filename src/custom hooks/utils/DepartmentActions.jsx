@@ -52,6 +52,8 @@ const DepartmentActions = ({ notes }) => {
   const action = notes?.type && selectAction(notes?.type);
   console.log("🚀 ~ DepartmentActions ~ action:", action);
   const [isModalOpen, setModalOpen] = useState(false);
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
+  console.log("🚀 ~ DepartmentActions ~ role:", role);
 
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">

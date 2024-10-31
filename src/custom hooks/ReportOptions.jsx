@@ -26,47 +26,56 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
   };
   const { getData } = useApi();
   // const { data } = useQuery(["allRisks", ["/fetch-risk-assessment"], getData]);
-  const { data: { data = [] } = {} } = useQuery(
-    ["admin", ["/fetch-risk-assessment", ""]],
-    getData
-  );
+  const {
+    data: { data = [] } = {},
+    isLoading,
+    isFetching,
+  } = useQuery(["admin", ["/fetch-risk-assessment", ""]], getData);
   console.log("🚀 ~ ReportOptions ~ data:", data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="p-5  ">
-        <div className="flex gap-4 flex-col ">
-          {data?.[0]?.map((el, index) => {
-            console.log(el);
-
-            return (
-              <div key={index}>
-                <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
-                  {el.name}{" "}
-                </div>
-                <div className="flex flex-col mt-4 gap-2">
-                  {el.children.map((el, i) => {
-                    return (
-                      <ReportOptionType
-                        control={control}
-                        name="all"
-                        label={el.name}
-                        key={i}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+    <>
+      {isLoading || isFetching ? (
+        <div className="py-12 flex items-center justify-center">
+          <div className="loader"></div>
         </div>
-      </div>
-      <div className="px-5 py-3 pt-0 flex items-center justify-end">
-        <button className=" bg-[#33835C] text-white p-1 px-10 rounded-lg">
-          تاكيد
-        </button>
-      </div>
-    </form>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="p-5 ">
+            <div className="flex gap-4 flex-col ">
+              {data?.[0]?.map((el, index) => {
+                console.log(el);
+
+                return (
+                  <div key={index}>
+                    <div className="bg-[#33835C1A] text-[#1E1E1E] font-bold p-4 rounded-md">
+                      {el.name}{" "}
+                    </div>
+                    <div className="flex flex-col mt-4 gap-2">
+                      {el.children.map((el, i) => {
+                        return (
+                          <ReportOptionType
+                            control={control}
+                            name="all"
+                            label={el.name}
+                            key={i}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="px-5 py-3 pt-0 flex items-center justify-end">
+            <button className=" bg-[#33835C] text-white p-1 px-10 rounded-lg">
+              تاكيد
+            </button>
+          </div>
+        </form>
+      )}
+    </>
   );
 };
 

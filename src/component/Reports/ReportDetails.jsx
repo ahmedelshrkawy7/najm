@@ -158,6 +158,7 @@ const ReportDetails = ({
           register={register}
           errors={errors}
           control={control}
+          wannaView={true}
         />
         <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit min-h-[40px] flex items-center">
           <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">

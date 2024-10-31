@@ -20,7 +20,7 @@ const FileInput = ({
   control,
   setValue,
   watch,
-  wannaPreview=true
+  canViewImages,
 }) => {
   // console.log(
   //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
@@ -114,6 +114,7 @@ const FileInput = ({
             preview={true}
             setValue={setValue}
             watch={watch}
+            canViewImages={true}
           />
         </>
       )}
