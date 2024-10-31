@@ -77,10 +77,12 @@ const ManagerCard = ({
         setCurrentView={setCurrentView}
         message={message}
       >
-        {React.cloneElement(ch, {
-          closeModal: () => setModalOpen(false),
-          setMessage,
-        })}
+        <div className="p-5">
+          {React.cloneElement(ch, {
+            closeModal: () => setModalOpen(false),
+            setMessage,
+          })}
+        </div>
       </DashModal>
       <div className="rounded-lg shadow  flex flex-col items-center overflow-hidden">
         <div className="bg-white w-full text-center py-2">

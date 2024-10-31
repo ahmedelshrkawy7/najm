@@ -122,45 +122,44 @@ const ReportImages = ({
                       </span>
                     </div>
                   )}
-                  {
-                    <div
-                      className="relative wrapper transition-all duration-1000 h-full border border-gray-300 rounded-md "
-                      style={{ aspectRatio: 16 / 9 }}
-                    >
-                      <img
-                        className="rounded-md object-cover cursor-pointer  w-full h-full"
-                        src={
-                          img.file_url ? img.file_url : URL.createObjectURL(img)
-                        }
-                        ref={myImage}
-                        draggable="false"
-                      />
 
-                      <div
-                        className="active cursor-pointer h-full w-full bg-[#000] "
-                        onClick={() => {
-                          showFunc(index, "image");
-                        }}
-                      >
-                        <EyeOutlined
-                          className="z-10 text-white text-[20px]"
-                          style={{ zIndex: 99 }}
-                        />
-                      </div>
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[60]">
-                        <a
-                          href={
-                            img?.file_path
-                              ? `https://backend.najm-dev.alexondev.net/api/download-file?path=${img.file_path}`
-                              : URL.createObjectURL(new Blob([img]))
-                          }
-                          download={`image-${img?.file_name || img?.name}`}
-                        >
-                          <DownloadOutlined className="text-white text-[16px]" />
-                        </a>
-                      </div>
+                  <div
+                    className="relative wrapper transition-all duration-1000 h-full border border-gray-300 rounded-md "
+                    style={{ aspectRatio: 16 / 9 }}
+                  >
+                    <img
+                      className="rounded-md object-cover cursor-pointer  w-full h-full"
+                      src={
+                        img.file_url ? img.file_url : URL.createObjectURL(img)
+                      }
+                      ref={myImage}
+                      draggable="false"
+                    />
+
+                    <div
+                      className="active cursor-pointer h-full w-full bg-[#000] "
+                      onClick={() => {
+                        showFunc(index, "image");
+                      }}
+                    >
+                      <EyeOutlined
+                        className="z-10 text-white text-[20px]"
+                        style={{ zIndex: 99 }}
+                      />
                     </div>
-                  }
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[60]">
+                      <a
+                        href={
+                          img?.file_path
+                            ? `https://backend.najm-dev.alexondev.net/api/download-file?path=${img.file_path}`
+                            : URL.createObjectURL(new Blob([img]))
+                        }
+                        download={`image-${img?.file_name || img?.name}`}
+                      >
+                        <DownloadOutlined className="text-white text-[16px]" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
                 {showImg && (

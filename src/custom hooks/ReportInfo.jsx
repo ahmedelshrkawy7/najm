@@ -103,12 +103,12 @@ const ReportInfo = ({ values }) => {
             <ReportsTextIcon
               icon={note}
               description={true}
-              subTitle={values.description}
+              subTitle={values?.description}
             />
           </div>
         </pre>
         <div className="my-5">
-          {values.date !== undefined && (
+          {values?.date !== undefined && (
             <ReportsTextIcon
               subTitle={
                 values.date === "NaN/NaN/NaN" || values.date === ""
@@ -119,9 +119,9 @@ const ReportInfo = ({ values }) => {
               title={labelProps.datePickerTitle}
             />
           )}
-          {values.address && (
+          {values?.address && (
             <ReportsTextIcon
-              subTitle={values.address ? values.address : "لا يوجد"}
+              subTitle={values?.address ? values?.address : "لا يوجد"}
               icon={prev5}
               title={labelProps.locationTitle}
             />
@@ -130,7 +130,7 @@ const ReportInfo = ({ values }) => {
         <div className="">
           <ReportsTextIcon
             subTitle={
-              values.suspectKnown === "1" || values.suspectKnown === true
+              values?.suspectKnown === "1" || values?.suspectKnown === true
                 ? "نعم"
                 : "لا"
             }

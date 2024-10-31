@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
   EditOutlined,
@@ -5,16 +6,109 @@ import {
   WarningOutlined,
   TeamOutlined,
   FileOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import ReportImages from "../../component/Reports/ReportImages";
 import ReportFiles from "../../component/Reports/ReportFiles";
 import DepartmentReplies from "./DepartmentReplies";
+import { useContext, useRef, useState } from "react";
+import ReportModel from "../../models/ReportModel";
+import ReportInfo from "../../models/ReportInfo";
+import DashModal from "../../models/DashModal";
+import TokenContext from "../../store/TokenContext";
 
 const DepartmentActions = ({ notes }) => {
-  // console.log("🚀 ~ DepartmentActions ~ notes:", notes);
+  console.log("🚀 ~ DepartmentActions ~ type:", notes?.type);
+  console.log("🚀 ~ DepartmentActions ~ notes:", notes);
+  const [currentView, setCurrentView] = useState("default");
+  let ref = useRef();
+  const { login, token } = useContext(TokenContext);
+
+  let button = "";
+  let selectAction = (type = "") => {
+    let action = "";
+
+    switch (type) {
+      case "إضافة المستجدات":
+      case "إضافة مستجدات":
+        action = "add_updates";
+        break;
+      case "طلب مستجدات":
+        action = "request_updates";
+        button = "إضافه مستجدات";
+
+        break;
+      case "اضافة معلومات":
+        action = "add_information";
+        button = "إضافه مستجدات";
+
+        break;
+      case "إضافة ملاحظات":
+        action = "add_notes";
+        break;
+      case "طلب المعلومات":
+        action = "add_information";
+        button = "إضافه معلومات";
+
+        break;
+      default:
+        action = "unknown_action";
+    }
+
+    return action;
+  };
+  const showButton = (received) => {
+    if (received == "الإدارة المختصة" && token.role == "department") {
+      return true;
+    } else if (received == "المسئول" && token.role == "responsible") {
+      return true;
+    }
+    return false;
+  };
+
+  const action = notes?.type && selectAction(notes?.type);
+  console.log("🚀 ~ DepartmentActions ~ action:", action);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
     <div className="w-full mx-auto my-6 p-4 px-0">
-      <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg">
+      {/* <ReportModel
+        ref={ref}
+        title={notes?.type}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        <ReportInfo title={notes?.type || ""} action={action} />
+      </ReportModel> */}
+
+      <DashModal
+        title={notes?.type}
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      >
+        <ReportInfo
+          title={notes?.type || ""}
+          action={action}
+          key={notes?.id}
+          _id={notes?.id}
+        />
+      </DashModal>
+
+      <div className="space-y-6 bg-blue-100/40 p-4 rounded-lg relative">
+        {showButton(notes?.received_by) && (
+          <button
+            className="bg-[#33835C] p-[6px] rounded-md text-white absolute left-3 top-3 flex items-center gap-1"
+            onClick={() => {
+              // ref.current?.open();
+              setModalOpen(true);
+            }}
+          >
+            <PlusOutlined />
+            <span>{button}</span>
+          </button>
+        )}
         <div className="flex flex-col space-y-3">
           <div className="flex items-center gap-2 flex-wrap">
             <div

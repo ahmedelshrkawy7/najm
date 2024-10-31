@@ -4,7 +4,14 @@ import React from "react";
 import ReportsTextIcon from "./ReportsTextIcon";
 import prev7 from "../../assets/icons/prev7.svg";
 
-const ReportFiles = ({ fils, setFils, preview, watch, setValue, hasLabel }) => {
+const ReportFiles = ({
+  fils,
+  setFils,
+  preview,
+  watch,
+  setValue,
+  hasLabel = true,
+}) => {
   const handleDeleteFiles = (id, path) => {
     const files = [...fils];
     files.splice(id, 1);

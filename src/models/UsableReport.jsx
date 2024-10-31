@@ -73,7 +73,7 @@ const UsableReport = ({
         </>
       )}
       {textAreaLabel && (
-        <div>
+        <div className="relative my-1 mb-2">
           <label htmlFor="textarea" className="font-medium text-[15px]">
             {textAreaLabel}
           </label>
@@ -87,7 +87,9 @@ const UsableReport = ({
             placeholder="اكتب هنا"
           ></textarea>
           {errors?.[notes] && (
-            <span className="text-red-500">{errors[notes].message}</span>
+            <span className="text-red-500 absolute -bottom-4 right-0">
+              {errors[notes].message}
+            </span>
           )}
         </div>
       )}

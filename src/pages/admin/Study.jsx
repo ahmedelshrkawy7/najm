@@ -128,14 +128,14 @@ const Study = ({ children, title, role, name }) => {
                 </span>
               </p>
             </div>
-            <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
+            {/* <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
               <p className="font-semibold text-sm text-[#33835c] flex items-center">
                 الحالة
                 <span className="text-black/65 text-xl ms-2">
                   {report?.status}
                 </span>
               </p>
-            </div>
+            </div> */}
           </div>
           {role === "responsible" && name !== "prepare" ? (
             <div className="flex gap-3">
@@ -249,12 +249,13 @@ const Study = ({ children, title, role, name }) => {
               </div>
             </div>
           ) : (
-            <button
-              onClick={() => {}}
-              className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
-            >
-              استلام البلاغ
-            </button>
+            // <button
+            //   onClick={() => {}}
+            //   className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
+            // >
+            //   استلام البلاغ
+            // </button>
+            ""
           )}
         </div>
         <div className="bg-white rounded-md mt-4">

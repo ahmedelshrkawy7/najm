@@ -10,7 +10,7 @@ import useApi from "../utils/useApi";
 import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
 
-const ReportInfo = ({ title, action }) => {
+const ReportInfo = ({ title, action, _id }) => {
   const {
     control,
     handleSubmit,
@@ -25,6 +25,7 @@ const ReportInfo = ({ title, action }) => {
       action: action,
       notes: "",
       files: [],
+      parent_id: _id,
     },
   });
 

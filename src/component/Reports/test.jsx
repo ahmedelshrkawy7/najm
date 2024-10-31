@@ -90,13 +90,13 @@ const Test = () => {
                   </span>
                 </p>
               </div>
-              <div className="border border-light rounded-lg shadow-sm p-2 bg-[#33835c]">
+              {/* <div className="border border-light rounded-lg shadow-sm p-2 bg-[#33835c]">
                 <p className="font-semibold text-sm text-white flex items-center">
                   <span className="text-white text-xl ms-2">
                     {report?.status}
                   </span>
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="relative flex gap-3">
               <button
@@ -130,6 +130,7 @@ const Test = () => {
             <div className="p-1 sm:p-6">
               <DispalyData
                 title="بيانات البلاغ"
+                setShowSvg={setShowSvg}
                 values={{
                   ...report,
                   reason: report?.reason,
