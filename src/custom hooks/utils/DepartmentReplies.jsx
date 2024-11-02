@@ -14,7 +14,7 @@ const DepartmentReplies = ({ replies }) => {
   return (
     <>
       <div className="w-full mx-auto my-6 p-4 px-0">
-        <div className="space-y-6 bg-blue-100/90 p-4 rounded-lg border border-gray-400">
+        <div className="space-y-6 bg-blue-100 p-4 rounded-lg border border-gray-400">
           <div className="flex flex-col space-y-3">
             <div className="flex items-center gap-2 flex-wrap">
               <div

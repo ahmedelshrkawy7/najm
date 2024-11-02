@@ -58,7 +58,7 @@ const DepartmentActions = ({ notes }) => {
     return action;
   };
   const showButton = ({ received_by, type }) => {
-    if (type.includes("إضافة")) return false;
+    if (type.includes("إضافة") || type.includes("اشعار")) return false;
     if (received_by == "الإدارة المختصة" && token.role == "department") {
       return true;
     } else if (received_by == "المسئول" && token.role == "responsible") {

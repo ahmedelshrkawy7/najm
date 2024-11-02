@@ -11,7 +11,7 @@ import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
 import { Spin } from "antd";
 
-const ReportInfo = ({ title, action, _id }) => {
+const ReportInfo = ({ title, action, _id,successMsg }) => {
   const {
     control,
     handleSubmit,
@@ -67,7 +67,7 @@ const ReportInfo = ({ title, action, _id }) => {
           <div className="px-5 py-3 flex flex-col gap-2">
             <UsableReport
               selectTitle={"نوع الاجراء"}
-              textAreaLabel={"يرجى كتابة سبب الرفض"}
+              textAreaLabel={"يرجى كتابة الملاحظات"}
               control={control}
               data={[]}
               name=""
@@ -135,7 +135,7 @@ const ReportInfo = ({ title, action, _id }) => {
           </div>
         </form>
       ) : (
-        <SuccessModal title={"تم طلب مستجدات من الإدارة بنجاح"} />
+        <SuccessModal title={successMsg} />
       )}
     </>
   );
