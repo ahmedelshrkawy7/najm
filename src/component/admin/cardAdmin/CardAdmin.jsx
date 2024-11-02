@@ -53,7 +53,6 @@ const CardAdmin = () => {
     }
     refetch();
     document.documentElement.style.overflow = "";
-    
   }, [refetch, data]);
 
   const selectOptions = {

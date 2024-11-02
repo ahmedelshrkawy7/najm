@@ -40,7 +40,7 @@ const DepartmentActions = ({ notes }) => {
         break;
       case "اضافة معلومات":
         action = "add_information";
-        button = "إضافه مستجدات";
+        button = "إضافه معلومات";
 
         break;
       case "إضافة ملاحظات":
@@ -57,6 +57,7 @@ const DepartmentActions = ({ notes }) => {
 
     return action;
   };
+
   const showButton = ({ received_by, type }) => {
     if (type.includes("إضافة") || type.includes("اشعار")) return false;
     if (received_by == "الإدارة المختصة" && token.role == "department") {
@@ -85,17 +86,20 @@ const DepartmentActions = ({ notes }) => {
       </ReportModel> */}
 
       <DashModal
-        title={notes?.type}
+        title={button || notes?.type}
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         currentView={currentView}
         setCurrentView={setCurrentView}
       >
         <ReportInfo
-          title={notes?.type || ""}
+          title={button || notes?.type}
           action={action}
           key={notes?.id}
           _id={notes?.id}
+          successMsg={
+            button === "إضافه معلومات" ? "تم اضافة معلومات بنجاح" : ""
+          }
         />
       </DashModal>
 
