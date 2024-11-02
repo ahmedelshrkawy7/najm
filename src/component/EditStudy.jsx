@@ -419,6 +419,7 @@ const EditStudy = ({ change }) => {
                   errors={errors}
                   control={control}
                   watch={watch}
+                  canViewImages={true}
                 />
               </div>
             </div>

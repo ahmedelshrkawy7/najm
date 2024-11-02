@@ -8,6 +8,7 @@ import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
 import { useContext, useEffect } from "react";
 import TokenContext from "../../../store/TokenContext";
+import StudyContext from "../../../store/StudyContext";
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -28,6 +29,7 @@ const CardAdmin = () => {
   });
   console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);
+  const { showMenu, handleHideMenu } = useContext(StudyContext);
   console.log("🚀 ~ CardAdmin ~ token:", token);
 
   // const selectOptions = {
@@ -46,8 +48,12 @@ const CardAdmin = () => {
   // };
 
   useEffect(() => {
+    if (showMenu) {
+      handleHideMenu();
+    }
     refetch();
     document.documentElement.style.overflow = "";
+    
   }, [refetch, data]);
 
   const selectOptions = {
@@ -779,6 +785,25 @@ const CardAdmin = () => {
 
   console.log("🚀 ~ filteredReports ~ filteredReports:", data);
 
+  // change card circle opacity based on role
+  const getClassNames = (role, index) => {
+    switch (role) {
+      case "accreditor":
+        return ""; // No background for 'accreditor'
+
+      case "department":
+        // return index === 1
+        //   ? "bg-white/100"
+        //   : "bg-white/5";
+        return "";
+
+      default:
+        return index === 0 || index === 1 || index === 2 || index === 5
+          ? "bg-white/100"
+          : "bg-white/5";
+    }
+  };
+
   return (
     <>
       <div className="w-[90%] mx-auto">
@@ -801,11 +826,12 @@ const CardAdmin = () => {
                 <div style={{ backgroundColor: card.bgColor }}>
                   <div
                     className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
-                      role === "accreditor"
-                        ? ""
-                        : i === 0 || i === 5 || i === 1 || i === 2
-                        ? "bg-white/100"
-                        : "bg-white/5"
+                      // role === "accreditor"
+                      //   ? ""
+                      //   : i === 0 || i === 5 || i === 1 || i === 2
+                      //   ? "bg-white/100"
+                      //   : "bg-white/5"
+                      getClassNames(role, i)
                     }`}
                   >
                     {card.icon}

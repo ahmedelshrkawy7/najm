@@ -11,7 +11,7 @@ import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
 import { Spin } from "antd";
 
-const ReportInfo = ({ title, action, _id,successMsg }) => {
+const ReportInfo = ({ title, action, _id, successMsg }) => {
   const {
     control,
     handleSubmit,
@@ -63,8 +63,8 @@ const ReportInfo = ({ title, action, _id,successMsg }) => {
   return (
     <>
       {currentView === "default" ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-5 py-3 flex flex-col gap-2">
+        <form onSubmit={handleSubmit(onSubmit)} >
+          <div className="px-5 py-3 flex flex-col gap-2 ">
             <UsableReport
               selectTitle={"نوع الاجراء"}
               textAreaLabel={"يرجى كتابة الملاحظات"}
@@ -112,6 +112,7 @@ const ReportInfo = ({ title, action, _id,successMsg }) => {
                 control={control}
                 watch={watch}
                 setValue={setValue}
+                canViewImages={false}
               />
             </div>
 

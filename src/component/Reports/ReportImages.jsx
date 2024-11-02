@@ -140,6 +140,9 @@ const ReportImages = ({
                     <div
                       className="active cursor-pointer h-full w-full bg-[#000] "
                       onClick={() => {
+                        if (canViewImages === false) {
+                          return;
+                        }
                         showFunc(index, "image");
                       }}
                     >
@@ -242,10 +245,15 @@ const ReportImages = ({
                         <span
                           className="active cursor-pointer"
                           onClick={() => {
+                            if (canViewImages === false) {
+                              return;
+                            }
                             showFunc(index, "video");
                           }}
                         >
-                          <EyeOutlined className="text-[20px] text-white" />
+                          {canViewImages && (
+                            <EyeOutlined className="text-[20px] text-white" />
+                          )}
                         </span>
                       </div>
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">

@@ -245,6 +245,7 @@ const ReportMenu = ({
         children: (
           <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
             <ReportInfo
+              title="اضافة ملاحظات"
               action={"add_notes"}
               successMsg={"تم اضافة ملاحظات بنجاح"}
             />
@@ -359,6 +360,7 @@ const ReportMenu = ({
         children: (
           <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
             <ReportInfo
+              title="اضافة ملاحظات"
               action={"add_notes"}
               successMsg={"تم اضافة ملاحظات بنجاح"}
             />

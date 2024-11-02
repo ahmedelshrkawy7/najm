@@ -36,7 +36,7 @@ const Test = () => {
     error,
     refetch,
     data: { data: { report } = {} } = {},
-  } = useQuery(["users", ["/reports"], id], getData);
+  } = useQuery(["admin", ["/reports"], id], getData);
 
   useEffect(() => {
     refetch();

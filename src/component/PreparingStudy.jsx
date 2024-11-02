@@ -397,6 +397,7 @@ const PreparingStudy = ({ change }) => {
                   control={control}
                   watch={watch}
                   setValue={setValue}
+                  canViewImages={true}
                 />
               </div>
             </div>

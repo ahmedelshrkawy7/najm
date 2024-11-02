@@ -95,7 +95,7 @@ const DispalyData = ({
     {
       icon: <WarningOutlined />,
       label: "السبب:",
-      result: values?.notes?.reason,
+      result: values?.notes?.reason || "غير موجود",
     },
   ];
   const reason = [
@@ -228,6 +228,7 @@ const DispalyData = ({
             values?.status !== "add_notes_from_department" &&
             values?.status !== "add_updates_from_department" &&
             values?.status !== "final_result_from_department" &&
+            values?.status !== "add_information_from_department" &&
             values?.status !== "closed" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
