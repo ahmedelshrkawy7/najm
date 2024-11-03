@@ -215,6 +215,7 @@ const DispalyData = ({
               />
             </CardWrapper>
           )}
+          {/* JSON.parse(localStorage.getItem('token'))?.role!=='department') */}
 
           {values?.notes &&
             values?.status !== "rejected" &&
@@ -233,6 +234,7 @@ const DispalyData = ({
             values?.status !== "add_updates_from_responsible" &&
             values?.status !== "add_notes_from_responsible" &&
             values?.status !== "final_result_from_responsible" &&
+            values?.status !== "request_information_from_responsible" &&
             values?.status !== "closed" && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper

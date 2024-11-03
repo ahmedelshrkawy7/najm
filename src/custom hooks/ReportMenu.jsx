@@ -317,7 +317,8 @@ const ReportMenu = ({
           status === "add_information_from_responsible" ||
           status === "request_updates_from_responsible" ||
           status === "add_notes_from_responsible" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "add_updates_from_department",
       },
       {
         id: 13,
@@ -371,7 +372,8 @@ const ReportMenu = ({
           status === "request_updates_from_responsible" ||
           status === "add_notes_from_responsible" ||
           status === "add_notes_from_responsible" ||
-          status === "assign_to_study",
+          status === "assign_to_study" ||
+          status === "add_updates_from_department",
       },
     ];
   } else {
@@ -506,7 +508,9 @@ const ReportMenu = ({
             opt.id === 2 ||
             opt.id === 3 ||
             opt.id === 4 ||
-            opt.id === 5)) ||
+            opt.id === 5 ||
+            opt.id === 14 ||
+            opt.id === 12)) ||
         ((status === "request_information_from_responsible" ||
           status === "add_notes_from_department" ||
           status === "add_information_from_department" ||
@@ -555,10 +559,10 @@ const ReportMenu = ({
             opt.id === 14))
       );
     } else {
-      return (status === "closed" && opt.disabled === true) ||
+      return (
+        (status === "closed" && opt.disabled === true) ||
         (status === "final_result_from_department" && opt.id === 14)
-        ? "text-gray-400 !cursor-not-allowed"
-        : "cursor-pointer";
+      );
     }
   };
 

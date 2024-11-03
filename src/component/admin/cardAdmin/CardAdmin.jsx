@@ -518,6 +518,146 @@ const CardAdmin = () => {
       ),
       bgColor: "#000",
     },
+    {
+      title: "اضافة مستجدات من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اضافة مستجدات من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اضافة معلومات من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اضافة معلومات من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "طلب معلومات من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "طلب معلومات من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "طلب مستجدات من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "طلب مستجدات من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اشعار النتيجة النهائية من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اشعار النتيجة النهائية من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اضافة ملاحظات من المسئول",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "اضافة ملاحظات من الادارة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "بلاغات مغلقة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#000",
+    },
+    {
+      title: "بلاغات مسندة للدراسة",
+      icon: (
+        <img
+          src="../src/assets/icons/edit_report.png"
+          className="p-2 rounded-full"
+        />
+      ),
+      bgColor: "#f7b756",
+    },
   ];
 
   const role = JSON.parse(localStorage.getItem("token")).role;
@@ -546,7 +686,23 @@ const CardAdmin = () => {
         "بلاغات جارى اعتمادها",
         "معاد للدراسة من المعتمد",
       ],
-      department: ["اجمالى البلاغات المستلمة"],
+      department: [
+        "اجمالى البلاغات المستلمة",
+        "اضافة مستجدات من المسئول",
+        "اضافة مستجدات من الادارة",
+        "اضافة معلومات من المسئول",
+        "اضافة معلومات من الادارة",
+        "طلب معلومات من المسئول",
+        "طلب معلومات من الادارة",
+        "طلب مستجدات من المسئول",
+        "طلب مستجدات من الادارة",
+        "اشعار النتيجة النهائية من المسئول",
+        "اشعار النتيجة النهائية من الادارة",
+        "اضافة ملاحظات من المسئول",
+        "اضافة ملاحظات من الادارة",
+        "بلاغات مغلقة",
+        "بلاغات مسندة للدراسة",
+      ],
     };
 
     if (role in roleFilters) {
@@ -592,6 +748,20 @@ const CardAdmin = () => {
       // counter.new || 0,
       // counter.assign_to_study || 0,
       counter.all || 0,
+      counter.add_updates_from_responsible || 0,
+      counter.add_updates_from_department || 0,
+      counter.add_information_from_department || 0,
+      counter.add_information_from_responsible || 0,
+      counter.request_information_from_responsible || 0,
+      counter.request_updates_from_department || 0,
+      counter.request_updates_from_responsible || 0,
+      counter.request_information_from_department || 0,
+      counter.final_result_from_responsible || 0,
+      counter.final_result_from_department || 0,
+      counter.add_notes_from_responsible || 0,
+      counter.add_notes_from_department || 0,
+      counter.closed || 0,
+      counter.assign_to_study || 0,
     ];
   } else {
     counterValues = [
@@ -609,6 +779,21 @@ const CardAdmin = () => {
       counter.under_confirm || 0,
       counter.under_process || 0,
       counter.resubmit_study_from_accreditor || 0,
+      // dept
+      counter.add_updates_from_responsible || 0,
+      counter.add_updates_from_department || 0,
+      counter.add_information_from_department || 0,
+      counter.add_information_from_responsible || 0,
+      counter.request_information_from_responsible || 0,
+      counter.request_updates_from_department || 0,
+      counter.request_updates_from_responsible || 0,
+      counter.request_information_from_department || 0,
+      counter.final_result_from_responsible || 0,
+      counter.final_result_from_department || 0,
+      counter.add_notes_from_responsible || 0,
+      counter.add_notes_from_department || 0,
+      counter.closed || 0,
+      counter.assign_to_study || 0,
     ];
   }
 
@@ -816,7 +1001,7 @@ const CardAdmin = () => {
                 style={{ backgroundColor: card.bgColor }}
               >
                 <div className="space-y-2">
-                  <h2 className="text-[15px] text-[#fff]">{card.title}</h2>
+                  <h2 className="text-[13px] text-[#fff]">{card.title}</h2>
                   <h2 className="text-4xl text-[#fff] font-bold text-right">
                     {/* {data?.meta?.reports?.totalItems} */}
                     {counterValues[i]}

@@ -23,6 +23,7 @@ const UserCard = ({
   closeModal,
   setMessage,
 }) => {
+  console.log("🚀 ~ record:", record);
   const { Option } = Select;
 
   const { getData, postData } = useApi();
@@ -69,7 +70,7 @@ const UserCard = ({
       type: "select",
       options: roles,
       name: "role_id",
-      val: record?.role[0].name,
+      val: record?.role[0]?.name,
     },
     {
       id: 4,

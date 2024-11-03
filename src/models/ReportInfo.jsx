@@ -41,7 +41,8 @@ const ReportInfo = ({ title, action, _id, successMsg, setShowSvg }) => {
   let { id } = useParams();
   const queryClient = useQueryClient();
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("🚀 ~ ReportInfo ~ data:", data);
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/reports"], id]);
       // successNotf("تم اسناد البلاغ للادارة بنجاح");

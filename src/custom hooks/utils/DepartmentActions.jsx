@@ -98,7 +98,11 @@ const DepartmentActions = ({ notes }) => {
           key={notes?.id}
           _id={notes?.id}
           successMsg={
-            button === "إضافه معلومات" ? "تم اضافة معلومات بنجاح" : ""
+            button === "إضافه معلومات"
+              ? "تم اضافة معلومات بنجاح"
+              : button === "إضافه مستجدات"
+              ? "تم اضافة مستجدات بنجاح"
+              : ""
           }
         />
       </DashModal>
