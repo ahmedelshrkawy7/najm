@@ -201,6 +201,7 @@ const ReportModal = ({
             close={true}
             title={"تم انشاء الدراسة بنجاح"}
             refetch={props.refetch}
+            
           />
         ) : (
           <div className="mt-12">{children}</div>

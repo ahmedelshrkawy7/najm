@@ -20,7 +20,7 @@ const FileInput = ({
   control,
   setValue,
   watch,
-  canViewImages=true,
+  canViewImages = true,
 }) => {
   // console.log(
   //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
@@ -60,9 +60,14 @@ const FileInput = ({
     e.target.value = "";
   };
   useEffect(() => {
-    let allFiles = [...imgs, ...fils, ...videos].filter((el) => {
-      return !("id" in el);
-    });
+    // let allFiles = [...imgs, ...fils, ...videos].filter((el) => {
+    //   return !("id" in el);
+    // });
+    const allFiles = [
+      ...(Array.isArray(imgs) ? imgs : []),
+      ...(Array.isArray(fils) ? fils : []),
+      ...(Array.isArray(videos) ? videos : []),
+    ].filter((el) => !("id" in el));
     setValue("files", allFiles);
   }, [imgs, fils, videos, setValue]);
   // setValue("files", [...imgs, ...videos, ...fils]);

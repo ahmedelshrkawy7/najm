@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { Checkbox } from "antd";
 import { useState } from "react";
@@ -5,8 +6,9 @@ import { useMutation } from "react-query";
 import { useForm } from "react-hook-form";
 import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
+import { successNotf } from "../utils/notifications/Toast";
 
-const ReportLock = () => {
+const ReportLock = ({ setShowSvg }) => {
   const [checked, setChecked] = useState(true);
 
   const onChange = (e) => {
@@ -34,7 +36,8 @@ const ReportLock = () => {
 
   const mutation = useMutation(postData, {
     onSuccess: () => {
-      setCurrentView("success");
+      setShowSvg(false);
+      successNotf("تم اقفال البلاغ بنجاح");
       // setCurrentView("success");
     },
     onError: (err) => {

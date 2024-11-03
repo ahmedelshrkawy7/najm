@@ -34,7 +34,7 @@ const ReportMenu = ({
       // change(3);
       successNotf(
         role === "responsible"
-          ? "تم توجية الدراسه الأوليه للمعتمد"
+          ? "تم تاكيد الاشعار من المسئول بنجاح"
           : "تم اعتماد الدراسة الاولية بنجاح"
       );
       refetch();
@@ -78,7 +78,10 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "add_notes_from_responsible",
       },
       {
         id: 2,
@@ -99,7 +102,10 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "add_notes_from_responsible",
       },
       {
         id: 3,
@@ -120,7 +126,10 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "add_notes_from_responsible",
       },
       {
         id: 4,
@@ -140,7 +149,10 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "add_notes_from_responsible",
       },
       {
         id: 5,
@@ -156,7 +168,10 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "add_notes_from_responsible",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -171,7 +186,11 @@ const ReportMenu = ({
         id: 6,
         title: "طلب مستجدات",
         children: (
-          <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="طلب مستجدات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="طلب مستجدات"
               action={"request_updates"}
@@ -189,7 +208,11 @@ const ReportMenu = ({
         id: 7,
         title: "اضافة مستجدات",
         children: (
-          <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة مستجدات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="إضافه مستجدات"
               action="add_updates"
@@ -207,7 +230,11 @@ const ReportMenu = ({
         id: 9,
         title: "طلب معلومات",
         children: (
-          <ReportModal title="طلب معلومات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="طلب معلومات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="طلب معلومات"
               action="request_information"
@@ -225,7 +252,11 @@ const ReportMenu = ({
         id: 10,
         title: "اضافة معلومات",
         children: (
-          <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة معلومات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="اضافة معلومات"
               action="add_information"
@@ -243,7 +274,11 @@ const ReportMenu = ({
         id: 11,
         title: "اضافة ملاحظات",
         children: (
-          <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة ملاحظات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="اضافة ملاحظات"
               action={"add_notes"}
@@ -263,8 +298,12 @@ const ReportMenu = ({
         id: 12,
         title: "اقفال البلاغ",
         children: (
-          <ReportModal title="اتخاذ اجراء" setShowSvg={setShowSvg}>
-            <ReportLock />
+          <ReportModal
+            title="اتخاذ اجراء"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
+            <ReportLock setShowSvg={setShowSvg} />
           </ReportModal>
         ),
         disabled:
@@ -273,7 +312,12 @@ const ReportMenu = ({
           status === "closed" ||
           status === "request_information_from_responsible" ||
           status === "add_notes_from_department" ||
-          status === "final_result_from_department",
+          status === "final_result_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_responsible" ||
+          status === "assign_to_study",
       },
       {
         id: 13,
@@ -294,7 +338,11 @@ const ReportMenu = ({
         id: 14,
         title: "تأكيد إشعار",
         children: (
-          <ReportModal title={"تأكيد إشعار"} setShowSvg={setShowSvg}>
+          <ReportModal
+            title={"تأكيد إشعار"}
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <SuccessModal
               title={" تأكيد إشعار النتيجة النهائية"}
               close={"تأكيد"}
@@ -317,7 +365,13 @@ const ReportMenu = ({
           status === "request_information_from_responsible" ||
           status === "add_notes_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_responsible" ||
+          status === "add_notes_from_responsible" ||
+          status === "assign_to_study",
       },
     ];
   } else {
@@ -330,6 +384,7 @@ const ReportMenu = ({
             title="طلب معلومات"
             setShowSvg={setShowSvg}
             action="request_information"
+            refetch={refetch}
           >
             <ReportInfo
               title="طلب معلومات"
@@ -338,13 +393,17 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled: status === "closed" || false,
       },
       {
         id: 10,
         title: "اضافة معلومات",
         children: (
-          <ReportModal title="اضافة معلومات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة معلومات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="إضافه معلومات"
               action="add_information"
@@ -352,13 +411,17 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled: status === "closed" || false,
       },
       {
         id: 11,
         title: "اضافة ملاحظات",
         children: (
-          <ReportModal title="اضافة ملاحظات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة ملاحظات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title="اضافة ملاحظات"
               action={"add_notes"}
@@ -366,13 +429,17 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled: status === "closed" || false,
       },
       {
         id: 12,
         title: "طلب مستجدات",
         children: (
-          <ReportModal title="طلب مستجدات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="طلب مستجدات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               action={"request_updates"}
               title="طلب مستجدات"
@@ -380,13 +447,17 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled: status === "closed" || false,
       },
       {
         id: 13,
         title: "اضافة مستجدات",
         children: (
-          <ReportModal title="اضافة مستجدات" setShowSvg={setShowSvg}>
+          <ReportModal
+            title="اضافة مستجدات"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               action={"add_updates"}
               title="اضافة مستجدات"
@@ -394,32 +465,102 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled: status === "closed" || false,
       },
       {
         id: 14,
         title: " إشعار بالنتيجه النهائية",
         children: (
-          <ReportModal title=" إشعار بالنتيجه النهائية" setShowSvg={setShowSvg}>
+          <ReportModal
+            title=" إشعار بالنتيجه النهائية"
+            setShowSvg={setShowSvg}
+            refetch={refetch}
+          >
             <ReportInfo
               title=" إشعار بالنتيجه النهائية"
               action={"notify_the_final_result"}
+              successMsg={"تم ارسال النتيجة النهائية الى المسئول بنجاح"}
+              setShowSvg={setShowSvg}
             />
           </ReportModal>
         ),
-        disabled: status === "accepted" || status === "new",
+        disabled:
+          status === "final_result_from_department" ||
+          status === "closed" ||
+          false,
       },
     ];
   }
 
-  // const isOptionDisabled = (id) => {
-  //   return (
-  //     status === "rejected" ||
-  //     (status === "new" && id !== 1) ||
-  //     (status === "accepted" && id === 1) ||
-  //     (status === "under_confirm" && (id === 1 || id === 2))
-  //   );
-  // };
+  const isOptionDisabled = (opt) => {
+    if (role === "responsible") {
+      return (
+        status === "rejected" ||
+        status === "rejected_from_responsible" ||
+        (status === "new" && opt.id !== 1) ||
+        ((status === "request_updates_from_department" ||
+          status === "request_updates_from_responsible" ||
+          status === "add_notes_from_department" ||
+          status === "add_updates_from_department") &&
+          (opt.id === 1 ||
+            opt.id === 2 ||
+            opt.id === 3 ||
+            opt.id === 4 ||
+            opt.id === 5)) ||
+        ((status === "request_information_from_responsible" ||
+          status === "add_notes_from_department" ||
+          status === "add_information_from_department" ||
+          status === "add_notes_from_responsible") &&
+          (opt.id === 1 ||
+            opt.id === 2 ||
+            opt.id === 3 ||
+            opt.id === 4 ||
+            opt.id === 5 ||
+            opt.id === 14 ||
+            opt.id === 12)) ||
+        (status === "closed" && opt.id) ||
+        ((status === "add_updates_from_responsible" ||
+          status === "add_information_from_responsible" ||
+          status === "request_updates_from_responsible") &&
+          (opt.id === 1 ||
+            opt.id === 2 ||
+            opt.id === 3 ||
+            opt.id === 4 ||
+            opt.id === 5 ||
+            opt.id === 12 ||
+            opt.id === 14)) ||
+        (status === "final_result_from_responsible" && opt.id !== 12) ||
+        (status === "accepted" && opt.id !== 2) ||
+        (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
+        (status === "under_process" &&
+          (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
+        (status === "prepare_initial_study" &&
+          (opt.id === 1 || opt.id === 2)) ||
+        ((status === "under_confirm" || status === "confirmed") &&
+          (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4)) ||
+        (status === "final_result_from_department" &&
+          (opt.id === 1 ||
+            opt.id === 2 ||
+            opt.id === 3 ||
+            opt.id === 4 ||
+            opt.id === 5 ||
+            opt.id === 12)) ||
+        (status === "assign_to_study" &&
+          (opt.id === 1 ||
+            opt.id === 2 ||
+            opt.id === 3 ||
+            opt.id === 4 ||
+            opt.id === 5 ||
+            opt.id === 12 ||
+            opt.id === 14))
+      );
+    } else {
+      return (status === "closed" && opt.disabled === true) ||
+        (status === "final_result_from_department" && opt.id === 14)
+        ? "text-gray-400 !cursor-not-allowed"
+        : "cursor-pointer";
+    }
+  };
 
   const clickModal = (children) => {
     func(children);
@@ -451,54 +592,72 @@ const ReportMenu = ({
               : clickModal(opt.children);
           }}
           className={`py-[5px] px-[10px] border border-gray-100 text-[16px] ${
-            status === "rejected" ||
-            status === "rejected_from_responsible" ||
-            (status === "new" && opt.id !== 1) ||
-            ((status === "request_updates_from_department" ||
-              status === "request_updates_from_responsible" ||
-              status === "add_notes_from_department" ||
-              status === "add_updates_from_department") &&
-              (opt.id === 1 ||
-                opt.id === 2 ||
-                opt.id === 3 ||
-                opt.id === 4 ||
-                opt.id === 5)) ||
-            ((status === "request_information_from_responsible" ||
-              status === "add_notes_from_department" ||
-              status === "add_information_from_department") &&
-              (opt.id === 1 ||
-                opt.id === 2 ||
-                opt.id === 3 ||
-                opt.id === 4 ||
-                opt.id === 5 ||
-                opt.id === 14 ||
-                opt.id === 12)) ||
-            (status === "closed" && opt.id) ||
-            (status === "final_result_from_responsible" && opt.id !== 12) ||
-            (status === "accepted" && opt.id !== 2) ||
-            (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
-            (status === "under_process" &&
-              (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
-            (status === "prepare_initial_study" &&
-              (opt.id === 1 || opt.id === 2)) ||
-            ((status === "under_confirm" || status === "confirmed") &&
-              (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4)) ||
-            (status === "final_result_from_department" &&
-              (opt.id === 1 ||
-                opt.id === 2 ||
-                opt.id === 3 ||
-                opt.id === 4 ||
-                opt.id === 5 ||
-                opt.id === 12)) ||
-            (status === "assign_to_study" &&
-              (opt.id === 1 ||
-                opt.id === 2 ||
-                opt.id === 3 ||
-                opt.id === 4 ||
-                opt.id === 5))
+            // role === "responsible" &&
+            // (status === "rejected" ||
+            //   status === "rejected_from_responsible" ||
+            //   (status === "new" && opt.id !== 1) ||
+            //   ((status === "request_updates_from_department" ||
+            //     status === "request_updates_from_responsible" ||
+            //     status === "add_notes_from_department" ||
+            //     status === "add_updates_from_department") &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4 ||
+            //       opt.id === 5)) ||
+            //   ((status === "request_information_from_responsible" ||
+            //     status === "add_notes_from_department" ||
+            //     status === "add_information_from_department" ||
+            //     status === "add_notes_from_responsible") &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4 ||
+            //       opt.id === 5 ||
+            //       opt.id === 14 ||
+            //       opt.id === 12)) ||
+            //   (status === "closed" && opt.id) ||
+            //   ((status === "add_updates_from_responsible" ||
+            //     status === "add_information_from_responsible" ||
+            //     status === "request_updates_from_responsible") &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4 ||
+            //       opt.id === 5 ||
+            //       opt.id === 12 ||
+            //       opt.id === 14)) ||
+            //   (status === "final_result_from_responsible" && opt.id !== 12) ||
+            //   (status === "accepted" && opt.id !== 2) ||
+            //   (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
+            //   (status === "under_process" &&
+            //     (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
+            //   (status === "prepare_initial_study" &&
+            //     (opt.id === 1 || opt.id === 2)) ||
+            //   ((status === "under_confirm" || status === "confirmed") &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4)) ||
+            //   (status === "final_result_from_department" &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4 ||
+            //       opt.id === 5 ||
+            //       opt.id === 12)) ||
+            //   (status === "assign_to_study" &&
+            //     (opt.id === 1 ||
+            //       opt.id === 2 ||
+            //       opt.id === 3 ||
+            //       opt.id === 4 ||
+            //       opt.id === 5 ||
+            //       opt.id === 12 ||
+            //       opt.id === 14)))
+            isOptionDisabled(opt)
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer"
-          }`}
+          } `}
           key={opt.id}
         >
           {opt.title}

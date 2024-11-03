@@ -10,8 +10,9 @@ import useApi from "../utils/useApi";
 import SuccessModal from "./successModal";
 import FileInput from "../component/forms/fileInput/FileInput";
 import { Spin } from "antd";
+import { errorNotf } from "../utils/notifications/Toast";
 
-const ReportInfo = ({ title, action, _id, successMsg }) => {
+const ReportInfo = ({ title, action, _id, successMsg, setShowSvg }) => {
   const {
     control,
     handleSubmit,
@@ -46,7 +47,9 @@ const ReportInfo = ({ title, action, _id, successMsg }) => {
       // successNotf("تم اسناد البلاغ للادارة بنجاح");
     },
     onError: (err) => {
-      console.log("🚀 ~ err:", err);
+      console.log("🚀 ~ ReportInfo ~ err:", err);
+      setShowSvg(false);
+      errorNotf(err?.response?.data?.message);
     },
   });
 
@@ -63,7 +66,7 @@ const ReportInfo = ({ title, action, _id, successMsg }) => {
   return (
     <>
       {currentView === "default" ? (
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-5 py-3 flex flex-col gap-2 ">
             <UsableReport
               selectTitle={"نوع الاجراء"}
