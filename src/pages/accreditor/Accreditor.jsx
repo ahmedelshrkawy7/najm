@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import DispalyData from "../../custom hooks/DispalyData";
 import { Result } from "antd";
 import { Results } from "../../custom hooks/Results";
@@ -26,7 +26,7 @@ const Accreditor = ({ setLoc, role }) => {
     getData
   );
 
-  const { data: { data = {} } = {} } = useQuery(
+  const { data: { data = {} } = {}, refetch } = useQuery(
     ["admin", ["/reports/initial-study"], id],
     getData
   );
@@ -43,7 +43,9 @@ const Accreditor = ({ setLoc, role }) => {
   if (
     report?.status === "rejected" ||
     report?.status === "resubmit_study_from_accreditor" ||
-    report?.status === "rejected_from_responsible"
+    report?.status === "rejected_from_responsible" ||
+    report?.status === "accepted" ||
+    report?.status === "new"
   ) {
     values = {
       address: report?.address,
@@ -130,13 +132,18 @@ const Accreditor = ({ setLoc, role }) => {
         // notes: _data?.report?.notes?.notes,
         notes: data?.notes?.notes,
       },
+      lockNotes: report?.notes,
       actions: report?.results_and_actions_taken,
     };
   }
 
   console.log("🚀 ~ Accreditor ~ values:", values);
   console.log("🚀 ~ Accreditor ~ data:", data);
-  console.log("🚀 ~ Accreditor ~ report:", report);
+  console.log("🚀 ~ Accreditor ~ report:ddddddddddddd", report);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <>

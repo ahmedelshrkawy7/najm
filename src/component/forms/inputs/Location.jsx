@@ -14,6 +14,12 @@ const Location = ({
   // prevData,
 }) => {
   const inputRef = useRef(null);
+
+  const calculateWidth = (value) => {
+    // Calculate width based on value length
+    return value ? `${Math.max(value.length + 2, 10)}ch` : "300px"; // Adjust as needed
+  };
+
   return (
     <div className="flex flex-col self-start gap-4">
       <div>
@@ -31,6 +37,10 @@ const Location = ({
                   maxLength={100}
                   {...field}
                   // value={field.value || prevData}
+                  style={{
+                    width: calculateWidth(field.value),
+                    minWidth: "300px",
+                  }} // Dynamic width
                   ref={(e) => {
                     inputRef.current = e;
                   }}
@@ -40,9 +50,11 @@ const Location = ({
                         (field.value.length + 30) * 4 + "px";
                     }
                   }}
-                  className="focus:border-green-600 p-[10px] w-[70vw] sm:w-full  hover:border-green-600 "
+                  className="focus:border-green-600 p-[10px] w-[70vw] sm:w-full  hover:border-green-600"
                   placeholder={inputPlaceholder}
-                  suffix={<img width={width} src={src} />}
+                  suffix={
+                    <img width={width} src={src} className="absolute left-2" />
+                  }
                 />
               </div>
             )}

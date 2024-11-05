@@ -55,7 +55,14 @@ const routes = [
       {
         path: "/dash",
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes
+            allowedRoles={[
+              "responsible",
+              "accreditor",
+              "department",
+              "reviewer",
+            ]}
+          >
             <Dashboard />
           </ProtectedRoutes>
         ),
@@ -63,7 +70,14 @@ const routes = [
       {
         path: "/dash/:id",
         element: (
-          <ProtectedRoutes>
+          <ProtectedRoutes
+            allowedRoles={[
+              "responsible",
+              "accreditor",
+              "department",
+              "reviewer",
+            ]}
+          >
             <Outlet />
           </ProtectedRoutes>
         ),
@@ -111,6 +125,8 @@ const routes = [
 
           {
             path: "reportsDate",
+            handle: { crumb: "تفاصيل البلاغ" },
+
             element: <ReportDate />,
           },
         ],
@@ -121,7 +137,11 @@ const routes = [
       },
       {
         path: "managers",
-        element: <AdminManager />,
+        element: (
+          <ProtectedRoutes allowedRoles={["admin"]}>
+            <AdminManager />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "depts",

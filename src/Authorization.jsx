@@ -14,11 +14,18 @@ const Authorization = () => {
         <Accreditor role={role} />
       </Study>
     );
-  else if (role === "department") return (
-    <Study title="تفاصيل البلاغ" role={role} name="department">
-      <Accreditor role={role} />
-    </Study>
-  );
+  else if (role === "department")
+    return (
+      <Study title="تفاصيل البلاغ" role={role} name="department">
+        <Accreditor role={role} />
+      </Study>
+    );
+  else if (role === "reviewer")
+    return (
+      <Study title="تفاصيل البلاغ" role={role} name="reviewer">
+        <Accreditor role={role} />
+      </Study>
+    );
   else return <div> no role</div>;
 };
 

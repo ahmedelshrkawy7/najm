@@ -275,10 +275,21 @@ const EditStudy = ({ change }) => {
               }))}
             />
           </div>
-          <div className="self-center flex flex-wrap gap-6 my-8">
+          <div className="self-center flex flex-wrap gap-6 my-8 relative">
             {res?.data?.notes?.notes?.risk_assessment_note && (
               <Tooltip
                 title={res?.data?.notes?.notes?.risk_assessment_note}
+                overlayStyle={{
+                  // width: "100%",
+                  // maxWidth: "none",
+                  // paddingInline: "40px",
+                  whiteSpace: "normal", // Allow text to wrap within the tooltip
+                  wordWrap: "break-word", // Break words when necessary
+                  maxWidth: "none", // Remove any max-width limitation
+                  width: "auto", // Allow width to auto-size based on content
+                  paddingInline: "16px", // Optional: Adds some padding inside
+                  textAlign: "left",
+                }} // Prevents max-width constraint
                 className="absolute"
               >
                 <ExclamationCircleOutlined

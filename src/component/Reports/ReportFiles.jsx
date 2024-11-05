@@ -122,8 +122,10 @@ const ReportFiles = ({
               } p-2 px-4 rounded-md border border-[#D74D5224]`}
               style={{ backgroundColor: getBackgroundColor(file) }}
               onClick={() => {
+                console.log(file, "asfgasfgfasgfgasfsfg");
                 window.open(
-                  file?.file_path || URL?.createObjectURL(file),
+                  // file?.file_path || URL?.createObjectURL(file),
+                  file?.file_url || URL?.createObjectURL(file),
                   "_blank"
                 );
               }}

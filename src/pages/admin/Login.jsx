@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import useApi from "../../utils/useApi";
 import { useMutation } from "react-query";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import TokenContext from "../../store/TokenContext";
 import { EyeFilled, EyeInvisibleFilled, LockFilled } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
@@ -10,11 +10,18 @@ import { errorNotf, successNotf } from "../../utils/notifications/Toast";
 const Login = () => {
   const { postData } = useApi("/login");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const Post = useMutation(postData, {
     onSuccess: (e) => {
+      console.log("🚀 ~ Login ~ e:", e);
       if (e.status === 200) {
         login({ token: e.data.data.token, role: e.data.data.user.role.name });
+        if (e.data.data.user.role.name === "admin") {
+          navigate("/managers");
+        } else {
+          navigate("/dash");
+        }
         successNotf("تم تسجيل الدخول بنجاح");
       }
     },
@@ -49,7 +56,11 @@ const Login = () => {
 
   console.log(errors);
 
-  if (token) {
+  // if (token) {
+  //   return <Navigate to="/dash" />;
+  // }
+
+  if (token && token?.role !== "admin") {
     return <Navigate to="/dash" />;
   }
 

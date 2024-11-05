@@ -526,7 +526,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#7dee9f",
     },
     {
       title: "اضافة مستجدات من الادارة",
@@ -536,7 +536,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#6cad56",
     },
     {
       title: "اضافة معلومات من الادارة",
@@ -546,7 +546,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#51896e",
     },
     {
       title: "اضافة معلومات من المسئول",
@@ -556,7 +556,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#04be6e",
     },
     {
       title: "طلب معلومات من المسئول",
@@ -566,7 +566,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#81e468",
     },
     {
       title: "طلب معلومات من الادارة",
@@ -576,7 +576,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#bdcfac",
     },
     {
       title: "طلب مستجدات من المسئول",
@@ -586,7 +586,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#7f007b",
     },
     {
       title: "طلب مستجدات من الادارة",
@@ -596,7 +596,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#d284cf",
     },
     {
       title: "اشعار النتيجة النهائية من المسئول",
@@ -606,7 +606,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#f50772",
     },
     {
       title: "اشعار النتيجة النهائية من الادارة",
@@ -616,7 +616,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#b30948",
     },
     {
       title: "اضافة ملاحظات من المسئول",
@@ -626,7 +626,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#e75c11",
     },
     {
       title: "اضافة ملاحظات من الادارة",
@@ -636,7 +636,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#e79975",
     },
     {
       title: "بلاغات مغلقة",
@@ -646,7 +646,7 @@ const CardAdmin = () => {
           className="p-2 rounded-full"
         />
       ),
-      bgColor: "#000",
+      bgColor: "#6f14c0",
     },
     {
       title: "بلاغات مسندة للدراسة",
@@ -753,9 +753,9 @@ const CardAdmin = () => {
       counter.add_information_from_department || 0,
       counter.add_information_from_responsible || 0,
       counter.request_information_from_responsible || 0,
-      counter.request_updates_from_department || 0,
-      counter.request_updates_from_responsible || 0,
       counter.request_information_from_department || 0,
+      counter.request_updates_from_responsible || 0,
+      counter.request_updates_from_department || 0,
       counter.final_result_from_responsible || 0,
       counter.final_result_from_department || 0,
       counter.add_notes_from_responsible || 0,
@@ -880,6 +880,45 @@ const CardAdmin = () => {
             break;
           case "مسند للدراسة":
             bgColor = "#f7b756";
+            break;
+          case "اضافة مستجدات من المسئول":
+            bgColor = "#7dee9f";
+            break;
+          case "اضافة ملاحظات من الإدارة":
+            bgColor = "#e79975";
+            break;
+          case "طلب مستجدات من الإدارة":
+            bgColor = "#d284cf";
+            break;
+          case "طلب معلومات من المسئول":
+            bgColor = "#81e468";
+            break;
+          case "طلب معلومات من الإدارة":
+            bgColor = "#bdcfac";
+            break;
+          case "اضافة مستجدات من الإدارة":
+            bgColor = "#6cad56";
+            break;
+          case "اضافة معلومات من المسئول":
+            bgColor = "#04be6e";
+            break;
+          case "طلب مستجدات من المسئول":
+            bgColor = "#7f007b";
+            break;
+          case "اشعار بالنتيجة النهائية من المسئول":
+            bgColor = "#f50772";
+            break;
+          case "اضافة معلومات من الإدارة":
+            bgColor = "#51896e";
+            break;
+          case "اشعار بالنتيجة النهائية من الإدارة":
+            bgColor = "#b30948";
+            break;
+          case "مغلق":
+            bgColor = "#6f14c0";
+            break;
+          case "معتمد":
+            bgColor = "#9DC3E6";
             break;
           default:
             bgColor = "#000";

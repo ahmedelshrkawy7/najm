@@ -19,6 +19,7 @@ import ResubmitModal from "../../models/ResubmitModal";
 import { EditOutlined } from "@ant-design/icons";
 import ReportMenu from "../../custom hooks/ReportMenu";
 import Modal from "../../custom hooks/UI/Modal";
+import NotFound from "../../NotFound";
 
 const Study = ({ children, title, role, name }) => {
   let [reSubmit, setReSubmit] = useState(false);
@@ -43,10 +44,11 @@ const Study = ({ children, title, role, name }) => {
     },
   });
 
-  const { data: { data: { report } = {} } = {}, refetch } = useQuery(
-    ["admin", ["/reports"], id],
-    getData
-  );
+  const {
+    data: { data: { report } = {} } = {},
+    refetch,
+    isLoading,
+  } = useQuery(["admin", ["/reports"], id], getData);
 
   console.log("🚀 ~ Study ~ report:", report);
 
@@ -97,7 +99,6 @@ const Study = ({ children, title, role, name }) => {
     onError: (err) => {
       errorNotf(err.response.data.message);
       ref.current.close();
-
       // setCurrentView("error");
     },
   });
@@ -115,6 +116,23 @@ const Study = ({ children, title, role, name }) => {
   const onSubmit = (data) => {
     mutation.mutate([`/reports/${id}`, data]);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (!report) {
+    return (
+      <>
+        <NotFound msg={"البلاغ غير موجود"} />
+      </>
+    );
+  }
+
   return (
     <div className="bg-[#E6E6E6]">
       <div className=" w-[90%]  py-20   mx-auto ">
@@ -256,6 +274,17 @@ const Study = ({ children, title, role, name }) => {
             //   استلام البلاغ
             // </button>
             ""
+          )}
+          {role === "reviewer" && (
+            <div className="flex justify-between items-center flex-wrap">
+              <button
+                onClick={() => navigate("reportsDate")}
+                type="button"
+                className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
+              >
+                تاريخ سير البلاغ
+              </button>
+            </div>
           )}
         </div>
         <div className="bg-white rounded-md mt-4">

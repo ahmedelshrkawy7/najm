@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Navigate, redirect } from "react-router-dom";
 import React from "react";
@@ -18,7 +20,7 @@ export const TokenContextProvider = ({ children }) => {
     setToken(token);
     localStorage.setItem("token", JSON.stringify(token));
     // navigate("/dash");
-    return redirect("/dash");
+    // return redirect("/dash");
   };
   const logoutHandler = () => {
     setToken("");

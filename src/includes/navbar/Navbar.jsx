@@ -37,7 +37,7 @@ const Navbar = () => {
               </button>
             )}
 
-            {/(dash)/gi.test(pathname) && (
+            {/(dash|managers)/gi.test(pathname) && (
               <button
                 onClick={() => {
                   if (/(dash)/gi.test(pathname)) {
@@ -45,8 +45,8 @@ const Navbar = () => {
                     localStorage.setItem("pageNumber", 1);
                     return navigate("/admin/login");
                   }
-
-                  navigate("/allAdmins");
+                  // navigate("/allAdmins");
+                  navigate("/admin/login");
                 }}
                 // to="/allAdmins"
                 className="rounded-md w-12 bg-[#9494940D] text-white flex justify-center items-center h-10 leading-[48px] "

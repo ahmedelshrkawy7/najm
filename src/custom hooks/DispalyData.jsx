@@ -76,6 +76,29 @@ const DispalyData = ({
       result: values?.restudyNotes?.notes,
     },
   ];
+
+  const lockNotes = [
+    {
+      icon: <TeamOutlined />,
+      label: "المنشئ:",
+      result: values?.lockNotes?.creator,
+    },
+    {
+      icon: <HistoryOutlined />,
+      label: "التاريخ:",
+      result: values?.lockNotes?.date,
+    },
+    {
+      icon: <WarningOutlined />,
+      label: "الوقت:",
+      result: values?.lockNotes?.time,
+    },
+    {
+      icon: <FileTextOutlined />,
+      label: "الملاحظات:",
+      result: values?.lockNotes?.notes,
+    },
+  ];
   const items = [
     {
       icon: <TeamOutlined />,
@@ -98,6 +121,7 @@ const DispalyData = ({
       result: values?.notes?.reason || "غير موجود",
     },
   ];
+  console.log("🚀 ~ items:", items);
   const reason = [
     {
       icon: <FileTextOutlined />,
@@ -115,7 +139,8 @@ const DispalyData = ({
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
     ["admin", ["/reports/initial-study"], id],
-    getData
+    getData,
+    { enabled: !!id }
   );
   console.log("🚀 ~ data:", data);
 
@@ -154,6 +179,31 @@ const DispalyData = ({
   }
 
   const note = values?.notes?.notes?.[0];
+  console.log("values lllllll", values);
+
+  // const isValidStatus = (status) => {
+  //   const invalidStatuses = [
+  //     "rejected",
+  //     "under_process",
+  //     "under_confirm",
+  //     "rejected_from_responsible",
+  //     "assign_to_study",
+  //     "request_updates_from_department",
+  //     "request_information_from_department",
+  //     "request_updates_from_responsible",
+  //     "add_notes_from_department",
+  //     "add_updates_from_department",
+  //     "final_result_from_department",
+  //     "add_information_from_department",
+  //     "add_information_from_responsible",
+  //     "add_updates_from_responsible",
+  //     "add_notes_from_responsible",
+  //     "final_result_from_responsible",
+  //     "request_information_from_responsible",
+  //     "closed",
+  //   ];
+  //   return !invalidStatuses.includes(status);
+  // };
 
   return (
     <>
@@ -215,8 +265,28 @@ const DispalyData = ({
               />
             </CardWrapper>
           )}
-          {/* JSON.parse(localStorage.getItem('token'))?.role!=='department') */}
 
+          {values.lockNotes && values.status === "closed" && (
+            <div className="my-4 py-1 rounded-md">
+              <CardWrapper
+                icon={<img src={prev5} />}
+                title="ملاحظات اقفال البلاغ"
+              >
+                {lockNotes?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center flex-wrap p-2 gap-2"
+                  >
+                    <div className="text-[#33835c]">{item.icon}</div>
+                    <span className="font-semibold">{item.label}</span>
+                    <span>{item?.result}</span>
+                  </div>
+                ))}
+              </CardWrapper>
+            </div>
+          )}
+
+          {/* JSON.parse(localStorage.getItem('token'))?.role!=='department') */}
           {values?.notes &&
             values?.status !== "rejected" &&
             values?.status !== "under_process" &&
@@ -235,11 +305,15 @@ const DispalyData = ({
             values?.status !== "add_notes_from_responsible" &&
             values?.status !== "final_result_from_responsible" &&
             values?.status !== "request_information_from_responsible" &&
-            values?.status !== "closed" && (
+            values?.status !== "closed" &&
+            Array.isArray(items) &&
+            items.every(
+              (item) => item.result && item.result.trim() !== ''
+            ) && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}
-                  title="ملاحظات اعادة الدراسة"
+                  title={"ملاحظات اعادة الدراسة"}
                 >
                   {items.map((item, index) => (
                     <div

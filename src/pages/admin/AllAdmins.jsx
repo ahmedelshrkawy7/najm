@@ -1,21 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminCards from "./AdminCards";
+import TokenContext from "../../store/TokenContext";
+import { useContext } from "react";
 
 const AllAdmins = () => {
+  const { logout } = useContext(TokenContext);
+  const navigate = useNavigate();
   let allAdmin = [
     {
       adminName: "مسئول البلاغات",
+      name: "responsible",
     },
     {
       adminName: "معتمد البلاغات",
+      name: "accreditor",
     },
     {
       adminName: "مراجع البلاغات",
+      name: "reviewer",
     },
     {
       adminName: "البلاغات المسندة للادارات المعنية",
+      name: "admin",
     },
   ];
+
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
   return (
     <div className="bg-[url('../src/assets/admins_image.png')] bg-cover bg-no-repeat h-screen">
       <div className="w-[90%] mx-auto">
@@ -37,18 +47,30 @@ const AllAdmins = () => {
           </div>
           <div className="all self-center grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center md:gap-16 gap-10  mb-10">
             {allAdmin?.map((admin) => (
-              <AdminCards key={admin.adminName} adminName={admin.adminName} />
+              <AdminCards
+                key={admin.adminName}
+                adminName={admin.adminName}
+                name={admin.name}
+              />
             ))}
           </div>
-          <Link
-            to="/managers"
-            className="bg-green-700 w-fit rounded p-2 px-8 flex items-center gap-4 self-end md:mb-10 mb-20"
+          <div
+            // to={role === "admin" ? "/managers" : "/admin/login"}
+            onClick={() => {
+              if (role === "admin") {
+                navigate("/managers");
+              } else {
+                logout();
+                navigate("/admin/login");
+              }
+            }}
+            className="bg-green-700 w-fit rounded p-2 px-8 flex items-center gap-4 self-end md:mb-10 mb-20 cursor-pointer"
           >
             <div>
               <img src="../src/assets/icons/Admin_Group.svg" alt="" />
             </div>
             <h2 className="text-2xl text-white mb-2">مدير النظام</h2>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

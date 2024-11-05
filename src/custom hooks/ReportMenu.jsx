@@ -67,7 +67,6 @@ const ReportMenu = ({
           status === "under_confirm" ||
           status === "prepare_initial_study" ||
           status === "under_process" ||
-          status === "confirmed" ||
           status === "resubmit_study_from_accreditor" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
@@ -81,7 +80,9 @@ const ReportMenu = ({
           status === "add_information_from_department" ||
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
-          status === "add_notes_from_responsible",
+          status === "add_notes_from_responsible" ||
+          status === "request_information_from_department" ||
+          status === "confirmed",
       },
       {
         id: 2,
@@ -92,7 +93,6 @@ const ReportMenu = ({
           status === "under_confirm" ||
           status === "prepare_initial_study" ||
           status === "under_process" ||
-          status === "confirmed" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
@@ -105,7 +105,9 @@ const ReportMenu = ({
           status === "add_information_from_department" ||
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
-          status === "add_notes_from_responsible",
+          status === "add_notes_from_responsible" ||
+          status === "request_information_from_department" ||
+          status === "confirmed",
       },
       {
         id: 3,
@@ -116,7 +118,6 @@ const ReportMenu = ({
           status === "under_confirm" ||
           status === "under_process" ||
           status === "accepted" ||
-          status === "confirmed" ||
           status === "assign_to_study" ||
           status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
@@ -129,7 +130,9 @@ const ReportMenu = ({
           status === "add_information_from_department" ||
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
-          status === "add_notes_from_responsible",
+          status === "add_notes_from_responsible" ||
+          status === "request_information_from_department" ||
+          status === "confirmed",
       },
       {
         id: 4,
@@ -152,7 +155,8 @@ const ReportMenu = ({
           status === "add_information_from_department" ||
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
-          status === "add_notes_from_responsible",
+          status === "add_notes_from_responsible" ||
+          status === "request_information_from_department",
       },
       {
         id: 5,
@@ -171,7 +175,11 @@ const ReportMenu = ({
           status === "add_information_from_department" ||
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
-          status === "add_notes_from_responsible",
+          status === "add_notes_from_responsible" ||
+          status === "request_information_from_department" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -202,7 +210,11 @@ const ReportMenu = ({
           status === "accepted" ||
           status === "new" ||
           status === "closed" ||
-          status === "final_result_from_responsible",
+          status === "final_result_from_responsible" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 7,
@@ -224,7 +236,11 @@ const ReportMenu = ({
           status === "accepted" ||
           status === "new" ||
           status === "closed" ||
-          status === "final_result_from_responsible",
+          status === "final_result_from_responsible" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 9,
@@ -246,7 +262,11 @@ const ReportMenu = ({
           status === "accepted" ||
           status === "new" ||
           status === "closed" ||
-          status === "final_result_from_responsible",
+          status === "final_result_from_responsible" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 10,
@@ -268,7 +288,11 @@ const ReportMenu = ({
           status === "accepted" ||
           status === "new" ||
           status === "closed" ||
-          status === "final_result_from_responsible",
+          status === "final_result_from_responsible" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 11,
@@ -292,7 +316,11 @@ const ReportMenu = ({
           status === "closed" ||
           status === "final_result_from_department" ||
           status === "final_result_from_responsible" ||
-          status === "add_information_from_department",
+          status === "add_information_from_department" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 12,
@@ -318,7 +346,14 @@ const ReportMenu = ({
           status === "request_updates_from_responsible" ||
           status === "add_notes_from_responsible" ||
           status === "assign_to_study" ||
-          status === "add_updates_from_department",
+          status === "add_updates_from_department" ||
+          status === "request_information_from_department" ||
+          status === "request_updates_from_department" ||
+          status === "add_information_from_department" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 13,
@@ -333,7 +368,11 @@ const ReportMenu = ({
           status === "new" ||
           status === "closed" ||
           status === "final_result_from_department" ||
-          status === "final_result_from_responsible",
+          status === "final_result_from_responsible" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
       {
         id: 14,
@@ -373,7 +412,13 @@ const ReportMenu = ({
           status === "add_notes_from_responsible" ||
           status === "add_notes_from_responsible" ||
           status === "assign_to_study" ||
-          status === "add_updates_from_department",
+          status === "add_updates_from_department" ||
+          status === "request_information_from_department" ||
+          status === "request_updates_from_department" ||
+          status === "confirmed" ||
+          status === "under_confirm" ||
+          status === "under_process" ||
+          status === "prepare_initial_study",
       },
     ];
   } else {
@@ -395,7 +440,10 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "closed" || false,
+        disabled:
+          status === "closed" ||
+          status === "final_result_from_responsible" ||
+          false,
       },
       {
         id: 10,
@@ -413,7 +461,10 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "closed" || false,
+        disabled:
+          status === "closed" ||
+          status === "final_result_from_responsible" ||
+          false,
       },
       {
         id: 11,
@@ -431,7 +482,10 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "closed" || false,
+        disabled:
+          status === "closed" ||
+          status === "final_result_from_responsible" ||
+          false,
       },
       {
         id: 12,
@@ -449,7 +503,10 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "closed" || false,
+        disabled:
+          status === "closed" ||
+          status === "final_result_from_responsible" ||
+          false,
       },
       {
         id: 13,
@@ -467,7 +524,10 @@ const ReportMenu = ({
             />
           </ReportModal>
         ),
-        disabled: status === "closed" || false,
+        disabled:
+          status === "closed" ||
+          status === "final_result_from_responsible" ||
+          false,
       },
       {
         id: 14,
@@ -487,6 +547,7 @@ const ReportMenu = ({
           </ReportModal>
         ),
         disabled:
+          status === "final_result_from_responsible" ||
           status === "final_result_from_department" ||
           status === "closed" ||
           false,
@@ -502,6 +563,7 @@ const ReportMenu = ({
         (status === "new" && opt.id !== 1) ||
         ((status === "request_updates_from_department" ||
           status === "request_updates_from_responsible" ||
+          status === "request_information_from_department" ||
           status === "add_notes_from_department" ||
           status === "add_updates_from_department") &&
           (opt.id === 1 ||
@@ -522,7 +584,7 @@ const ReportMenu = ({
             opt.id === 5 ||
             opt.id === 14 ||
             opt.id === 12)) ||
-        (status === "closed" && opt.id) ||
+        ((status === "closed" || status === "under_confirm") && opt.id) ||
         ((status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
           status === "request_updates_from_responsible") &&
@@ -536,12 +598,11 @@ const ReportMenu = ({
         (status === "final_result_from_responsible" && opt.id !== 12) ||
         (status === "accepted" && opt.id !== 2) ||
         (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
-        (status === "under_process" &&
-          (opt.id === 1 || opt.id === 2 || opt.id === 3)) ||
-        (status === "prepare_initial_study" &&
-          (opt.id === 1 || opt.id === 2)) ||
-        ((status === "under_confirm" || status === "confirmed") &&
-          (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4)) ||
+        (status === "under_process" && opt.id !== 4) ||
+        (status === "prepare_initial_study" && opt.id !== 3 && opt.id !== 4) ||
+        // (status === "under_confirm" &&
+        //   (opt.id === 1 || opt.id === 2 || opt.id === 3 || opt.id === 4)) ||
+        (status === "confirmed" && opt.id !== 5) ||
         (status === "final_result_from_department" &&
           (opt.id === 1 ||
             opt.id === 2 ||
@@ -560,7 +621,8 @@ const ReportMenu = ({
       );
     } else {
       return (
-        (status === "closed" && opt.disabled === true) ||
+        ((status === "closed" || status === "final_result_from_responsible") &&
+          opt.disabled === true) ||
         (status === "final_result_from_department" && opt.id === 14)
       );
     }

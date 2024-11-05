@@ -37,9 +37,22 @@ const Textarea = ({
         <h2 className=" ">{textAreaTitle}</h2>
         <span className="text-red-500">{iconLabel}</span>
         {note && (
-          <Tooltip title={note}>
+          <Tooltip
+            title={note}
+            overlayStyle={{
+              // width: "100%",
+              // maxWidth: "none",
+              // paddingInline: "40px",
+              whiteSpace: "normal", // Allow text to wrap within the tooltip
+              wordWrap: "break-word", // Break words when necessary
+              maxWidth: "none", // Remove any max-width limitation
+              width: "auto", // Allow width to auto-size based on content
+              paddingInline: "16px", // Optional: Adds some padding inside
+              textAlign: "left",
+            }} // Prevents max-width constraint
+          >
             <ExclamationCircleOutlined
-              style={{ color: "red", marginLeft: "8px", cursor: "pointer" }}
+              style={{ color: "red", marginInline: "8px", cursor: "pointer" }}
             />
           </Tooltip>
         )}
