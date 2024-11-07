@@ -96,7 +96,7 @@ const UserCard = ({
     {
       id: 6,
       label: "كلمة المرور",
-      placeholder: "36741198",
+      placeholder: "************",
       icon: <LockOutlined className="text-green-600 text-xl" />,
       type: "password",
       name: "password",
@@ -120,7 +120,8 @@ const UserCard = ({
       // role_id: record?.role[0]?.id || "",
       role_id: record?.role?.id || "",
       email: record?.email || "",
-      password: record?.password || "",
+      // password: record?.password || "",
+      password: "",
       name: record?.name || "",
       image: null,
     },
@@ -134,7 +135,7 @@ const UserCard = ({
   useEffect(() => {
     if (record) {
       setValue("email", record?.email || "");
-      setValue("password", record?.password || "");
+      // setValue("password", record?.password ||"");
       // setValue("role_id", record?.role[0]?.id || "");
       setValue("role_id", record?.role?.id || "");
       setValue("department_id", record?.department.id || "");
@@ -142,7 +143,7 @@ const UserCard = ({
       setValue("name", record?.name || "");
       setValue("image", null);
     }
-  }, [record, setValue]);
+  }, [record, setValue, watch]);
 
   const mutation = useMutation(postData, {
     onSuccess: ({ data }) => {
@@ -173,7 +174,6 @@ const UserCard = ({
       {
         ...data,
         user_type: "1",
-        password: data.password ? null : watch("password"),
       },
     ]);
   };
@@ -193,7 +193,8 @@ const UserCard = ({
               {field.type === "select" ? (
                 <Select
                   {...register(field.name, {
-                    required: "هذا الحقل مطلوب",
+                    required:
+                      field.name !== "password" ? "هذا الحقل مطلوب" : false,
                   })}
                   defaultValue={field.val}
                   className="h-[34px] w-full border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-0"
@@ -239,7 +240,8 @@ const UserCard = ({
                 <input
                   type={field.type}
                   {...register(field.name, {
-                    required: "هذا الحقل مطلوب",
+                    required:
+                      field.name !== "password" ? "هذا الحقل مطلوب" : false,
                   })}
                   className="h-[34px] w-full border border-gray-300 p-1 text-sm rounded-md focus:outline-none focus:ring-0 placeholder:text-sm"
                   placeholder={field.placeholder}

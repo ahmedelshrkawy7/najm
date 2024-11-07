@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { Space, Table, Tag, Tooltip } from "antd";
-import { Link, useMatches, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useMatches,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import useApi from "../../utils/useApi";
 import { useQuery } from "react-query";
 import { useEffect } from "react";
@@ -33,6 +39,8 @@ const ReportDate = () => {
     ),
   });
 
+  let { state = {} } = useLocation();
+  let { number } = state;
   function redirectCrumb(path) {
     console.log("🚀 ~ redirectCrumb ~ path:", path);
     return path === "/depts" ? "/managers" : path === "/" ? "/dash" : path;
@@ -51,7 +59,7 @@ const ReportDate = () => {
     {
       title: "نوع الاجراء",
       dataIndex: "type",
-      key: "type",
+      key: "id",
       // render: (text) => <a>{text}</a>,
       width: 150,
     },
@@ -240,7 +248,7 @@ const ReportDate = () => {
             <div className="border border-light rounded-lg shadow-sm p-2 bg-white/50">
               <p className="font-semibold text-sm text-[#33835c] flex items-center">
                 رقم البلاغ:
-                <span className="text-black/65 text-xl ms-2">{id}</span>
+                <span className="text-black/65 text-xl ms-2">{number}</span>
               </p>
             </div>
           </div>
@@ -256,7 +264,10 @@ const ReportDate = () => {
               ),
             }}
             pagination={false} // Disable pagination
-            dataSource={data}
+            dataSource={data.map((item, index) => ({
+              ...item,
+              key: item.id || index,
+            }))}
             tableLayout="fixed"
           />
         </div>

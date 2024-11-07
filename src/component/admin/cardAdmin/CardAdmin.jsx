@@ -1040,7 +1040,7 @@ const CardAdmin = () => {
                 style={{ backgroundColor: card.bgColor }}
               >
                 <div className="space-y-2">
-                  <h2 className="text-[13px] text-[#fff]">{card.title}</h2>
+                  <h2 className="text-[14px] text-[#fff]">{card.title}</h2>
                   <h2 className="text-4xl text-[#fff] font-bold text-right">
                     {/* {data?.meta?.reports?.totalItems} */}
                     {counterValues[i]}

@@ -12,33 +12,45 @@ const Navbar = () => {
   let navigate = useNavigate();
   console.log(pathname);
 
+  const [userDetails, setUserDetails] = useState(() => {
+    const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+    return state?.userDetails || savedUserDetails || null;
+  });
+
+  useEffect(() => {
+    if (userDetails) {
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    }
+  }, [userDetails, pathname]);
+
   // const [responsibleMessage, setResponsibleMessage] = useState("");
   // console.log("🚀 ~ Navbar ~ responsibleMessage:", responsibleMessage);
   // const [departmentMessage, setDepartmentMessage] = useState("");
-  // console.log("🚀 ~ Navbar ~ departmentMessage:", departmentMessage);
 
   // useEffect(() => {
-  //   // Subscribe to responsible-notification channel and listen for ResponsibleNotificationEvent
+  //   console.log("Navbar component mounted");
+
+  //   // Subscribe to responsible-notification channel
   //   const unsubscribeResponsible = subscribeToChannel(
-  //     "responsible-notification", // Channel name
-  //     "ResponsibleNotificationEvent", // Event name
+  //     "responsible-notification",
+  //     "ResponsibleNotificationEvent",
   //     (data) => {
   //       console.log("Received Responsible Notification:", data);
   //       setResponsibleMessage(data.message); // Update state with the message
   //     }
   //   );
 
-  //   // Subscribe to department-notification channel and listen for DepartmentNotificationEvent
+  //   // Subscribe to department-notification channel
   //   const unsubscribeDepartment = subscribeToChannel(
-  //     "department-notification", // Channel name
-  //     "DepartmentNotificationEvent", // Event name
+  //     "department-notification",
+  //     "DepartmentNotificationEvent",
   //     (data) => {
   //       console.log("Received Department Notification:", data);
   //       setDepartmentMessage(data.message); // Update state with the message
   //     }
   //   );
 
-  //   // Cleanup function to unsubscribe from channels when the component is unmounted
+  //   // Cleanup function to unsubscribe from channels when the component unmounts
   //   return () => {
   //     unsubscribeResponsible();
   //     unsubscribeDepartment();
@@ -75,12 +87,13 @@ const Navbar = () => {
               </button>
             )}
 
-            {/(dash|managers)/gi.test(pathname) && (
+            {/(dash|managers|depts)/gi.test(pathname) && (
               <button
                 onClick={() => {
                   if (/(dash)/gi.test(pathname)) {
                     logout();
                     localStorage.setItem("pageNumber", 1);
+                    localStorage.removeItem("userDetails");
                     return navigate("/admin/login");
                   }
                   // navigate("/allAdmins");
@@ -106,12 +119,12 @@ const Navbar = () => {
                 className="w-full h-full rounded-full"
               />
             </p> */}
-            {state?.userDetails && (
+            {userDetails && (
               <Tooltip
                 title={
                   <div>
-                    <p>الاسم: {state?.userDetails?.name}</p>
-                    <p>الادارة: {state?.userDetails?.department?.name}</p>
+                    <p>الاسم: {userDetails?.name}</p>
+                    <p>الادارة: {userDetails?.department?.name}</p>
                     {/* <p>
                       البريد الالكترونى: {state?.userDetails?.contact_information?.email}
                     </p>
@@ -120,18 +133,16 @@ const Navbar = () => {
                 }
                 overlayStyle={{
                   maxWidth: "none",
-                  width: "auto", // Increase width
-                  color: "white", // Text color
-                  borderRadius: "8px", // Rounded corners
-                  padding: "10px", // Padding inside the tooltip
+                  width: "auto",
+                  color: "white",
+                  borderRadius: "8px",
+                  padding: "10px",
                 }}
                 placement="bottom"
               >
-                <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-12 leading-[40px] cursor-pointer">
+                <p className="w-12 bg-white/85 text-white text-lg text-center h-12 leading-[40px] cursor-pointer !rounded-full">
                   <img
-                    src={
-                      state?.userDetails?.user_image || "default-image-url.jpg"
-                    } // fallback to a default image if user_image is undefined
+                    src={userDetails?.user_image || ""}
                     alt="Profile"
                     className="w-full h-full rounded-full"
                   />

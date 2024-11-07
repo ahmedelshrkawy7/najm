@@ -119,7 +119,9 @@ const Test = () => {
                 </div>
               )}
               <button
-                onClick={() => navigate("reportsDate")}
+                onClick={() =>
+                  navigate("reportsDate", { state: { number: report?.number } })
+                }
                 className="bg-[#000000CC] p-[10px] rounded-md text-white"
               >
                 تاريخ سير البلاغ
