@@ -7,11 +7,13 @@ import {
   LockOutlined,
   ProfileOutlined,
   EditOutlined,
+  CameraOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 import useApi from "../../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { errorNotf } from "../../utils/notifications/Toast";
 import { Select } from "antd";
 
@@ -99,32 +101,46 @@ const UserCard = ({
       type: "password",
       name: "password",
     },
+    {
+      id: 7,
+      label: "الصورة",
+      placeholder: "اختر صورة",
+      icon: <CameraOutlined className="text-green-600 text-xl" />,
+      type: "file",
+      name: "image",
+    },
   ];
 
-  const { handleSubmit, register, setValue } = useForm({
+  const { handleSubmit, register, setValue, watch, getValues } = useForm({
+    mode: "onBlur",
     defaultValues: {
       _method: "PUT",
       department_id: record?.department.id || "",
       specialization_id: record?.specialization.id || "",
-      role_id: record?.role[0]?.id || "",
+      // role_id: record?.role[0]?.id || "",
+      role_id: record?.role?.id || "",
       email: record?.email || "",
       password: record?.password || "",
       name: record?.name || "",
+      image: null,
     },
   });
 
   useEffect(() => {
     refetch();
   }, [refetch, record]);
+  const [imagePreview, setImagePreview] = useState("");
 
   useEffect(() => {
     if (record) {
       setValue("email", record?.email || "");
       setValue("password", record?.password || "");
-      setValue("role_id", record?.role[0]?.id || "");
+      // setValue("role_id", record?.role[0]?.id || "");
+      setValue("role_id", record?.role?.id || "");
       setValue("department_id", record?.department.id || "");
       setValue("specialization_id", record?.specialization.id || "");
       setValue("name", record?.name || "");
+      setValue("image", null);
     }
   }, [record, setValue]);
 
@@ -132,7 +148,6 @@ const UserCard = ({
     onSuccess: ({ data }) => {
       setCurrentView("success");
       setMessage(`تم تعديل المستخدم (${data?.data?.name}) بنجاح`);
-
       refetch();
     },
     onError: (err) => {
@@ -143,12 +158,22 @@ const UserCard = ({
     },
   });
 
+  const handleFileChange = (e) => {
+    let img = e.target.files[0];
+    console.log("🚀 ~ handleFileChange ~ img:", img);
+    if (img) {
+      setValue("image", img);
+      setImagePreview(URL.createObjectURL(img));
+    }
+  };
+
   const onSubmit = (data) => {
     mutation.mutate([
       `/admin/users/${record?.id}`,
       {
         ...data,
         user_type: "1",
+        password: data.password ? null : watch("password"),
       },
     ]);
   };
@@ -159,10 +184,12 @@ const UserCard = ({
         {formFields.map((field) => {
           return (
             <div key={field.id} className="flex flex-col py-2 gap-2">
-              <label className="flex items-center font-bold text-sm whitespace-nowrap gap-2">
-                {field.icon}
-                <span className="">{field.label}:</span>
-              </label>
+              {field.type !== "file" && (
+                <label className="flex items-center font-bold text-sm whitespace-nowrap gap-2">
+                  {field.icon}
+                  <span className="">{field.label}:</span>
+                </label>
+              )}
               {field.type === "select" ? (
                 <Select
                   {...register(field.name, {
@@ -179,6 +206,35 @@ const UserCard = ({
                     </Option>
                   ))}
                 </Select>
+              ) : field.type === "file" ? (
+                <>
+                  <div className="flex flex-col gap-3">
+                    <div className="relative ">
+                      <input
+                        type={field.type}
+                        // {...register(field.name)}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        placeholder={field.placeholder}
+                      />
+                      <button
+                        className={`bg-[#33835C1A] text-black p-2 rounded-md w-full flex items-center justify-center h-10 gap-1 text-sm 
+                        `}
+                      >
+                        <UploadOutlined className="mr-2" />
+                        اضافة صورة
+                      </button>
+                    </div>
+                    {record?.user_image && (
+                      <img
+                        src={imagePreview || record?.user_image}
+                        alt="User's selected"
+                        className="w-full h-[230px] rounded-lg border border-gray-300 shadow-lg cursor-pointer object-cover"
+                      />
+                    )}
+                  </div>
+                </>
               ) : (
                 <input
                   type={field.type}
@@ -194,7 +250,10 @@ const UserCard = ({
         })}
       </div>
       <div className="col-span-2 flex items-start justify-end pt-6">
-        <button className="bg-[#33835C] text-white p-1 px-10 rounded-lg outline-none w-fit">
+        <button
+          type="submit"
+          className="bg-[#33835C] text-white p-1 px-10 rounded-lg outline-none w-fit"
+        >
           <EditOutlined /> {"تعديل"}
         </button>
       </div>

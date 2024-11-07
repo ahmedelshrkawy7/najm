@@ -1,13 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import ReportOptionType from "./ReportOptionType";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import useApi from "../utils/useApi";
+import { useParams } from "react-router-dom";
 
-const ReportOptions = ({ getDanger, setShowSvg }) => {
-  const { control, handleSubmit, watch } = useForm({
+const ReportOptions = ({
+  getDanger,
+  setShowSvg,
+  getSavedOptions,
+}) => {
+  const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       typeOfReport: [],
       departmentIssues: [],
@@ -19,11 +24,50 @@ const ReportOptions = ({ getDanger, setShowSvg }) => {
       all: [],
     },
   });
+  const { id } = useParams();
+  const selectedOptions = watch("all");
+
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem(`formData`));
+    if (savedData && getSavedOptions) {
+      const formData = savedData.find((form) => form.key === `formData-${id}`);
+      if (formData && formData.selectedOptions) {
+        setValue("all", formData.selectedOptions);
+      }
+    }
+  }, [setValue, getSavedOptions, id]);
+
+  useEffect(() => {
+    const dangerValue = selectedOptions.length / 19;
+    getDanger(dangerValue);
+  }, [selectedOptions]);
 
   const onSubmit = (data) => {
-    getDanger(watch("all").length / 19);
+    // getDanger(watch("all").length / 19);
+    // setShowSvg(false);
+
+    const formData = {
+      selectedOptions: data.all,
+      calculatedValue: watch("all").length / 19,
+      key: `formData-${id}`,
+    };
+
+    let savedItems = JSON.parse(localStorage.getItem("formData")) || [];
+    const existingItem = savedItems.find((item) => item.key === formData.key);
+
+    if (existingItem) {
+      savedItems = savedItems.map((item) =>
+        item.key === formData.key ? { ...item, ...formData } : item
+      );
+    } else {
+      savedItems = [...savedItems, formData];
+    }
+
+    localStorage.setItem(`formData`, JSON.stringify(savedItems)); // Persist data
+    getDanger(formData.calculatedValue);
     setShowSvg(false);
   };
+
   const { getData } = useApi();
   // const { data } = useQuery(["allRisks", ["/fetch-risk-assessment"], getData]);
   const {

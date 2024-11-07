@@ -14,7 +14,7 @@ const AdminCards = ({ adminName, name }) => {
       navigate("/dash");
     } else {
       logout();
-      navigate("/admin/login");
+      navigate("/admin/login",);
     }
   };
   return (

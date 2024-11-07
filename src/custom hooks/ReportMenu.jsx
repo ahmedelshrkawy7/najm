@@ -156,7 +156,8 @@ const ReportMenu = ({
           status === "add_updates_from_responsible" ||
           status === "add_information_from_responsible" ||
           status === "add_notes_from_responsible" ||
-          status === "request_information_from_department",
+          status === "request_information_from_department" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 5,
@@ -179,7 +180,9 @@ const ReportMenu = ({
           status === "request_information_from_department" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "accepted" ||
+          status === "resubmit_study_from_accreditor",
         children: (
           <ReportModal
             title="اسناد البلاغ"
@@ -214,7 +217,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 7,
@@ -240,7 +244,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 9,
@@ -266,7 +271,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 10,
@@ -292,7 +298,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 11,
@@ -320,7 +327,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 12,
@@ -353,7 +361,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 13,
@@ -372,7 +381,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 14,
@@ -418,7 +428,8 @@ const ReportMenu = ({
           status === "confirmed" ||
           status === "under_confirm" ||
           status === "under_process" ||
-          status === "prepare_initial_study",
+          status === "prepare_initial_study" ||
+          status === "resubmit_study_from_accreditor",
       },
     ];
   } else {
@@ -596,8 +607,10 @@ const ReportMenu = ({
             opt.id === 12 ||
             opt.id === 14)) ||
         (status === "final_result_from_responsible" && opt.id !== 12) ||
-        (status === "accepted" && opt.id !== 2) ||
-        (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
+        ((status === "accepted" ||
+          status === "resubmit_study_from_accreditor") &&
+          opt.id !== 2) ||
+        // (status === "resubmit_study_from_accreditor" && opt.id === 1) ||
         (status === "under_process" && opt.id !== 4) ||
         (status === "prepare_initial_study" && opt.id !== 3 && opt.id !== 4) ||
         // (status === "under_confirm" &&

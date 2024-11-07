@@ -142,6 +142,14 @@ const Test = () => {
               />
             </div>
           </div>
+          <div className="py-5  w-[100%]   text-left">
+            <button
+              onClick={() => navigate(`/dash`)}
+              className={`bg-[#33835C] !bg-transparent !text-[#33835C] border-2 border-[#33835C] font-bold p-2 rounded-md `}
+            >
+              رجوع
+            </button>
+          </div>
         </div>
         {/* {showMenu && (
           <div

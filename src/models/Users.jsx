@@ -74,14 +74,14 @@
 
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Radio, Select } from "antd";
 import useApi from "../utils/useApi";
 import { useMutation, useQuery } from "react-query";
 import { errorNotf } from "../utils/notifications/Toast";
 import { Option } from "antd/es/mentions";
-
+import { UploadOutlined } from "@ant-design/icons";
 const Users = ({
   currentView,
   setCurrentView,
@@ -96,6 +96,7 @@ const Users = ({
     control,
     register,
     reset,
+    setValue,
     watch,
     formState: { errors },
   } = useForm({
@@ -108,9 +109,11 @@ const Users = ({
       email: "",
       role_id: "",
       password: "",
+      image: null,
     },
   });
 
+  const [imagePreview, setImagePreview] = useState("");
   let id = watch("department_id") && watch("department_id");
 
   const { data: { data = [] } = {} } = useQuery(
@@ -149,6 +152,15 @@ const Users = ({
       closeModal();
     },
   });
+
+  const handleFileChange = (e) => {
+    let img = e.target.files[0];
+    console.log("🚀 ~ handleFileChange ~ img:", img);
+    if (img) {
+      setValue("image", img);
+      setImagePreview(URL.createObjectURL(img));
+    }
+  };
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
@@ -386,6 +398,31 @@ const Users = ({
             />
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
+            )}
+          </div>
+          <div className="relative flex flex-col gap-3">
+            <input
+              type={"file"}
+              name="image"
+              // {...register("image")}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="absolute inset-0 w-full h-full opacity-0 "
+              // placeholder={field.placeholder}
+            />
+            <button
+              className={`bg-[#33835C1A] text-black p-2 rounded-md w-full flex items-center justify-center h-10 gap-1 text-sm 
+                        `}
+            >
+              <UploadOutlined className="mr-2" />
+              اضافة صورة
+            </button>
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="User's selected"
+                className="w-full h-[230px] object-cover rounded-lg border border-gray-300 shadow-lg cursor-pointer"
+              />
             )}
           </div>
         </div>

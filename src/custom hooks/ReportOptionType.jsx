@@ -26,6 +26,7 @@ const ReportOptionType = ({ label, name, control }) => {
             checked={isChecked}
             onChange={handleCheckboxChange}
             className="custom-checkbox font-medium"
+            
           >
             {label}
           </Checkbox>

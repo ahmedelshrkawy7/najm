@@ -1,13 +1,50 @@
 /* eslint-disable no-unused-vars */
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TokenContext from "../../store/TokenContext";
+import { Tooltip } from "antd";
+import { subscribeToChannel } from "../../utils/pusherService";
 
 const Navbar = () => {
-  let { pathname } = useLocation();
+  let { pathname, state = {} } = useLocation();
+  console.log("🚀 ~ Navbar ~ state:", state, state?.userDetails?.user_image);
   let { logout } = useContext(TokenContext);
   let navigate = useNavigate();
   console.log(pathname);
+
+  // const [responsibleMessage, setResponsibleMessage] = useState("");
+  // console.log("🚀 ~ Navbar ~ responsibleMessage:", responsibleMessage);
+  // const [departmentMessage, setDepartmentMessage] = useState("");
+  // console.log("🚀 ~ Navbar ~ departmentMessage:", departmentMessage);
+
+  // useEffect(() => {
+  //   // Subscribe to responsible-notification channel and listen for ResponsibleNotificationEvent
+  //   const unsubscribeResponsible = subscribeToChannel(
+  //     "responsible-notification", // Channel name
+  //     "ResponsibleNotificationEvent", // Event name
+  //     (data) => {
+  //       console.log("Received Responsible Notification:", data);
+  //       setResponsibleMessage(data.message); // Update state with the message
+  //     }
+  //   );
+
+  //   // Subscribe to department-notification channel and listen for DepartmentNotificationEvent
+  //   const unsubscribeDepartment = subscribeToChannel(
+  //     "department-notification", // Channel name
+  //     "DepartmentNotificationEvent", // Event name
+  //     (data) => {
+  //       console.log("Received Department Notification:", data);
+  //       setDepartmentMessage(data.message); // Update state with the message
+  //     }
+  //   );
+
+  //   // Cleanup function to unsubscribe from channels when the component is unmounted
+  //   return () => {
+  //     unsubscribeResponsible();
+  //     unsubscribeDepartment();
+  //   };
+  // }, []);
+
   return (
     <div className="bg-[#2E2E2E]">
       <div className=" w-[90%] mx-auto">
@@ -22,9 +59,10 @@ const Navbar = () => {
               draggable="false"
             />
           </div>
-          <div className="flex absolute left-0 top-1/2 -translate-y-1/2 md:pr-6 px-0 gap-4">
+          <div className="flex absolute left-0 top-1/2 -translate-y-1/2 md:pr-6 px-0 gap-4 items-center">
             {/(dash)/gi.test(pathname) && (
-              <button disabled className="disabled:cursor-not-allowed">
+              // <button disabled className="disabled:cursor-not-allowed">
+              <button className="cursor-pointer">
                 <p className="relative rounded-md w-12 bg-[#9494940D] text-white flex justify-center items-center h-10 leading-[48px]">
                   <span className="top-[0.6rem] right-[1rem] rounded-full w-[6px] h-[6px] inline-block bg-red-600 absolute"></span>
 
@@ -61,6 +99,45 @@ const Navbar = () => {
             <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-10 leading-[40px]">
               EN
             </p>
+            {/* <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-12 leading-[40px] cursor-pointer">
+              <img
+                src={state?.userDetails?.user_image}
+                alt=""
+                className="w-full h-full rounded-full"
+              />
+            </p> */}
+            {state?.userDetails && (
+              <Tooltip
+                title={
+                  <div>
+                    <p>الاسم: {state?.userDetails?.name}</p>
+                    <p>الادارة: {state?.userDetails?.department?.name}</p>
+                    {/* <p>
+                      البريد الالكترونى: {state?.userDetails?.contact_information?.email}
+                    </p>
+                    <p>الصلاحية: {state?.userDetails.role?.name}</p> */}
+                  </div>
+                }
+                overlayStyle={{
+                  maxWidth: "none",
+                  width: "auto", // Increase width
+                  color: "white", // Text color
+                  borderRadius: "8px", // Rounded corners
+                  padding: "10px", // Padding inside the tooltip
+                }}
+                placement="bottom"
+              >
+                <p className="rounded-md w-12 bg-[#9494940D] text-white text-lg text-center h-12 leading-[40px] cursor-pointer">
+                  <img
+                    src={
+                      state?.userDetails?.user_image || "default-image-url.jpg"
+                    } // fallback to a default image if user_image is undefined
+                    alt="Profile"
+                    className="w-full h-full rounded-full"
+                  />
+                </p>
+              </Tooltip>
+            )}
           </div>
         </div>
       </div>

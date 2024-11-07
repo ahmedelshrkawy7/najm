@@ -442,7 +442,11 @@ const PreparingStudy = ({ change }) => {
       {showSvg && (
         <div className="fixed top-0 left-0 z-[99999] bg-[rgba(0,0,0,0.4)] w-screen h-screen">
           <ReportModal title="اداة تقييم المخاطر" setShowMenu={setShowSvg}>
-            <ReportOptions getDanger={getDanger} setShowSvg={setShowSvg} />
+            <ReportOptions
+              getDanger={getDanger}
+              setShowSvg={setShowSvg}
+              getSavedOptions={false}
+            />
           </ReportModal>
         </div>
       )}

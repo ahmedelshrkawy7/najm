@@ -14,13 +14,13 @@ const Login = () => {
 
   const Post = useMutation(postData, {
     onSuccess: (e) => {
-      console.log("🚀 ~ Login ~ e:", e);
+      console.log("🚀 ~ Login ~ e:", e.data.data.user);
       if (e.status === 200) {
         login({ token: e.data.data.token, role: e.data.data.user.role.name });
         if (e.data.data.user.role.name === "admin") {
           navigate("/managers");
         } else {
-          navigate("/dash");
+          navigate("/dash", { state: { userDetails: e.data.data.user } });
         }
         successNotf("تم تسجيل الدخول بنجاح");
       }
