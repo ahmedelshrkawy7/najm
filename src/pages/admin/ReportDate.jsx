@@ -40,7 +40,7 @@ const ReportDate = () => {
   });
 
   let { state = {} } = useLocation();
-  let { number } = state;
+  let { number = id } = state;
   function redirectCrumb(path) {
     console.log("🚀 ~ redirectCrumb ~ path:", path);
     return path === "/depts" ? "/managers" : path === "/" ? "/dash" : path;
