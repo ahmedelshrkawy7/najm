@@ -11,10 +11,12 @@ const AdminCards = ({ adminName, name }) => {
 
   let checkPath = () => {
     if (role === name) {
-      navigate("/dash");
+      navigate("/dash", {
+        state: { userDetails: JSON.parse(localStorage.getItem("userDetails")) },
+      });
     } else {
       logout();
-      navigate("/admin/login",);
+      navigate("/admin/login");
     }
   };
   return (
