@@ -37,7 +37,7 @@ const Test = () => {
     refetch,
     data: { data: { report } = {} } = {},
   } = useQuery(["admin", ["/reports"], id], getData);
-  console.log("🚀 ~ Test ~ report:tttttttttt", report);
+  // console.log("🚀 ~ Test ~ report:tttttttttt", report);
 
   useEffect(() => {
     refetch();

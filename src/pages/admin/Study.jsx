@@ -50,7 +50,7 @@ const Study = ({ children, title, role, name }) => {
     isLoading,
   } = useQuery(["admin", ["/reports"], id], getData);
 
-  console.log("🚀 ~ Study ~ report:", report);
+  console.log("🚀 ~ Study ~ report:", report, report?.number);
 
   let ref = useRef();
   console.log("🚀 ~ Study ~ location:", location);
@@ -85,13 +85,16 @@ const Study = ({ children, title, role, name }) => {
   };
 
   const mutation = useMutation(postData, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("🚀 ~ Study ~ data:", data);
       // change(3);
-      successNotf(
-        role === "responsible"
-          ? "تم توجية الدراسه الأوليه للمعتمد"
-          : "تم اعتماد الدراسة الاولية بنجاح"
-      );
+      // successNotf(
+      //   role === "responsible"
+      //     ? "تم توجية الدراسه الأوليه للمعتمد"
+      //     : // : "تم اعتماد الدراسة الاولية بنجاح"
+      //       data?.data?.message
+      // );
+      successNotf(data?.data?.message);
       refetch();
       ref.current.close();
       navigate("/dash", { replace: true });
@@ -258,7 +261,11 @@ const Study = ({ children, title, role, name }) => {
                   </div>
                 )}
                 <button
-                  onClick={() => navigate("reportsDate")}
+                  onClick={() =>
+                    navigate("reportsDate", {
+                      state: { number: report?.number },
+                    })
+                  }
                   type="button"
                   className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
                 >
@@ -278,7 +285,11 @@ const Study = ({ children, title, role, name }) => {
           {role === "reviewer" && (
             <div className="flex justify-between items-center flex-wrap">
               <button
-                onClick={() => navigate("reportsDate")}
+                onClick={() =>
+                  navigate("reportsDate", {
+                    state: { number: report?.number },
+                  })
+                }
                 type="button"
                 className={`bg-[#33835C] !text-white text-sm font-bold p-2 rounded-md `}
               >

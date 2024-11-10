@@ -27,10 +27,10 @@ const CardAdmin = () => {
     // staleTime: 0,
     // refetchInterval: 5000,
   });
-  console.log("🚀 ~ data:", data);
+  // console.log("🚀 ~ data:", data);
   const { token } = useContext(TokenContext);
   const { showMenu, handleHideMenu } = useContext(StudyContext);
-  console.log("🚀 ~ CardAdmin ~ token:", token);
+  // console.log("🚀 ~ CardAdmin ~ token:", token);
 
   // const selectOptions = {
   //   reportNumber: data?.data?.reports?.map((report) => report.id) || [],
@@ -375,7 +375,7 @@ const CardAdmin = () => {
   //   },
   // ];
 
-  console.log(data?.data?.reports[0]);
+  // console.log(data?.data?.reports[0]);
 
   let cards = [
     {
@@ -661,7 +661,7 @@ const CardAdmin = () => {
   ];
 
   const role = JSON.parse(localStorage.getItem("token")).role;
-  console.log("🚀 ~ role:", role);
+  // console.log("🚀 ~ role:", role);
 
   // const filteredCards =
   //   role === "accreditor"
@@ -714,7 +714,7 @@ const CardAdmin = () => {
   const filteredCards = filterCardsByRole(cards, role);
 
   let { data: { counter = {} } = {} } = data;
-  console.log("🚀 ~ CardAdmin ~ counter:", counter);
+  // console.log("🚀 ~ CardAdmin ~ counter:", counter);
 
   // escalated
   // :
@@ -797,7 +797,7 @@ const CardAdmin = () => {
     ];
   }
 
-  console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
+  // console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
 
   //   {
   //     "id": 42,
@@ -960,7 +960,7 @@ const CardAdmin = () => {
       ),
     },
   ];
-  console.log(data);
+  // console.log(data);
   // let _reports = data?.data?.reports
   // ?.map((report) => {
   //   if (report.date === "") {
@@ -978,7 +978,7 @@ const CardAdmin = () => {
 
   const [filters, setFilters] = useState(Array(SELECTS.length).fill(""));
   const anyFiltersApplied = filters.some((filter) => filter !== "");
-  console.log("🚀 ~ anyFiltersApplied:", anyFiltersApplied);
+  // console.log("🚀 ~ anyFiltersApplied:", anyFiltersApplied);
 
   const handleFilterChange = (index, value) => {
     const newFilters = [...filters];
@@ -1006,7 +1006,7 @@ const CardAdmin = () => {
     });
   });
 
-  console.log("🚀 ~ filteredReports ~ filteredReports:", data);
+  // console.log("🚀 ~ filteredReports ~ filteredReports:", data);
 
   // change card circle opacity based on role
   const getClassNames = (role, index) => {
@@ -1032,7 +1032,7 @@ const CardAdmin = () => {
       <div className="w-[90%] mx-auto">
         <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
           {filteredCards?.map((card, i) => {
-            console.log("🚀 ~ {cards?.map ~ card:", card);
+            // console.log("🚀 ~ {cards?.map ~ card:", card);
             return (
               <div
                 key={Math.random() * 10}
@@ -1151,7 +1151,11 @@ const CardAdmin = () => {
                   }
                 : false
             }
-            dataSource={filteredReports}
+            // dataSource={filteredReports}
+            dataSource={filteredReports?.map((el) => ({
+              ...el,
+              key: Math.random(),
+            }))}
           />
         </div>
       </div>

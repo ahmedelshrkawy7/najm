@@ -3,12 +3,12 @@
 import React, { useContext } from "react";
 import TokenContext from "./store/TokenContext";
 import Login from "./pages/admin/Login";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = ({ children, allowedRoles }) => {
   const { token, logout } = useContext(TokenContext);
-  console.log("🚀 ~ ProtectedRoutes ~ token:", token);
-
+  // console.log("🚀 ~ ProtectedRoutes ~ token:", token);
+  let { pathname } = useLocation();
   if (!token) {
     return <Navigate replace to="/admin/login" />;
   }

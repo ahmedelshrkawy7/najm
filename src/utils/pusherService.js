@@ -2,15 +2,25 @@
 
 import Pusher from "pusher-js";
 
-// Log the Pusher key to make sure it is being correctly loaded
-console.log(import.meta.env.VITE_PUSHER_APP_KEY, "Pusher Key Loaded");
-
 // Initialize Pusher with your app credentials
 const pusher = new Pusher("5903e71db7e642fb35a6", {
   cluster: "ap2", // Use environment variables for cluster
   forceTLS: true, // Ensure a secure connection
   wssPort: 443, // Use the secure WebSocket port
   encrypted: true, // Ensure the connection is secure
+  debug: true,
+});
+
+pusher.connection.bind("connected", () => {
+  console.log("Pusher connected");
+});
+
+pusher.connection.bind("disconnected", () => {
+  console.log("Pusher disconnected");
+});
+
+pusher.connection.bind("error", (error) => {
+  console.error("Pusher connection error:", error);
 });
 
 // Function to subscribe to a channel and event
@@ -19,7 +29,7 @@ export const subscribeToChannel = (channelName, eventName, callback) => {
 
   const channel = pusher.subscribe(channelName); // Subscribe to the channel
 
-  // Log the subscription
+// Log the subscription
   console.log(`Successfully subscribed to channel: ${channelName}`);
 
   // Bind the event to trigger the callback when the event is received

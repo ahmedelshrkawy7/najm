@@ -291,3 +291,8 @@ body::-webkit-scrollbar-thumb {
 .hs::-webkit-scrollbar-thumb:hover {
   background-color: #4caf50 !important; /* Change color on hover */
 }
+
+.ant-tooltip-inner {
+  /* padding: 0 !important; */
+  background-color: white !important ;
+}

@@ -17,7 +17,7 @@ import Dashboard from "./Dashboard.jsx";
 import Test from "./component/Reports/test.jsx";
 import Login from "./pages/admin/Login.jsx";
 import TokenContext, { TokenContextProvider } from "./store/TokenContext.jsx";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProtectedRoutes from "./ProtectedRoutes.jsx";
 import AllAdmins from "./pages/admin/AllAdmins.jsx";
 import NotFound from "./NotFound.jsx";
@@ -32,6 +32,8 @@ import Accreditor from "./Accreditor.jsx";
 import Authorization from "./Authorization.jsx";
 import StudyPreview from "./component/StudyPreview.jsx";
 import EditStudy from "./component/EditStudy.jsx";
+import usePusher from "./utils/usePusher.jsx";
+import Pusher from "pusher-js";
 
 const routes = [
   {
@@ -40,6 +42,7 @@ const routes = [
     children: [
       {
         index: true,
+
         element: <HomePage />,
       },
       {
@@ -169,6 +172,19 @@ function AppLayout() {
   const { token } = useContext(TokenContext);
 
   let { pathname } = useLocation();
+
+  const handleEvent = (data) => {
+    console.log("Received data from Pusher:", data);
+  };
+
+  // const [message, setMessage] = useState("");
+  // console.log("🚀 ~ AppLayout ~ message:", message);
+
+  usePusher(
+    "responsible-notification",
+    "ResponsibleNotificationEvent",
+    handleEvent
+  );
 
   return (
     <>

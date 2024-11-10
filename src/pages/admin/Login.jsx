@@ -39,7 +39,7 @@ const Login = () => {
   // console.log(error);
   const { login, token } = useContext(TokenContext);
 
-  console.log(login);
+  // console.log(login);
   const {
     register,
     watch,
@@ -54,7 +54,7 @@ const Login = () => {
   });
   // const navigate = useNavigate();
 
-  console.log(errors);
+  // console.log(errors);
 
   // if (token) {
   //   return <Navigate to="/dash" />;

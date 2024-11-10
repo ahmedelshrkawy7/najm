@@ -3,25 +3,44 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TokenContext from "../../store/TokenContext";
 import { Tooltip } from "antd";
-import { subscribeToChannel } from "../../utils/pusherService";
+import { useQuery } from "react-query";
+import useApi from "../../utils/useApi";
+// import { subscribeToChannel } from "../../utils/pusherService";
 
 const Navbar = () => {
   let { pathname, state = {} } = useLocation();
-  console.log("🚀 ~ Navbar ~ state:", state, state?.userDetails?.user_image);
+  // console.log("🚀 ~ Navbar ~ state:", state, state?.userDetails?.user_image);
   let { logout } = useContext(TokenContext);
   let navigate = useNavigate();
-  console.log(pathname);
+  // console.log(pathname);
 
   const [userDetails, setUserDetails] = useState(() => {
     const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
     return state?.userDetails || savedUserDetails || null;
   });
+  const token = localStorage.getItem("token");
+  let { getData } = useApi();
+  const {
+    isLoading,
+    error,
+    data = {},
+    refetch,
+  } = useQuery(["notifications", ["/notifications"]], getData, {
+    enabled: !!token && JSON.parse(token)?.role !== "reviewer",
+  });
+  console.log("🚀 ~ Navbar ~ data:", data);
 
   useEffect(() => {
     if (userDetails) {
       localStorage.setItem("userDetails", JSON.stringify(userDetails));
     }
   }, [userDetails, pathname]);
+
+  useEffect(() => {
+    if (token) {
+      refetch();
+    }
+  }, [refetch, data, token]);
 
   // const [responsibleMessage, setResponsibleMessage] = useState("");
   // console.log("🚀 ~ Navbar ~ responsibleMessage:", responsibleMessage);
@@ -72,19 +91,60 @@ const Navbar = () => {
             />
           </div>
           <div className="flex absolute left-0 top-1/2 -translate-y-1/2 md:pr-6 px-0 gap-4 items-center">
-            {/(dash)/gi.test(pathname) && (
+            {/(dash)/gi.test(pathname) && data?.data?.length > 0 && (
               // <button disabled className="disabled:cursor-not-allowed">
-              <button className="cursor-pointer">
-                <p className="relative rounded-md w-12 bg-[#9494940D] text-white flex justify-center items-center h-10 leading-[48px]">
-                  <span className="top-[0.6rem] right-[1rem] rounded-full w-[6px] h-[6px] inline-block bg-red-600 absolute"></span>
+              <Tooltip
+                title={
+                  <div
+                    style={{
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                      maxWidth: "auto",
+                      width: "auto",
+                      // padding: "10px",
+                    }}
+                    // className="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full "
+                  >
+                    {data?.data?.map((el) => (
+                      <div
+                        key={el.id}
+                        className="bg-white text-black border-b border-gray-200 py-1 px-1 text-md font-medium break-words flex flex-col gap-1"
+                      >
+                        <p>
+                          {el?.notification?.title} بلاغ رقم {" "}
+                          {el?.notification?.body?.number} بواسطة{" "}
+                          {el?.notification?.body?.user}
+                        </p>
+                        {el?.notification?.body?.date && (
+                          <p className="text-gray-400">
+                            {el?.notification?.body?.date}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                }
+                overlayStyle={{
+                  maxWidth: "none",
+                  width: "auto",
+                  color: "white",
+                  borderRadius: "8px",
+                  padding: "10px",
+                }}
+                placement="bottom"
+              >
+                <button className="cursor-pointer">
+                  <p className="relative rounded-md w-12 bg-[#9494940D] text-white flex justify-center items-center h-10 leading-[48px]">
+                    <span className="top-[0.6rem] right-[1rem] rounded-full w-[6px] h-[6px] inline-block bg-red-600 absolute"></span>
 
-                  <img
-                    className="img w-[18px] h-[18px] text-center"
-                    src="../../../src/assets/icons/Union.svg"
-                    alt=""
-                  />
-                </p>
-              </button>
+                    <img
+                      className="img w-[18px] h-[18px] text-center"
+                      src="../../../src/assets/icons/Union.svg"
+                      alt=""
+                    />
+                  </p>
+                </button>
+              </Tooltip>
             )}
 
             {/(dash|managers|depts)/gi.test(pathname) && (
@@ -119,10 +179,10 @@ const Navbar = () => {
                 className="w-full h-full rounded-full"
               />
             </p> */}
-            {userDetails && (
+            {userDetails && pathname !== "/" && (
               <Tooltip
                 title={
-                  <div>
+                  <div className="text-black font-medium">
                     <p>الاسم: {userDetails?.name}</p>
                     <p>الادارة: {userDetails?.department?.name}</p>
                     {/* <p>
