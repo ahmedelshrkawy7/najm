@@ -92,37 +92,43 @@ const routes = [
           {
             path: "editStudy",
             element: (
-              <Study
-                title={"اعداد الدراسة الاولية"}
-                role={"responsible"}
-                name="prepare"
-              >
-                <EditStudy />
-              </Study>
+              <ProtectedRoutes allowedRoles={["responsible"]}>
+                <Study
+                  title={"اعداد الدراسة الاولية"}
+                  role={"responsible"}
+                  name="prepare"
+                >
+                  <EditStudy />
+                </Study>
+              </ProtectedRoutes>
             ),
           },
           {
             path: "preparingStudy",
             element: (
-              <Study
-                title={"اعداد الدراسة الاولية"}
-                role={"responsible"}
-                name="prepare"
-              >
-                <PreparingStudy />
-              </Study>
+              <ProtectedRoutes allowedRoles={["responsible"]}>
+                <Study
+                  title={"اعداد الدراسة الاولية"}
+                  role={"responsible"}
+                  name="prepare"
+                >
+                  <PreparingStudy />
+                </Study>
+              </ProtectedRoutes>
             ),
           },
           {
             path: "previewStudy",
             element: (
-              <Study
-                title={"الدراسة الاولية"}
-                role={"responsible"}
-                name="accreditor"
-              >
-                <StudyPreview />
-              </Study>
+              <ProtectedRoutes allowedRoles={["responsible"]}>
+                <Study
+                  title={"الدراسة الاولية"}
+                  role={"responsible"}
+                  name="accreditor"
+                >
+                  <StudyPreview />
+                </Study>
+              </ProtectedRoutes>
             ),
           },
 
@@ -149,7 +155,11 @@ const routes = [
       {
         path: "depts",
         handle: { crumb: "التاسيس" },
-        element: <Deptview />,
+        element: (
+          <ProtectedRoutes allowedRoles={["admin"]}>
+            <Deptview />
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "Acc",
@@ -180,11 +190,27 @@ function AppLayout() {
   // const [message, setMessage] = useState("");
   // console.log("🚀 ~ AppLayout ~ message:", message);
 
-  usePusher(
-    "responsible-notification",
-    "ResponsibleNotificationEvent",
-    handleEvent
-  );
+  // usePusher(
+  // "responsible-notification",
+  // "ResponsibleNotificationEvent",
+  //   handleEvent
+  // );
+
+  // const [notifications, setNotifications] = useState([]);
+  // console.log("🚀 ~ AppLayout ~ notifications:", notifications)
+
+  // // Use the custom hook to listen for notifications from Pusher
+  // usePusher(
+  //   "responsible-notification",
+  //   "ResponsibleNotificationEvent",
+  //   (data) => {
+  //     console.log("New notification received:", data);
+  //     setNotifications((prevNotifications) => [
+  //       ...prevNotifications,
+  //       data.message,
+  //     ]);
+  //   }
+  // );
 
   return (
     <>

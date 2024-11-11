@@ -295,4 +295,5 @@ body::-webkit-scrollbar-thumb {
 .ant-tooltip-inner {
   /* padding: 0 !important; */
   background-color: white !important ;
+  border: 0.1px solid #bbb;
 }

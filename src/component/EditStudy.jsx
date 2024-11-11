@@ -278,7 +278,11 @@ const EditStudy = ({ change }) => {
           <div className="self-center flex flex-wrap gap-6 my-8 relative">
             {res?.data?.notes?.notes?.risk_assessment_note && (
               <Tooltip
-                title={res?.data?.notes?.notes?.risk_assessment_note}
+                title={
+                  <p className="text-black">
+                    {res?.data?.notes?.notes?.risk_assessment_note}
+                  </p>
+                }
                 overlayStyle={{
                   // width: "100%",
                   // maxWidth: "none",

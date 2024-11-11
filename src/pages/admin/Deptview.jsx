@@ -212,6 +212,7 @@ const Deptview = () => {
   const [currentView, setCurrentView] = useState("default");
   const [isModalOpen, setModalOpen] = useState(false);
   const { state } = useLocation();
+  console.log("🚀 ~ Deptview ~ state:", state);
   const ref = useRef();
   const { data = [], columns = [], apiKey = "", buttonName = "" } = state || {};
 
@@ -375,6 +376,11 @@ const Deptview = () => {
       ),
     },
   ];
+
+  // added recently
+  if (!apiKey) {
+    return navigate("/managers");
+  }
 
   return (
     <>

@@ -38,7 +38,7 @@ const Textarea = ({
         <span className="text-red-500">{iconLabel}</span>
         {note && (
           <Tooltip
-            title={note}
+            title={<p className="text-black">{note}</p>}
             overlayStyle={{
               // width: "100%",
               // maxWidth: "none",

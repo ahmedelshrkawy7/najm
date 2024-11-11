@@ -1,10 +1,10 @@
+// src/usePusher.js
+
 import { useEffect } from "react";
 import { subscribeToChannel } from "./pusherService";
 
-// Custom hook to use Pusher
+// Custom hook to use Laravel Echo (via Pusher)
 const usePusher = (channelName, eventName, callback) => {
-  // Memoize the callback to avoid unnecessary re-renders
-
   useEffect(() => {
     // Subscribe to the channel and event
     const unsubscribe = subscribeToChannel(channelName, eventName, (data) => {

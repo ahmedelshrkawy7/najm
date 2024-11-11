@@ -26,7 +26,10 @@ const Navbar = () => {
     data = {},
     refetch,
   } = useQuery(["notifications", ["/notifications"]], getData, {
-    enabled: !!token && JSON.parse(token)?.role !== "reviewer",
+    enabled:
+      !!token &&
+      JSON.parse(token)?.role !== "reviewer" &&
+      JSON.parse(token)?.role !== "admin",
   });
   console.log("🚀 ~ Navbar ~ data:", data);
 
@@ -91,29 +94,36 @@ const Navbar = () => {
             />
           </div>
           <div className="flex absolute left-0 top-1/2 -translate-y-1/2 md:pr-6 px-0 gap-4 items-center">
-            {/(dash)/gi.test(pathname) && data?.data?.length > 0 && (
+            {/(dash|acc)/gi.test(pathname) && data?.data?.length > 0 && (
               // <button disabled className="disabled:cursor-not-allowed">
               <Tooltip
                 title={
                   <div
                     style={{
-                      maxHeight: "200px",
+                      maxHeight: "300px",
                       overflowY: "auto",
                       maxWidth: "auto",
                       width: "auto",
-                      // padding: "10px",
+                      // padding: "5px",
                     }}
-                    // className="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full "
+                    className="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full "
                   >
                     {data?.data?.map((el) => (
                       <div
                         key={el.id}
-                        className="bg-white text-black border-b border-gray-200 py-1 px-1 text-md font-medium break-words flex flex-col gap-1"
+                        className="bg-white text-black border-b border-gray-200 px-1 text-md font-medium flex flex-col gap-1 py-2"
                       >
                         <p>
-                          {el?.notification?.title} بلاغ رقم {" "}
-                          {el?.notification?.body?.number} بواسطة{" "}
-                          {el?.notification?.body?.user}
+                          <span>{el?.notification?.title} بلاغ رقم </span>
+                          <span>{el?.notification?.body?.number} </span>
+                          {el?.notification?.body?.user && (
+                            <span>
+                              بواسطة{" "}
+                              <span className="text-blue-600">
+                                {el?.notification?.body?.user}
+                              </span>
+                            </span>
+                          )}
                         </p>
                         {el?.notification?.body?.date && (
                           <p className="text-gray-400">
@@ -147,10 +157,10 @@ const Navbar = () => {
               </Tooltip>
             )}
 
-            {/(dash|managers|depts)/gi.test(pathname) && (
+            {/(dash|managers|depts|acc)/gi.test(pathname) && (
               <button
                 onClick={() => {
-                  if (/(dash)/gi.test(pathname)) {
+                  if (/(dash|acc)/gi.test(pathname)) {
                     logout();
                     localStorage.setItem("pageNumber", 1);
                     localStorage.removeItem("userDetails");
@@ -179,7 +189,7 @@ const Navbar = () => {
                 className="w-full h-full rounded-full"
               />
             </p> */}
-            {userDetails && pathname !== "/" && (
+            {userDetails && /(dash|managers|depts|acc)/gi.test(pathname) && (
               <Tooltip
                 title={
                   <div className="text-black font-medium">

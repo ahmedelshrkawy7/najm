@@ -251,9 +251,9 @@ const ReportImages = ({
                             showFunc(index, "video");
                           }}
                         >
-                          {canViewImages && (
+                          {/* {canViewImages && ( */}
                             <EyeOutlined className="text-[20px] text-white" />
-                          )}
+                          {/* )} */}
                         </span>
                       </div>
                       <div className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center z-[999]">

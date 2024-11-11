@@ -24,7 +24,7 @@ const SelectInput = ({
         <span className="text-red-500">{iconLabel}</span>
         {note && (
           <Tooltip
-            title={note}
+            title={<p className="text-black">{note}</p>}
             overlayStyle={{
               // width: "100%",
               // maxWidth: "none",
@@ -36,7 +36,6 @@ const SelectInput = ({
               paddingInline: "16px", // Optional: Adds some padding inside
               textAlign: "left",
             }}
-
             // Prevents max-width constraint
           >
             <ExclamationCircleOutlined
