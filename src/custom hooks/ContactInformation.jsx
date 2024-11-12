@@ -6,7 +6,7 @@ import note from "../assets/icons/note.svg";
 import prev1 from "../assets/icons/prev1.svg";
 import prev8 from "../assets/icons/prev8.svg";
 const ContactInformation = ({ values = [] }) => {
-  console.log(values);
+  // console.log(values);
   return (
     <>
       {(values?.user_name || values?.user?.name) && (

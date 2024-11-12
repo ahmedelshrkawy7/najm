@@ -34,7 +34,7 @@ const ReportsPreview = ({
   src,
   videos
 }) => {
-  console.log(values, fils, imgs);
+  // console.log(values, fils, imgs);
   return (
     <div className="">
       <DispalyData

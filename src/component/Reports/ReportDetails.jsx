@@ -44,13 +44,13 @@ const ReportDetails = ({
   // console.log("🚀 ~ date:", date)
   const isHidden = watch("suspectKnown") === "0";
   const [validDate, setValidDate] = useState("");
-  console.log(description);
-  console.log(
-    watch("date"),
-    "hahah",
-    new Date(watch("date")).getTime(),
-    Date.now()
-  );
+  // console.log(description);
+  // console.log(
+  //   watch("date"),
+  //   "hahah",
+  //   new Date(watch("date")).getTime(),
+  //   Date.now()
+  // );
   useEffect(() => {
     if (
       watch("description").trim() !== "" &&
@@ -80,7 +80,7 @@ const ReportDetails = ({
       setV(false);
     }
   }, [reportDetailsValues]);
-  console.log(watch("description").trim());
+  // console.log(watch("description").trim());
   return (
     <>
       <ReportsHeader

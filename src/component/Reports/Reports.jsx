@@ -11,7 +11,7 @@ import ContactInformation from "./ContactInformation";
 import ReportDetails from "./ReportDetails";
 import { useForm } from "react-hook-form";
 import { sendData } from "../../utils/http";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useApi from "../../utils/useApi";
 import { QueryClient, useMutation } from "react-query";
 import Success from "../../models/Success";
@@ -92,7 +92,7 @@ const Reports = () => {
   };
 
   const date = new Date(wValues?.[3]?.$d);
-  console.log(date);
+  // console.log(date);
   const month =
     date?.getUTCMonth() + 1 < 10
       ? "0" + (date?.getUTCMonth() + 1)
@@ -118,7 +118,7 @@ const Reports = () => {
   //     : "";
 
   const newValues = getValues();
-  console.log(newValues);
+  // console.log(newValues);
   const {
     list,
     datePickerControl: datePicker,
@@ -130,8 +130,8 @@ const Reports = () => {
   } = newValues;
 
   const allFiles = [...imgs, ...videos, ...fils];
-  console.log(allFiles);
-  console.log(userName);
+  // console.log(allFiles);
+  // console.log(userName);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
@@ -154,7 +154,7 @@ const Reports = () => {
     };
   }
 
-  console.log(fullDate);
+  // console.log(fullDate);
 
   // if (fullDate === "NaN-NaN-NaN") {
   //   dataObject = {
@@ -284,12 +284,20 @@ const Reports = () => {
     },
   ];
 
+  // useEffect(() => {
+  //   mainContainer.current.scrollIntoView();
+  // }, [current]);
+
+  const { pathname } = useLocation();
   useEffect(() => {
-    mainContainer.current.scrollIntoView();
-  }, [current]);
-  console.log(watch("date"));
+    if (/(ReportsPage)/gi.test(pathname)) {
+      mainContainer.current.scrollIntoView();
+    }
+  }, [current, pathname]);
+
+  // console.log(watch("date"));
   const next = () => {
-    console.log(!card.name);
+    // console.log(!card.name);
 
     if (!card.name || v === false) {
       return toast.error("من فضلك أدخل البيانات", {

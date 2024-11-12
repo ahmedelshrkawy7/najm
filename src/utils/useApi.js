@@ -59,10 +59,10 @@ const useApi = () => {
     }
   };
   const getData = async ({ queryKey }) => {
-    console.log("🚀 ~ getData ~ queryKey:", queryKey);
+    // console.log("🚀 ~ getData ~ queryKey:", queryKey);
     // setLoader(true);
     let [, [url, param], id = ""] = queryKey;
-    console.log("🚀 ~ getData ~ param:", param);
+    // console.log("🚀 ~ getData ~ param:", param);
     try {
       const response = await Axios.get(id ? url + "/" + id : url, {
         params: param,

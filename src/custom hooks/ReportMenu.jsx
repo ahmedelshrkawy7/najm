@@ -132,7 +132,8 @@ const ReportMenu = ({
           status === "add_information_from_responsible" ||
           status === "add_notes_from_responsible" ||
           status === "request_information_from_department" ||
-          status === "confirmed",
+          status === "confirmed" ||
+          status === "resubmit_study_from_accreditor",
       },
       {
         id: 4,
@@ -663,6 +664,7 @@ const ReportMenu = ({
               opt.disabled = true;
               return;
             }
+            handleHideMenu();
             setShowSvg(true);
             !!opt?.path
               ? navigateTo(opt.path, {

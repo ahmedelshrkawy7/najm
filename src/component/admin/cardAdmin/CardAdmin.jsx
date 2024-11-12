@@ -2,13 +2,16 @@
 import { Select, Space, Table, Tag } from "antd";
 import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
-import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { useQuery, useQueryClient } from "react-query";
+import { Link, useLocation } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
 import { useContext, useEffect } from "react";
 import TokenContext from "../../../store/TokenContext";
 import StudyContext from "../../../store/StudyContext";
+import usePusher from "../../../utils/usePusher";
+import { successNotf } from "../../../utils/notifications/Toast";
+import useDynamicNotf from "../../../utils/useDynamicNotf";
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -1026,6 +1029,61 @@ const CardAdmin = () => {
           : "bg-white/5";
     }
   };
+
+  console.log(role);
+
+  // const handleNotf = () => {
+  //   let pusherCred = {};
+
+  //   if (role === "responsible") {
+  //     pusherCred = {
+  //       channel: "responsible-notification",
+  //       event: "App\\Events\\ResponsibleNotificationEvent",
+  //     };
+  //   } else if (role === "accreditor") {
+  //     pusherCred = {
+  //       channel: "accreditor-notification",
+  //       event: "App\\Events\\AccreditorNotificationEvent",
+  //     };
+  //   } else if (role === "department") {
+  //     pusherCred = {
+  //       channel: "department-notification",
+  //       event: "App\\Events\\DepartmentNotificationEvent",
+  //     };
+  //   } else {
+  //     console.log("Unknown role, not subscribing to notifications.");
+  //     pusherCred = {
+  //       channel: "",
+  //       event: "",
+  //     };
+  //   }
+
+  //   return pusherCred;
+  // };
+
+  // // const notification = usePusher(
+  // //   "responsible-notification",
+  // //   "App\\Events\\ResponsibleNotificationEvent"
+  // // );
+
+  // const pusherCred = handleNotf();
+
+  // const notification = usePusher(pusherCred.channel, pusherCred.event);
+
+  // console.log("🚀 ~ notification:", notification);
+
+  const notification = useDynamicNotf(role);
+  console.log("🚀 ~ notification:", notification);
+  // let { pathname } = useLocation();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (notification) {
+      queryClient.invalidateQueries(["notifications", ["/notifications"]]);
+      successNotf(
+        `تم ${notification.action} بواسطة ${notification?.created_by} ${notification?.report_time} `
+      );
+    }
+  }, [notification, queryClient]);
 
   return (
     <>

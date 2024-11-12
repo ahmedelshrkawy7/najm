@@ -42,11 +42,11 @@ const Datepicker = ({
           },
         }}
         render={({ field, fieldState, ...f }) => {
-          console.log("🚀 ~ f:", f);
-          console.log("🚀 ~ fieldState:", fieldState);
-          console.log("🚀 ~ field:", field);
+          // console.log("🚀 ~ f:", f);
+          // console.log("🚀 ~ fieldState:", fieldState);
+          // console.log("🚀 ~ field:", field);
           const handleChange = (date, dateString) => {
-            console.log("🚀 ~ handleChange ~ dateString:", dateString);
+            // console.log("🚀 ~ handleChange ~ dateString:", dateString);
             field.onChange(dateString);
           };
 

@@ -18,7 +18,7 @@ export const InputText = ({
   readOnly,
   required,
 }) => {
-  console.log("🚀 ~ errors:", errors);
+  // console.log("🚀 ~ errors:", errors);
   return (
     <div className="flex w-full md:w-auto flex-col self-start gap-4 ">
       <div className="flex gap-2">

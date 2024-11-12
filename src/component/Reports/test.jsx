@@ -42,6 +42,7 @@ const Test = () => {
   useEffect(() => {
     refetch();
     handleHideMenu();
+    window.scrollTo(0, 0);
   }, [refetch, id]);
 
   // useEffect(() => {

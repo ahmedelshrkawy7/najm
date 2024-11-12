@@ -53,7 +53,7 @@ const DispalyData = ({
   let videosServ = values?.media?.videos?.filter((el) => {
     return el?.file_type?.includes("video");
   });
-  console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
+  // console.log("🚀 ~ videosServ ~ videosServ:", videosServ);
   const restudyNotes = [
     {
       icon: <TeamOutlined />,
@@ -121,7 +121,7 @@ const DispalyData = ({
       result: values?.notes?.reason || "غير موجود",
     },
   ];
-  console.log("🚀 ~ items:", items);
+  // console.log("🚀 ~ items:", items);
   const reason = [
     {
       icon: <FileTextOutlined />,
@@ -134,7 +134,7 @@ const DispalyData = ({
       result: values?.reason?.content,
     },
   ];
-  console.log("🚀 ~ items2:", items);
+  // console.log("🚀 ~ items2:", items);
 
   const { getData } = useApi();
   const { data: { data = {} } = {} } = useQuery(
@@ -142,7 +142,7 @@ const DispalyData = ({
     getData,
     { enabled: !!id }
   );
-  console.log("🚀 ~ data:", data);
+  // console.log("🚀 ~ data:", data);
 
   if (!values.adminData || !values.result) {
     values.adminData = [
@@ -179,7 +179,7 @@ const DispalyData = ({
   }
 
   const note = values?.notes?.notes?.[0];
-  console.log("values lllllll", values);
+  // console.log("values lllllll", values);
 
   // const isValidStatus = (status) => {
   //   const invalidStatuses = [

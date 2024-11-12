@@ -32,8 +32,9 @@ import Accreditor from "./Accreditor.jsx";
 import Authorization from "./Authorization.jsx";
 import StudyPreview from "./component/StudyPreview.jsx";
 import EditStudy from "./component/EditStudy.jsx";
-import usePusher from "./utils/usePusher.jsx";
+import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+import usePusher from "./utils/usePusher.jsx";
 
 const routes = [
   {
@@ -50,7 +51,7 @@ const routes = [
         element: <ReportsPage />,
         handle: { crumb: "تقديم بلاغ" },
         loader: () => {
-          console.log("ramy");
+          // console.log("ramy");
           return ["alexon"];
         },
       },
@@ -183,34 +184,14 @@ function AppLayout() {
 
   let { pathname } = useLocation();
 
-  const handleEvent = (data) => {
-    console.log("Received data from Pusher:", data);
-  };
-
-  // const [message, setMessage] = useState("");
-  // console.log("🚀 ~ AppLayout ~ message:", message);
-
-  // usePusher(
-  // "responsible-notification",
-  // "ResponsibleNotificationEvent",
-  //   handleEvent
-  // );
-
-  // const [notifications, setNotifications] = useState([]);
-  // console.log("🚀 ~ AppLayout ~ notifications:", notifications)
-
-  // // Use the custom hook to listen for notifications from Pusher
-  // usePusher(
+  // const data = usePusher(
   //   "responsible-notification",
-  //   "ResponsibleNotificationEvent",
-  //   (data) => {
-  //     console.log("New notification received:", data);
-  //     setNotifications((prevNotifications) => [
-  //       ...prevNotifications,
-  //       data.message,
-  //     ]);
-  //   }
+  //   "App\\Events\\ResponsibleNotificationEvent"
   // );
+
+  // useEffect(() => {
+  //   console.log("🚀 echooooooooooooo", data);
+  // }, [data]);
 
   return (
     <>

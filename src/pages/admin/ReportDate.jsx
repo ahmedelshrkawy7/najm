@@ -109,7 +109,7 @@ const ReportDate = () => {
         if (text && text.length > maxLength) {
           return (
             <Tooltip
-              title={text}
+              title={<p className="text-black">{text}</p>}
               placement="top"
               overlayStyle={{
                 whiteSpace: "normal", // Allow text to wrap within the tooltip

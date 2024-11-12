@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TokenContext from "../../store/TokenContext";
 import { Tooltip } from "antd";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import useApi from "../../utils/useApi";
 // import { subscribeToChannel } from "../../utils/pusherService";
 
@@ -20,6 +20,7 @@ const Navbar = () => {
   });
   const token = localStorage.getItem("token");
   let { getData } = useApi();
+
   const {
     isLoading,
     error,
@@ -30,8 +31,10 @@ const Navbar = () => {
       !!token &&
       JSON.parse(token)?.role !== "reviewer" &&
       JSON.parse(token)?.role !== "admin",
+    refetchOnWindowFocus: true,
+    staleTime: 0,
   });
-  console.log("🚀 ~ Navbar ~ data:", data);
+  // console.log("🚀 ~ Navbar ~ data:", data);
 
   useEffect(() => {
     if (userDetails) {
@@ -43,41 +46,7 @@ const Navbar = () => {
     if (token) {
       refetch();
     }
-  }, [refetch, data, token]);
-
-  // const [responsibleMessage, setResponsibleMessage] = useState("");
-  // console.log("🚀 ~ Navbar ~ responsibleMessage:", responsibleMessage);
-  // const [departmentMessage, setDepartmentMessage] = useState("");
-
-  // useEffect(() => {
-  //   console.log("Navbar component mounted");
-
-  //   // Subscribe to responsible-notification channel
-  //   const unsubscribeResponsible = subscribeToChannel(
-  //     "responsible-notification",
-  //     "ResponsibleNotificationEvent",
-  //     (data) => {
-  //       console.log("Received Responsible Notification:", data);
-  //       setResponsibleMessage(data.message); // Update state with the message
-  //     }
-  //   );
-
-  //   // Subscribe to department-notification channel
-  //   const unsubscribeDepartment = subscribeToChannel(
-  //     "department-notification",
-  //     "DepartmentNotificationEvent",
-  //     (data) => {
-  //       console.log("Received Department Notification:", data);
-  //       setDepartmentMessage(data.message); // Update state with the message
-  //     }
-  //   );
-
-  //   // Cleanup function to unsubscribe from channels when the component unmounts
-  //   return () => {
-  //     unsubscribeResponsible();
-  //     unsubscribeDepartment();
-  //   };
-  // }, []);
+  }, [refetch, token, data, pathname]);
 
   return (
     <div className="bg-[#2E2E2E]">
@@ -97,6 +66,7 @@ const Navbar = () => {
             {/(dash|acc)/gi.test(pathname) && data?.data?.length > 0 && (
               // <button disabled className="disabled:cursor-not-allowed">
               <Tooltip
+                overlayClassName="custom-tooltip"
                 title={
                   <div
                     style={{
@@ -109,28 +79,39 @@ const Navbar = () => {
                     className="scrollbar scrollbar-w-2 scrollbar-thumb-[#33835c] scrollbar-thumb-rounded-full "
                   >
                     {data?.data?.map((el) => (
-                      <div
+                      <Link
+                        to={`/dash/${el?.notification?.body?.report_id}`}
                         key={el.id}
-                        className="bg-white text-black border-b border-gray-200 px-1 text-md font-medium flex flex-col gap-1 py-2"
+                        className="bg-white text-black border-b border-gray-200 px-1 text-md font-medium flex flex-col gap-1 py-2 hover:text-black"
                       >
-                        <p>
-                          <span>{el?.notification?.title} بلاغ رقم </span>
-                          <span>{el?.notification?.body?.number} </span>
-                          {el?.notification?.body?.user && (
-                            <span>
-                              بواسطة{" "}
-                              <span className="text-blue-600">
-                                {el?.notification?.body?.user}
-                              </span>
-                            </span>
-                          )}
-                        </p>
-                        {el?.notification?.body?.date && (
-                          <p className="text-gray-400">
-                            {el?.notification?.body?.date}
-                          </p>
-                        )}
-                      </div>
+                        <div className="flex gap-3 items-center ">
+                          <img
+                            src={`${el?.notification?.body?.user_image}`}
+                            alt="user_image"
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div>
+                            <p>
+                              <span>{el?.notification?.title} بلاغ رقم </span>
+                              <span>{el?.notification?.body?.number} </span>
+                              {el?.notification?.body?.user && (
+                                <span>
+                                  بواسطة{" "}
+                                  <span className="text-blue-600">
+                                    {el?.notification?.body?.user}
+                                  </span>
+                                </span>
+                              )}
+                            </p>
+                            {el?.notification?.body?.date && (
+                              <p className="text-gray-400 flex gap-1">
+                                <span>{el?.notification?.body?.time} - </span>
+                                <span> {el?.notification?.body?.date}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
                     ))}
                   </div>
                 }
@@ -191,6 +172,7 @@ const Navbar = () => {
             </p> */}
             {userDetails && /(dash|managers|depts|acc)/gi.test(pathname) && (
               <Tooltip
+                overlayClassName="custom-tooltip"
                 title={
                   <div className="text-black font-medium">
                     <p>الاسم: {userDetails?.name}</p>

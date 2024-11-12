@@ -279,7 +279,7 @@ const EditStudy = ({ change }) => {
             {res?.data?.notes?.notes?.risk_assessment_note && (
               <Tooltip
                 title={
-                  <p className="text-black">
+                  <p className="text-white">
                     {res?.data?.notes?.notes?.risk_assessment_note}
                   </p>
                 }
@@ -290,9 +290,10 @@ const EditStudy = ({ change }) => {
                   whiteSpace: "normal", // Allow text to wrap within the tooltip
                   wordWrap: "break-word", // Break words when necessary
                   maxWidth: "none", // Remove any max-width limitation
-                  width: "auto", // Allow width to auto-size based on content
+                  width: "92.5%", // Allow width to auto-size based on content
                   paddingInline: "16px", // Optional: Adds some padding inside
                   textAlign: "left",
+                  right: "3.7%",
                 }} // Prevents max-width constraint
                 className="absolute"
               >

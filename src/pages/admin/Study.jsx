@@ -95,6 +95,7 @@ const Study = ({ children, title, role, name }) => {
       //       data?.data?.message
       // );
       successNotf(data?.data?.message);
+
       refetch();
       ref.current.close();
       navigate("/dash", { replace: true });

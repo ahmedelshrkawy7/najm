@@ -292,7 +292,7 @@ body::-webkit-scrollbar-thumb {
   background-color: #4caf50 !important; /* Change color on hover */
 }
 
-.ant-tooltip-inner {
+.custom-tooltip .ant-tooltip-inner {
   /* padding: 0 !important; */
   background-color: white !important ;
   border: 0.1px solid #bbb;

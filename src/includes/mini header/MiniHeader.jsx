@@ -4,7 +4,7 @@ import { Breadcrumb } from "../../import";
 //rgb(47 57 52 / 80%)
 const MiniHeader = () => {
   const matches = useMatches();
-  console.log("🚀 ~ MiniHeader ~ matches:", matches);
+  // console.log("🚀 ~ MiniHeader ~ matches:", matches);
   const breadcrumbs = matches
     .filter((match) => match.handle && match.handle.crumb)
     .map((match) => ({

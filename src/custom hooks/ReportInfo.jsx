@@ -41,7 +41,7 @@ const ReportInfo = ({ values }) => {
   };
 
   let role = JSON.parse(localStorage.getItem("token"))?.role;
-  console.log("🚀 ~ ReportInfo ~ role:", role);
+  // console.log("🚀 ~ ReportInfo ~ role:", role);
   return (
     <>
       <div className="flex p-4 px-0 rounded-xl flex-col gap-6 mb-2">

@@ -32,13 +32,13 @@ const Textarea = ({
   };
   // console.log(errors, watch("desription"));
   return (
-    <div ref={wrapperRef} className="flex flex-col gap-4">
+    <div ref={wrapperRef} className="flex flex-col gap-4 relative">
       <div className="flex">
         <h2 className=" ">{textAreaTitle}</h2>
         <span className="text-red-500">{iconLabel}</span>
         {note && (
           <Tooltip
-            title={<p className="text-black">{note}</p>}
+            title={<p className="text-white">{note}</p>}
             overlayStyle={{
               // width: "100%",
               // maxWidth: "none",
@@ -46,9 +46,10 @@ const Textarea = ({
               whiteSpace: "normal", // Allow text to wrap within the tooltip
               wordWrap: "break-word", // Break words when necessary
               maxWidth: "none", // Remove any max-width limitation
-              width: "auto", // Allow width to auto-size based on content
+              width: "92.5%", // Allow width to auto-size based on content
               paddingInline: "16px", // Optional: Adds some padding inside
               textAlign: "left",
+              right: "3.7%",
             }} // Prevents max-width constraint
           >
             <ExclamationCircleOutlined

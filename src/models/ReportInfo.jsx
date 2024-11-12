@@ -42,13 +42,13 @@ const ReportInfo = ({ title, action, _id, successMsg, setShowSvg }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(postData, {
     onSuccess: (data) => {
-      console.log("🚀 ~ ReportInfo ~ data:", data);
+      // console.log("🚀 ~ ReportInfo ~ data:", data);
       setCurrentView("success");
       queryClient.invalidateQueries(["admin", ["/reports"], id]);
       // successNotf("تم اسناد البلاغ للادارة بنجاح");
     },
     onError: (err) => {
-      console.log("🚀 ~ ReportInfo ~ err:", err);
+      // console.log("🚀 ~ ReportInfo ~ err:", err);
       setShowSvg(false);
       errorNotf(err?.response?.data?.message);
     },
@@ -61,7 +61,7 @@ const ReportInfo = ({ title, action, _id, successMsg, setShowSvg }) => {
   };
 
   let onSubmit = (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
+    // console.log("🚀 ~ onSubmit ~ data:", data);
     mutation.mutate([`/reports/${id}`, data]);
   };
   return (

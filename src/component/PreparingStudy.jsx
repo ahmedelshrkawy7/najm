@@ -75,8 +75,8 @@ const PreparingStudy = ({ change }) => {
   );
 
   console.log("🚀 ~ PreparingStudy ~ reportType:", reportType);
-  const { data: res } = useQuery(["users", ["/reports"], id], getData, {
-    onSuccess: (res) => {},
+  const { data: res } = useQuery(["admin", ["/reports"], id], getData, {
+    onSuccess: (res) => {}, // key was users
   });
   const {
     register,
