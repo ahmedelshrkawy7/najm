@@ -23,6 +23,7 @@ const ReportImages = ({
   watch,
   hasLabel = true,
   canViewImages,
+  getValues,
 }) => {
   console.log("🚀 ~ ReportImages ~ imgs:", imgs);
   // let photos = imgs?.filter((el) => {
@@ -92,10 +93,7 @@ const ReportImages = ({
       {!!imgs?.length > 0 && (
         <>
           {hasLabel && (
-            <div
-              className={`flex mb-4 flex-col  
-       mt-4 gap-1`}
-            >
+            <div className={`flex mb-4 flex-col mt-4 gap-1`}>
               <div className="flex items-center gap-4 ">
                 <div className=" rounded-full   h-12  flex items-center justify-center">
                   <img src={prev6} />
@@ -110,7 +108,7 @@ const ReportImages = ({
 
           <div className="flex flex-wrap mt-4 gap-6">
             {imgs.map((img, index) => (
-              <div key={Math.random()}>
+              <div key={Math.random()} className=" mb-8">
                 {!img && <p>Loading</p>}
                 <div className=" relative h-full w-[220px]  ">
                   {preview && (
@@ -136,7 +134,6 @@ const ReportImages = ({
                       ref={myImage}
                       draggable="false"
                     />
-
                     <div
                       className="active cursor-pointer h-full w-full bg-[#000] "
                       onClick={() => {
@@ -162,6 +159,17 @@ const ReportImages = ({
                       >
                         <DownloadOutlined className="text-white text-[16px]" />
                       </a>
+                    </div>
+                    <div className="mt-2">
+                      <input
+                        type="text"
+                        name={`desc_${index}`} // Use the index to create dynamic names
+                        onChange={(e) =>
+                          setValue(`desc_${index}`, e.target.value)
+                        } // Set value for description
+                        className="w-full p-2 py-1 border border-gray-300 rounded-md"
+                        placeholder="ملاحظات"
+                      />
                     </div>
                   </div>
                 </div>
@@ -221,7 +229,7 @@ const ReportImages = ({
                 <div key={Math.random()}>
                   {!img && <p>Loading</p>}
                   <div className=" relative h-full w-[220px] ">
-                    <>
+                    <div>
                       {preview && (
                         <div
                           onClick={() => handleDeleteVideos(index, img.id)}
@@ -252,7 +260,7 @@ const ReportImages = ({
                           }}
                         >
                           {/* {canViewImages && ( */}
-                            <EyeOutlined className="text-[20px] text-white" />
+                          <EyeOutlined className="text-[20px] text-white" />
                           {/* )} */}
                         </span>
                       </div>
@@ -268,7 +276,18 @@ const ReportImages = ({
                           <DownloadOutlined className="text-white text-[16px]" />
                         </a>
                       </div>
-                    </>
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          name={`vidDesc_${index}`}
+                          onChange={(e) =>
+                            setValue(`vidDesc_${index}`, e.target.value)
+                          }
+                          className="w-full p-2 py-1 border border-gray-300 rounded-md"
+                          placeholder="ملاحظات"
+                        />
+                      </div>
+                    </div>
                   </div>
                   {showVideo && (
                     <div className="w-screen h-screen fixed top-0 left-0 z-[1000] flex justify-center items-center bg-black/50">

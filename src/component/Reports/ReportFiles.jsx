@@ -12,6 +12,7 @@ const ReportFiles = ({
   setValue,
   hasLabel = true,
 }) => {
+  console.log("🚀 ~ watch:", !!watch);
   const handleDeleteFiles = (id, path) => {
     const files = [...fils];
     files.splice(id, 1);
@@ -114,7 +115,7 @@ const ReportFiles = ({
             )}
 
             <div
-              className={`flex items-center gap-4  ${
+              className={`flex items-center gap-4  w-[220px] ${
                 file?.type?.startsWith("application") ||
                 file?.file_name.endsWith("pdf")
                   ? "bg-[#DC60651A]"
@@ -167,6 +168,21 @@ const ReportFiles = ({
                 className="rounded-md w-[20px]"
                 src={`../../../src/assets/${makeSrc(file)}`}
               />
+            </div>
+            <div className="mt-2">
+              {!!watch ? (
+                <input
+                  type="text"
+                  name={`fileDesc_${index}`}
+                  onChange={(e) =>
+                    setValue(`fileDesc_${index}`, e.target.value)
+                  }
+                  className="w-full p-2 py-1 border border-gray-300 rounded-md"
+                  placeholder="ملاحظات"
+                />
+              ) : (
+                <p>jfjfjfj</p>
+              )}
             </div>
           </div>
         ))}

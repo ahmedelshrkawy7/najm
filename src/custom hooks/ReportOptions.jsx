@@ -1,17 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import ReportOptionType from "./ReportOptionType";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import useApi from "../utils/useApi";
 import { useParams } from "react-router-dom";
 
-const ReportOptions = ({
-  getDanger,
-  setShowSvg,
-  getSavedOptions,
-}) => {
+const ReportOptions = ({ getDanger, setShowSvg, getSavedOptions }) => {
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       typeOfReport: [],
@@ -26,6 +22,7 @@ const ReportOptions = ({
   });
   const { id } = useParams();
   const selectedOptions = watch("all");
+  // console.log("🚀 ~ ReportOptions ~ selectedOptions:", selectedOptions);
 
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem(`formData`));
@@ -37,18 +34,14 @@ const ReportOptions = ({
     }
   }, [setValue, getSavedOptions, id]);
 
-  useEffect(() => {
-    const dangerValue = selectedOptions.length / 19;
-    getDanger(dangerValue);
-  }, [selectedOptions]);
-
   const onSubmit = (data) => {
     // getDanger(watch("all").length / 19);
     // setShowSvg(false);
 
     const formData = {
       selectedOptions: data.all,
-      calculatedValue: watch("all").length / 19,
+      // calculatedValue: watch("all").length / 19,
+      calculatedValue: totalWeight,
       key: `formData-${id}`,
     };
 
@@ -75,7 +68,35 @@ const ReportOptions = ({
     isLoading,
     isFetching,
   } = useQuery(["admin", ["/fetch-risk-assessment", ""]], getData);
-  console.log("🚀 ~ ReportOptions ~ data:", data);
+  // console.log("🚀 ~ ReportOptions ~ data:", data);
+
+  const getSumOfWeights = (selectedOptions, data) => {
+    let totalWeight = 0;
+    selectedOptions.forEach((selectedOption) => {
+      data?.[0]?.forEach((section) => {
+        section.children.forEach((child) => {
+          if (selectedOption === child.name) {
+            totalWeight += child.weight || 0;
+          }
+        });
+      });
+    });
+
+    return totalWeight;
+  };
+
+  // Calculate the sum of the weights for the selected options
+  const totalWeight = useMemo(
+    () => getSumOfWeights(selectedOptions, data),
+    [selectedOptions, data]
+  );
+
+  // console.log("🚀 ~ ReportOptions ~ totalWeight:", totalWeight);
+
+  useEffect(() => {
+    // const dangerValue = selectedOptions.length / 19;
+    getDanger(totalWeight);
+  }, [selectedOptions, totalWeight]);
 
   return (
     <>

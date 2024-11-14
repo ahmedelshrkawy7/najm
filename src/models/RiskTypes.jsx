@@ -39,7 +39,7 @@ const RiskTypes = ({
     mode: "onBlur",
     defaultValues: {
       risk_type: "1",
-      report_weight_id: "",
+      weight: "",
       parent_id: "",
       subRisk: "",
       num_of_days: 21,
@@ -148,7 +148,7 @@ const RiskTypes = ({
                 </label>
                 <Controller
                   control={control}
-                  name="report_weight_id"
+                  name="weight"
                   rules={{ required: "وزن البلاغ مطلوب" }}
                   render={({ field }) => (
                     // <select
@@ -164,30 +164,35 @@ const RiskTypes = ({
                     //     </option>
                     //   ))}
                     // </select>
-                    <Select
+                    // <Select
+                    //   {...field}
+                    //   className={`rounded-md w-full flex items-center h-[34px] border${
+                    //     errors.report_weight_id
+                    //       ? "border-red-500"
+                    //       : "border-gray-300"
+                    //   }`}
+                    //   placeholder="اختر الإدارة"
+                    //   onChange={(value) => field.onChange(value)}
+                    // >
+                    //   <Option value="" disabled>
+                    //     اختر
+                    //   </Option>
+                    //   {weights.map((weight) => (
+                    //     <Option key={weight.id} value={weight.id}>
+                    //       {weight.weight}
+                    //     </Option>
+                    //   ))}
+                    // </Select>
+                    <Input
                       {...field}
-                      className={`rounded-md w-full flex items-center h-[34px] border${
-                        errors.report_weight_id
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                      placeholder="اختر الإدارة"
-                      onChange={(value) => field.onChange(value)}
-                    >
-                      <Option value="" disabled>
-                        اختر
-                      </Option>
-                      {weights.map((weight) => (
-                        <Option key={weight.id} value={weight.id}>
-                          {weight.weight}
-                        </Option>
-                      ))}
-                    </Select>
+                      placeholder="وزن البلاغ"
+                      className="w-full p-2 border border-gray-300 rounded-md h-[34px]"
+                    />
                   )}
                 />
-                {errors.report_weight_id && (
+                {errors.weight && (
                   <p className="text-red-500 text-sm mt-1 absolute">
-                    {errors.report_weight_id.message}
+                    {errors.weight.message}
                   </p>
                 )}
               </div>

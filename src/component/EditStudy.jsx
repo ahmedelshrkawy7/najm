@@ -213,12 +213,28 @@ const EditStudy = ({ change }) => {
 
   //   fetchData();
   // }, [id, queryClient]);
+
+  // const getDanger = (percent) => {
+  //   console.log("🚀 ~ getDanger ~ percent:", percent);
+  //   if (percent <= 0.3) {
+  //     setValue("risk_assessment", "منخفض");
+  //     setValue("processing_time", 30);
+  //   } else if (percent <= 0.6) {
+  //     setValue("risk_assessment", "متوسط");
+  //     setValue("processing_time", 20);
+  //   } else {
+  //     setValue("risk_assessment", "عالي");
+  //     setValue("processing_time", 15);
+  //   }
+  //   clearErrors(["risk_assessment", "processing_time"]);
+  // };
+
   const getDanger = (percent) => {
     console.log("🚀 ~ getDanger ~ percent:", percent);
-    if (percent <= 0.3) {
+    if (percent < 25) {
       setValue("risk_assessment", "منخفض");
       setValue("processing_time", 30);
-    } else if (percent <= 0.6) {
+    } else if (percent > 26 && percent < 49) {
       setValue("risk_assessment", "متوسط");
       setValue("processing_time", 20);
     } else {
@@ -436,6 +452,7 @@ const EditStudy = ({ change }) => {
                   control={control}
                   watch={watch}
                   canViewImages={true}
+                  getValues={getValues}
                 />
               </div>
             </div>

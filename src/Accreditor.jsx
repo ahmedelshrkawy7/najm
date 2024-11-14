@@ -203,7 +203,7 @@ const Accreditor = () => {
                     <Controller
                       name="category_notes"
                       control={control}
-                      rules={{ required: "هذا الحقل مطلوب" }}
+                      // rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
                         <Input.TextArea
                           {...field}
@@ -214,11 +214,11 @@ const Accreditor = () => {
                         />
                       )}
                     />
-                    {errors?.category_notes && (
+                    {/* {errors?.category_notes && (
                       <span className="text-red-500 text-sm">
                         {errors?.category_notes?.message}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -248,7 +248,7 @@ const Accreditor = () => {
                     <Controller
                       name="risk_type_note"
                       control={control}
-                      rules={{ required: "هذا الحقل مطلوب" }}
+                      // rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
                         <Input.TextArea
                           {...field}
@@ -259,11 +259,11 @@ const Accreditor = () => {
                         />
                       )}
                     />
-                    {errors?.risk_type_note && (
+                    {/* {errors?.risk_type_note && (
                       <span className="text-red-500 text-sm">
                         {errors?.risk_type_note?.message}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -298,7 +298,7 @@ const Accreditor = () => {
                     <Controller
                       name="risk_assessment_note"
                       control={control}
-                      rules={{ required: "هذا الحقل مطلوب" }}
+                      // rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
                         <Input.TextArea
                           {...field}
@@ -309,11 +309,11 @@ const Accreditor = () => {
                         />
                       )}
                     />
-                    {errors?.risk_assessment_note && (
+                    {/* {errors?.risk_assessment_note && (
                       <span className="text-red-500 text-sm">
                         {errors?.risk_assessment_note?.message}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -345,7 +345,7 @@ const Accreditor = () => {
                     <Controller
                       name="department_note"
                       control={control}
-                      rules={{ required: "هذا الحقل مطلوب" }}
+                      // rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
                         <Input.TextArea
                           {...field}
@@ -356,11 +356,11 @@ const Accreditor = () => {
                         />
                       )}
                     />
-                    {errors?.department_note && (
+                    {/* {errors?.department_note && (
                       <span className="text-red-500 text-sm">
                         {errors?.department_note?.message}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -392,7 +392,7 @@ const Accreditor = () => {
                     <Controller
                       name="primary_study_note"
                       control={control}
-                      rules={{ required: "هذا الحقل مطلوب" }}
+                      // rules={{ required: "هذا الحقل مطلوب" }}
                       render={({ field }) => (
                         <Input.TextArea
                           {...field}
@@ -403,11 +403,11 @@ const Accreditor = () => {
                         />
                       )}
                     />
-                    {errors?.primary_study_note && (
+                    {/* {errors?.primary_study_note && (
                       <span className="text-red-500 text-sm">
                         {errors?.primary_study_note?.message}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

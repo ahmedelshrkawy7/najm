@@ -179,7 +179,7 @@ const DispalyData = ({
   }
 
   const note = values?.notes?.notes?.[0];
-  // console.log("values lllllll", values);
+  console.log("values lllllll", values);
 
   // const isValidStatus = (status) => {
   //   const invalidStatuses = [
@@ -205,6 +205,7 @@ const DispalyData = ({
   //   return !invalidStatuses.includes(status);
   // };
 
+  let role = JSON.parse(localStorage.getItem("token"))?.role;
   return (
     <>
       {!location.pathname.includes("dash") && (
@@ -242,15 +243,16 @@ const DispalyData = ({
               />
             </CardWrapper>
           )}
-
-          <CardWrapper
-            icon={<PhoneOutlined className="text-green-700" />}
-            title="معلومات الاتصال"
-          >
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
-              <ContactInformation values={values} />
-            </div>
-          </CardWrapper>
+          {role && role === "responsible" && (
+            <CardWrapper
+              icon={<PhoneOutlined className="text-green-700" />}
+              title="معلومات الاتصال"
+            >
+              <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  mt-2 xl:gap-24 items-center">
+                <ContactInformation values={values} />
+              </div>
+            </CardWrapper>
+          )}
 
           {values?.result && (
             <CardWrapper
@@ -307,9 +309,7 @@ const DispalyData = ({
             values?.status !== "request_information_from_responsible" &&
             values?.status !== "closed" &&
             Array.isArray(items) &&
-            items.every(
-              (item) => item.result && item.result.trim() !== ''
-            ) && (
+            items.every((item) => item.result && item.result.trim() !== "") && (
               <div className="my-4 py-1 rounded-md">
                 <CardWrapper
                   icon={<img src={prev5} />}

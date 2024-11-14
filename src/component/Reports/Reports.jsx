@@ -69,6 +69,9 @@ const Reports = () => {
       user_phone: "",
       fileInput: "",
       files: [],
+      desc: [],
+      vidDesc: [],
+      fileDesc: [],
     },
   });
   const wValues = watch(
@@ -118,7 +121,7 @@ const Reports = () => {
   //     : "";
 
   const newValues = getValues();
-  // console.log(newValues);
+  console.log(newValues);
   const {
     list,
     datePickerControl: datePicker,
@@ -130,12 +133,26 @@ const Reports = () => {
   } = newValues;
 
   const allFiles = [...imgs, ...videos, ...fils];
-  // console.log(allFiles);
+  console.log(allFiles);
+
   // console.log(userName);
   const hidden = watch("suspectKnown") === "0";
   let dataObject = {
     ...restValues,
-    files: allFiles,
+    files: [
+      ...imgs.map((file, index) => ({
+        file: file,
+        desc: watch(`desc_${index}`),
+      })),
+      ...videos.map((file, index) => ({
+        file: file,
+        desc: watch(`vidDesc_${index}`),
+      })),
+      ...fils.map((file, index) => ({
+        file: file,
+        desc: watch(`fileDesc_${index}`),
+      })),
+    ],
     date: watch("date"),
     report_classification_id: card.report_classification_id,
     suspects: suspects,
@@ -144,14 +161,28 @@ const Reports = () => {
   };
 
   if (hidden) {
-    dataObject = {
-      ...restValues,
-      files: allFiles,
-      // date: fullDate,
-      report_classification_id: card.report_classification_id,
-      user_name: userName ? userName : null,
-      user_phone: userPhone ? userPhone : null,
-    };
+   let dataObject = {
+     ...restValues,
+     files: [
+       ...imgs.map((file, index) => ({
+         file: file,
+         desc: watch(`desc_${index}`),
+       })),
+       ...videos.map((file, index) => ({
+         file: file,
+         desc: watch(`vidDesc_${index}`),
+       })),
+       ...fils.map((file, index) => ({
+        file: file,
+        desc: watch(`fileDesc_${index}`),
+      })),
+     ],
+     date: watch("date"),
+     report_classification_id: card.report_classification_id,
+     suspects: suspects,
+     user_name: userName ? userName : null,
+     user_phone: userPhone ? userPhone : null,
+   };
   }
 
   // console.log(fullDate);
@@ -381,7 +412,21 @@ const Reports = () => {
         {current === items.length - 1 && (
           <button
             onClick={() => {
-              Post.mutate(["/reports", dataObject]);
+              if (
+                JSON.parse(localStorage.getItem("token"))?.role ===
+                "responsible"
+              ) {
+                console.log("hhhhhhhhh", {
+                  ...dataObject,
+                  action: "create_report",
+                });
+                Post.mutate([
+                  "/create-report",
+                { ...dataObject, action: "create_report" },
+                ]);
+              } else {
+                Post.mutate(["/reports", dataObject]);
+              }
               setShowmodal(true);
             }}
             className={

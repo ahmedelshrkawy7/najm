@@ -3,7 +3,7 @@ import { Select, Space, Table, Tag } from "antd";
 import { Navbar, useState } from "../../../import";
 import useApi from "../../../utils/useApi";
 import { useQuery, useQueryClient } from "react-query";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReportChart from "../../../charts/ReportChart";
 import SelectInput from "../../forms/inputs/SelectInput";
 import { useContext, useEffect } from "react";
@@ -12,6 +12,8 @@ import StudyContext from "../../../store/StudyContext";
 import usePusher from "../../../utils/usePusher";
 import { successNotf } from "../../../utils/notifications/Toast";
 import useDynamicNotf from "../../../utils/useDynamicNotf";
+import * as XLSX from "xlsx"; // Import the xlsx library
+import { UploadOutlined } from "@ant-design/icons";
 
 const CardAdmin = () => {
   const { getData } = useApi();
@@ -58,34 +60,34 @@ const CardAdmin = () => {
     document.documentElement.style.overflow = "";
   }, [refetch, data]);
 
-  const selectOptions = {
-    reportNumber:
-      [...new Set(data?.data?.reports?.map((report) => report.id))] || [],
-    classifications:
-      [
-        ...new Set(
-          data?.data?.reports?.map(
-            (report) => report["report_classification-name"]
-          )
-        ),
-      ] || [],
-    reporterNames:
-      [...new Set(data?.data?.reports?.map((report) => report.person?.name))] ||
-      [],
-    emails:
-      [
-        ...new Set(data?.data?.reports?.map((report) => report.person?.email)),
-      ] || [],
-    // statuses: ["جديد", "مقبول", "مرفوض"],
-    statuses:
-      [...new Set(data?.data?.reports?.map((report) => report?.status))] || [],
-    phoneNumbers:
-      [
-        ...new Set(data?.data?.reports?.map((report) => report.person?.phone)),
-      ] || [],
-    dates:
-      [...new Set(data?.data?.reports?.map((report) => report.date))] || [],
-  };
+  // const selectOptions = {
+  //   reportNumber:
+  //     [...new Set(data?.data?.reports?.map((report) => report.id))] || [],
+  //   classifications:
+  //     [
+  //       ...new Set(
+  //         data?.data?.reports?.map(
+  //           (report) => report["report_classification-name"]
+  //         )
+  //       ),
+  //     ] || [],
+  //   reporterNames:
+  //     [...new Set(data?.data?.reports?.map((report) => report.person?.name))] ||
+  //     [],
+  //   emails:
+  //     [
+  //       ...new Set(data?.data?.reports?.map((report) => report.person?.email)),
+  //     ] || [],
+  //   // statuses: ["جديد", "مقبول", "مرفوض"],
+  //   statuses:
+  //     [...new Set(data?.data?.reports?.map((report) => report?.status))] || [],
+  //   phoneNumbers:
+  //     [
+  //       ...new Set(data?.data?.reports?.map((report) => report.person?.phone)),
+  //     ] || [],
+  //   dates:
+  //     [...new Set(data?.data?.reports?.map((report) => report.date))] || [],
+  // };
 
   // const SELECTS = [
   //   {
@@ -256,6 +258,7 @@ const CardAdmin = () => {
   //     ],
   //   },
   // ];
+
   const SELECTS = [
     {
       label: "رقم البلاغ",
@@ -267,40 +270,40 @@ const CardAdmin = () => {
         ).map((value) => ({ value, label: value })),
       ],
     },
-    {
-      label: "تصنيف البلاغ",
-      dataIndex: "report_classification-name",
-      options: [
-        { value: "", label: "اختر تصنيف البلاغ", disabled: true },
-        ...Array.from(
-          new Set(
-            data?.data?.reports?.map(
-              (report) => report["report_classification-name"]
-            )
-          )
-        ).map((value) => ({ value, label: value })),
-      ],
-    },
-    {
-      label: "اسم المبلغ",
-      dataIndex: ["person", "name"],
-      options: [
-        { value: "", label: "اختر اسم المبلغ", disabled: true },
-        ...Array.from(
-          new Set(data?.data?.reports?.map((report) => report.person?.name))
-        ).map((value) => ({ value, label: value })),
-      ],
-    },
-    {
-      label: "البريد الالكترونى",
-      dataIndex: ["person", "email"],
-      options: [
-        { value: "", label: "اختر البريد الالكترونى", disabled: true },
-        ...Array.from(
-          new Set(data?.data?.reports?.map((report) => report.person?.email))
-        ).map((value) => ({ value, label: value })),
-      ],
-    },
+    // {
+    //   label: "تصنيف البلاغ",
+    //   dataIndex: "report_classification-name",
+    //   options: [
+    //     { value: "", label: "اختر تصنيف البلاغ", disabled: true },
+    //     ...Array.from(
+    //       new Set(
+    //         data?.data?.reports?.map(
+    //           (report) => report["report_classification-name"]
+    //         )
+    //       )
+    //     ).map((value) => ({ value, label: value })),
+    //   ],
+    // },
+    // {
+    //   label: "اسم المبلغ",
+    //   dataIndex: ["person", "name"],
+    //   options: [
+    //     { value: "", label: "اختر اسم المبلغ", disabled: true },
+    //     ...Array.from(
+    //       new Set(data?.data?.reports?.map((report) => report.person?.name))
+    //     ).map((value) => ({ value, label: value })),
+    //   ],
+    // },
+    // {
+    //   label: "البريد الالكترونى",
+    //   dataIndex: ["person", "email"],
+    //   options: [
+    //     { value: "", label: "اختر البريد الالكترونى", disabled: true },
+    //     ...Array.from(
+    //       new Set(data?.data?.reports?.map((report) => report.person?.email))
+    //     ).map((value) => ({ value, label: value })),
+    //   ],
+    // },
     {
       label: "حالة البلاغ",
       dataIndex: "status",
@@ -315,16 +318,16 @@ const CardAdmin = () => {
         ).map((value) => ({ value, label: value })),
       ],
     },
-    {
-      label: "رقم الهاتف",
-      dataIndex: ["person", "phone"],
-      options: [
-        { value: "", label: "اختر رقم الهاتف", disabled: true },
-        ...Array.from(
-          new Set(data?.data?.reports?.map((report) => report.person?.phone))
-        ).map((value) => ({ value, label: value })),
-      ],
-    },
+    // {
+    //   label: "رقم الهاتف",
+    //   dataIndex: ["person", "phone"],
+    //   options: [
+    //     { value: "", label: "اختر رقم الهاتف", disabled: true },
+    //     ...Array.from(
+    //       new Set(data?.data?.reports?.map((report) => report.person?.phone))
+    //     ).map((value) => ({ value, label: value })),
+    //   ],
+    // },
     {
       label: "التاريخ",
       dataIndex: "date",
@@ -380,6 +383,8 @@ const CardAdmin = () => {
 
   // console.log(data?.data?.reports[0]);
 
+  let { data: { counter = {} } = {} } = data;
+
   let cards = [
     {
       title: "بلاغات جديدة",
@@ -390,6 +395,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#4CAF50",
+      allowedRole: ["responsible", "reviewer"],
+      value: counter.new,
     },
     {
       title: "بلاغات مقبولة",
@@ -400,6 +407,7 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#306e3c",
+      allowedRole: [],
     },
     // {
     //   title: "بلاغات تحت الاعتماد",
@@ -420,6 +428,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#9DC3E6",
+      allowedRole: ["responsible", "reviewer"],
+      value: counter.confirmed,
     },
     {
       title: "بلاغات دراسة اولية",
@@ -430,6 +440,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#a3efc0",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "بلاغات تحت الموافقة",
@@ -440,6 +452,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#0a3969",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "بلاغات مقفلة",
@@ -450,6 +464,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#3865A3",
+      allowedRole: ["responsible", "reviewer"],
+      value: counter.closed,
     },
     {
       title: "بلاغات مرفوضة",
@@ -460,6 +476,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#FF6A6F",
+      allowedRole: ["responsible", "accreditor", "reviewer"],
+      value: counter.rejected,
     },
     {
       title: "بلاغات تحت التصعيد",
@@ -470,6 +488,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#df5f5f",
+      allowedRole: ["accreditor"],
+      value: counter.escalated,
     },
     {
       title: "اجمالى البلاغات المستلمة",
@@ -480,6 +500,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#5F5F5F",
+      allowedRole: ["responsible", "department", "reviewer"],
+      value: counter.new,
     },
     {
       title: "مرفوض من المسئول",
@@ -490,6 +512,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#8d0000",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "بلاغات جارى اعتمادها",
@@ -500,6 +524,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "blue",
+      allowedRole: ["responsible", "accreditor", "department", "reviewer"],
+      value: counter.under_confirm,
     },
     {
       title: "بلاغات جارى معالجتها",
@@ -510,6 +536,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#4096ff",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "معاد للدراسة من المعتمد",
@@ -520,6 +548,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#000",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة مستجدات من المسئول",
@@ -530,6 +560,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#7dee9f",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة مستجدات من الادارة",
@@ -540,6 +572,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#6cad56",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة معلومات من الادارة",
@@ -550,6 +584,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#51896e",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة معلومات من المسئول",
@@ -560,6 +596,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#04be6e",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "طلب معلومات من المسئول",
@@ -570,6 +608,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#81e468",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "طلب معلومات من الادارة",
@@ -580,6 +620,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#bdcfac",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "طلب مستجدات من المسئول",
@@ -590,6 +632,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#7f007b",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "طلب مستجدات من الادارة",
@@ -600,6 +644,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#d284cf",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اشعار النتيجة النهائية من المسئول",
@@ -610,6 +656,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#f50772",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اشعار النتيجة النهائية من الادارة",
@@ -620,6 +668,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#b30948",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة ملاحظات من المسئول",
@@ -630,6 +680,8 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#e75c11",
+      allowedRole: [],
+      value: counter.new,
     },
     {
       title: "اضافة ملاحظات من الادارة",
@@ -640,17 +692,20 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#e79975",
+      allowedRole: [],
+      value: counter.new,
     },
-    {
-      title: "بلاغات مغلقة",
-      icon: (
-        <img
-          src="../src/assets/icons/edit_report.png"
-          className="p-2 rounded-full"
-        />
-      ),
-      bgColor: "#6f14c0",
-    },
+    // {
+    //   title: "بلاغات مغلقة",
+    //   icon: (
+    //     <img
+    //       src="../src/assets/icons/edit_report.png"
+    //       className="p-2 rounded-full"
+    //     />
+    //   ),
+    //   bgColor: "#6f14c0",
+    //   allowedRole: ["responsible"],
+    // },
     {
       title: "بلاغات مسندة للدراسة",
       icon: (
@@ -660,11 +715,45 @@ const CardAdmin = () => {
         />
       ),
       bgColor: "#f7b756",
+      allowedRole: ["responsible", "reviewer"],
+      value: counter.assign_to_study,
     },
   ];
 
-  const role = JSON.parse(localStorage.getItem("token")).role;
+  // counter.new || 0,
+  //   counter.accepted || 0,
+  //   // counter.under_confirm || 0,
+  //   counter.confirmed || 0,
+  //   counter.prepare_initial_study || 0,
+  //   counter.under_approved || 0,
+  //   counter.closed || 0,
+  //   counter.rejected || 0,
+  //   counter.escalated || 0,
+  //   counter.all || 0,
+  //   counter.rejected_from_responsible || 0,
+  //   counter.under_confirm || 0,
+  //   counter.under_process || 0,
+  //   counter.resubmit_study_from_accreditor || 0,
+  //   // dept
+  //   counter.add_updates_from_responsible || 0,
+  //   counter.add_updates_from_department || 0,
+  //   counter.add_information_from_department || 0,
+  //   counter.add_information_from_responsible || 0,
+  //   counter.request_information_from_responsible || 0,
+  //   counter.request_updates_from_department || 0,
+  //   counter.request_updates_from_responsible || 0,
+  //   counter.request_information_from_department || 0,
+  //   counter.final_result_from_responsible || 0,
+  //   counter.final_result_from_department || 0,
+  //   counter.add_notes_from_responsible || 0,
+  //   counter.add_notes_from_department || 0,
+  //   counter.closed || 0,
+  //   counter.assign_to_study || 0,
+
+  const role = JSON.parse(localStorage.getItem("token"))?.role;
   // console.log("🚀 ~ role:", role);
+
+  let displayCards = cards.filter((card) => card.allowedRole.includes(role));
 
   // const filteredCards =
   //   role === "accreditor"
@@ -680,43 +769,42 @@ const CardAdmin = () => {
   //     ? cards.filter((card) => card.title === "اجمالى البلاغات المستلمة")
   //     : cards;
 
-  const filterCardsByRole = (cards, role) => {
-    const roleFilters = {
-      accreditor: [
-        "بلاغات مرفوضة",
-        "مرفوض من المسئول",
-        "بلاغات جارى معالجتها",
-        "بلاغات جارى اعتمادها",
-        "معاد للدراسة من المعتمد",
-      ],
-      department: [
-        "اجمالى البلاغات المستلمة",
-        "اضافة مستجدات من المسئول",
-        "اضافة مستجدات من الادارة",
-        "اضافة معلومات من المسئول",
-        "اضافة معلومات من الادارة",
-        "طلب معلومات من المسئول",
-        "طلب معلومات من الادارة",
-        "طلب مستجدات من المسئول",
-        "طلب مستجدات من الادارة",
-        "اشعار النتيجة النهائية من المسئول",
-        "اشعار النتيجة النهائية من الادارة",
-        "اضافة ملاحظات من المسئول",
-        "اضافة ملاحظات من الادارة",
-        "بلاغات مغلقة",
-        "بلاغات مسندة للدراسة",
-      ],
-    };
+  // const filterCardsByRole = (cards, role) => {
+  //   const roleFilters = {
+  //     accreditor: [
+  //       "بلاغات مرفوضة",
+  //       "مرفوض من المسئول",
+  //       "بلاغات جارى معالجتها",
+  //       "بلاغات جارى اعتمادها",
+  //       "معاد للدراسة من المعتمد",
+  //     ],
+  //     department: [
+  //       "اجمالى البلاغات المستلمة",
+  //       "اضافة مستجدات من المسئول",
+  //       "اضافة مستجدات من الادارة",
+  //       "اضافة معلومات من المسئول",
+  //       "اضافة معلومات من الادارة",
+  //       "طلب معلومات من المسئول",
+  //       "طلب معلومات من الادارة",
+  //       "طلب مستجدات من المسئول",
+  //       "طلب مستجدات من الادارة",
+  //       "اشعار النتيجة النهائية من المسئول",
+  //       "اشعار النتيجة النهائية من الادارة",
+  //       "اضافة ملاحظات من المسئول",
+  //       "اضافة ملاحظات من الادارة",
+  //       "بلاغات مغلقة",
+  //       "بلاغات مسندة للدراسة",
+  //     ],
+  //   };
 
-    if (role in roleFilters) {
-      return cards.filter((card) => roleFilters[role].includes(card.title));
-    }
-    return cards;
-  };
+  //   if (role in roleFilters) {
+  //     return cards.filter((card) => roleFilters[role].includes(card.title));
+  //   }
+  //   return cards;
+  // };
 
-  const filteredCards = filterCardsByRole(cards, role);
+  // const filteredCards = filterCardsByRole(cards, role);
 
-  let { data: { counter = {} } = {} } = data;
   // console.log("🚀 ~ CardAdmin ~ counter:", counter);
 
   // escalated
@@ -737,68 +825,68 @@ const CardAdmin = () => {
   // under_process
   // :
   // 1
-  let counterValues;
-  if (role === "accreditor") {
-    counterValues = [
-      counter.rejected || 0,
-      counter.rejected_from_responsible || 0,
-      counter.under_confirm || 0,
-      counter.under_process || 0,
-      counter.resubmit_study_from_accreditor || 0,
-    ];
-  } else if (role === "department") {
-    counterValues = [
-      // counter.new || 0,
-      // counter.assign_to_study || 0,
-      counter.all || 0,
-      counter.add_updates_from_responsible || 0,
-      counter.add_updates_from_department || 0,
-      counter.add_information_from_department || 0,
-      counter.add_information_from_responsible || 0,
-      counter.request_information_from_responsible || 0,
-      counter.request_information_from_department || 0,
-      counter.request_updates_from_responsible || 0,
-      counter.request_updates_from_department || 0,
-      counter.final_result_from_responsible || 0,
-      counter.final_result_from_department || 0,
-      counter.add_notes_from_responsible || 0,
-      counter.add_notes_from_department || 0,
-      counter.closed || 0,
-      counter.assign_to_study || 0,
-    ];
-  } else {
-    counterValues = [
-      counter.new || 0,
-      counter.accepted || 0,
-      // counter.under_confirm || 0,
-      counter.confirmed || 0,
-      counter.prepare_initial_study || 0,
-      counter.under_approved || 0,
-      counter.closed || 0,
-      counter.rejected || 0,
-      counter.escalated || 0,
-      counter.all || 0,
-      counter.rejected_from_responsible || 0,
-      counter.under_confirm || 0,
-      counter.under_process || 0,
-      counter.resubmit_study_from_accreditor || 0,
-      // dept
-      counter.add_updates_from_responsible || 0,
-      counter.add_updates_from_department || 0,
-      counter.add_information_from_department || 0,
-      counter.add_information_from_responsible || 0,
-      counter.request_information_from_responsible || 0,
-      counter.request_updates_from_department || 0,
-      counter.request_updates_from_responsible || 0,
-      counter.request_information_from_department || 0,
-      counter.final_result_from_responsible || 0,
-      counter.final_result_from_department || 0,
-      counter.add_notes_from_responsible || 0,
-      counter.add_notes_from_department || 0,
-      counter.closed || 0,
-      counter.assign_to_study || 0,
-    ];
-  }
+  // let counterValues;
+  // if (role === "accreditor") {
+  //   counterValues = [
+  //     counter.rejected || 0,
+  //     counter.rejected_from_responsible || 0,
+  //     counter.under_confirm || 0,
+  //     counter.under_process || 0,
+  //     counter.resubmit_study_from_accreditor || 0,
+  //   ];
+  // } else if (role === "department") {
+  //   counterValues = [
+  //     // counter.new || 0,
+  //     // counter.assign_to_study || 0,
+  //     counter.all || 0,
+  //     counter.add_updates_from_responsible || 0,
+  //     counter.add_updates_from_department || 0,
+  //     counter.add_information_from_department || 0,
+  //     counter.add_information_from_responsible || 0,
+  //     counter.request_information_from_responsible || 0,
+  //     counter.request_information_from_department || 0,
+  //     counter.request_updates_from_responsible || 0,
+  //     counter.request_updates_from_department || 0,
+  //     counter.final_result_from_responsible || 0,
+  //     counter.final_result_from_department || 0,
+  //     counter.add_notes_from_responsible || 0,
+  //     counter.add_notes_from_department || 0,
+  //     counter.closed || 0,
+  //     counter.assign_to_study || 0,
+  //   ];
+  // } else {
+  //   counterValues = [
+  //     counter.new || 0,
+  //     counter.accepted || 0,
+  //     // counter.under_confirm || 0,
+  //     counter.confirmed || 0,
+  //     counter.prepare_initial_study || 0,
+  //     counter.under_approved || 0,
+  //     counter.closed || 0,
+  //     counter.rejected || 0,
+  //     counter.escalated || 0,
+  //     counter.all || 0,
+  //     counter.rejected_from_responsible || 0,
+  //     counter.under_confirm || 0,
+  //     counter.under_process || 0,
+  //     counter.resubmit_study_from_accreditor || 0,
+  //     // dept
+  //     counter.add_updates_from_responsible || 0,
+  //     counter.add_updates_from_department || 0,
+  //     counter.add_information_from_department || 0,
+  //     counter.add_information_from_responsible || 0,
+  //     counter.request_information_from_responsible || 0,
+  //     counter.request_updates_from_department || 0,
+  //     counter.request_updates_from_responsible || 0,
+  //     counter.request_information_from_department || 0,
+  //     counter.final_result_from_responsible || 0,
+  //     counter.final_result_from_department || 0,
+  //     counter.add_notes_from_responsible || 0,
+  //     counter.add_notes_from_department || 0,
+  //     counter.closed || 0,
+  //     counter.assign_to_study || 0,
+  //   ];
+  // }
 
   // console.log("🚀 ~ CardAdmin ~ counters:", Object.values(counter));
 
@@ -821,27 +909,94 @@ const CardAdmin = () => {
       title: "رقم البلاغ",
       dataIndex: "number",
       key: "id",
-      width: 150,
+      width: 250,
       render: (text) => <p>{text}</p>,
     },
+    // {
+    //   title: "تصنيف البلاغ",
+    //   dataIndex: ["report_classification-name"],
+    //   key: "report_classification['name']",
+    //   width: 200,
+    //   render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
+    // },
+    // {
+    //   title: "اسم المبلغ",
+    //   dataIndex: ["person", "name"],
+    //   key: "user['name']",
+    //   width: 200,
+    // },
+    // {
+    //   title: "البريد الالكترونى",
+    //   dataIndex: ["person", "email"],
+    //   key: "user['email']",
+    //   width: 250,
+    // },
+
+    // {
+    //   title: "رقم الهاتف",
+    //   dataIndex: ["person", "phone"],
+    //   key: "user['phone']",
+    //   width: 150,
+    // },
     {
-      title: "تصنيف البلاغ",
-      dataIndex: ["report_classification-name"],
-      key: "report_classification['name']",
-      width: 200,
-      render: (text, record) => <Link to={`/dash/${record.id}`}>{text}</Link>,
-    },
-    {
-      title: "اسم المبلغ",
-      dataIndex: ["person", "name"],
-      key: "user['name']",
-      width: 200,
-    },
-    {
-      title: "البريد الالكترونى",
-      dataIndex: ["person", "email"],
-      key: "user['email']",
+      title: "تاريخ البلاغ",
+      dataIndex: "date",
+      key: "date",
       width: 250,
+    },
+    {
+      title: "تاريخ الاسناد",
+      dataIndex: "date_of_assignment",
+      key: "date_of_assignment",
+      width: 250,
+      render: (_, record) => (
+        <Space size="middle">
+          <p>
+            {record?.["date_of_assignment"]
+              ? `${record?.["date_of_assignment"]}`
+              : "-"}
+          </p>
+        </Space>
+      ),
+    },
+    {
+      title: "مدة معالجة البلاغ",
+      dataIndex: "preliminaryStudy-processing_time",
+      key: "preliminaryStudy-processing_time",
+      width: 500,
+      render: (_, record) => (
+        <Space size="middle">
+          <p>
+            {Number.isFinite(
+              Number(record?.["preliminaryStudy-processing_time"])
+            )
+              ? `${record?.["preliminaryStudy-processing_time"]} يوم عمل`
+              : "-"}
+          </p>
+        </Space>
+      ),
+    },
+    {
+      title: "عمر البلاغ حتى الان",
+      dataIndex: "age",
+      key: "age",
+      width: 500,
+    },
+    {
+      title: "الادارة المسند لها",
+      dataIndex: "management_assigned-name",
+      key: "management_assigned-name",
+      width: 500,
+      render: (_, record) => (
+        <Space size="middle">
+          <p>
+            {record?.["management_assigned-name"] &&
+            record?.["management_assigned-name"] !== "غير موجود"
+              ? `${record?.["management_assigned-name"]}`
+              : "-"}
+          </p>
+        </Space>
+      ),
     },
     {
       title: "حالة البلاغ",
@@ -941,21 +1096,9 @@ const CardAdmin = () => {
       },
     },
     {
-      title: "رقم الهاتف",
-      dataIndex: ["person", "phone"],
-      key: "user['phone']",
-      width: 150,
-    },
-    {
-      title: "التاريخ",
-      dataIndex: "date",
-      key: "date",
-      width: 200,
-    },
-    {
       title: "",
       key: "action",
-      width: 150,
+      width: 250,
       render: (_, record) => (
         <Space size="middle">
           <Link to={`/dash/${record.id}`}>عرض</Link>
@@ -1024,7 +1167,7 @@ const CardAdmin = () => {
         return "";
 
       default:
-        return index === 0 || index === 1 || index === 2 || index === 5
+        return index === 0 || index === 1 || index === 2
           ? "bg-white/100"
           : "bg-white/5";
     }
@@ -1073,8 +1216,9 @@ const CardAdmin = () => {
   // console.log("🚀 ~ notification:", notification);
 
   const notification = useDynamicNotf(role);
-  console.log("🚀 ~ notification:", notification);
-  // let { pathname } = useLocation();
+
+  // console.log("🚀 ~ notification:", notification);
+
   const queryClient = useQueryClient();
   useEffect(() => {
     if (notification) {
@@ -1085,11 +1229,41 @@ const CardAdmin = () => {
     }
   }, [notification, queryClient]);
 
+  const exportToExcel = () => {
+    // Convert the table data to a worksheet
+    const ws = XLSX.utils.json_to_sheet(filteredReports);
+
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // Write the workbook to the disk (this will trigger the download)
+    XLSX.writeFile(wb, "report-data.xlsx");
+  };
+  console.log(filteredReports, "dddd");
+  let navigate = useNavigate();
   return (
     <>
       <div className="w-[90%] mx-auto">
-        <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-20">
-          {filteredCards?.map((card, i) => {
+        <div className="flex mt-8 justify-end gap-3">
+          <button
+            className="bg-[#33835c] text-white  text-md py-1 px-4 rounded-md "
+            onClick={() => navigate("/ReportsPage")}
+          >
+            انشاء بلاغ
+          </button>
+          <button
+            className="bg-black/80 text-white  text-md py-1 px-4 rounded-md "
+            onClick={exportToExcel}
+          >
+            <UploadOutlined className="ml-2 text-xl" />
+            اصدار تقرير
+          </button>
+        </div>
+        <div className="grid items-center lg:grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 pt-16">
+          {displayCards?.map((card, i) => {
             // console.log("🚀 ~ {cards?.map ~ card:", card);
             return (
               <div
@@ -1101,12 +1275,14 @@ const CardAdmin = () => {
                   <h2 className="text-[14px] text-[#fff]">{card.title}</h2>
                   <h2 className="text-4xl text-[#fff] font-bold text-right">
                     {/* {data?.meta?.reports?.totalItems} */}
-                    {counterValues[i]}
+                    {/* {counterValues[i]} */}
+                    {card.value || 0}
                   </h2>
                 </div>
                 <div style={{ backgroundColor: card.bgColor }}>
                   <div
-                    className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30 ${
+                    className={`w-12 h-12 rounded-full flex flex-col items-center justify-center border border-white border-opacity-30
+                    ${
                       // role === "accreditor"
                       //   ? ""
                       //   : i === 0 || i === 5 || i === 1 || i === 2

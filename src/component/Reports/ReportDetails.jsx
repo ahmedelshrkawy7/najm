@@ -161,6 +161,7 @@ const ReportDetails = ({
           wannaView={true}
           setValue={setValue}
           canViewImages={true}
+          getValues={getValues}
         />
         <div className="rounded-md -mt-20 bg-[#D74D521A] w-fit min-h-[40px] flex items-center">
           <p className="p-4 text-[13px] text-[#D74D52] leading-7  ">

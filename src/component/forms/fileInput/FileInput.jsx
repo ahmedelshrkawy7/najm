@@ -21,14 +21,49 @@ const FileInput = ({
   setValue,
   watch,
   canViewImages = true,
+  getValues,
 }) => {
   // console.log(
   //   "🚀 ~ videoooooooooooooooooooooooooooooooooooooooooooooooooooooooos:",
   //   videos
   // );
   const [isLoading, setIsLoading] = useState(false);
+  // const handleChangeFile = (e) => {
+  //   console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
+  //   let allImages = [...e.target.files].filter((file) =>
+  //     file.type.startsWith("image")
+  //   );
+  //   let allVideos = [...e.target.files].filter(
+  //     (file) => file.type.startsWith("video") || file.type.startsWith("audio")
+  //   );
+
+  //   console.log(allVideos);
+  //   console.log(e.target.files);
+
+  //   let allFiles = [...e.target.files]
+  //     .map((file) => {
+  //       if (file.name.endsWith(".rar")) {
+  //         return new File([file], file.name, {
+  //           type: "application/x-rar-compressed",
+  //         });
+  //       }
+  //       return file;
+  //     })
+  //     .filter((file) => file.type.startsWith("application"));
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     setImgs([...imgs, ...allImages]);
+  //     setVideos([...videos, ...allVideos]);
+  //     setFils([...fils, ...allFiles]);
+  //     setIsLoading(false);
+  //   }, 0);
+
+  //   e.target.value = "";
+  // };
+  
   const handleChangeFile = (e) => {
     console.log("🚀 ~ handleChangeFile ~ e:", e.target.files);
+
     let allImages = [...e.target.files].filter((file) =>
       file.type.startsWith("image")
     );
@@ -36,9 +71,7 @@ const FileInput = ({
       (file) => file.type.startsWith("video") || file.type.startsWith("audio")
     );
 
-    console.log(allVideos);
-    console.log(e.target.files);
-
+    // Separate out non-image/video files (application files, e.g. .rar)
     let allFiles = [...e.target.files]
       .map((file) => {
         if (file.name.endsWith(".rar")) {
@@ -49,16 +82,30 @@ const FileInput = ({
         return file;
       })
       .filter((file) => file.type.startsWith("application"));
+
     setIsLoading(true);
-    setTimeout(() => {
-      setImgs([...imgs, ...allImages]);
-      setVideos([...videos, ...allVideos]);
-      setFils([...fils, ...allFiles]);
-      setIsLoading(false);
-    }, 0);
+
+    setImgs((prevImgs) => [...prevImgs, ...allImages]);
+    setVideos((prevVideos) => [...prevVideos, ...allVideos]);
+    setFils((prevFils) => [...prevFils, ...allFiles]);
+
+    allImages.forEach((_, index) => {
+      setValue(`desc_${imgs.length + index}`, "");
+    });
+
+    allVideos.forEach((_, index) => {
+      setValue(`vidDesc_${videos.length + index}`, "");
+    });
+
+      allFiles.forEach((_, index) => {
+        setValue(`fileDesc_${fils.length + index}`, ""); 
+      });
+
+    setIsLoading(false);
 
     e.target.value = "";
   };
+  
   useEffect(() => {
     // let allFiles = [...imgs, ...fils, ...videos].filter((el) => {
     //   return !("id" in el);
@@ -82,7 +129,7 @@ const FileInput = ({
         <h2> المرفقات</h2>
       </div>
       <label
-        className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-black items-center w-[220px] h-[40px]"
+        className="flex gap-2 justify-center p-2 cursor-pointer bg-[#33835C1A] rounded text-black items-center w-[220px] h-[40px] !m-0 mt-4"
         htmlFor="fileInput"
       >
         {/* <img className="w-[20px]" src={exportSvg} /> */}
@@ -127,6 +174,7 @@ const FileInput = ({
             setValue={setValue}
             watch={watch}
             canViewImages={canViewImages}
+            getValues={getValues}
           />
         </>
       )}

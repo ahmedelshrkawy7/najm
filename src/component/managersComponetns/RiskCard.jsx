@@ -53,12 +53,12 @@ const RiskCard = ({
     {
       id: 3,
       label: "وزن البلغ:",
-      value: record?.report_weight,
+      // value: record?.report_weight,
       icon: <AppstoreOutlined className="text-green-600 text-lg" />,
-      name: "report_weight_id",
-      isSelect: true,
-      options: weights,
-      val: record?.report_weight.weight,
+      name: "weight",
+      isSelect: false,
+      // options: weights,
+      val: record?.weight,
     },
     {
       id: 4,
@@ -73,7 +73,7 @@ const RiskCard = ({
     defaultValues: {
       _method: "PUT",
       num_of_days: "",
-      report_weight_id: "",
+      weight: "",
       parent_id: "",
       name: "",
       risk_type: "",
@@ -102,7 +102,7 @@ const RiskCard = ({
   useEffect(() => {
     if (record) {
       setValue("risk_type", record.risk_type || "");
-      setValue("report_weight_id", record?.report_weight.id);
+      setValue("weight", record?.weight);
       setValue("num_of_days", record.num_of_days || "");
       setValue("name", record.main || "رئييسي");
     }

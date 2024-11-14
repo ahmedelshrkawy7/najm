@@ -385,53 +385,53 @@ const ReportMenu = ({
           status === "prepare_initial_study" ||
           status === "resubmit_study_from_accreditor",
       },
-      {
-        id: 14,
-        title: "تأكيد إشعار",
-        children: (
-          <ReportModal
-            title={"تأكيد إشعار"}
-            setShowSvg={setShowSvg}
-            refetch={refetch}
-          >
-            <SuccessModal
-              title={" تأكيد إشعار النتيجة النهائية"}
-              close={"تأكيد"}
-              confirm={() => {
-                mutation.mutate([
-                  `/reports/${id}`,
-                  {
-                    action: "confirm_the_final_result",
-                    _method: "PUT",
-                  },
-                ]);
-              }}
-            />
-          </ReportModal>
-        ),
-        disabled:
-          status === "accepted" ||
-          status === "new" ||
-          status === "closed" ||
-          status === "request_information_from_responsible" ||
-          status === "add_notes_from_department" ||
-          status === "final_result_from_responsible" ||
-          status === "add_information_from_department" ||
-          status === "add_updates_from_responsible" ||
-          status === "add_information_from_responsible" ||
-          status === "request_updates_from_responsible" ||
-          status === "add_notes_from_responsible" ||
-          status === "add_notes_from_responsible" ||
-          status === "assign_to_study" ||
-          status === "add_updates_from_department" ||
-          status === "request_information_from_department" ||
-          status === "request_updates_from_department" ||
-          status === "confirmed" ||
-          status === "under_confirm" ||
-          status === "under_process" ||
-          status === "prepare_initial_study" ||
-          status === "resubmit_study_from_accreditor",
-      },
+      // {
+      //   id: 14,
+      //   title: "تأكيد إشعار",
+      //   children: (
+      //     <ReportModal
+      //       title={"تأكيد إشعار"}
+      //       setShowSvg={setShowSvg}
+      //       refetch={refetch}
+      //     >
+      //       <SuccessModal
+      //         title={" تأكيد إشعار النتيجة النهائية"}
+      //         close={"تأكيد"}
+      //         confirm={() => {
+      //           mutation.mutate([
+      //             `/reports/${id}`,
+      //             {
+      //               action: "confirm_the_final_result",
+      //               _method: "PUT",
+      //             },
+      //           ]);
+      //         }}
+      //       />
+      //     </ReportModal>
+      //   ),
+      //   disabled:
+      //     status === "accepted" ||
+      //     status === "new" ||
+      //     status === "closed" ||
+      //     status === "request_information_from_responsible" ||
+      //     status === "add_notes_from_department" ||
+      //     status === "final_result_from_responsible" ||
+      //     status === "add_information_from_department" ||
+      //     status === "add_updates_from_responsible" ||
+      //     status === "add_information_from_responsible" ||
+      //     status === "request_updates_from_responsible" ||
+      //     status === "add_notes_from_responsible" ||
+      //     status === "add_notes_from_responsible" ||
+      //     status === "assign_to_study" ||
+      //     status === "add_updates_from_department" ||
+      //     status === "request_information_from_department" ||
+      //     status === "request_updates_from_department" ||
+      //     status === "confirmed" ||
+      //     status === "under_confirm" ||
+      //     status === "under_process" ||
+      //     status === "prepare_initial_study" ||
+      //     status === "resubmit_study_from_accreditor",
+      // },
     ];
   } else {
     optionItems = [
@@ -457,27 +457,27 @@ const ReportMenu = ({
           status === "final_result_from_responsible" ||
           false,
       },
-      {
-        id: 10,
-        title: "اضافة معلومات",
-        children: (
-          <ReportModal
-            title="اضافة معلومات"
-            setShowSvg={setShowSvg}
-            refetch={refetch}
-          >
-            <ReportInfo
-              title="إضافه معلومات"
-              action="add_information"
-              successMsg={"تم اضافة معلومات بنجاح"}
-            />
-          </ReportModal>
-        ),
-        disabled:
-          status === "closed" ||
-          status === "final_result_from_responsible" ||
-          false,
-      },
+      // {
+      //   id: 10,
+      //   title: "اضافة معلومات",
+      //   children: (
+      //     <ReportModal
+      //       title="اضافة معلومات"
+      //       setShowSvg={setShowSvg}
+      //       refetch={refetch}
+      //     >
+      //       <ReportInfo
+      //         title="إضافه معلومات"
+      //         action="add_information"
+      //         successMsg={"تم اضافة معلومات بنجاح"}
+      //       />
+      //     </ReportModal>
+      //   ),
+      //   disabled:
+      //     status === "closed" ||
+      //     status === "final_result_from_responsible" ||
+      //     false,
+      // },
       {
         id: 11,
         title: "اضافة ملاحظات",
@@ -499,27 +499,27 @@ const ReportMenu = ({
           status === "final_result_from_responsible" ||
           false,
       },
-      {
-        id: 12,
-        title: "طلب مستجدات",
-        children: (
-          <ReportModal
-            title="طلب مستجدات"
-            setShowSvg={setShowSvg}
-            refetch={refetch}
-          >
-            <ReportInfo
-              action={"request_updates"}
-              title="طلب مستجدات"
-              successMsg={"تم طلب مستجدات بنجاح"}
-            />
-          </ReportModal>
-        ),
-        disabled:
-          status === "closed" ||
-          status === "final_result_from_responsible" ||
-          false,
-      },
+      // {
+      //   id: 12,
+      //   title: "طلب مستجدات",
+      //   children: (
+      //     <ReportModal
+      //       title="طلب مستجدات"
+      //       setShowSvg={setShowSvg}
+      //       refetch={refetch}
+      //     >
+      //       <ReportInfo
+      //         action={"request_updates"}
+      //         title="طلب مستجدات"
+      //         successMsg={"تم طلب مستجدات بنجاح"}
+      //       />
+      //     </ReportModal>
+      //   ),
+      //   disabled:
+      //     status === "closed" ||
+      //     status === "final_result_from_responsible" ||
+      //     false,
+      // },
       {
         id: 13,
         title: "اضافة مستجدات",
